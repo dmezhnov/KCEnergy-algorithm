@@ -1,0 +1,20 @@
+#### 7.1. Суммарный нормированный объем НП
+# Суммируем нормированные предоставленные объёмы:
+# — по всем Субъектам рынка (итог по виду НП),
+# — по каждому Субъекту рынка (его суммарный объём).
+
+# owners_sum_normalized_by_subject — суммарный нормированный объём по каждому субъекту.
+# Сумма нормированных объёмов АЗС по всем НПЗ для расчёта доли субъекта.
+owners_sum_normalized_by_subject = sum_by_axes(normalized_provided_owners, Refinery)
+    where
+        owners_sum_normalized_by_subject: matrix(Market_participant, Region, Product) # Сумма нормированных объёмов по субъекту
+            where
+                Market_participant, Refinery, Region, Product: axis # Оси исходных данных
+
+# owners_sum_normalized_total — общий нормированный объём по виду НП.
+# Сумма по всем субъектам; базис для предельной доли.
+owners_sum_normalized_total = sum_by_axes(owners_sum_normalized_by_subject, Market_participant)
+    where
+        owners_sum_normalized_total: matrix(Region, Product) # Общая сумма нормированных объёмов
+            where
+                Market_participant, Region, Product: axis # Оси источника

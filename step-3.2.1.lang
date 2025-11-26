@@ -1,0 +1,31 @@
+##### 3.2.1. Скорректированный на проливы объем НП
+# Для случая одного дефицитного НПЗ: если объём запроса превышает скользящее
+# среднее продаж в регионе, то допустимый объём снижается до уровня среднего.
+# При нескольких НПЗ рассчитываем доли по НПЗ в общем объёме субъекта.
+
+# capped_total_by_owner_region — заявка субъекта, ограниченная скользящим средним.
+# Минимизируем общую заявку и среднее продаж по региону/продукту.
+capped_total_by_owner_region = for_each_pair(requests_by_refinery, min, moving_average)
+    where
+        capped_total_by_owner_region: matrix(Market_participant, Region, Product) # Ограничение заявок средними продажами
+        min: operation # Операция минимум
+
+# requests_adjusted — скорректированные заявки субъекта на НПЗ (до маски).
+# Получаем распределением ограниченной общей заявки по долям НПЗ.
+requests_adjusted = for_each_pair(request_by_share_percentage, multiply, capped_total_by_owner_region)
+    where
+        requests_adjusted: matrix(Market_participant, Refinery, Region, Product) # Скорректированные заявки (до маски)
+        multiply: operation # Операция умножения
+            where
+                Market_participant, Refinery, Region, Product: axis # Оси результата
+
+# corrected_requests_deficit — те же скорректированные заявки, но только на дефицитных НПЗ.
+# Маскируем результат, оставляя пары (Product, Refinery) с дефицитом.
+corrected_requests_deficit = filter_by_pair(requests_in_deficit, contains, requests_adjusted)
+    where
+        corrected_requests_deficit: matrix(Market_participant, Refinery, Region, Product)
+        contains: Condition # Условие >=
+
+# requests_surplus_only — исходные заявки Владельцев АЗС, но только на профицитных НПЗ.
+# Используются при перераспределении выпадающих объёмов.
+requests_surplus_only = filter_by_pair() # !!!!!!!!!!!!!!!

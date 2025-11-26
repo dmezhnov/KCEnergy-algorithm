@@ -1,0 +1,50 @@
+# Системные данные
+
+index: number # Индекс
+Index = i, ..., j # Множество индексов
+    where
+        i, ..., j: index # Индексы, элементы множества индексов
+
+Market_participant_type = Gas_station_owner, Depots_owner, GMK, Other_market_participant: market_participant_type
+
+Operation = multiply, divide, round, add, subtract, min, max: operation
+Condition = less_than, greater_or_equal_to, greater_than, contains, not_contains: coordinate
+Axis = Region, District, Product_category, Product, Refinery, Market_participant, Market_participant_type, Month_and_year: axis
+
+matrix = {
+    coords = c.1, ..., c.n
+        where
+            c.1: coordinate
+            ...
+            c.n: coordinate
+    value = number OR matrix
+}
+
+coordinate = {
+    axis: axis
+    index: index
+}
+
+Coordinate = c.1, ..., c.n
+    where
+        c.1: coordinate
+        ...
+        c.n: coordinate
+
+Matrix = m.1, ..., m.n
+    where
+        m.1: matrix
+        ...
+        m.n: matrix
+
+1, ..., N:  I   => i:  I    # индексы  нефпродукта
+1, ..., N0: I0  => i0: I0   # индексы  категории нефпродукта
+1, ..., M:  J   => j:  J    # интдексы завода (НПЗ)
+1, ..., Q:  K   => k:  K    # индексы региона
+1, ..., Q0: K0  => k0: K0   # индексы района
+1, ..., L       => l        # индексы субъекта рынка
+1, ..., T       => t        # индексы месяца и года
+    where
+        I, J, K: Index # Множества индексов
+        i, j, k, l, t: index: number # Индексы
+        N, M, Q, L, T: index: number # Количество индексов

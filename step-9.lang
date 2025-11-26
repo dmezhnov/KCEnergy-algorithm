@@ -1,0 +1,10 @@
+### 9. Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
+# Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
+# с учётом минимальной нормы и шага вывоза с нефтебазы.
+
+# can_distribute_to_depots — маска достаточности остатков для нефтебаз/резервуаров.
+# Истина там, где остаток ≥ минимальной норме вывоза с нефтебазы.
+can_distribute_to_depots = filter_by_value(remaining_after_owners, greater_or_equal_to, BASE_DEPOT_MIN_TONNAGE)
+    where
+        can_distribute_to_depots: matrix(Product, Refinery) # Маска достаточности остатков для нефтебаз
+        greater_or_equal_to: Condition # Условие >=
