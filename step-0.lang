@@ -46,6 +46,14 @@ volumes_by_product_category_region = volumes_by_product_category_region(1), ...,
         volumes_by_product_category_region:    matrix(Region, Product, Market_participant, Month_and_year) # Проливы по виду НП на регион/субъект/месяц
         volumes_by_period:                     matrix(Region, District, Product_category, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
         volumes_by_product_category_region(l): matrix(Region, Product, Month_and_year)
-        volumes_by_product_category
+        volumes_by_product_category(k0):       matrix(Region, Product, Market_participant, Month_and_year)
             where
                 Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси
+                k0, Q0, l, L:                                                          index # Индексы
+
+
+volumes_by_product_category_region(l) = (
+    (l, k0) = (l, k0, i) = (l, k0, i, t) = volumes_by_product_category(l, k0, i, t, 1) + ... + volumes_by_product_category(l, k0, i, t, N0)
+)
+    where
+        l, k0, i, t, N0: index
