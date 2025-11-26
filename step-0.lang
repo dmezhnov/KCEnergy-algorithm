@@ -16,28 +16,36 @@ volumes_by_period = volumes_by_period from initial_data.lang
 
 
 volumes_by_product_category = sum_by_axes(volumes_by_period, Product_category)
-volumes_by_product_category = volumes_by_period(1) + ... + volumes_by_period(N0)
-volumes_by_product_category = volumes_by_product_category(1), ..., volumes_by_product_category(L)
+volumes_by_product_category = volumes_by_period(1)          + ... + volumes_by_period(N0)
+volumes_by_product_category = volumes_by_product_category(1), ...,  volumes_by_product_category(L)
     where
-        volumes_by_product_category: matrix(Region, District, Product, Market_participant, Month_and_year) # Проливы по виду НП на район/регион/субъект/месяц
-        volumes_by_period: matrix(Region, District, Product_category, Product, Market_participant, Month_and_year)
-        volumes_by_period(i0): matrix(Region, District, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+        volumes_by_product_category:    matrix(Region, District, Product, Market_participant, Month_and_year) # Проливы по виду НП на район/регион/субъект/месяц
+        volumes_by_period:              matrix(Region, District, Product_category, Product, Market_participant, Month_and_year)
+        volumes_by_period(i0):          matrix(Region, District, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+        volumes_by_product_category(l): matrix(Region, District, Product, Month_and_year)
             where
-                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси агрегатов
-                i0, N0: index # Индексы
+                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси
+                i0, N0, l, L:                                                          index # Индексы
 
 
-
-
-
+volumes_by_product_category(l) = (
+    (l, i0) = (l, i0, i) = (l, i0, i, t) = volumes_by_period(l, i0, i, t, 1) + ... + volumes_by_period(l, i0, i, t, N0)
+)
+    where
+        l, i0, i, t, N0: index
 
 
 
 # volumes_by_product_category_region — проливы по виду НП, региону, субъекту и месяцу.
 # Получаются свёрткой по категориям НП и районам; база для скользящего среднего.
 volumes_by_product_category_region = sum_by_axes(volumes_by_period, Product_category, District)
+volumes_by_product_category_region = sum_by_axes(volumes_by_product_category, District)
+volumes_by_product_category_region = volumes_by_product_category(1)       + ... + volumes_by_product_category(Q0)
+volumes_by_product_category_region = volumes_by_product_category_region(1), ...,  volumes_by_product_category_region(L)
     where
-        volumes_by_product_category_region: matrix(Region, Product, Market_participant, Month_and_year) # Проливы по виду НП на регион/субъект/месяц
-        volumes_by_district:                matrix(Region, Product_category, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+        volumes_by_product_category_region:    matrix(Region, Product, Market_participant, Month_and_year) # Проливы по виду НП на регион/субъект/месяц
+        volumes_by_period:                     matrix(Region, District, Product_category, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+        volumes_by_product_category_region(l): matrix(Region, Product, Month_and_year)
+        volumes_by_product_category
             where
-                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси агрегатов
+                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси
