@@ -1,19 +1,5 @@
-### 6. Предварительное итоговое распределение (нормирование)
+### Предварительное итоговое распределение (нормирование)
 # Нормируем (округляем) предварительно предоставленные объёмы по правилам:
 # — для НПЗ — до кратности вагонной норме (по умолчанию 65 МТ) вверх/вниз по правилам 0.5;
 # — для нефтебаз — до не ниже минимальной нормы и кратности шагу вывоза.
 # После контроля доли (Шаг 7) возможно повторное нормирование.
-
-# normalized_provided_owners — нормированные по вагонной норме объёмы АЗС.
-# Первая фаза нормирования до кратности вагонной норме.
-normalized_provided_owners = for_each_element(preliminary_provided_owners, round, WAGON_NORM_TONNAGE)
-    where
-        normalized_provided_owners: matrix(Market_participant, Refinery, Region, Product) # Нормирование (вагонная норма)
-        round: operation # Округление по вагонной норме
-
-# normalized_provided_owners_final — повторно нормированные объёмы АЗС.
-# Применяется после ограничения доли на Шаге 7.
-normalized_provided_owners_final = for_each_element(owners_normalized_adjusted, round, WAGON_NORM_TONNAGE)
-    where
-        normalized_provided_owners_final: matrix(Market_participant, Refinery, Region, Product) # Повторное нормирование после ограничения доли
-        round: operation # Округление по вагонной норме
