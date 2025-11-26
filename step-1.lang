@@ -13,12 +13,24 @@ requests_by_market_participant = sum_by_axes(requests_by_period, Market_particip
 requests_by_market_participant = requests_by_period(1)            + ... + requests_by_period(L)
 requests_by_market_participant = requests_by_market_participant(1), ...,  requests_by_market_participant(M)
     where
-        requests_by_market_participant: matrix(Product, Refinery, Region)
-        requests_by_period:             matrix(Product, Refinery, Region, Market_participant)
+        requests_by_period(1),             ..., requests_by_period(L)             => requests_by_period(l)
+        requests_by_market_participant(1), ..., requests_by_market_participant(M) => requests_by_market_participant(j)
+        requests_by_period:                        matrix(Product, Region, Refinery, Market_participant)
+        requests_by_market_participant:            matrix(Product, Region, Refinery)
             where
-                Product, Refinery, Region, Market_participant: axis  # Оси заявок
-                L:                                             index # Количество субъектов рынка
-                M:                                             index # Количество НПЗ
+                requests_by_period(l):             matrix(Product, Region, Refinery)
+                requests_by_market_participant(j): matrix(Product, Region)
+                    where
+                        Product, Region, Refinery, Market_participant: axis  # Оси заявок
+                        l:                                             index # Индексы субъекта рынка
+                        L:                                             index # Количество субъектов рынка
+                        j:                                             index # Индексы НПЗ
+                        M:                                             index # Количество НПЗ
+
+
+requests_by_market_participant(j) = (
+    (j, k) = (j, k) = (,j, k) = requests_by_period(j, k, 1) + ... + requests_by_period(j, k, L)
+)
 
 
 requests_by_market_participant_region = sum_by_axes(requests_by_period,             Region, Market_participant)

@@ -14,16 +14,19 @@ volumes_by_product_category = sum_by_axes(volumes_by_period, Product_category)
 volumes_by_product_category = volumes_by_period(1)          + ... + volumes_by_period(N0)
 volumes_by_product_category = volumes_by_product_category(1), ...,  volumes_by_product_category(L)
     where
-        volumes_by_period:              matrix(Region, District, Product, Month_and_year, Market_participant, Product_category)
-        volumes_by_product_category:    matrix(Region, District, Product, Month_and_year, Market_participant)
-        volumes_by_period(i0):          matrix(Region, District, Product, Month_and_year, Market_participant)
-        volumes_by_product_category(l): matrix(Region, District, Product, Month_and_year)
+        volumes_by_period(1),           ..., volumes_by_period(N0)          => volumes_by_period(i0)
+        volumes_by_product_category(1), ..., volumes_by_product_category(L) => volumes_by_product_category(l)
+        volumes_by_period:                      matrix(Region, District, Product, Month_and_year, Market_participant, Product_category)
+        volumes_by_product_category:            matrix(Region, District, Product, Month_and_year, Market_participant)
             where
-                Region, District, Product, Month_and_year, Market_participant, Product_category: axis # Оси
-                i0:                                                                              index # Индексы категории нефпродукта
-                N0:                                                                              index # Количество категорий нефпродукта
-                l:                                                                               index # Индексы субъекта рынка
-                L:                                                                               index # Количество субъектов рынка
+                volumes_by_period(i0):          matrix(Region, District, Product, Month_and_year, Market_participant)
+                volumes_by_product_category(l): matrix(Region, District, Product, Month_and_year)
+                    where
+                        Region, District, Product, Month_and_year, Market_participant, Product_category: axis  # Оси
+                        i0:                                                                              index # Индексы категории нефпродукта
+                        N0:                                                                              index # Количество категорий нефпродукта
+                        l:                                                                               index # Индексы субъекта рынка
+                        L:                                                                               index # Количество субъектов рынка
 
 volumes_by_product_category(l) = (
     (l, k) = (l, k, k0) = (l, k, k0, t) = volumes_by_period(l, k, k0, t, 1) + ... + volumes_by_period(l, k, k0, t, N0)
@@ -49,17 +52,20 @@ volumes_by_product_category_district(l) = (
 # Получаются свёрткой по категориям НП и районам; база для скользящего среднего.
 volumes_by_product_category_district = sum_by_axes(volumes_by_period,           District, Product_category)
 volumes_by_product_category_district = sum_by_axes(volumes_by_product_category, District)
-volumes_by_product_category_district = volumes_by_product_category(1)       + ... + volumes_by_product_category(Q0)
+volumes_by_product_category_district = volumes_by_product_category(1)         + ... + volumes_by_product_category(Q0)
 volumes_by_product_category_district = volumes_by_product_category_district(1), ...,  volumes_by_product_category_district(L)
     where
-        volumes_by_period:                       matrix(Region, Product, Month_and_year, Market_participant, District, Product_category)
-        volumes_by_product_category:             matrix(Region, Product, Month_and_year, Market_participant, District)
-        volumes_by_product_category_district:    matrix(Region, Product, Month_and_year, Market_participant)
-        volumes_by_product_category(k0):         matrix(Region, Product, Month_and_year, Market_participant)
-        volumes_by_product_category_district(l): matrix(Region, Product, Month_and_year)
+        volumes_by_period(1),           ..., volumes_by_period(Q0)          => volumes_by_product_category(k0)
+        volumes_by_product_category(1), ..., volumes_by_product_category(L) => volumes_by_product_category_district(l)
+        volumes_by_period:                               matrix(Region, Product, Month_and_year, Market_participant, District, Product_category)
+        volumes_by_product_category:                     matrix(Region, Product, Month_and_year, Market_participant, District)
+        volumes_by_product_category_district:            matrix(Region, Product, Month_and_year, Market_participant)
             where
-                Region, Product, Month_and_year, Market_participant, District, Product_category: axis  # Оси
-                k0:                                                                              index # Индексы района
-                Q0:                                                                              index # Количество районов
-                l:                                                                               index # Индексы субъекта рынка
-                L:                                                                               index # Количество субъектов рынка
+                volumes_by_product_category(k0):         matrix(Region, Product, Month_and_year, Market_participant)
+                volumes_by_product_category_district(l): matrix(Region, Product, Month_and_year)
+                    where
+                        Region, Product, Month_and_year, Market_participant, District, Product_category: axis  # Оси
+                        k0:                                                                              index # Индексы района
+                        Q0:                                                                              index # Количество районов
+                        l:                                                                               index # Индексы субъекта рынка
+                        L:                                                                               index # Количество субъектов рынка
