@@ -29,9 +29,12 @@ requests_by_market_participant = requests_by_market_participant(1), ...,  reques
 
 
 requests_by_market_participant(j) = (
-    (j, k) = (j, k) = (,j, k) = requests_by_period(j, k, 1) + ... + requests_by_period(j, k, L)
+    (j, k) = requests_by_period(j, k, 1) + ... + requests_by_period(j, k, L)
 )
-
+    where
+        j:  index # Индексы НПЗ
+        k:  index # Индексы региона
+        L:  index # Количество субъектов рынка
 
 requests_by_market_participant_region = sum_by_axes(requests_by_period,             Region, Market_participant)
 requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
