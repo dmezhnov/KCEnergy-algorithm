@@ -14,9 +14,9 @@ volumes_by_product_category = sum_by_axes(volumes_by_period, Product_category)
 volumes_by_product_category = volumes_by_period(1)          + ... + volumes_by_period(N0)
 volumes_by_product_category = volumes_by_product_category(1), ...,  volumes_by_product_category(L)
     where
-        volumes_by_product_category:    matrix(Region, District, Product, Month_and_year, Market_participant) # Проливы по виду НП на район/регион/субъект/месяц
         volumes_by_period:              matrix(Region, District, Product, Month_and_year, Market_participant, Product_category)
-        volumes_by_period(i0):          matrix(Region, District, Product, Month_and_year, Market_participant) # Промежуточные суммы по районам
+        volumes_by_product_category:    matrix(Region, District, Product, Month_and_year, Market_participant)
+        volumes_by_period(i0):          matrix(Region, District, Product, Month_and_year, Market_participant)
         volumes_by_product_category(l): matrix(Region, District, Product, Month_and_year)
             where
                 Region, District, Product, Month_and_year, Market_participant, Product_category: axis # Оси
@@ -52,14 +52,14 @@ volumes_by_product_category_district = sum_by_axes(volumes_by_product_category, 
 volumes_by_product_category_district = volumes_by_product_category(1)       + ... + volumes_by_product_category(Q0)
 volumes_by_product_category_district = volumes_by_product_category_district(1), ...,  volumes_by_product_category_district(L)
     where
-        volumes_by_period:                     matrix(Region, Product, Month_and_year, Market_participant, District, Product_category)
-        volumes_by_product_category:           matrix(Region, Product, Month_and_year, Market_participant, District)
+        volumes_by_period:                       matrix(Region, Product, Month_and_year, Market_participant, District, Product_category)
+        volumes_by_product_category:             matrix(Region, Product, Month_and_year, Market_participant, District)
         volumes_by_product_category_district:    matrix(Region, Product, Month_and_year, Market_participant)
-        volumes_by_product_category(k0):       matrix(Region, Product, Month_and_year, Market_participant)
+        volumes_by_product_category(k0):         matrix(Region, Product, Month_and_year, Market_participant)
         volumes_by_product_category_district(l): matrix(Region, Product, Month_and_year)
             where
-                Region, Product_category, Product, Market_participant, Month_and_year: axis  # Оси
-                k0:                                                                    index # Индексы района
-                Q0:                                                                    index # Количество районов
-                l:                                                                     index # Индексы субъекта рынка
-                L:                                                                     index # Количество субъектов рынка
+                Region, Product, Month_and_year, Market_participant, District, Product_category: axis  # Оси
+                k0:                                                                              index # Индексы района
+                Q0:                                                                              index # Количество районов
+                l:                                                                               index # Индексы субъекта рынка
+                L:                                                                               index # Количество субъектов рынка
