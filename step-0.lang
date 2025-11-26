@@ -15,8 +15,8 @@ volumes_by_product_category = sum_by_axes(volumes_by_period, Product_category)
 volumes_by_product_category = volumes_by_period(1)          + ... + volumes_by_period(N0)
 volumes_by_product_category = volumes_by_product_category(1), ...,  volumes_by_product_category(L)
     where
-        volumes_by_product_category(k, k0, i, t, l): number
         volumes_by_period(k, k0, i, t, l, i0):       number # Объем пролива
+        volumes_by_product_category(k, k0, i, t, l): number
         volumes_by_period(1),           ..., volumes_by_period(N0)          => volumes_by_period(i0)
         volumes_by_product_category(1), ..., volumes_by_product_category(L) => volumes_by_product_category(l)
         volumes_by_period:                      matrix(Region, District, Product, Month_and_year, Market_participant, Product_category)
@@ -75,7 +75,12 @@ volumes_by_product_category_district = volumes_by_product_category_district(1), 
                 volumes_by_product_category_district(l): matrix(Region, Product, Month_and_year)
                     where
                         Region, Product, Month_and_year, Market_participant, District, Product_category: axis  # Оси
-                        k0:                                                                              index # Индексы района
-                        Q0:                                                                              index # Количество районов
-                        l:                                                                               index # Индексы субъекта рынка
-                        L:                                                                               index # Количество субъектов рынка
+                        k:  index # Индексы региона
+                        k0: index # Индексы района
+                        i:  index # Индексы нефпродукта
+                        t:  index # Индексы месяца и года
+                        l:  index # Индексы субъекта рынка
+                        i0: index # Индексы категории нефпродукта
+                        l:  index # Индексы субъекта рынка
+                        Q0: index # Количество районов
+                        L:  index # Количество субъектов рынка
