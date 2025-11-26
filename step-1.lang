@@ -71,7 +71,7 @@ requests_by_market_participant_region(i) = (
 requests_by_market_participant_region = sum_by_axes(requests_by_period,             Region, Market_participant)
 requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
 requests_by_market_participant_region = requests_by_market_participant(i, j, 1) + ... + requests_by_market_participant(i, j, Q)
-requests_by_market_participant_region = requests_by_market_participant_region(1), ...,  requests_by_market_participant_region(L)
+requests_by_market_participant_region = requests_by_market_participant_region(1), ...,  requests_by_market_participant_region(I)
     where
         requests_by_period(i, j, k, l):              number # Запрашиваемый объем НП
         requests_by_market_participant(i, j, k):     number
@@ -79,7 +79,7 @@ requests_by_market_participant_region = requests_by_market_participant_region(1)
         requests_by_period:                          matrix(Product, Region, Refinery, Market_participant)
         requests_by_market_participant:              matrix(Product, Region, Refinery)
         requests_by_market_participant_region:       matrix(Product, Region)
-        requests_by_market_participant(i, j, 1), ..., requests_by_market_participant(i, j, Q) => requests_by_market_participant(k)
+        requests_by_market_participant(i, j, 1),  ..., requests_by_market_participant(i, j, Q) => requests_by_market_participant(k)
         requests_by_market_participant_region(1), ..., requests_by_market_participant_region(I) => requests_by_market_participant_region(i)
             where
                 requests_by_market_participant(k): matrix(Refinery, Region)
