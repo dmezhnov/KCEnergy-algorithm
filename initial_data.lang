@@ -3,9 +3,15 @@ axis,   index, matrix  from  matrix_types.lang
 
 ## Исходные данные
 
-requests_by_period: matrix(Region, Product, Refinery, Market_participant) # Заявки за рассматриваемый период
+requests_by_period: matrix(Product, Refinery, Region, Market_participant) # Заявки за рассматриваемый период
     where
-        Region, Product, Refinery, Market_participant: axis # Оси
+        requests_by_period(i, j, k, l): number # Запрашиваемый объем НП
+        Product, Refinery, Region, Market_participant: axis # Оси
+            where
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
 volumes_by_period: matrix(Region, District, Product, Month_and_year, Market_participant, Product_category) # История проливов помесячно (до 12 мес.)
     where

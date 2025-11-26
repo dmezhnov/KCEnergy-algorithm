@@ -13,41 +13,56 @@ requests_by_market_participant = sum_by_axes(requests_by_period, Market_particip
 requests_by_market_participant = requests_by_period(1)            + ... + requests_by_period(L)
 requests_by_market_participant = requests_by_market_participant(1), ...,  requests_by_market_participant(M)
     where
+        requests_by_period(i, j, k, l):          number # Запрашиваемый объем НП
+        requests_by_market_participant(i, j, k): number
         requests_by_period(1),             ..., requests_by_period(L)             => requests_by_period(l)
         requests_by_market_participant(1), ..., requests_by_market_participant(M) => requests_by_market_participant(j)
-        requests_by_period:                        matrix(Product, Region, Refinery, Market_participant)
-        requests_by_market_participant:            matrix(Product, Region, Refinery)
+        requests_by_period:                        matrix(Product, Refinery, Region, Market_participant)
+        requests_by_market_participant:            matrix(Product, Refinery, Region)
             where
-                requests_by_period(l):             matrix(Product, Region, Refinery)
-                requests_by_market_participant(j): matrix(Product, Region)
+                requests_by_period(l):             matrix(Product, Refinery, Region)
                     where
                         Product, Region, Refinery, Market_participant: axis  # Оси заявок
-                        l:                                             index # Индексы субъекта рынка
-                        L:                                             index # Количество субъектов рынка
-                        j:                                             index # Индексы НПЗ
-                        M:                                             index # Количество НПЗ
+                        i: index # Индексы нефпродукта
+                        j: index # Индексы НПЗ
+                        k: index # Индексы региона
+                        l: index # Индексы субъекта рынка
+                        L: index # Количество субъектов рынка
+                        M: index # Количество НПЗ
 
-
-requests_by_market_participant(j) = (
-    (j, k) = requests_by_period(j, k, 1) + ... + requests_by_period(j, k, L)
+requests_by_market_participant(i) = (
+    (i, j) = (i, j, k) = requests_by_period(i, j, k, 1) + ... + requests_by_period(i, j, k, L)
 )
     where
-        j:  index # Индексы НПЗ
-        i:  index # Индексы нефпродукта
-        k:  index # Индексы региона
-        L:  index # Количество субъектов рынка
+        requests_by_market_participant(i): matrix(Refinery, Region)
+            where
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                L: index # Количество субъектов рынка
 
-requests_by_market_participant_region(j) = (
-    (j, i) = requests_by_market_participant(j, i, 1) + ... + requests_by_market_participant(j, i, Q)
+requests_by_market_participant_region(i) = (
+    (i, j) = requests_by_market_participant(i, j, 1) + ... + requests_by_market_participant(i, j, Q)
 )
     where
-        j:  index # Индексы НПЗ
-        i:  index # Индексы нефпродукта
-        Q:  index # Количество регионов
+        requests_by_market_participant_region(i): matrix(Product, Refinery)
+            where
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                Q: index # Количество регионов
 
 requests_by_market_participant_region = sum_by_axes(requests_by_period,             Region, Market_participant)
 requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
+requests_by_market_participant_region = requests_by_market_participant(1)         + ... + requests_by_market_participant(Q)
+requests_by_market_participant_region = requests_by_market_participant_region(1), ...,  requests_by_market_participant_region(L)
     where
-        requests_by_market_participant_region: matrix(Product, Refinery)
+        requests_by_period(i, j, k, l):              number # Запрашиваемый объем НП
+        requests_by_market_participant(i, j, k):     number
+        requests_by_market_participant_region(i, j): number
+        requests_by_period(1),             ..., requests_by_period(L)             => requests_by_period(l)
+        requests_by_market_participant(1), ..., requests_by_market_participant(M) => requests_by_market_participant_region(j)
+        requests_by_period:                        matrix(Product, Region, Refinery, Market_participant)
+        requests_by_market_participant:            matrix(Product, Region, Refinery)
+        requests_by_market_participant_region:     matrix(Product, Region)
             where
                 Product, Refinery, Region, Market_participant: axis # Оси агрегатов
