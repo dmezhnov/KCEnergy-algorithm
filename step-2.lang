@@ -1,12 +1,4 @@
-### 2. Порог «Превышение Доступных объемов по Запросам»
+### Порог «Превышение Доступных объемов по Запросам»
 # Сравниваем суммарные Запросы с порогом «Доступный объём × коэффициент» (по умолчанию 120%).
 # Если суммарный Запрос ≥ порога — устанавливаем Период дефицита для пары (Product, Refinery),
 # иначе — Период профицита. Периоды определяются отдельно для каждого вида НП и НПЗ.
-
-# threshold_by_refinery — порог превышения доступных объёмов.
-# Рассчитывается как произведение доступного объёма на коэффициент порога.
-threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
-    where
-        threshold_by_refinery: matrix(Product, Refinery) # Порог по НПЗ/виду НП
-        available_by_refinery: matrix(Product, Refinery) # Доступные объёмы
-        multiply: operation # Операция умножения

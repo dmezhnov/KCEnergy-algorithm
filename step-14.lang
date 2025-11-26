@@ -1,9 +1,4 @@
-### 14. Оставшийся после распределения ГМК объем НП
+### Оставшийся после распределения ГМК объем НП
 # Вычисляем остатки по (Product, Refinery) после распределения среди Субъектов
 # рынка из состава ГМК: остаток после нефтебаз минус суммарно предоставленные
 # объёмы ГМК.
-
-remaining_after_gmk = for_each_pair(remaining_after_depots, subtract, gmk_total_by_refinery_allocated)
-    where
-        remaining_after_gmk: matrix(Product, Refinery) # Остаток после ГМК
-        subtract: operation # Операция вычитания
