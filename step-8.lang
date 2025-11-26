@@ -1,0 +1,26 @@
+### 8. Оставшийся после распределения Владельцам АЗС объем НП
+# Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:
+# доступный объём минус суммарно предоставленный Владельцам АЗС.
+
+# owners_by_refinery_region_sum — сумма нормированных объёмов АЗС по НПЗ/региону/продукту.
+# Промежуточная агрегация для расчёта итога по НПЗ.
+owners_by_refinery_region_sum = sum_by_axes(normalized_provided_owners_final, Market_participant)
+    where
+        owners_by_refinery_region_sum: matrix(Refinery, Region, Product) # Сумма по субъектам
+            where
+                Market_participant, Refinery, Region, Product: axis # Оси источника
+
+# owners_total_by_refinery — итоги нормированных объёмов АЗС по НПЗ/виду НП.
+# Используются для расчёта остатков после АЗС.
+owners_total_by_refinery = sum_by_axes(owners_by_refinery_region_sum, Region)
+    where
+        owners_total_by_refinery: matrix(Product, Refinery) # Итог по НПЗ
+            where
+                Market_participant, Region, Product, Refinery: axis # Оси источника
+
+# remaining_after_owners — остатки после распределения среди АЗС.
+# Равны «доступные объёмы» минус «итоги нормированных объёмов АЗС».
+remaining_after_owners = for_each_pair(available_by_refinery, subtract, owners_total_by_refinery)
+    where
+        remaining_after_owners: matrix(Product, Refinery) # Остаток после АЗС
+        subtract: operation # Операция вычитания

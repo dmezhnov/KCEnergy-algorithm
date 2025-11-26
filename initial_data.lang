@@ -1,0 +1,26 @@
+matrix = matrix from matrix_types.lang
+axis   = axis   from matrix_types.lang
+
+## Исходные данные
+
+requests_by_period: matrix(Product, Refinery, Region, Market_participant) # Заявки за рассматриваемый период
+    where
+        Product, Refinery, Region, Market_participant: axis # Оси: Product(вид НП), Refinery(НПЗ), Region(регион поставки), Market_participant(субъект рынка), market_participant_type(тип субъекта)
+
+volumes_by_period: matrix(Region, District, Product_category, Product, Market_participant, Month_and_year) # История проливов помесячно (до 12 мес.)
+    where
+        Region, District, Product_category, Product, Market_participant: axis # Оси: Region(регион продаж), District(район/орган ГД), Product_category(категория НП), Product(вид НП), Market_participant(субъект рынка), Month_and_year(месяц и год)
+
+available_by_refinery: matrix(Product, Refinery) # Доступные объёмы по НПЗ на текущий месяц
+    where
+        Product, Refinery: axis # Оси: Product(вид НП), Refinery(НПЗ)
+
+OVERALL_REQUEST_CAPACITY_PERCENTAGE: number = 120 # Порог превышения доступных объёмов, %
+OVERALL_REQUEST_CAPACITY_COEFFICIENT: number = OVERALL_REQUEST_CAPACITY_PERCENTAGE/100 # Доля порога [0; 1]
+
+WAGON_NORM_TONNAGE: number = 65 # Вагонная норма для НПЗ, МТ
+BASE_DEPOT_MIN_TONNAGE: number = 4 # Минимальная норма для нефтебазы, МТ
+BASE_DEPOT_STEP_TONNAGE: number = 5 # Шаг нормы для нефтебазы, МТ
+
+MAX_SUBJECT_SHARE_PERCENTAGE: number = 50 # Предельная доля одному Субъекту, %
+MAX_SUBJECT_SHARE_COEFFICIENT: number = MAX_SUBJECT_SHARE_PERCENTAGE/100 # Предельная доля в долях

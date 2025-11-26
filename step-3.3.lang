@@ -1,0 +1,39 @@
+#### 3.3. Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
+# Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
+# на первый профицитный НПЗ в порядке обхода, пропорционально заявкам субъекта
+# на НПЗ с профицитом. Остаток «выпадающего» объёма зануляется.
+
+
+
+# только для первого НПЗ с профицитом
+requsets_value_with_shortfall(1) = requsets_value(1) + shortfall_volume_sum
+        when
+            hreshold_by_refinery(1) >= requests_by_market_participant_region(1)
+            requests_by_market_participant_region: matrix(product, region, gas_station_owner)
+            requsets_value(1) > 0
+                where
+                    product: Product
+                    region: Region
+                    gas_station_owner: Market_participant
+        else
+            requsets_value_with_shortfall(1) = requsets_value(1)
+
+
+...
+
+
+
+
+
+requsets_value_with_shortfall(m) = requsets_value(m) + shortfall_volume_sum
+        when
+            hreshold_by_refinery(m) >= requests_by_market_participant_region(m)
+            requests_by_market_participant_region: matrix(product, region, gas_station_owner)
+            requsets_value(m) > 0
+                where
+                    product: Product
+                    region: Region
+                    gas_station_owner: Market_participant
+        else
+            requsets_value_with_shortfall(m) = requsets_value(m)
+

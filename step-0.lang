@@ -1,0 +1,43 @@
+coordinate        = coordinate        from matrix_types.lang
+axis              = axis              from matrix_types.lang
+index             = index             from matrix_types.lang
+
+sum_by_axes       = sum_by_axes       from operations.lang
+
+volumes_by_period = volumes_by_period from initial_data.lang
+
+### Вычисляем суммарные объемы проливов по всем категориям НП в каждом регионе деятельности
+# Подготовительный шаг (для Владельцев АЗС).
+# Суммируем данные о розничных продажах (проливах) каждого вида НП, отражённые
+# в декларациях за 12 последних последовательных календарных месяцев.
+# Привязываем строки к регионам по справочнику районов и видам НП по ПИН-коду.
+# Агрегируем проливы по районам и категориям НП, формируя базу для расчёта
+# скользящего среднего по продажам в дальнейшем.
+
+
+volumes_by_product_category = sum_by_axes(volumes_by_period, Product_category)
+volumes_by_product_category = volumes_by_period(1) + ... + volumes_by_period(N0)
+volumes_by_product_category = volumes_by_product_category(1), ..., volumes_by_product_category(L)
+    where
+        volumes_by_product_category: matrix(Region, District, Product, Market_participant, Month_and_year) # Проливы по виду НП на район/регион/субъект/месяц
+        volumes_by_period: matrix(Region, District, Product_category, Product, Market_participant, Month_and_year)
+        volumes_by_period(i0): matrix(Region, District, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+            where
+                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси агрегатов
+                i0, N0: index # Индексы
+
+
+
+
+
+
+
+
+# volumes_by_product_category_region — проливы по виду НП, региону, субъекту и месяцу.
+# Получаются свёрткой по категориям НП и районам; база для скользящего среднего.
+volumes_by_product_category_region = sum_by_axes(volumes_by_period, Product_category, District)
+    where
+        volumes_by_product_category_region: matrix(Region, Product, Market_participant, Month_and_year) # Проливы по виду НП на регион/субъект/месяц
+        volumes_by_district:                matrix(Region, Product_category, Product, Market_participant, Month_and_year) # Промежуточные суммы по районам
+            where
+                Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси агрегатов

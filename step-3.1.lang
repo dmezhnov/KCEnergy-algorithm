@@ -1,0 +1,29 @@
+
+#### 3.1. Скользящее среднее
+# Для каждого Владельца АЗС и региона продаж считаем скользящее среднее
+# по фактическим месяцам активности (только месяцы с объёмом > 0) за последние 12 месяцев.
+# Это среднее ограничивает объём Запроса в дефиците.
+
+# volumes_by_product_category_region_positive — проливы по активным месяцам (>0).
+# Исключает нулевые периоды из расчёта среднего.
+volumes_by_product_category_region_positive = filter_by_value(volumes_by_product_category_region, greater_than, 0)
+    where
+        volumes_by_product_category_region_positive: matrix(Region, Product, Market_participant, Month_and_year) # Проливы только за месяцы с активностью (>0)
+        greater_than: Condition # Условие >
+
+# matrix_of_activity — число месяцев с продажами у субъекта в регионе по виду НП.
+# Используется как делитель при расчёте скользящего среднего.
+matrix_of_activity = count_coordinates_by_axis(volumes_by_product_category_region_positive, Month_and_year)
+    where
+        matrix_of_activity: matrix(Region, Product, Market_participant) # Число активных месяцев
+            where
+                Region, Product, Market_participant, Month_and_year: axis # Оси расчёта среднего
+
+# volumes_by_product_category_region_total — сумма проливов за период по региону/виду/субъекту.
+# Числитель для вычисления скользящего среднего.
+volumes_by_product_category_region_total = sum_by_axes(volumes_by_product_category_region, Month_and_year)
+    where
+        volumes_by_product_category_region_total: matrix(Region, Product, Market_participant) # Сумма проливов за период
+            where
+                moving_average: matrix(Region, Product, Market_participant) # Скользящее среднее по продажам
+                divide: operation # Операция деления

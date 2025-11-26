@@ -1,0 +1,12 @@
+### 3. Период дефицита
+# В Период дефицита выполняем корректировку Запросов Владельцев АЗС с учётом
+# их исторических розничных продаж за 12 месяцев и перераспределяем выпадающие
+# объёмы на НПЗ с профицитом (при наличии запросов туда), действуя
+# в интересах Владельцев АЗС.
+
+# requests_in_deficit — маска дефицитных пар (Product, Refinery).
+# Истина там, где запросы ≥ порогового значения доступности.
+requests_in_deficit = filter_by_pair(requests_by_market_participant_region, greater_or_equal_to, threshold_by_refinery)
+    where
+        requests_in_deficit: matrix(Product, Refinery) # Маска дефицита
+        greater_or_equal_to: Condition # Условие >=

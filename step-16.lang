@@ -1,0 +1,38 @@
+### 16. Итог
+# Формируем финальные остатки по НПЗ после всех очередей распределения и
+# итоговую матрицу «сколько даём по каждому запросу», суммируя предоставленные
+# объёмы для всех категорий Субъектов рынка (АЗС, нефтебазы/резервуары, ГМК, иные).
+
+# remaining_final — финальные остатки по НПЗ после всех очередей распределения.
+# Равны остаткам после ГМК минус объёмы, выданные «иным» Субъектам рынка.
+remaining_final = for_each_pair(remaining_after_gmk, subtract, others_total_by_refinery_allocated)
+    where
+        remaining_final: matrix(Product, Refinery) # Финальные остатки по НПЗ
+        subtract: operation # Операция вычитания
+
+# Итог по каждому запросу (сумма по всем категориям Субъектов рынка)
+# provided_total_stage1 — сумма предоставленных объёмов АЗС и нефтебаз.
+# Промежуточный результат для формирования общего «по запросу».
+provided_total_stage1 = for_each_pair(normalized_provided_owners_final, add, normalized_provided_depots)
+    where
+        provided_total_stage1: matrix(Market_participant, Refinery, Region, Product) # Сумма АЗС + нефтебазы
+        add: operation # Операция сложения
+
+# provided_total_stage2 — добавление объёмов ГМК к промежуточной сумме.
+# Промежуточный результат «по запросу» после ГМК.
+provided_total_stage2 = for_each_pair(provided_total_stage1, add, normalized_provided_gmk)
+    where
+        provided_total_stage2: matrix(Market_participant, Refinery, Region, Product) # + ГМК
+        add: operation # Операция сложения
+
+# final_provided_by_request — итоговая матрица «сколько даём по каждому запросу».
+# Сумма предоставленных объёмов по всем категориям Субъектов рынка.
+final_provided_by_request = for_each_pair(provided_total_stage2, add, normalized_provided_others)
+    where
+        final_provided_by_request: matrix(Market_participant, Refinery, Region, Product) # Итог «сколько даём по каждому запросу»
+        add: operation # Операция сложения
+
+# Финальный набор результатов алгоритма
+# Result — перечень итоговых результатов алгоритма.
+# Включает «сколько даём по каждому запросу» и финальные остатки по НПЗ.
+Result = final_provided_by_request, remaining_final

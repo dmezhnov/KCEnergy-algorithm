@@ -1,0 +1,22 @@
+### 1. Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
+# Отбираем Запросы на покупку НП на рассматриваемый период по виду НП,
+# НПЗ и региону поставки и рассчитываем суммарные объёмы по всем Субъектам рынка.
+# Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
+# проверки на дефицит/профицит.
+
+# requests_by_market_participant — заявки, агрегированные по Субъекту рынка.
+# Сохраняет разрез по НПЗ, региону и виду НП.
+requests_by_market_participant = sum_by_axes(requests_by_period, Market_participant)
+    where
+        requests_by_market_participant: matrix(Product, Refinery, Region) # Заявки, суммированные по субъекту
+        requests_by_period: matrix(Product, Refinery, Region, Market_participant) # Исходные заявки периода
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+
+# requests_by_market_participant_region — заявки, агрегированные по региону.
+# Готовит данные для свёртки по типам Субъектов рынка.
+requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
+    where
+        requests_by_market_participant_region: matrix(Product, Refinery) # Заявки, суммированные по региону
+            where
+                Product, Refinery, Region, market_participant_type: axis # Оси агрегатов

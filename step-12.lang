@@ -1,0 +1,79 @@
+### 12. Если можно удовлетворить запросы ГМК
+# Проверяем достаточность остатка для распределения среди Субъектов рынка ГМК.
+# ГМК не получают отпуски с нефтебаз; нормирование — по вагонной норме.
+
+# can_distribute_to_gmk — маска достаточности остатков для ГМК.
+# Истина там, где остаток ≥ вагонной норме.
+can_distribute_to_gmk = filter_by_value(remaining_after_depots, greater_or_equal_to, WAGON_NORM_TONNAGE)
+    where
+        can_distribute_to_gmk: matrix(Product, Refinery) # Маска достаточности остатков для ГМК
+        greater_or_equal_to: Condition # Условие >=
+
+# gmk_requests — исходные Запросы Субъектов рынка из состава ГМК.
+# Отпуски для ГМК выполняются только с НПЗ.
+gmk_requests = filter_by_coordinate(requests_by_period, GMK)
+    where
+        gmk_requests: matrix(Product, Refinery, Region, Market_participant) # Заявки ГМК
+            where
+                Product, Refinery, Region, Market_participant, GMK: axis # Оси/признак типа субъекта
+
+# gmk_total_by_refinery_region — сумма заявок ГМК по НПЗ/региону/продукту.
+# Промежуточная агрегация для итогов по НПЗ.
+gmk_total_by_refinery_region = sum_by_axes(gmk_requests, Market_participant)
+    where
+        gmk_total_by_refinery_region: matrix(Refinery, Region, Product) # Сумма заявок ГМК по НПЗ/региону/продукту
+
+# gmk_total_by_refinery — итог заявок ГМК по НПЗ/виду НП.
+# Сравнивается с остатками после нефтебаз.
+gmk_total_by_refinery = sum_by_axes(gmk_total_by_refinery_region, Region)
+    where
+        gmk_total_by_refinery: matrix(Product, Refinery) # Итог по НПЗ
+
+# allocation_ratio_gmk_raw — базовый коэффициент распределения для ГМК.
+# Доля покрытия: остаток после нефтебаз / итог заявок ГМК по НПЗ.
+allocation_ratio_gmk_raw = for_each_pair(remaining_after_depots, divide, gmk_total_by_refinery)
+    where
+        allocation_ratio_gmk_raw: matrix(Product, Refinery) # Базовый коэффициент распределения для ГМК
+        divide: operation # Операция деления
+
+# allocation_ratio_gmk — коэффициент распределения для ГМК, ограниченный 1.
+# Исключает превышение исходных заявок.
+allocation_ratio_gmk = for_each_element(allocation_ratio_gmk_raw, min, 1)
+    where
+        allocation_ratio_gmk: matrix(Product, Refinery) # Коэффициент, ограничен 1
+        min: operation # Операция минимум
+
+# masked_allocation_ratio_gmk — коэффициент, ограниченный доступностью остатков.
+# Нулевая выдача там, где остаток меньше вагонной нормы.
+masked_allocation_ratio_gmk = filter_by_pair(allocation_ratio_gmk, greater_or_equal_to, can_distribute_to_gmk)
+    where
+        masked_allocation_ratio_gmk: matrix(Product, Refinery) # Коэффициент, ограниченный доступностью остатков
+        greater_or_equal_to: Condition # Условие >=
+
+# preliminary_provided_gmk — предварительно предоставляемые объёмы ГМК.
+# Получаются применением коэффициента к исходным заявкам ГМК.
+preliminary_provided_gmk = for_each_pair(gmk_requests, multiply, masked_allocation_ratio_gmk)
+    where
+        preliminary_provided_gmk: matrix(Market_participant, Refinery, Region, Product) # Предоставляемые объёмы ГМК
+        multiply: operation # Операция умножения
+
+# normalized_provided_gmk — нормированные по вагонной норме объёмы ГМК.
+# Приведение к кратности вагонной норме.
+normalized_provided_gmk = for_each_element(preliminary_provided_gmk, round, WAGON_NORM_TONNAGE)
+    where
+        normalized_provided_gmk: matrix(Market_participant, Refinery, Region, Product) # Нормирование (вагонная норма)
+        round: operation # Округление по вагонной норме
+
+# gmk_by_refinery_region_sum — сумма нормированных объёмов ГМК по НПЗ/региону/продукту.
+# Промежуточная агрегация для итогов по НПЗ.
+gmk_by_refinery_region_sum = sum_by_axes(normalized_provided_gmk, Market_participant)
+    where
+        gmk_by_refinery_region_sum: matrix(Refinery, Region, Product) # Сумма по субъектам
+            where
+                Market_participant, Refinery, Region, Product: axis # Оси источника
+
+# gmk_total_by_refinery_allocated — итоги нормированных объёмов ГМК по НПЗ/виду НП.
+# Используются для расчёта остатков после ГМК.
+gmk_total_by_refinery_allocated = sum_by_axes(gmk_by_refinery_region_sum, Region)
+    where
+        gmk_total_by_refinery_allocated: matrix(Product, Refinery) # Итог по НПЗ
