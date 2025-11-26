@@ -1,43 +1,4 @@
-### 5. Предварительный расчетный объем НП (для Владельцев АЗС)
+### Предварительный расчетный объем НП (для Владельцев АЗС)
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
 # распределяем доступное пропорционально скорректированным запросам (дефицит).
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
-
-# owners_corrected_by_refinery_region — сумма скорректированных заявок АЗС по НПЗ/региону/продукту.
-# База для расчёта коэффициента распределения доступного объёма.
-owners_corrected_by_refinery_region = sum_by_axes(corrected_requests_after_redistribution, Market_participant)
-    where
-        owners_corrected_by_refinery_region: matrix(Refinery, Region, Product) # Сумма заявок АЗС по НПЗ/региону/продукту
-            where
-                Market_participant, Refinery, Region, Product: axis # Оси источника
-
-# owners_total_corrected_by_refinery — итог по НПЗ/виду НП для заявок АЗС.
-# Сравнивается с доступным объёмом НПЗ.
-owners_total_corrected_by_refinery = sum_by_axes(owners_corrected_by_refinery_region, Region)
-    where
-        owners_total_corrected_by_refinery: matrix(Product, Refinery) # Итог заявок АЗС по НПЗ/продукту
-            where
-                Refinery, Region, Product: axis # Оси промежуточной суммы
-
-# allocation_ratio_owners_raw — базовый коэффициент распределения по АЗС.
-# Доля покрытия: доступный объём / итог заявок АЗС по НПЗ.
-allocation_ratio_owners_raw = for_each_pair(available_by_refinery, divide, owners_total_corrected_by_refinery)
-    where
-        allocation_ratio_owners_raw: matrix(Product, Refinery) # Базовый коэффициент распределения для АЗС
-        divide: operation # Операция деления
-
-# allocation_ratio_owners — коэффициент распределения, ограниченный сверху 1.
-# Не допускает выдачу сверх запрошенного.
-allocation_ratio_owners = for_each_element(allocation_ratio_owners_raw, min, 1)
-    where
-        allocation_ratio_owners: matrix(Product, Refinery) # Коэффициент, ограниченный 1
-        min: operation # Операция минимум
-
-# preliminary_provided_owners — предварительно предоставляемые объёмы АЗС.
-# Получаются применением коэффициента распределения к скорректированным заявкам.
-preliminary_provided_owners = for_each_pair(corrected_requests_after_redistribution, multiply, allocation_ratio_owners)
-    where
-        preliminary_provided_owners: matrix(Market_participant, Refinery, Region, Product) # Предварительно предоставляемые объёмы АЗС
-        multiply: operation # Операция умножения
-            where
-                Market_participant, Refinery, Region, Product: axis # Оси результата
