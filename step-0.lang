@@ -1,10 +1,6 @@
-coordinate        = coordinate        from matrix_types.lang
-axis              = axis              from matrix_types.lang
-index             = index             from matrix_types.lang
-
-sum_by_axes       = sum_by_axes       from operations.lang
-
-volumes_by_period = volumes_by_period from initial_data.lang
+coordinate, axis, index from matrix_types.lang
+sum_by_axes             from operations.lang
+volumes_by_period       from initial_data.lang
 
 ### Вычисляем суммарные объемы проливов по всем категориям НП в каждом регионе деятельности
 # Подготовительный шаг (для Владельцев АЗС).
@@ -29,12 +25,17 @@ volumes_by_product_category = volumes_by_product_category(1), ...,  volumes_by_p
 
 
 volumes_by_product_category(l) = (
-    (l, i0) = (l, i0, i) = (l, i0, i, t) = volumes_by_period(l, i0, i, t, 1) + ... + volumes_by_period(l, i0, i, t, N0)
+    (l, k) = (l, k, k0) = (l, k, k0, t) = volumes_by_period(l, k, k0, t, 1) + ... + volumes_by_period(l, k, k0, t, N0)
 )
     where
-        l, i0, i, t, N0: index
+        l, k, k0, t, N0: index
 
 
+volumes_by_product_category_region(l) = (
+    (l, k) = (l, k, i) = (l, k, i, t) = volumes_by_product_category(l, k, i, t, 1) + ... + volumes_by_product_category(l, k, i, t, Q0)
+)
+    where
+        l, k, i, t, Q0: index
 
 # volumes_by_product_category_region — проливы по виду НП, региону, субъекту и месяцу.
 # Получаются свёрткой по категориям НП и районам; база для скользящего среднего.
@@ -50,10 +51,3 @@ volumes_by_product_category_region = volumes_by_product_category_region(1), ...,
             where
                 Region, Product_category, Product, Market_participant, Month_and_year: axis # Оси
                 k0, Q0, l, L:                                                          index # Индексы
-
-
-volumes_by_product_category_region(l) = (
-    (l, k0) = (l, k0, i) = (l, k0, i, t) = volumes_by_product_category(l, k0, i, t, 1) + ... + volumes_by_product_category(l, k0, i, t, N0)
-)
-    where
-        l, k0, i, t, N0: index
