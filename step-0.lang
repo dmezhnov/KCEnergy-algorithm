@@ -1,6 +1,6 @@
-coordinate, axis, index from matrix_types.lang
-sum_by_axes             from operations.lang
-volumes_by_period       from initial_data.lang
+axis, index        from  matrix_types.lang
+sum_by_axes        from  operations.lang
+volumes_by_period  from  initial_data.lang
 
 ### Вычисляем суммарные объемы проливов по всем категориям НП в каждом регионе деятельности
 # Подготовительный шаг (для Владельцев АЗС).
@@ -36,7 +36,7 @@ volumes_by_product_category(l) = (
         N0:                                                                    index # Количество категорий нефпродукта
 
 volumes_by_product_category_district(l) = (
-    (l, k) = (l, k, i) = (l, k, i, t) = volumes_by_product_category(l, k, i, t, 1) + ... + volumes_by_product_category(l, k, i, t, Q0)
+    (l, k) = (l, k, i) = (l, k, i, t)  = volumes_by_product_category(l, k, i, t, 1) + ... + volumes_by_product_category(l, k, i, t, Q0)
 )
     where
         l:                                                                     index # Индексы субъекта рынка
