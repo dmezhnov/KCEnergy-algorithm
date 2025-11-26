@@ -1,3 +1,4 @@
+number              from  core
 axis, index         from  matrix_types.lang
 sum_by_axes         from  operations.lang
 requests_by_period  from  initial_data.lang
@@ -7,7 +8,6 @@ requests_by_period  from  initial_data.lang
 # НПЗ и региону поставки и рассчитываем суммарные объёмы по всем Субъектам рынка.
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
-
 
 requests_by_market_participant = sum_by_axes(requests_by_period, Market_participant)
 requests_by_market_participant = requests_by_period(1)            + ... + requests_by_period(L)
