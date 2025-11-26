@@ -9,6 +9,17 @@ requests_by_period  from  initial_data.lang
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
+requests_by_market_participant(i) = (
+    (i, j) = (i, j, k) = requests_by_period(i, j, k, 1) + ... + requests_by_period(i, j, k, L)
+)
+    where
+        requests_by_market_participant(i): matrix(Refinery, Region)
+            where
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                L: index # Количество субъектов рынка
+
 requests_by_market_participant = sum_by_axes(requests_by_period, Market_participant)
 requests_by_market_participant = requests_by_period(1)            + ... + requests_by_period(L)
 requests_by_market_participant = requests_by_market_participant(1), ...,  requests_by_market_participant(M)
@@ -29,17 +40,6 @@ requests_by_market_participant = requests_by_market_participant(1), ...,  reques
                         l: index # Индексы субъекта рынка
                         L: index # Количество субъектов рынка
                         M: index # Количество НПЗ
-
-requests_by_market_participant(i) = (
-    (i, j) = (i, j, k) = requests_by_period(i, j, k, 1) + ... + requests_by_period(i, j, k, L)
-)
-    where
-        requests_by_market_participant(i): matrix(Refinery, Region)
-            where
-                i: index # Индексы нефпродукта
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
-                L: index # Количество субъектов рынка
 
 requests_by_market_participant_region(i) = (
     (i, j) = requests_by_market_participant(i, j, 1) + ... + requests_by_market_participant(i, j, Q)
