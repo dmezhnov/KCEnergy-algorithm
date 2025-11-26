@@ -1,32 +1,4 @@
-#### 7.2. Уточненный нормированный объем НП
+#### Уточненный нормированный объем НП
 # Сравниваем долю субъекта с предельной долей и, при необходимости,
 # применяем понижающий коэффициент к его объёмам; затем переходим к повторному
 # нормированию (Шаг 6).
-
-# subject_limit_capacity — предельная ёмкость по доле (максимально допустимый объём).
-# Рассчитывается как общая сумма × предельная доля.
-subject_limit_capacity = for_each_element(owners_sum_normalized_total, multiply, MAX_SUBJECT_SHARE_COEFFICIENT)
-    where
-        subject_limit_capacity: matrix(Region, Product) # Предельная ёмкость по доле
-        multiply: operation # Операция умножения
-
-# subject_correction_ratio_raw — базовый понижающий коэффициент по субъекту.
-# Равен (предельная ёмкость / объём субъекта); далее ограничивается сверху 1.
-subject_correction_ratio_raw = for_each_pair(subject_limit_capacity, divide, owners_sum_normalized_by_subject)
-    where
-        subject_correction_ratio_raw: matrix(Market_participant, Region, Product) # Базовый коэффициент корректировки по доле
-        divide: operation # Операция деления
-
-# subject_correction_ratio — понижающий коэффициент, ограниченный 1.
-# Не увеличивает объёмы для субъектов, не превышающих долю.
-subject_correction_ratio = for_each_element(subject_correction_ratio_raw, min, 1)
-    where
-        subject_correction_ratio: matrix(Market_participant, Region, Product) # Коэффициент корректировки, ограниченный 1
-        min: operation # Операция минимум
-
-# owners_normalized_adjusted — объёмы АЗС после применения ограничения доли.
-# Используются для повторного нормирования по вагонной норме.
-owners_normalized_adjusted = for_each_pair(normalized_provided_owners, multiply, subject_correction_ratio)
-    where
-        owners_normalized_adjusted: matrix(Market_participant, Refinery, Region, Product) # Объёмы после ограничения доли
-        multiply: operation # Операция умножения

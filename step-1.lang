@@ -1,22 +1,94 @@
-### 1. Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
+number:              core
+axis, index:         matrix_types.lang
+sum_by_axes:         operations.lang
+requests_by_period:  initial_data.lang
+
+### Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
 # Отбираем Запросы на покупку НП на рассматриваемый период по виду НП,
 # НПЗ и региону поставки и рассчитываем суммарные объёмы по всем Субъектам рынка.
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
-# requests_by_market_participant — заявки, агрегированные по Субъекту рынка.
-# Сохраняет разрез по НПЗ, региону и виду НП.
-requests_by_market_participant = sum_by_axes(requests_by_period, Market_participant)
+requests_by_market_participant(i) = (
+    i, j = (
+        i, j, k = requests_by_period(i, j, k, 1) + ... + requests_by_period(i, j, k, L)
+    )
+)
     where
-        requests_by_market_participant: matrix(Product, Refinery, Region) # Заявки, суммированные по субъекту
-        requests_by_period: matrix(Product, Refinery, Region, Market_participant) # Исходные заявки периода
+        requests_by_period(i, j, k, l):          number # Запрашиваемый объем НП
+        requests_by_market_participant(i, j, k): number
+        requests_by_period:                      matrix(Product, Refinery, Region, Market_participant)
+        requests_by_market_participant:          matrix(Product, Refinery, Region)
+        requests_by_market_participant(i):       matrix(Refinery, Region)
+        requests_by_period(i, j, k, 1), ..., requests_by_period(i, j, k, L) => requests_by_period(l)
             where
                 Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                L: index # Количество субъектов рынка
 
-# requests_by_market_participant_region — заявки, агрегированные по региону.
-# Готовит данные для свёртки по типам Субъектов рынка.
-requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
+requests_by_market_participant = sum_by_axes(requests_by_period, Market_participant)
+requests_by_market_participant = requests_by_period(i, j, k, 1)   + ... + requests_by_period(i, j, k, L)
+requests_by_market_participant = requests_by_market_participant(1), ...,  requests_by_market_participant(N)
     where
-        requests_by_market_participant_region: matrix(Product, Refinery) # Заявки, суммированные по региону
+        requests_by_period(i, j, k, l):          number # Запрашиваемый объем НП
+        requests_by_market_participant(i, j, k): number
+        requests_by_period:                      matrix(Product, Refinery, Region, Market_participant)
+        requests_by_market_participant:          matrix(Product, Refinery, Region)
+        requests_by_period(i, j, k, 1),    ..., requests_by_period(i, j, k, L)    => requests_by_period(l)
+        requests_by_market_participant(1), ..., requests_by_market_participant(N) => requests_by_market_participant(i)
             where
-                Product, Refinery, Region, market_participant_type: axis # Оси агрегатов
+                requests_by_period(l):             matrix(Product, Refinery, Region)
+                requests_by_market_participant(i): matrix(Refinery, Region)
+                    where
+                        Product, Refinery, Region, Market_participant: axis  # Оси заявок
+                        i: index # Индексы нефпродукта
+                        j: index # Индексы НПЗ
+                        k: index # Индексы региона
+                        l: index # Индексы субъекта рынка
+                        L: index # Количество субъектов рынка
+                        N: index # Количество нефпродуктов
+
+requests_by_market_participant_region(i) = (
+    i, j = requests_by_market_participant(i, j, 1) + ... + requests_by_market_participant(i, j, Q)
+)
+    where
+        requests_by_market_participant(i, j, k):     number
+        requests_by_market_participant_region(i, j): number
+        requests_by_market_participant:              matrix(Product, Refinery, Region)
+        requests_by_market_participant_region:       matrix(Product, Refinery, Region)
+        requests_by_market_participant_region(i):    matrix(Refinery, Region)
+        requests_by_market_participant(i, j, 1), ..., requests_by_market_participant(i, j, Q) => requests_by_market_participant(k)
+            where
+                Product, Refinery, Region: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                Q: index # Количество регионов
+
+requests_by_market_participant_region = sum_by_axes(requests_by_period,             Region, Market_participant)
+requests_by_market_participant_region = sum_by_axes(requests_by_market_participant, Region)
+requests_by_market_participant_region = requests_by_market_participant(i, j, 1) + ... + requests_by_market_participant(i, j, Q)
+requests_by_market_participant_region = requests_by_market_participant_region(1), ...,  requests_by_market_participant_region(I)
+    where
+        requests_by_period(i, j, k, l):              number # Запрашиваемый объем НП
+        requests_by_market_participant(i, j, k):     number
+        requests_by_market_participant_region(i, j): number
+        requests_by_period:                          matrix(Product, Region, Refinery, Market_participant)
+        requests_by_market_participant:              matrix(Product, Region, Refinery)
+        requests_by_market_participant_region:       matrix(Product, Region)
+        requests_by_market_participant(i, j, 1),  ..., requests_by_market_participant(i, j, Q) => requests_by_market_participant(k)
+        requests_by_market_participant_region(1), ..., requests_by_market_participant_region(I) => requests_by_market_participant_region(i)
+            where
+                requests_by_market_participant(k): matrix(Refinery, Region)
+                requests_by_market_participant_region(i): matrix(Region)
+                    where
+                        Product, Region, Refinery, Market_participant: axis # Оси агрегатов
+                        i: index # Индексы нефпродукта
+                        j: index # Индексы НПЗ
+                        k: index # Индексы региона
+                        l: index # Индексы субъекта рынка
+                        Q: index # Количество регионов
+                        I: index # Количество нефпродуктов
