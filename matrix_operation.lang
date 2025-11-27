@@ -92,16 +92,18 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
 
 ### - Количество координат по оси
 
-count_coordinates_by_axis(matrix_source, axis) = counted_matrix
+count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
     where
-        matrix_source:  matrix # Исходная матрица
-        axis:           axis   # Ось, по которой считаем количество координат
-        counted_matrix: matrix # Результирующая матрица численностей
+        matrix_source:  matrix(...Tcoords, axis_to_count) # Исходная матрица
+        counted_matrix: matrix(...Tcoords) # Результирующая матрица численностей
+            where
+                axis_to_count:  axis # Ось, по которой считаем количество координат
+                    ...Tcoords = 1, ..., n: coordinate # Оставшиеся оси
 
 ### - Фильтровать по координате
 
-filter_by_coordinate(matrix_source, coordinate) = filtered_matrix_by_coordinate
+filter_by_coordinate(matrix_source, coor) = filtered_matrix_by_coordinate
     where
         matrix_source:                 matrix     # Исходная матрица
-        coordinate:                    coordinate # Фиксируемая координата
+        coor:                          coordinate # Фиксируемая координата
         filtered_matrix_by_coordinate: matrix     # Результат фильтрации по координате
