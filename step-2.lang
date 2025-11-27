@@ -1,4 +1,51 @@
+number:                                                       core
+for_each_element, filter_by_value, operation:                 operations.lang
+matrix, axis, index:                                          matrix_types.lang
+OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_by_refinery:  initial_data.lang
+
 ### Порог «Превышение Доступных объемов по Запросам»
 # Сравниваем суммарные Запросы с порогом «Доступный объём × коэффициент» (по умолчанию 120%).
 # Если суммарный Запрос ≥ порога — устанавливаем Период дефицита для пары (Product, Refinery),
 # иначе — Период профицита. Периоды определяются отдельно для каждого вида НП и НПЗ.
+
+# threshold_by_refinery — порог превышения доступных объёмов.
+# Рассчитывается как произведение доступного объёма на коэффициент порога.
+threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
+    where
+        threshold_by_refinery(i, j): number
+        available_by_refinery(i, j): number # Доступные объёмы
+        threshold_by_refinery:   matrix(Product, Refinery) # Порог по НПЗ/виду НП
+        available_by_refinery:   matrix(Product, Refinery) # Доступные объёмы
+        multiply: operation # Операция умножения
+            where
+                Product, Refinery: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+
+# Период дефицита, переход к Шагу 3
+deficit_refinery = filter_by_value(threshold_by_refinery, less_or_equal_than, available_by_refinery)
+    where
+        threshold_by_refinery(i, j): number
+        available_by_refinery(i, j): number # Доступные объёмы
+        deficit_refinery:      matrix(Product, Refinery)
+        threshold_by_refinery: matrix(Product, Refinery)
+        available_by_refinery: matrix(Product, Refinery)
+        less_or_equal_than: condition
+            where
+                Product, Refinery: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+
+# Период профицита, переход к Шагу 4
+surplus_refinery = filter_by_value(threshold_by_refinery, greater_than, available_by_refinery)
+    where
+        threshold_by_refinery(i, j): number
+        available_by_refinery(i, j): number # Доступные объёмы
+        surplus_refinery:      matrix(Product, Refinery)
+        threshold_by_refinery: matrix(Product, Refinery)
+        available_by_refinery: matrix(Product, Refinery)
+        greater_than: condition
+            where
+                Product, Refinery: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
