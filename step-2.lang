@@ -71,7 +71,8 @@ deficit_requests = filter_by_value(requests_by_market_participant_region, greate
                 Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
-
+                
+# Период профицита, переход к Шагу 4
 surplus_requests(i) = (
     i, j = requests_by_market_participant_region(i, j)
 )
@@ -91,7 +92,7 @@ surplus_requests(i) = (
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
 
-# Период профицита, переход к Шагу 4
+
 surplus_requests = filter_by_value(requests_by_market_participant_region, less_than, threshold_by_refinery)
     where
         surplus_requests(i, j):                      number
