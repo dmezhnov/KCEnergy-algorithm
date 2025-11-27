@@ -1,7 +1,7 @@
-coordinate = coordinate from matrix_types.lang
-axis       = axis       from matrix_types.lang
-matrix     = matrix     from matrix_types.lang
-condition  = condition  from matrix_types.lang
+coordinate: matrix_types.lang
+axis:       matrix_types.lang
+matrix:     matrix_types.lang
+condition:  matrix_types.lang
 
 # Операции с матрицами
 

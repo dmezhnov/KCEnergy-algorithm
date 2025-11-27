@@ -1,3 +1,4 @@
+number:                               core
 for_each_element, operation:          operations.lang
 matrix, axis, index:                  matrix_types.lang
 available_by_refinery:                initial_data.lang
@@ -12,6 +13,7 @@ OVERALL_REQUEST_CAPACITY_COEFFICIENT: initial_data.lang
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
     where
+        threshold_by_refinery(i, j): number
         available_by_refinery(i, j): number
         threshold_by_refinery: matrix(Product, Refinery) # Порог по НПЗ/виду НП
         available_by_refinery: matrix(Product, Refinery) # Доступные объёмы
@@ -20,3 +22,8 @@ threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERAL
                 Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+
+deficit_refinery = fil
+
+
+surplus_refinery
