@@ -14,12 +14,12 @@ Condition = less_than, less_or_equal_than, greater_than, greater_or_equal_than, 
 Axis = Region, District, Product_category, Product, Refinery, Market_participant, Market_participant_type, Month_and_year: axis
 
 matrix(...Tcoords) = {
-    coords = (1), ..., (c): coordinate = ...Tcoords
+    coords = (1), ..., (C): coordinate = ...Tcoords
     value: number OR matrix(...TcoordsNext)
         where
-            ...TcoordsNext = (1), ..., (c-1): coordinate
+            ...TcoordsNext = (1), ..., (C-1): coordinate
                 where
-                    c: index # Количество координат
+                    C: index # Количество координат
 }
 
 coordinate = {
@@ -27,13 +27,13 @@ coordinate = {
     index: index
 }
 
-Coordinate = (1), ..., (c): coordinate # Множество координат
+Coordinate = (1), ..., (C): coordinate # Множество координат
     where
-        c: index # Количество координат
+        C: index # Количество координат
 
-Matrix = (1), ..., (m): matrix # Множество матриц
+Matrix = (1), ..., (M): matrix # Множество матриц
     where
-        m: index # Количество матриц
+        M: index # Количество матриц
 
 1, ..., N:  I   => i:  I    # Индексы нефпродукта
 1, ..., N0: I0  => i0: I0   # Индексы категории нефпродукта
