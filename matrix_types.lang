@@ -3,9 +3,7 @@ number: core
 # Системные данные
 
 index: number # Индекс
-Index = i, ..., j # Множество индексов
-    where
-        i, ..., j: index # Индексы, элементы множества индексов
+Index = i, ..., j: index # Множество индексов
 
 Market_participant_type = Gas_station_owner, Depots_owner, GMK, Other_market_participant: market_participant_type
 
@@ -16,18 +14,12 @@ Condition = less_than, less_or_equal_than, greater_than, greater_or_equal_than, 
 Axis = Region, District, Product_category, Product, Refinery, Market_participant, Market_participant_type, Month_and_year: axis
 
 matrix(...Tcoords) = {
-    coords = c(1), ..., c(n) = ...Tcoords
-        where
-            c(1): coordinate
-            ...
-            c(n): coordinate
+    coords = (1), ..., (c): coordinate = ...Tcoords
     value: number OR matrix(...TcoordsNext)
         where
-            ...TcoordsNext = c(1), ..., c(n-1)
+            ...TcoordsNext = (1), ..., (c-1): coordinate
                 where
-                    c(1): coordinate
-                    ...
-                    c(n-1): coordinate
+                    c: index # Количество координат
 }
 
 coordinate = {
@@ -35,17 +27,13 @@ coordinate = {
     index: index
 }
 
-Coordinate = 1, ..., c
+Coordinate = (1), ..., (c): coordinate # Множество координат
     where
-        1: coordinate
-        ...
-        c: coordinate
+        c: index # Количество координат
 
-Matrix = 1, ..., m
+Matrix = (1), ..., (m): matrix # Множество матриц
     where
-        1: matrix
-        ...
-        m: matrix
+        m: index # Количество матриц
 
 1, ..., N:  I   => i:  I    # Индексы нефпродукта
 1, ..., N0: I0  => i0: I0   # Индексы категории нефпродукта
@@ -57,4 +45,4 @@ Matrix = 1, ..., m
     where
         I, J, K:       Index         # Множества индексов
         i, j, k, l, t: index: number # Индексы
-        N, M, Q, L, T: index: number # Количество индексов
+        N, M, Q, L, T: index: number # Количество индексов (последний индекс)

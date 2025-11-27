@@ -12,7 +12,7 @@ requests_by_market_participant_region:                        step-1.lang
 # threshold_by_refinery — порог превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_by_refinery(i) = (
-    i, j = available_by_refinery(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
+    (i, j) = available_by_refinery(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
 )
     where
         threshold_by_refinery(i, j):  number
@@ -40,7 +40,7 @@ threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERAL
 
 # Период дефицита, переход к Шагу 3
 deficit_requests(i) = (
-    i, j = requests_by_market_participant_region(i, j)
+    (i, j) = requests_by_market_participant_region(i, j)
 )
     where
         deficit_requests(i, j):                      number = deficit_value
@@ -71,10 +71,10 @@ deficit_requests = filter_by_value(requests_by_market_participant_region, greate
                 Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
-                
+
 # Период профицита, переход к Шагу 4
 surplus_requests(i) = (
-    i, j = requests_by_market_participant_region(i, j)
+    (i, j) = requests_by_market_participant_region(i, j)
 )
     where
         surplus_requests(i, j):                      number = surplus_value

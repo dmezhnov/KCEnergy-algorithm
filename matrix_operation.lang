@@ -12,7 +12,7 @@ condition:  matrix_types.lang
 new_empty(...Tcoords) = new_empty_matrix
     where
         new_empty_matrix: matrix(...Tcoords) # Пустая матрица по заданным осям
-        ...Tcoords = 1, ..., n: coordinate # Список координат
+        ...Tcoords = (1), ..., (n): coordinate # Список координат
 
 ### - Создать без оси
 new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without_axis
@@ -21,7 +21,7 @@ new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without
         new_empty_matrix_without_axis: matrix(...Taxis)                 # Результат без удаляемой оси
             where
                 axis_to_remove:       axis # Удаляемая ось
-                ...Taxis = 1, ..., n: axis # Оставшиеся оси
+                ...Taxis = (1), ..., (n): axis # Оставшиеся оси
 
 ### - Копировать значения матрицы
 copy_values(matrix_source, copied_matrix) = copied_matrix*
@@ -41,8 +41,8 @@ sum_by_axes(matrix_source, ...TaxisSum) = summed_matrix
         matrix_source: matrix(...Taxis, ...TaxisSum) # Матрица, содержащая ось суммирования
         summed_matrix: matrix(...Taxis) # Матрица после свёртки по оси
             where
-                ...Taxis    = 1, ..., n: axis # Оставшиеся оси
-                ...TaxisSum = 1, ..., m: axis # Оси по которым суммируем (ось суммирования)
+                ...Taxis    = (1), ..., (n): axis # Оставшиеся оси
+                ...TaxisSum = (1), ..., (m): axis # Оси по которым суммируем (ось суммирования)
 
 #### 1. Создать без оси
 #### 2. Копировать значения
@@ -84,24 +84,26 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
         operat:           operation        # Операция поэлементно
         matrix_result:    matrix(...Taxis) # Результат
             where
-                ...Taxis: 1, ..., n # Общие оси результата
+                ...Taxis: (1), ..., (n) # Общие оси результата
                     where
-                        1: axis # Ось
+                        (1): axis # Ось
                         ...
-                        n: axis # Ось
+                        (n): axis # Ось
 
 ### - Количество координат по оси
 
-count_coordinates_by_axis(matrix_source, axis) = counted_matrix
+count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
     where
-        matrix_source:  matrix # Исходная матрица
-        axis:           axis   # Ось, по которой считаем количество координат
-        counted_matrix: matrix # Результирующая матрица численностей
+        matrix_source:  matrix(...Tcoords, axis_to_count) # Исходная матрица
+        counted_matrix: matrix(...Tcoords) # Результирующая матрица численностей
+            where
+                axis_to_count:  axis # Ось, по которой считаем количество координат
+                    ...Tcoords = (1), ..., (n): coordinate # Оставшиеся оси
 
 ### - Фильтровать по координате
 
-filter_by_coordinate(matrix_source, coordinate) = filtered_matrix_by_coordinate
+filter_by_coordinate(matrix_source, coord) = matrix_without_axis
     where
-        matrix_source:                 matrix     # Исходная матрица
-        coordinate:                    coordinate # Фиксируемая координата
-        filtered_matrix_by_coordinate: matrix     # Результат фильтрации по координате
+        matrix_source:       matrix     # Исходная матрица
+        coord:               coordinate # Фиксируемая координата
+        matrix_without_axis: matrix     # Результат фильтрации по координате
