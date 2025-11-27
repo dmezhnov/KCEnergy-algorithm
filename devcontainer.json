@@ -1,0 +1,10 @@
+{
+    "name": "kcenerge-algorithm",
+    "context": ".",
+    "remoteUser": "root",
+    "customizations": {
+        "vscode": {
+            "extensions": ["dmezhnov.lang-language"]
+        }
+    }
+}
