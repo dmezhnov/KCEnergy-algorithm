@@ -1,8 +1,7 @@
-number:                               core
-for_each_element, operation:          operations.lang
-matrix, axis, index:                  matrix_types.lang
-available_by_refinery:                initial_data.lang
-OVERALL_REQUEST_CAPACITY_COEFFICIENT: initial_data.lang
+number:                                                       core
+for_each_element, filter_by_value, operation:                 operations.lang
+matrix, axis, index:                                          matrix_types.lang
+OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_by_refinery:  initial_data.lang
 
 ### Порог «Превышение Доступных объемов по Запросам»
 # Сравниваем суммарные Запросы с порогом «Доступный объём × коэффициент» (по умолчанию 120%).
@@ -23,7 +22,7 @@ threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERAL
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
-deficit_refinery = fil
+deficit_refinery = filter_by_value(threshold_by_refinery, less_or_equal_than, available_by_refinery)
 
 
-surplus_refinery
+surplus_refinery = filter_by_value(threshold_by_refinery, greater_than, available_by_refinery)
