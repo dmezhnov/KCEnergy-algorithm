@@ -11,13 +11,19 @@ Operation = multiply, divide, round, add, subtract, min, max: operation
 Condition = less_than, greater_or_equal_to, greater_than, contains, not_contains: coordinate
 Axis = Region, District, Product_category, Product, Refinery, Market_participant, Market_participant_type, Month_and_year: axis
 
-matrix = {
-    coords = c.1, ..., c.n
+matrix(...Tcoords) = {
+    coords = c(1), ..., c(n) = ...Tcoords
         where
-            c.1: coordinate
+            c(1): coordinate
             ...
-            c.n: coordinate
-    value: number OR matrix
+            c(n): coordinate
+    value: number OR matrix(...TcoordsNext)
+        where
+            ...TcoordsNext = c(1), ..., c(n-1)
+                where
+                    c(1): coordinate
+                    ...
+                    c(n-1): coordinate
 }
 
 coordinate = {
@@ -25,17 +31,17 @@ coordinate = {
     index: index
 }
 
-Coordinate = c.1, ..., c.n
+Coordinate = 1, ..., c
     where
-        c.1: coordinate
+        1: coordinate
         ...
-        c.n: coordinate
+        c: coordinate
 
-Matrix = m.1, ..., m.n
+Matrix = 1, ..., m
     where
-        m.1: matrix
+        1: matrix
         ...
-        m.n: matrix
+        m: matrix
 
 1, ..., N:  I   => i:  I    # Индексы нефпродукта
 1, ..., N0: I0  => i0: I0   # Индексы категории нефпродукта
@@ -45,6 +51,6 @@ Matrix = m.1, ..., m.n
 1, ..., L       => l        # Индексы субъекта рынка
 1, ..., T       => t        # Индексы месяца и года
     where
-        I, J, K: Index # Множества индексов
+        I, J, K:       Index         # Множества индексов
         i, j, k, l, t: index: number # Индексы
         N, M, Q, L, T: index: number # Количество индексов
