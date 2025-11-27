@@ -10,7 +10,9 @@ Index = i, ..., j # Множество индексов
 Market_participant_type = Gas_station_owner, Depots_owner, GMK, Other_market_participant: market_participant_type
 
 Operation = multiply, divide, round, add, subtract, min, max: operation
-Condition = less_than, greater_or_equal_to, greater_than, contains, not_contains: coordinate
+
+Condition = less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: coordinate
+
 Axis = Region, District, Product_category, Product, Refinery, Market_participant, Market_participant_type, Month_and_year: axis
 
 matrix(...Tcoords) = {
