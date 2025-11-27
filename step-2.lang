@@ -38,3 +38,14 @@ deficit_refinery = filter_by_value(threshold_by_refinery, less_or_equal_than, av
 
 # Период профицита, переход к Шагу 4
 surplus_refinery = filter_by_value(threshold_by_refinery, greater_than, available_by_refinery)
+    where
+        threshold_by_refinery(i, j): number
+        available_by_refinery(i, j): number # Доступные объёмы
+        surplus_refinery:      matrix(Product, Refinery)
+        threshold_by_refinery: matrix(Product, Refinery)
+        available_by_refinery: matrix(Product, Refinery)
+        greater_than: condition
+            where
+                Product, Refinery: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
