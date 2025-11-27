@@ -1,0 +1,14 @@
+{
+  "name": "kcenergy-algorithm",
+  "image": "ghcr.io/xtruder/nix-devcontainer:latest",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dmezhnov.lang-language"
+      ]
+    }
+  }
+}
+
+
