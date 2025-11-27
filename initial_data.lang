@@ -27,7 +27,11 @@ volumes_by_period: matrix(Market_participant, Region, Product, Month_and_year, D
 
 available_by_refinery: matrix(Product, Refinery) # Доступные объёмы по НПЗ на текущий месяц
     where
-        Product, Refinery: axis # Оси
+        available_by_refinery(i, j): number
+            where
+                Product, Refinery: axis # Оси
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
 
 OVERALL_REQUEST_CAPACITY_PERCENTAGE:  percentage = 120 # Порог превышения доступных объёмов, %
     where
