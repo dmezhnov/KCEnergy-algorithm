@@ -1,6 +1,7 @@
-filter_by_value, count_coordinates_by_axis:  matrix_operation.lang
-axis, condition, matrix, index:              matrix_types.lang
-volumes_by_product_category_district:        step-0.lang
+number:                                                   core
+sum_by_axes, filter_by_value, count_coordinates_by_axis:  matrix_operation.lang
+axis, condition, matrix, index:                           matrix_types.lang
+volumes_by_product_category_district:                     step-0.lang
 
 #### Скользящее среднее
 # Для каждого Владельца АЗС и региона продаж считаем скользящее среднее
