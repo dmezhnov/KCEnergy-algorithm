@@ -5,7 +5,7 @@ number: core
 index: number # Индекс
 Index = i, ..., j: index # Множество индексов
 
-Market_participant_type = Gas_station_owner, Depots_owner, GMK, Other_market_participant: market_participant_type
+Market_participant_type = Gas_station_owner, Terminal_owner, GMK, Other_market_participant: market_participant_type
 
 Operation = multiply, divide, safe_divide, round, add, subtract, min, max: operation
 
