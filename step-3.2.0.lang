@@ -1,15 +1,37 @@
-number:                          core
-count_coordinates_by_axis:       matrix_operation.lang
-axis, condition, matrix, index:  matrix_types.lang
+number:                                        core
+count_coordinates_by_axis, filter_by_pair:     matrix_operation.lang
+axis, condition, matrix, index:                matrix_types.lang
+deficit_requests_by_market_participant_region: step-2.lang
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС)
 # Выделяем Запросы Владельцев АЗС и далее ветвимся:
 # — если Запрос на один дефицитный НПЗ, применяем ограничение по скользящему среднему (3.2.1);
 # — иначе работаем с суммой по НПЗ и долями (3.2.2).
 
-requests_by_gas_station_owner_single
+deficit_requests_by_market_participant = filter_by_pair(deficit_requests_by_market_participant_region, contains, )
     where
+        deficit_requests_by_market_participant_region(i, j, k, l): matrix(Product, Refinery, Region, Market_participant)
+        deficit_requests(i, j, k): number # Запрашиваемый объем НП
+            where
+                Product, Refinery, Region: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                J: index # Количество НПЗ
+
+requests_by_gas_station_owner_single(i)
+    where
+        deficit_requests(i, j, k, l): number # Запрашиваемый объем НП
+        requests_by_gas_station_owner_single: matrix(Product, Refinery, Region, Market_participant)
         J = 1
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                J: index # Количество НПЗ
 
 
 requests_by_gas_station_owner_multiple
