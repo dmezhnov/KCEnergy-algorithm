@@ -7,7 +7,7 @@ Index = i, ..., j: index # Множество индексов
 
 Market_participant_type = Gas_station_owner, Depots_owner, GMK, Other_market_participant: market_participant_type
 
-Operation = multiply, divide, round, add, subtract, min, max: operation
+Operation = multiply, divide, safe_divide, round, add, subtract, min, max: operation
 
 Condition = less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: coordinate
 
