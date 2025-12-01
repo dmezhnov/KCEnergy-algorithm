@@ -9,10 +9,31 @@ requests_by_period:                            initial_data.lang
 # — если Запрос на один дефицитный НПЗ, применяем ограничение по скользящему среднему (3.2.1);
 # — иначе работаем с суммой по НПЗ и долями (3.2.2).
 
+deficit_requests(i) = (
+    (i, j) = (
+        (i, j, k) = (
+            (i, j, k, l) =
+        )
+    )
+)
+    where
+        requests_by_period(i, j, k, l):                      number # Запрашиваемый объем НП
+        deficit_requests(i, j, k, l):                        number
+        deficit_requests_by_market_participant_region(i, j): number
+        requests_by_period:                            matrix(Product, Refinery, Region, Market_participant)
+        deficit_requests:                              matrix(Product, Refinery, Region, Market_participant)
+        deficit_requests_by_market_participant_region: matrix(Product, Refinery)
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+
 deficit_requests = filter_by_pair(requests_by_period, contains, deficit_requests_by_market_participant_region)
     where
-        requests_by_period(i, j, k, l):                      number
-        deficit_requests(i, j, k, l):                        number # Запрашиваемый объем НП
+        requests_by_period(i, j, k, l):                      number # Запрашиваемый объем НП
+        deficit_requests(i, j, k, l):                        number
         deficit_requests_by_market_participant_region(i, j): number
         requests_by_period:                            matrix(Product, Refinery, Region, Market_participant)
         deficit_requests:                              matrix(Product, Refinery, Region, Market_participant)
@@ -26,12 +47,33 @@ deficit_requests = filter_by_pair(requests_by_period, contains, deficit_requests
                 l: index # Индексы субъекта рынка
                 J: index # Количество НПЗ
 
-
-deficit_requests_first_queue = 
-
-deficit_requests_first_queue_single(i)
+deficit_requests_first_queue = filter_by_coordinate(deficit_requests, First)
     where
-        deficit_requests_first_queue(i, j, k, l): number # Запрашиваемый объем НП
+        deficit_requests(i, j, k, l): number
+        deficit_requests_first_queue(i, j, k, l): number
+        deficit_requests: matrix(Product, Refinery, Region, Market_participant)
+        deficit_requests_first_queue: matrix(Product, Refinery, Region, Market_participant)
+        First: coordinate
+            where
+                Product, Refinery, Region, Market_participant, First: axis # Оси заявок
+                i:     index # Индексы нефпродукта
+                j:     index # Индексы НПЗ
+                k:     index # Индексы региона
+                l:     index # Индексы субъекта рынка
+                First: index # Индексы очереди
+
+
+deficit_requests_first_queue_single(i) = (
+    (i, j) = (
+        (i, j, k) = (
+            (i, j, k, l) =
+        )
+    )
+)
+    where
+        deficit_requests_first_queue(i, j, k, l):        number
+        deficit_requests_first_queue_single(i, j, k, l): number
+        deficit_requests_first_queue:        matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_first_queue_single: matrix(Product, Refinery, Region, Market_participant)
         J = 1
             where
@@ -41,6 +83,10 @@ deficit_requests_first_queue_single(i)
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
                 J: index # Количество НПЗ
+
+deficit_requests_first_queue_single =
+
+
 
 
 deficit_requests_first_queue_multiple
