@@ -17,21 +17,22 @@ deficit_requests_first_queue(i) = (
     )
 )
     where
-        requests_by_period_first_queue(i, j, k, l):          number # Запрашиваемый объем НП
-        deficit_requests_first_queue(i, j, k, l):            number
-        deficit_requests_by_market_participant_region(i, j): number
+        requests_by_period_first_queue(i, j, k, l):            number # Запрашиваемый объем НП
+        deficit_requests_first_queue(i, j, k, l):              number
+        deficit_requests_by_market_participant_region(i*, j*): number
         requests_by_period_first_queue:                matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_first_queue:                  matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_by_market_participant_region: matrix(Product, Refinery)
             where
-                requests_by_period_first_queue(i, j, k, l) contains deficit_requests_by_market_participant_region(i, j)
+                i = i*
+                j = j*
                     where
                         contains: condition
                         Product, Refinery, Region, Market_participant: axis # Оси заявок
-                        i: index # Индексы нефпродукта
-                        j: index # Индексы НПЗ
-                        k: index # Индексы региона
-                        l: index # Индексы субъекта рынка
+                        i, i*: index # Индексы нефпродукта
+                        j, j*: index # Индексы НПЗ
+                        k:     index # Индексы региона
+                        l:     index # Индексы субъекта рынка
 
 deficit_requests_first_queue = filter_by_pair(requests_by_period_first_queue, contains, deficit_requests_by_market_participant_region)
     where
@@ -42,6 +43,40 @@ deficit_requests_first_queue = filter_by_pair(requests_by_period_first_queue, co
         deficit_requests_first_queue:                  matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_by_market_participant_region: matrix(Product, Refinery)
         contains: condition
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                J: index # Количество НПЗ
+
+refinery_count_by_requests(i) = (
+    (i, k) = (
+        (i, k, l) = J
+    )
+)
+    where
+        refinery_count_by_requests(i, k, l):      number
+        deficit_requests_first_queue(i, j, k, l): number
+        deficit_requests_first_queue:  matrix(Product, Refinery, Region, Market_participant)
+        refinery_count_by_requests:    matrix(Product, Region, Market_participant)
+        deficit_requests_first_queue(i, 1, k, l), ..., deficit_requests_first_queue(i, J, k, l) => deficit_requests_first_queue(j)
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                J: index # Количество НПЗ
+
+refinery_count_by_requests = count_coordinates_by_axis(deficit_requests_first_queue, Refinery)
+    where
+        deficit_requests_first_queue(i, j, k, l): number
+        refinery_count_by_requests(i, k, l):      number
+        deficit_requests_first_queue:  matrix(Product, Refinery, Region, Market_participant)
+        refinery_count_by_requests:    matrix(Product, Region, Market_participant)
+        deficit_requests_first_queue(i, 1, k, l), ..., deficit_requests_first_queue(i, J, k, l) => deficit_requests_first_queue(j)
             where
                 Product, Refinery, Region, Market_participant: axis # Оси заявок
                 i: index # Индексы нефпродукта
@@ -71,7 +106,9 @@ deficit_requests_first_queue_single(i) = (
                 l: index # Индексы субъекта рынка
                 J: index # Количество НПЗ
 
-deficit_requests_first_queue_single = ???????
+
+
+deficit_requests_first_queue_single = ????
     where
         deficit_requests_first_queue(i, j, k, l):          number
         deficit_requests_first_queue_multiple(i, j, k, l): number
