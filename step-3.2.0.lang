@@ -85,6 +85,24 @@ refinery_count_by_requests = count_coordinates_by_axis(deficit_requests_first_qu
                 l: index # Индексы субъекта рынка
                 J: index # Количество НПЗ
 
+refinery_count_by_requests_single(i) = (
+    (i, k) = (
+        (i, k, l) = J
+    )
+)
+    where
+        refinery_count_by_requests_single(i, k, l):  number
+        deficit_requests_first_queue(i, 1, k, l):    number
+        deficit_requests_first_queue:       matrix(Product, Refinery, Region, Market_participant)
+        refinery_count_by_requests_single:  matrix(Product, Region, Market_participant)
+        J = 1
+            where
+                Product, Refinery, Region, Market_participant: axis # Оси заявок
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+
 deficit_requests_first_queue_single(i) = (
     (i, j) = (
         (i, j, k) = (
@@ -105,8 +123,6 @@ deficit_requests_first_queue_single(i) = (
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
                 J: index # Количество НПЗ
-
-
 
 deficit_requests_first_queue_single = ????
     where
