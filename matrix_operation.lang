@@ -41,8 +41,11 @@ sum_by_axes(matrix_source, ...TaxisSum) = summed_matrix
         matrix_source: matrix(...Taxis, ...TaxisSum) # Матрица, содержащая ось суммирования
         summed_matrix: matrix(...Taxis) # Матрица после свёртки по оси
             where
-                ...Taxis    = (1), ..., (n): axis # Оставшиеся оси
-                ...TaxisSum = (1), ..., (m): axis # Оси по которым суммируем (ось суммирования)
+                ...Taxis    = (1), ..., (N): axis # Оставшиеся оси
+                ...TaxisSum = (1), ..., (M): axis # Оси по которым суммируем (ось суммирования)
+                    where
+                        M: index # Количество осей суммирования
+                        N: index # Количество осей результата
 
 #### 1. Создать без оси
 #### 2. Копировать значения
@@ -84,11 +87,19 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
         operat:           operation        # Операция поэлементно
         matrix_result:    matrix(...Taxis) # Результат
             where
+<<<<<<< HEAD
                 ...Taxis: (1), ..., (n) # Общие оси результата
                     where
                         (1): axis # Ось
                         ...
                         (n): axis # Ось
+=======
+                ...Taxis: (1), ..., (A) # Общие оси результата
+                    where
+                        (1): axis # Ось
+                        ...
+                        (A): axis # Ось
+>>>>>>> draft
 
 ### - Количество координат по оси
 
@@ -98,7 +109,11 @@ count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
         counted_matrix: matrix(...Tcoords) # Результирующая матрица численностей
             where
                 axis_to_count:  axis # Ось, по которой считаем количество координат
+<<<<<<< HEAD
                     ...Tcoords = (1), ..., (n): coordinate # Оставшиеся оси
+=======
+                ...Tcoords = (1), ..., (C): coordinate # Оставшиеся оси
+>>>>>>> draft
 
 ### - Фильтровать по координате
 

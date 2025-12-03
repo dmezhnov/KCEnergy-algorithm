@@ -39,16 +39,16 @@ threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERAL
                 j: index # Индексы НПЗ
 
 # Период дефицита, переход к Шагу 3
-deficit_requests(i) = (
+deficit_requests_by_market_participant_region(i) = (
     (i, j) = requests_by_market_participant_region(i, j)
 )
     where
-        deficit_requests(i, j):                      number = deficit_value
-        threshold_by_refinery(i, j):                 number = threshold
-        requests_by_market_participant_region(i, j): number = request_value
-        deficit_requests:                      matrix(Product, Refinery)
-        threshold_by_refinery:                 matrix(Product, Refinery)
-        requests_by_market_participant_region: matrix(Product, Refinery)
+        deficit_requests_by_market_participant_region(i, j): number = deficit_value
+        threshold_by_refinery(i, j):                         number = threshold
+        requests_by_market_participant_region(i, j):         number = request_value
+        deficit_requests_by_market_participant_region: matrix(Product, Refinery)
+        threshold_by_refinery:                         matrix(Product, Refinery)
+        requests_by_market_participant_region:         matrix(Product, Refinery)
             where
                 deficit_value = request_value
                     where
@@ -58,14 +58,14 @@ deficit_requests(i) = (
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
 
-deficit_requests = filter_by_value(requests_by_market_participant_region, greater_or_equal_than, threshold_by_refinery)
+deficit_requests_by_market_participant_region = filter_by_value(requests_by_market_participant_region, greater_or_equal_than, threshold_by_refinery)
     where
-        deficit_requests(i, j):                      number
-        threshold_by_refinery(i, j):                 number
-        requests_by_market_participant_region(i, j): number
-        deficit_requests:                      matrix(Product, Refinery)
-        threshold_by_refinery:                 matrix(Product, Refinery)
-        requests_by_market_participant_region: matrix(Product, Refinery)
+        deficit_requests_by_market_participant_region(i, j): number
+        threshold_by_refinery(i, j):                         number
+        requests_by_market_participant_region(i, j):         number
+        deficit_requests_by_market_participant_region: matrix(Product, Refinery)
+        threshold_by_refinery:                         matrix(Product, Refinery)
+        requests_by_market_participant_region:         matrix(Product, Refinery)
         greater_or_equal_than: condition
             where
                 Product, Refinery: axis # Оси
@@ -73,16 +73,16 @@ deficit_requests = filter_by_value(requests_by_market_participant_region, greate
                 j: index # Индексы НПЗ
 
 # Период профицита, переход к Шагу 4
-surplus_requests(i) = (
+surplus_requests_by_market_participant_region(i) = (
     (i, j) = requests_by_market_participant_region(i, j)
 )
     where
-        surplus_requests(i, j):                      number = surplus_value
-        threshold_by_refinery(i, j):                 number = threshold
-        requests_by_market_participant_region(i, j): number = request_value
-        surplus_requests:                      matrix(Product, Refinery)
-        threshold_by_refinery:                 matrix(Product, Refinery)
-        requests_by_market_participant_region: matrix(Product, Refinery)
+        surplus_requests_by_market_participant_region(i, j): number = surplus_value
+        threshold_by_refinery(i, j):                         number = threshold
+        requests_by_market_participant_region(i, j):         number = request_value
+        surplus_requests_by_market_participant_region:  matrix(Product, Refinery)
+        threshold_by_refinery:                          matrix(Product, Refinery)
+        requests_by_market_participant_region:          matrix(Product, Refinery)
             where
                 surplus_value = request_value
                     where
@@ -93,14 +93,14 @@ surplus_requests(i) = (
                         j: index # Индексы НПЗ
 
 
-surplus_requests = filter_by_value(requests_by_market_participant_region, less_than, threshold_by_refinery)
+surplus_requests_by_market_participant_region = filter_by_value(requests_by_market_participant_region, less_than, threshold_by_refinery)
     where
-        surplus_requests(i, j):                      number
-        threshold_by_refinery(i, j):                 number
-        requests_by_market_participant_region(i, j): number
-        surplus_requests:                      matrix(Product, Refinery)
-        threshold_by_refinery:                 matrix(Product, Refinery)
-        requests_by_market_participant_region: matrix(Product, Refinery)
+        surplus_requests_by_market_participant_region(i, j): number
+        threshold_by_refinery(i, j):                         number
+        requests_by_market_participant_region(i, j):         number
+        surplus_requests_by_market_participant_region: matrix(Product, Refinery)
+        threshold_by_refinery:                         matrix(Product, Refinery)
+        requests_by_market_participant_region:         matrix(Product, Refinery)
         less_than: condition
             where
                 Product, Refinery: axis # Оси

@@ -1,7 +1,7 @@
-number:                                                   core
-sum_by_axes, filter_by_value, count_coordinates_by_axis:  matrix_operation.lang
-axis, condition, matrix, index:                           matrix_types.lang
-volumes_by_product_category_district:                     step-0.lang
+number:                                                                  core
+sum_by_axes, filter_by_value, count_coordinates_by_axis, for_each_pair:  matrix_operation.lang
+axis, condition, matrix, index:                                          matrix_types.lang
+volumes_by_product_category_district:                                    step-0.lang
 
 #### Скользящее среднее
 # Для каждого Владельца АЗС и региона продаж считаем скользящее среднее
@@ -11,37 +11,37 @@ volumes_by_product_category_district:                     step-0.lang
 # volumes_by_product_category_district_positive — проливы по активным месяцам (>0).
 # Исключает нулевые периоды из расчёта среднего.
 volumes_by_product_category_district_positive(l) = (
-    (l, t) = (
-        (l, t, i) = (
-            (l, t, i, k) = volumes_by_product_category_district(l, t, i, k)
+    (l, i) = (
+        (l, i, k) = (
+            (l, i, k, t) = volumes_by_product_category_district(l, i, k, t)
         )
     )
 )
     where
-        volumes_by_product_category_district(l, t, i, k):          number = value        # Объем пролива за все месяцы
-        volumes_by_product_category_district_positive(l, t, i, k): number = value_active # Объем пролива за активные месяцы
-        volumes_by_product_category_district:           matrix(Market_participant, Region, Product, Month_and_year) # Проливы за все месяцы
-        volumes_by_product_category_district_positive:  matrix(Market_participant, Region, Product, Month_and_year) # Проливы только за активные месяцы
+        volumes_by_product_category_district(l, i, k, t):          number = value        # Объем пролива за все месяцы
+        volumes_by_product_category_district_positive(l, i, k, t): number = value_active # Объем пролива за активные месяцы
+        volumes_by_product_category_district:           matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_by_product_category_district_positive:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
             where
                 value_active = value
                     where
                         value > 0 # Объем пролива за все месяцы > 0
                         value, value_active: number # Объем пролива за все и активные месяцы
-                        Market_participant, Region, Product, Month_and_year: axis
+                        Market_participant, Product, Region, Month_and_year: axis
                         l:  index # Индексы субъекта рынка
-                        t:  index # Индексы месяца и года
                         i:  index # Индексы нефпродукта
                         k:  index # Индексы региона
+                        t:  index # Индексы месяца и года
 
 volumes_by_product_category_district_positive = filter_by_value(volumes_by_product_category_district, greater_than, 0)
     where
-        volumes_by_product_category_district(l, t, i, k):          number # Объем пролива за все месяцы
-        volumes_by_product_category_district_positive(l, t, i, k): number # Объем пролива за активные месяцы
-        volumes_by_product_category_district:           matrix(Market_participant, Region, Product, Month_and_year) # Проливы за все месяцы
-        volumes_by_product_category_district_positive:  matrix(Market_participant, Region, Product, Month_and_year) # Проливы только за активные месяцы
+        volumes_by_product_category_district(l, i, k, t):          number # Объем пролива за все месяцы
+        volumes_by_product_category_district_positive(l, i, k, t): number # Объем пролива за активные месяцы
+        volumes_by_product_category_district:           matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_by_product_category_district_positive:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
         greater_than: condition # Условие >
             where
-                Market_participant, Region, Product, Month_and_year: axis
+                Market_participant, Product, Region, Month_and_year: axis
                 l:  index # Индексы субъекта рынка
                 t:  index # Индексы месяца и года
                 i:  index # Индексы нефпродукта
@@ -50,25 +50,124 @@ volumes_by_product_category_district_positive = filter_by_value(volumes_by_produ
 # matrix_of_activity — число месяцев с продажами у субъекта в регионе по виду НП.
 # Используется как знаменатель при расчёте скользящего среднего.
 matrix_of_activity(l) = (
-    (l, t) = (
-        (l, t, i) = (
-            (l, t, i) = Q
-        )
+    (l, i) = (
+        (l, i, k) = T
     )
 )
+    where
+        volumes_by_product_category_district_positive(l, i, k, t): number     # Объем пролива за активные месяцы
+        matrix_of_activity(l, i, k):                               number = T # Число активных месяцев
+        volumes_by_product_category_district_positive: matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
+        matrix_of_activity:                            matrix(Market_participant, Product, Region)                 # Число активных месяцев
+        volumes_by_product_category_district_positive(l, i, k, 1), ..., volumes_by_product_category_district_positive(l, i, k, T) => volumes_by_product_category_district_positive(t)
+            where
+                Market_participant, Product, Region, Month_and_year: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
+                t:  index # Индексы месяца и года
+                T:  index # Количество месяцев
 
 matrix_of_activity = count_coordinates_by_axis(volumes_by_product_category_district_positive, Month_and_year)
     where
-        volumes_by_product_category_district_positive: matrix(Market_participant, Region, Product, Month_and_year) # Проливы только за активные месяцы
-        matrix_of_activity:                            matrix(Market_participant, Region, Product)                 # Число активных месяцев
+        volumes_by_product_category_district_positive(l, i, k, t): number      # Объем пролива за активные месяцы
+        matrix_of_activity(l, i, k):                               number = T  # Число активных месяцев
+        volumes_by_product_category_district_positive: matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
+        matrix_of_activity:                            matrix(Market_participant, Product, Region)                 # Число активных месяцев
+        volumes_by_product_category_district_positive(l, i, k, 1), ..., volumes_by_product_category_district_positive(l, i, k, T)
             where
-                Region, Product, Market_participant, Month_and_year: axis # Оси расчёта среднего
+                Market_participant, Product, Region, Month_and_year: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
+                t:  index # Индексы месяца и года
+                T:  index # Количество месяцев
 
 # volumes_by_product_category_district_total — сумма проливов за период по региону/виду/субъекту.
 # Числитель для вычисления скользящего среднего.
+volumes_by_product_category_district_total(l) = (
+    (l, i) = (
+        (l, i, k) = volumes_by_product_category_district(l, i, k, 1) + ... + volumes_by_product_category_district(l, i, k, T)
+    )
+)
+    where
+        volumes_by_product_category_district(l, i, k, t):    number # Объем пролива за все месяцы
+        volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период фактической деятельности
+        volumes_by_product_category_district:          matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_by_product_category_district_total:    matrix(Market_participant, Product, Region) # Сумма проливов за период фактической деятельности
+        volumes_by_product_category_district_total(l): matrix(Product, Region)
+        volumes_by_product_category_district(l, i, k, 1), ..., volumes_by_product_category_district(l, i, k, T) => volumes_by_product_category_district_total(t)
+            where
+                Market_participant, Product, Region, Month_and_year: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
+                t:  index # Индексы месяца и года
+                T:  index # Количество месяцев
+
 volumes_by_product_category_district_total = sum_by_axes(volumes_by_product_category_district, Month_and_year)
     where
-        volumes_by_product_category_district_total: matrix(Region, Product, Market_participant) # Сумма проливов за период
+        volumes_by_product_category_district(l, i, k, t):    number # Объем пролива за все месяцы
+        volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период фактической деятельности
+        volumes_by_product_category_district:          matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_by_product_category_district_total:    matrix(Market_participant, Product, Region) # Сумма проливов за период фактической деятельности
+        volumes_by_product_category_district_total(l): matrix(Product, Region)
+        volumes_by_product_category_district(l, i, k, 1), ..., volumes_by_product_category_district(l, i, k, T) => volumes_by_product_category_district_total(t)
+            where
+                Market_participant, Product, Region, Month_and_year: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
+                t:  index # Индексы месяца и года
+                T:  index # Количество месяцев
 
+moving_average(l) = (
+    (l, i) = (
+        (l, i, k) = 0
+    )
+)
+    where
+        matrix_of_activity(l, i, k):                         number # Число активных месяцев
+        moving_average(l, i, k):                             number # Скользящее среднее
+        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+            where
+                matrix_of_activity(l, i, k): number = 0
+                Market_participant, Product, Region: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
 
-moving_average
+moving_average(l) = (
+    (l, i) = (
+        (l, i, k) = volumes_by_product_category_district_total(l, i, k) / matrix_of_activity(l, i, k)
+    )
+)
+    where
+        volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период
+        matrix_of_activity(l, i, k):                         number # Число активных месяцев
+        moving_average(l, i, k):                             number # Скользящее среднее
+        volumes_by_product_category_district_total:     matrix(Market_participant, Product, Region) # Сумма проливов за период
+        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+            where
+                matrix_of_activity(l, i, k): number > 0
+                Market_participant, Product, Region: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
+
+moving_average = for_each_pair(volumes_by_product_category_district_total, safe_divide, matrix_of_activity)
+    where
+        volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период
+        matrix_of_activity(l, i, k):                         number # Число активных месяцев
+        moving_average(l, i, k):                             number # Скользящее среднее
+        volumes_by_product_category_district_total:     matrix(Market_participant, Product, Region) # Сумма проливов за период
+        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+        safe_divide: operation # Операция деления
+            where
+                Market_participant, Product, Region: axis # Оси расчёта среднего
+                l:  index # Индексы субъекта рынка
+                i:  index # Индексы нефпродукта
+                k:  index # Индексы региона
