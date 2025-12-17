@@ -19,6 +19,12 @@ newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchForm
     CoordinateReg['Almaty'],
     CoordinateReg['Astana'],
     CoordinateReg['Shymkent'],
+    CoordinateReg['«А.»'],
+    CoordinateReg['«Б.»'],
+    CoordinateReg['«В.»'],
+    CoordinateReg['«Г.»'],
+    CoordinateReg['«Д.»'],
+    CoordinateReg['«Е.»'],
 ])
 
 await newEmptyMAtrixOper['#Запустить процесс']();
