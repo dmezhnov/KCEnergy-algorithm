@@ -3,8 +3,15 @@ requests_by_period_first_queue = (
 )
 
 requests_by_queue = (
-
+    100, 150, 40, 60, 300, 200, 250
 )
+    where
+        i:  index  # Индексы нефпродукта
+        j:  index  # Индексы НПЗ
+        k:  index  # Индексы региона
+        l:  index  # Индексы субъекта рынка
+        l0: index  # Индексы очереди
+        L0: index  # Количество очередей
 
 requests_by_market_participant = (
 
