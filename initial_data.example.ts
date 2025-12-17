@@ -1,7 +1,12 @@
 import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Matrix.bun';
 import createMatrix from 'lib/utils/createMatrix.bun';
 
-const requests_by_period: MatrixBoi = new MatrixBoi();
+const requests_by_period: MatrixBoi = createMatrix(
+    'requests_by_period',
+    0,
+    [],
+    
+);
 
 const volumes_by_period: MatrixBoi = new MatrixBoi();
 
