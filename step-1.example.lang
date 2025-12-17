@@ -3,7 +3,7 @@ requests_by_period_first_queue = (
 )
 
 requests_by_queue = (
-    100, 150, 40, 60, 300, 200, 250
+    
 )
     where
         i:  index  # Индексы нефпродукта
