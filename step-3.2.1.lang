@@ -1,3 +1,7 @@
+filter_by_pair:                       matrix_operation.lang
+condition:                            matrix_types.lang
+deficit_requests_first_queue_single:  step-3.2.0.lang
+
 ##### Скорректированный на проливы объем НП
 # Для случая одного дефицитного НПЗ: если объём запроса превышает скользящее
 # среднее продаж в регионе, то допустимый объём снижается до уровня среднего.
