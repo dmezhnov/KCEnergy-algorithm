@@ -25,7 +25,7 @@ requests_by_period_first_queue(i) = (
                 Queue(l0) = First
                     where
                         First: coordinate
-                        Product, Refinery, Region, Market_participant, Queue, Queue: axis # Оси заявок
+                        Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
                         i:  index # Индексы нефпродукта
                         j:  index # Индексы НПЗ
                         k:  index # Индексы региона
@@ -40,7 +40,7 @@ requests_by_period_first_queue = filter_by_coordinate(requests_by_period, First)
         requests_by_period_first_queue: matrix(Product, Refinery, Region, Market_participant)
             where
                 First: coordinate
-                Product, Refinery, Region, Market_participant, Queue, Queue: axis # Оси заявок
+                Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
                 i:  index # Индексы нефпродукта
                 j:  index # Индексы НПЗ
                 k:  index # Индексы региона
