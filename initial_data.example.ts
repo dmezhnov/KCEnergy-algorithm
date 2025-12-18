@@ -55,23 +55,33 @@ newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchForm
     fourth
 ])
 
+const ammounts = [
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            almaty,
+            a,
+            first
+        ],
+        amount: 100
+    }
+]
+
 await newEmptyMAtrixOper['#Запустить процесс']();
 
 const newEmptyMatrix: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
 
-matrixFor(newEmptyMatrix, ({ coordinate_types }) => {
-    const coords = coordinate_types['#значение'];
+matrixFor(newEmptyMatrix, (el: MatrixBoi) => {
+    const coords = el.coordinate_types['#значение'];
 
-    if (
-        coords['содержит ли'](ai_92) &&
-        coords['содержит ли'](pkop) &&
-        coords['содержит ли'](almaty) &&
-        coords['содержит ли'](a) &&
-        coords['содержит ли'](first) &&
-        coords['содержит ли'](fourth)
-    ) {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
-    }
+    ammounts.forEach((ammount) => {
+        const isMatch = ammount.coordinates.every((coord) => coords['содержит ли'](coord));
+
+        if (isMatch) {
+            el.amount['#значение'] = ammount.amount;
+        }
+    })
 })
 
 
@@ -80,5 +90,3 @@ export const requests_by_period: MatrixBoi = newEmptyMatrix;
 export const volumes_by_period: MatrixBoi = createMatrix();
 
 export const available_by_refinery: MatrixBoi = createMatrix();
-
-
