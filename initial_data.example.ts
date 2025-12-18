@@ -20,29 +20,58 @@ const matrixFor = (matrix: MatrixBoi, callback: (el: MatrixBoi) => void) => {
     }
 }
 
+const ai_92 = CoordinateReg['BENZIN_AI_92'];
+const anpz = CoordinateReg['ANPZ'];
+const pkop = CoordinateReg['PKOP'];
+const pnhz = CoordinateReg['PNHZ'];
+const almaty = CoordinateReg['Almaty'];
+const astana = CoordinateReg['Astana'];
+const shymkent = CoordinateReg['Shymkent'];
+const a = CoordinateReg['«А.»'];
+const b = CoordinateReg['«Б.»'];
+const v = CoordinateReg['«В.»'];
+const g = CoordinateReg['«Г.»'];
+const d = CoordinateReg['«Д.»'];
+const e = CoordinateReg['«Е.»'];
+const first = CoordinateReg['First'];
+const fourth = CoordinateReg['Fourth'];
+
 const newEmptyMAtrixOper = new MatrixOperationNewEmptyBoi();
 newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
-    CoordinateReg['BENZIN_AI_92'],
-    CoordinateReg['ANPZ'],
-    CoordinateReg['PKOP'],
-    CoordinateReg['PNHZ'],
-    CoordinateReg['Almaty'],
-    CoordinateReg['Astana'],
-    CoordinateReg['Shymkent'],
-    CoordinateReg['«А.»'],
-    CoordinateReg['«Б.»'],
-    CoordinateReg['«В.»'],
-    CoordinateReg['«Г.»'],
-    CoordinateReg['«Д.»'],
-    CoordinateReg['«Е.»'],
+    ai_92,
+    anpz,
+    pkop,
+    pnhz,
+    almaty,
+    astana,
+    shymkent,
+    a,
+    b,
+    v,
+    g,
+    d,
+    e,
+    first,
+    fourth
 ])
 
 await newEmptyMAtrixOper['#Запустить процесс']();
 
 const newEmptyMatrix: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
 
-matrixFor(newEmptyMatrix, (el) => {
-    
+matrixFor(newEmptyMatrix, ({ coordinate_types }) => {
+    const coords = coordinate_types['#значение'];
+
+    if (
+        coords['содержит ли'](ai_92) &&
+        coords['содержит ли'](pkop) &&
+        coords['содержит ли'](almaty) &&
+        coords['содержит ли'](a) &&
+        coords['содержит ли'](first) &&
+        coords['содержит ли'](fourth)
+    ) {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
+    }
 })
 
 
@@ -52,4 +81,4 @@ export const volumes_by_period: MatrixBoi = createMatrix();
 
 export const available_by_refinery: MatrixBoi = createMatrix();
 
-console.log(requests_by_period.toString());
+
