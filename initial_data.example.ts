@@ -10,6 +10,16 @@ const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => 
     return new ScratchArr(array);
 }
 
+const matrixFor = (matrix: MatrixBoi, callback: (el: MatrixBoi) => void) => {
+    if(matrix.matrix_children['#количество'] > 0) {
+        for (const el of matrix.matrix_children['#значение']){
+            matrixFor(el as MatrixBoi, callback);
+        }
+    } else {
+        callback(matrix);
+    }
+}
+
 const newEmptyMAtrixOper = new MatrixOperationNewEmptyBoi();
 newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
     CoordinateReg['BENZIN_AI_92'],
@@ -29,7 +39,14 @@ newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchForm
 
 await newEmptyMAtrixOper['#Запустить процесс']();
 
-export const requests_by_period: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
+const newEmptyMatrix: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
+
+matrixFor(newEmptyMatrix, (el) => {
+    
+})
+
+
+export const requests_by_period: MatrixBoi = newEmptyMatrix;
 
 export const volumes_by_period: MatrixBoi = createMatrix();
 
