@@ -20,21 +20,20 @@ const matrixFor = (matrix: MatrixBoi, callback: (el: MatrixBoi) => void) => {
     }
 }
 
-const ai_92 = CoordinateReg['BENZIN_AI_92'];
-const anpz = CoordinateReg['ANPZ'];
-const pkop = CoordinateReg['PKOP'];
-const pnhz = CoordinateReg['PNHZ'];
-const almaty = CoordinateReg['Almaty'];
-const astana = CoordinateReg['Astana'];
+const ai_92 =    CoordinateReg['BENZIN_AI_92'];
+const anpz =     CoordinateReg['ANPZ'];
+const pkop =     CoordinateReg['PKOP'];
+const pnhz =     CoordinateReg['PNHZ'];
+const almaty =   CoordinateReg['Almaty'];
+const astana =   CoordinateReg['Astana'];
 const shymkent = CoordinateReg['Shymkent'];
-const a = CoordinateReg['«А.»'];
-const b = CoordinateReg['«Б.»'];
-const v = CoordinateReg['«В.»'];
-const g = CoordinateReg['«Г.»'];
-const d = CoordinateReg['«Д.»'];
-const e = CoordinateReg['«Е.»'];
-const first = CoordinateReg['First'];
-const fourth = CoordinateReg['Fourth'];
+const а =        CoordinateReg['«А.»'];
+const б =        CoordinateReg['«Б.»'];
+const в =        CoordinateReg['«В.»'];
+const г =        CoordinateReg['«Г.»'];
+const д =        CoordinateReg['«Е.»'];
+const first =    CoordinateReg['First'];
+const fourth =   CoordinateReg['Fourth'];
 
 const newEmptyMAtrixOper = new MatrixOperationNewEmptyBoi();
 newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
@@ -45,12 +44,11 @@ newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchForm
     almaty,
     astana,
     shymkent,
-    a,
-    b,
-    v,
-    g,
-    d,
-    e,
+    а,
+    б,
+    в,
+    г,
+    д,
     first,
     fourth
 ])
@@ -61,10 +59,90 @@ const ammounts = [
             ai_92,
             pkop,
             almaty,
-            a,
+            а,
             first
         ],
         amount: 100
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            astana,
+            а,
+            first
+        ],
+        amount: 150
+    },
+    {
+        coordinates: [
+            ai_92,
+            anpz,
+            almaty,
+            а,
+            first
+        ],
+        amount: 40
+    },
+    {
+        coordinates: [
+            ai_92,
+            pnhz,
+            almaty,
+            а,
+            first
+        ],
+        amount: 60
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            shymkent,
+            б,
+            first
+        ],
+        amount: 300
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            astana,
+            б,
+            first
+        ],
+        amount: 200
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            almaty,
+            в,
+            fourth
+        ],
+        amount: 250
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            almaty,
+            в,
+            fourth
+        ],
+        amount: 500
+    },
+    {
+        coordinates: [
+            ai_92,
+            pkop,
+            shymkent,
+            г,
+            first
+        ],
+        amount: 700
     }
 ]
 
