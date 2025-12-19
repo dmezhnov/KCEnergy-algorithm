@@ -299,8 +299,8 @@ const volumes_by_period_amounts = [
     }
 ]
 
-const newEmptyMAtrixOper = new MatrixOperationNewEmptyBoi();
-newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
+const requestsEmptyMatrixOper = new MatrixOperationNewEmptyBoi();
+requestsEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
     ai_92,
     anpz,
     pkop,
@@ -410,11 +410,11 @@ const requests_by_period_ammounts = [
     }
 ]
 
-await newEmptyMAtrixOper['#Запустить процесс']();
+await requestsEmptyMatrixOper['#Запустить процесс']();
 
-const newEmptyMatrix: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
+const requestsEmptyMatrix: MatrixBoi = requestsEmptyMatrixOper.matrix_output_1['#значение'] as MatrixBoi;
 
-matrixFor(newEmptyMatrix, (el: MatrixBoi) => {
+matrixFor(requestsEmptyMatrix, (el: MatrixBoi) => {
     const coords = el.coordinate_types['#значение'];
 
     requests_by_period_ammounts.forEach((ammount) => {
@@ -427,7 +427,7 @@ matrixFor(newEmptyMatrix, (el: MatrixBoi) => {
 })
 
 
-export const requests_by_period: MatrixBoi = newEmptyMatrix;
+export const requests_by_period: MatrixBoi = requestsEmptyMatrix;
 
 const volumesEmptyMatrixOper = new MatrixOperationNewEmptyBoi();
 volumesEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
