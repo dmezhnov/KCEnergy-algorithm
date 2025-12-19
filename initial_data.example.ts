@@ -3,6 +3,7 @@ import { CoordinateReg, CoordinateBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Гру
 import { MatrixOperationNewEmptyBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationNewEmpty.bun';
 import ScratchArr from 'lib/core/default/ScratchArr.bun';
 import asArr from 'lib/core/custom/asArr.bun';
+import { Mouth_and_yearReg } from "lib/domen/kc-e.mybpm.kz/KCE/Группа/Системные справочники/Mouth_and_year.bun";
 
 const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
     //@ts-ignore
@@ -34,18 +35,18 @@ const д = CoordinateReg['«Е.»'];
 const first = CoordinateReg['First'];
 const fourth = CoordinateReg['Fourth'];
 
-const aug_2025 = new CoordinateBoi("aug_2025", "август 2025");
-const jul_2025 = new CoordinateBoi("jul_2025", "июль 2025");
-const jun_2025 = new CoordinateBoi("jun_2025", "июнь 2025");
-const may_2025 = new CoordinateBoi("may_2025", "май 2025");
-const apr_2025 = new CoordinateBoi("apr_2025", "апрель 2025");
-const mar_2025 = new CoordinateBoi("mar_2025", "март 2025");
-const feb_2025 = new CoordinateBoi("feb_2025", "февраль 2025");
-const jan_2025 = new CoordinateBoi("jan_2025", "январь 2025");
-const dec_2024 = new CoordinateBoi("dec_2024", "декабрь 2024");
-const nov_2024 = new CoordinateBoi("nov_2024", "ноябрь 2024");
-const oct_2024 = new CoordinateBoi("oct_2024", "октябрь 2024");
-const sep_2024 = new CoordinateBoi("sep_2024", "сентябрь 2024");
+const aug_2025 = Mouth_and_yearReg['aug_2025'];
+const jul_2025 = Mouth_and_yearReg['jul_2025'];
+const jun_2025 = Mouth_and_yearReg['jun_2025'];
+const may_2025 = Mouth_and_yearReg['may_2025'];
+const apr_2025 = Mouth_and_yearReg['apr_2025'];
+const mar_2025 = Mouth_and_yearReg['mar_2025'];
+const feb_2025 = Mouth_and_yearReg['feb_2025'];
+const jan_2025 = Mouth_and_yearReg['jan_2025'];
+const dec_2024 = Mouth_and_yearReg['dec_2024'];
+const nov_2024 = Mouth_and_yearReg['nov_2024'];
+const oct_2024 = Mouth_and_yearReg['oct_2024'];
+const sep_2024 = Mouth_and_yearReg['sep_2024'];
 
 const volumes_by_period_amounts = [
     // 0001
