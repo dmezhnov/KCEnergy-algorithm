@@ -26,7 +26,7 @@ volumesByProductCategoryOperation.matrix_input_1['#значение'] = volumes_
 volumesByProductCategoryOperation.axis_input_1['#значение'] = arrayToScratchFormat([CoordinateTypeReg['PRODUCT_CATEGORY']]);
 volumesByProductCategoryOperation['#Запустить процесс']();
 
-const volumes_by_product_category: MatrixBoi = volumesByProductCategoryOperation.matrix_output_1['#значение'] as MatrixBoi;
+export const volumes_by_product_category: MatrixBoi = volumesByProductCategoryOperation.matrix_output_1['#значение'] as MatrixBoi;
 
 const volumesByProductCategoryDistrictOperation = new MatrixOperationSumByAxesBoi();
 
@@ -34,4 +34,4 @@ volumesByProductCategoryDistrictOperation.matrix_input_1['#значение'] = 
 volumesByProductCategoryDistrictOperation.axis_input_1['#значение'] = arrayToScratchFormat([CoordinateTypeReg['DISTRICT']]);
 volumesByProductCategoryDistrictOperation['#Запустить процесс']();
 
-const volumes_by_product_category_district: MatrixBoi = volumesByProductCategoryDistrictOperation.matrix_output_1['#значение'] as MatrixBoi;
+export const volumes_by_product_category_district: MatrixBoi = volumesByProductCategoryDistrictOperation.matrix_output_1['#значение'] as MatrixBoi;
