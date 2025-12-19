@@ -1,7 +1,6 @@
 import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Matrix.bun';
 import { CoordinateReg, CoordinateBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
 import { MatrixOperationNewEmptyBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationNewEmpty.bun';
-import createMatrix from 'lib/utils/createMatrix.bun';
 import ScratchArr from 'lib/core/default/ScratchArr.bun';
 import asArr from 'lib/core/custom/asArr.bun';
 
@@ -462,4 +461,4 @@ matrixFor(volumesEmptyMatrix, (el: MatrixBoi) => {
 
 export const volumes_by_period: MatrixBoi = volumesEmptyMatrix;
 
-export const available_by_refinery: MatrixBoi = createMatrix();
+export const available_by_refinery: MatrixBoi = new MatrixBoi();
