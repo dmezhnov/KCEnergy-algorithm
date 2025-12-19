@@ -2,8 +2,8 @@ import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матриц
 import ScratchArr from 'lib/core/default/ScratchArr.bun';
 import asArr from 'lib/core/custom/asArr.bun';
 import { MatrixOperationSumByAxesBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationSumByAxes.bun';
-import { volumes_by_period } from './initial_data.example';
 import { CoordinateTypeReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/CoordinateType.bun.ts';
+import { volumes_by_period } from './initial_data.example';
 
 const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
     //@ts-ignore
