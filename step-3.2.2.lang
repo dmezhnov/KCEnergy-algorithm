@@ -1,13 +1,14 @@
-number:       core
-sum_by_axes:  matrix_operation.lang
+number:                                core
+sum_by_axes:                           matrix_operation.lang
+deficit_requests_first_queue_multiple: step-3.2.0.lang
 
 # Выпадающий объем НП
-requests_by_gas_station_owner = sum_by_axes(before, Refinery)
+requests_by_gas_station_owner = sum_by_axes(deficit_requests_first_queue_multiple, Refinery)
     where
-        before(i, k, l, j):                     number
-        requests_by_gas_station_owner(i, k, l): number
-        before:                        matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner: matrix(Product, Region, Market_participant)
+        deficit_requests_first_queue_multiple(i, k, l, j): number
+        requests_by_gas_station_owner(i, k, l):            number
+        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
+        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
