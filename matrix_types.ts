@@ -49,12 +49,12 @@ export type Coordinate = {
     pkop: coordinate<Refinery>,
     pnhz: coordinate<Refinery>,
 
-    almaty: coordinate<Region>,
-    almaty0: coordinate<District>,
-    astana: coordinate<Region>,
-    astana0: coordinate<District>,
-    shymkent: coordinate<Region>,
-    shymkent0: coordinate<District>,
+    Almaty: coordinate<Region>,
+    Almaty0: coordinate<District>,
+    Astana: coordinate<Region>,
+    Astana0: coordinate<District>,
+    Shymkent: coordinate<Region>,
+    Shymkent0: coordinate<District>,
 
     а: coordinate<Market_participant>,
     б: coordinate<Market_participant>,
@@ -62,8 +62,8 @@ export type Coordinate = {
     г: coordinate<Market_participant>,
     д: coordinate<Market_participant>,
 
-    first: coordinate<Queue>,
-    fourth: coordinate<Queue>,
+    First: coordinate<Queue>,
+    Fourth: coordinate<Queue>,
 
     aug_2025: coordinate<Month_and_year>,
     jul_2025: coordinate<Month_and_year>,
@@ -87,12 +87,12 @@ export const Coordinate: Coordinate = {
     pkop: CoordinateReg['PKOP'],
     pnhz: CoordinateReg['PNHZ'],
 
-    almaty: CoordinateReg['Almaty'],
-    almaty0: CoordinateReg['Almaty0'],
-    astana: CoordinateReg['Astana'],
-    astana0: CoordinateReg['Astana0'],
-    shymkent: CoordinateReg['Shymkent'],
-    shymkent0: CoordinateReg['Shymkent0'],
+    Almaty: CoordinateReg['Almaty'],
+    Almaty0: CoordinateReg['Almaty0'],
+    Astana: CoordinateReg['Astana'],
+    Astana0: CoordinateReg['Astana0'],
+    Shymkent: CoordinateReg['Shymkent'],
+    Shymkent0: CoordinateReg['Shymkent0'],
 
     а: CoordinateReg['«А.»'],
     б: CoordinateReg['«Б.»'],
@@ -100,8 +100,8 @@ export const Coordinate: Coordinate = {
     г: CoordinateReg['«Г.»'],
     д: CoordinateReg['«Е.»'],
 
-    first: CoordinateReg['First'],
-    fourth: CoordinateReg['Fourth'],
+    First: CoordinateReg['First'],
+    Fourth: CoordinateReg['Fourth'],
 
     aug_2025: CoordinateReg['aug_2025'],
     jul_2025: CoordinateReg['jul_2025'],

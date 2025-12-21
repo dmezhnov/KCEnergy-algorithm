@@ -1,8 +1,10 @@
 import { filter_by_coordinate, sum_by_axes } from './matrix_operation';
-import { axis, matrix } from './matrix_types';
+import { Coordinate, matrix } from './matrix_types';
 import { requests_by_period } from './initial_data.example'
 
-export const requests_by_period_first_queue: matrix = matrix();
+const { First } = Coordinate;
+
+export const requests_by_period_first_queue: matrix = filter_by_coordinate(requests_by_period, First);
 
 export const requests_by_queue: matrix = matrix();
 
