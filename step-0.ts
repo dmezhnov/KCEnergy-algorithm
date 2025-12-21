@@ -1,7 +1,7 @@
 import { volumes_by_period } from './initial_data.example';
 
-import { sum_by_axes } from './lib/operations';
-import { axis, matrix } from './lib/matrix_types';
+import { sum_by_axes } from './matrix_operation';
+import { axis, matrix } from './matrix_types';
 const { District, Product_category } = axis;
 
 export const volumes_by_product_category: matrix = sum_by_axes(volumes_by_period, Product_category);
