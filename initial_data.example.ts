@@ -3,9 +3,9 @@ const {
     ai_92,
     ai_920,
 
-    anpz,
-    pkop,
-    pnhz,
+    ANPZ,
+    PKOP,
+    PNHZ,
 
     Almaty,
     Almaty0,
@@ -297,7 +297,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Almaty,
             а,
             First
@@ -307,7 +307,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Astana,
             а,
             First
@@ -317,7 +317,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            anpz,
+            ANPZ,
             Almaty,
             а,
             First
@@ -327,7 +327,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pnhz,
+            PNHZ,
             Almaty,
             а,
             First
@@ -337,7 +337,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Shymkent,
             б,
             First
@@ -347,7 +347,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Astana,
             б,
             First
@@ -357,7 +357,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Almaty,
             в,
             Fourth
@@ -367,7 +367,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Almaty,
             в,
             Fourth
@@ -377,7 +377,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
+            PKOP,
             Shymkent,
             г,
             First
@@ -388,9 +388,9 @@ const requests_by_period_ammounts: MatrixAmounts = [
 
 const requestsEmptyMatrix: matrix = matrix(
     ai_92,
-    anpz,
-    pkop,
-    pnhz,
+    ANPZ,
+    PKOP,
+    PNHZ,
     Almaty,
     Astana,
     Shymkent,
