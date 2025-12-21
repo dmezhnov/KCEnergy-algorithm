@@ -5,6 +5,11 @@ import ScratchArr from 'lib/core/default/ScratchArr.bun';
 import asArr from 'lib/core/custom/asArr.bun';
 import { CoordinateBo, CoordinateBoi } from 'this/lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
 
+import create_empty_matrix_init from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_init.bun";
+import create_empty_matrix_group from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_group.bun";
+import create_empty_matrix_all_el from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_all_el.bun";
+import create_empty_matrix_all_struct from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_all_struct.bun";
+
 const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
     //@ts-ignore
     return new ScratchArr(array);
@@ -15,13 +20,6 @@ export const axis = {
     District: CoordinateTypeReg['District'],
     Product_category: CoordinateTypeReg['Product_category'],
 }
-
-
-// Tasks
-import create_empty_matrix_init from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_init.bun";
-import create_empty_matrix_group from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_group.bun";
-import create_empty_matrix_all_el from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_all_el.bun";
-import create_empty_matrix_all_struct from "lib/domen/kc-e.mybpm.kz/KCE/Tasks/create_empty_matrix_all_struct.bun";
 
 export type matrix = MatrixBoi;
 export const matrix: matrix = ((axes: axis[]): matrix => {
