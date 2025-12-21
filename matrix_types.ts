@@ -2,6 +2,7 @@ import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матриц
 import { CoordinateTypeReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/CoordinateType.bun.ts';
 import { new_empty } from './matrix_operation';
 import { CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
+import ValueOf from 'lib/utils/ValueOf';
 
 type Region = typeof Region;
 const Region = CoordinateTypeReg['Region'];
@@ -20,17 +21,8 @@ const Month_and_year = CoordinateTypeReg['Month_and_year'];
 type Queue = typeof Queue;
 const Queue = CoordinateTypeReg['Queue'];
 
-export type axis = keyof typeof axis;
-export const axis = {
-    Region,
-    District,
-    Product,
-    Product_category,
-    Refinery,
-    Market_participant,
-    Month_and_year,
-    Queue
-}
+export type axis = ValueOf<Axis>;
+export const axis: axis = {} as axis;
 
 export type Axis = {
     Region: Region,
