@@ -40,7 +40,7 @@ export const new_empty = <
 export const sum_by_axes = <
     TAxesBefore extends axis[] = axis[],
     TAxesExclude extends axis[] = axis[],
-    TAxesAfter extends axis[] = axis[]
+    TAxesAfter extends axis[] = Exclude<TAxesBefore[number], TAxesExclude[number]>[]
 >(matrix_input: matrix<TAxesBefore>, ...axis_input: TAxesExclude): matrix<TAxesAfter> => {
     const operation = new MatrixOperationSumByAxesBoi();
 
