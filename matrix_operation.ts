@@ -42,14 +42,14 @@ export const new_empty = <
 }
 
 export const sum_by_axes = <
-    TAxesBefore extends axis[] = axis[],
-    TAxesExclude extends axis[] = axis[],
-    TAxesAfter extends axis[] = Exclude<TAxesBefore[number], TAxesExclude[number]>[]
->(matrix_input: matrix<TAxesBefore>, ...axis_input: TAxesExclude): matrix<TAxesAfter> => {
+    Taxes extends axis[] = axis[],
+    TaxesSum extends axis[] = axis[],
+    TAxesAfter extends axis[] = Exclude<Taxes[number], TaxesSum[number]>[]
+    >(matrix_input: matrix<Taxes>, ...axis_input: TaxesSum): matrix<TAxesAfter> => {
     const operation = new MatrixOperationSumByAxesBoi();
 
     operation.matrix_input_1['#значение'] = matrix_input;
-    operation.axis_input_1['#значение'] = arrayToScratchFormat(axis_input) as unknown as ScratchArr<TAxesExclude & CoordinateTypeBoi>;
+    operation.axis_input_1['#значение'] = arrayToScratchFormat(axis_input) as unknown as ScratchArr<TaxesSum & CoordinateTypeBoi>;
 
     matrix_sum_by_axes_collect_traverse.call(operation);
     matrix_sum_by_axes_create_structure_1.call(operation);

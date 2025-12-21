@@ -1,8 +1,26 @@
 number:                                core
-sum_by_axes:                           matrix_operation.lang
+operation:                             matrix_types.lang
+sum_by_axes, for_each_pair:            matrix_operation.lang
 deficit_requests_first_queue_multiple: step-3.2.0.lang
 
-# Выпадающий объем НП
+requests_by_gas_station_owner(i) = (
+    (i, k) = (
+        (i, k, l) = deficit_requests_first_queue_multiple(i, k, l, 1) + ... + deficit_requests_first_queue_multiple(i, k, l, J)
+    )
+)
+    where
+        deficit_requests_first_queue_multiple(i, k, l, j): number
+        requests_by_gas_station_owner(i, k, l):            number
+        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
+        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
+            where
+                Product, Region, Market_participant, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+
+
 requests_by_gas_station_owner = sum_by_axes(deficit_requests_first_queue_multiple, Refinery)
     where
         deficit_requests_first_queue_multiple(i, k, l, j): number
@@ -10,6 +28,44 @@ requests_by_gas_station_owner = sum_by_axes(deficit_requests_first_queue_multipl
         deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
         requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
             where
+                Product, Region, Market_participant, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+
+requests_by_gas_station_owner_share(i) = (
+    (i, k) = (
+        (i, k, l) = (
+            (i, k, l , j) = deficit_requests_first_queue_multiple(i, k, l, j) / requests_by_gas_station_owner(i, k, l)
+        )
+    )
+)
+    where
+        requests_by_gas_station_owner_share(i, k, l, j):   number
+        deficit_requests_first_queue_multiple(i, k, l, j): number
+        requests_by_gas_station_owner(i, k, l):            number
+        requests_by_gas_station_owner_share:   matrix(Product, Region, Market_participant, Refinery)
+        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
+        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
+            where
+                /: operation
+                Product, Region, Market_participant, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+
+requests_by_gas_station_owner_share = for_each_pair(deficit_requests_first_queue_multiple, divide, requests_by_gas_station_owner)
+    where
+        requests_by_gas_station_owner_share(i, k, l, j):   number
+        deficit_requests_first_queue_multiple(i, k, l, j): number
+        requests_by_gas_station_owner(i, k, l):            number
+        requests_by_gas_station_owner_share:   matrix(Product, Region, Market_participant, Refinery)
+        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
+        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
+            where
+                divide: operation
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
