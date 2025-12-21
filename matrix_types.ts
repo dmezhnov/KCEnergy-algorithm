@@ -32,6 +32,28 @@ export const axis = {
     Queue
 }
 
+export type Axis = {
+    Region: Region,
+    District: District,
+    Product: Product,
+    Product_category: Product_category,
+    Refinery: Refinery,
+    Market_participant: Market_participant,
+    Month_and_year: Month_and_year,
+    Queue: Queue
+}
+
+export const Axis: Axis = {
+    Region,
+    District,
+    Product,
+    Product_category,
+    Refinery,
+    Market_participant,
+    Month_and_year,
+    Queue
+}
+
 export type index<TAxis extends axis> = number & { __axis: TAxis };
 
 export type coordinate<TAxis extends axis = axis> = {
@@ -45,9 +67,9 @@ export type Coordinate = {
     ai_92: coordinate<Product>,
     ai_920: coordinate<Product_category>,
 
-    anpz: coordinate<Refinery>,
-    pkop: coordinate<Refinery>,
-    pnhz: coordinate<Refinery>,
+    ANPZ: coordinate<Refinery>,
+    PKOP: coordinate<Refinery>,
+    PNHZ: coordinate<Refinery>,
 
     Almaty: coordinate<Region>,
     Almaty0: coordinate<District>,
@@ -83,9 +105,9 @@ export const Coordinate: Coordinate = {
     ai_92: CoordinateReg['BENZIN_AI_92'],
     ai_920: CoordinateReg['BENZIN_AI_92_0'],
 
-    anpz: CoordinateReg['ANPZ'],
-    pkop: CoordinateReg['PKOP'],
-    pnhz: CoordinateReg['PNHZ'],
+    ANPZ: CoordinateReg['ANPZ'],
+    PKOP: CoordinateReg['PKOP'],
+    PNHZ: CoordinateReg['PNHZ'],
 
     Almaty: CoordinateReg['Almaty'],
     Almaty0: CoordinateReg['Almaty0'],
@@ -139,4 +161,4 @@ export const matrix = (
 
 
 
-export default { axis, matrix, coordinate, Coordinate };
+export default { axis, Axis, matrix, coordinate, Coordinate };
