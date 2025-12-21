@@ -1,15 +1,6 @@
-import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Matrix.bun';
 import { CoordinateBoi, CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
-import { MatrixOperationNewEmptyBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationNewEmpty.bun';
-import ScratchArr from 'lib/core/default/ScratchArr.bun';
-import asArr from 'lib/core/custom/asArr.bun';
 import { Mouth_and_yearReg } from "lib/domen/kc-e.mybpm.kz/KCE/Группа/Системные справочники/Mouth_and_year.bun";
 import { matrix, axis } from './matrix_types'
-
-const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
-    //@ts-ignore
-    return new ScratchArr(array);
-}
 
 const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     if (matrix.matrix_children['#количество'] > 0) {
