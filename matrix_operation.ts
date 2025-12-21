@@ -15,6 +15,10 @@ const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => 
     return new ScratchArr(array);
 }
 
+export const new_empty = () => {
+
+}
+
 export const sum_by_axes = (matrix_input: matrix, ...axis_input: axis[]): matrix => {
     const operation = new MatrixOperationSumByAxesBoi();
 
@@ -32,5 +36,6 @@ export const sum_by_axes = (matrix_input: matrix, ...axis_input: axis[]): matrix
 }
 
 export default {
-    sum_by_axes
+    sum_by_axes,
+    new_empty
 }
