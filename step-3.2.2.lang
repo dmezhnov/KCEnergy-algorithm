@@ -2,10 +2,12 @@ number:       core
 sum_by_axes:  matrix_operation.lang
 
 # Выпадающий объем НП
-requests_by_gas_station_owner = sum_by_axes()
+requests_by_gas_station_owner = sum_by_axes(before, Refinery)
     where
-        requests_by_gas_station_owner(i, k, l, j): number
-        requests_by_gas_station_owner: matrix(Product, Region, Market_participant, Refinery)
+        before(i, k, l, j):                     number
+        requests_by_gas_station_owner(i, k, l): number
+        before:                        matrix(Product, Region, Market_participant, Refinery)
+        requests_by_gas_station_owner: matrix(Product, Region, Market_participant)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
