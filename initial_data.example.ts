@@ -1,19 +1,20 @@
 import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Matrix.bun';
-import { CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
+import { CoordinateBoi, CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
 import { MatrixOperationNewEmptyBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationNewEmpty.bun';
 import ScratchArr from 'lib/core/default/ScratchArr.bun';
 import asArr from 'lib/core/custom/asArr.bun';
 import { Mouth_and_yearReg } from "lib/domen/kc-e.mybpm.kz/KCE/Группа/Системные справочники/Mouth_and_year.bun";
+import { matrix, axis } from './lib/matrix_types'
 
 const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
     //@ts-ignore
     return new ScratchArr(array);
 }
 
-const matrixFor = (matrix: MatrixBoi, callback: (el: MatrixBoi) => void) => {
+const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     if (matrix.matrix_children['#количество'] > 0) {
         for (const el of matrix.matrix_children['#значение']) {
-            matrixFor(el as MatrixBoi, callback);
+            matrixFor(el as matrix, callback);
         }
     } else {
         callback(matrix);
@@ -56,7 +57,10 @@ const nov_2024 = Mouth_and_yearReg['nov_2024'];
 const oct_2024 = Mouth_and_yearReg['oct_2024'];
 const sep_2024 = Mouth_and_yearReg['sep_2024'];
 
-const volumes_by_period_amounts = [
+type MatrixAmount = { coordinates: CoordinateBoi[], amount: number };
+type MatrixAmounts = MatrixAmount[];
+
+const volumes_by_period_amounts: MatrixAmounts = [
     // 0001
     {
         coordinates: [ai_92, astana,а, aug_2025],
@@ -299,25 +303,7 @@ const volumes_by_period_amounts = [
     }
 ]
 
-const requestsEmptyMatrixOper = new MatrixOperationNewEmptyBoi();
-requestsEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
-    ai_92,
-    anpz,
-    pkop,
-    pnhz,
-    almaty,
-    astana,
-    shymkent,
-    а,
-    б,
-    в,
-    г,
-    д,
-    first,
-    fourth
-])
-
-const requests_by_period_ammounts = [
+const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
@@ -410,11 +396,24 @@ const requests_by_period_ammounts = [
     }
 ]
 
-await requestsEmptyMatrixOper['#Запустить процесс']();
+const requestsEmptyMatrix: matrix = matrix(
+    ai_92,
+    anpz,
+    pkop,
+    pnhz,
+    almaty,
+    astana,
+    shymkent,
+    а,
+    б,
+    в,
+    г,
+    д,
+    first,
+    fourth
+);
 
-const requestsEmptyMatrix: MatrixBoi = requestsEmptyMatrixOper.matrix_output_1['#значение'] as MatrixBoi;
-
-matrixFor(requestsEmptyMatrix, (el: MatrixBoi) => {
+matrixFor(requestsEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
     requests_by_period_ammounts.forEach((ammount) => {
@@ -427,10 +426,9 @@ matrixFor(requestsEmptyMatrix, (el: MatrixBoi) => {
 })
 
 
-export const requests_by_period: MatrixBoi = requestsEmptyMatrix;
+export const requests_by_period: matrix = requestsEmptyMatrix;
 
-const volumesEmptyMatrixOper = new MatrixOperationNewEmptyBoi();
-volumesEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
+const volumesEmptyMatrix: matrix = matrix(
     ai_92,
     ai_920,
     astana,
@@ -454,13 +452,9 @@ volumesEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratch
     nov_2024,
     oct_2024,
     sep_2024
-]);
+);
 
-await volumesEmptyMatrixOper['#Запустить процесс']();
-
-const volumesEmptyMatrix: MatrixBoi = volumesEmptyMatrixOper.matrix_output_1['#значение'] as MatrixBoi;
-
-matrixFor(volumesEmptyMatrix, (el: MatrixBoi) => {
+matrixFor(volumesEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
     volumes_by_period_amounts.forEach((ammount) => {
@@ -472,6 +466,6 @@ matrixFor(volumesEmptyMatrix, (el: MatrixBoi) => {
     })
 })
 
-export const volumes_by_period: MatrixBoi = volumesEmptyMatrix;
+export const volumes_by_period: matrix = volumesEmptyMatrix;
 
-export const available_by_refinery: MatrixBoi = new MatrixBoi();
+export const available_by_refinery: matrix = matrix();

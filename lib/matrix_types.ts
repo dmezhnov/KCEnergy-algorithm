@@ -21,19 +21,24 @@ export const axis = {
     Product_category: CoordinateTypeReg['Product_category'],
 }
 
-export type matrix = MatrixBoi;
-export const matrix: matrix = ((axes: axis[]): matrix => {
-    const oper = new MatrixOperationNewEmptyBoi()
-    oper.coordinates_input_1['#значение'] = arrayToScratchFormat(axes) as unknown as ScratchArr<CoordinateBoi<CoordinateBo>>
+export interface matrix extends MatrixBoi {
+    (... axes: axis[]): matrix
+}
 
-    // Execute tasks synchronously
-    // Note: These functions are defined as async but perform no actual async operations
-    create_empty_matrix_init.call(oper);
-    create_empty_matrix_group.call(oper);
-    create_empty_matrix_all_el.call(oper);
-    create_empty_matrix_all_struct.call(oper);
+export const matrix: matrix = (
+    (... axes: axis[]): matrix => {
+        const oper = new MatrixOperationNewEmptyBoi()
+        oper.coordinates_input_1['#значение'] = arrayToScratchFormat(axes) as unknown as ScratchArr<CoordinateBoi<CoordinateBo>>
 
-    return oper.matrix_output_1['#значение'] as unknown as matrix
-}) as unknown as matrix
+        // Execute tasks synchronously
+        // Note: These functions are defined as async but perform no actual async operations
+        create_empty_matrix_init.call(oper);
+        create_empty_matrix_group.call(oper);
+        create_empty_matrix_all_el.call(oper);
+        create_empty_matrix_all_struct.call(oper);
+
+        return oper.matrix_output_1['#значение'] as unknown as matrix
+    }
+) as unknown as matrix
 
 export default { axis, matrix };
