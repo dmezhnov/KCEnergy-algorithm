@@ -1,6 +1,41 @@
-import { CoordinateBoi, CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
-import { Mouth_and_yearReg } from "lib/domen/kc-e.mybpm.kz/KCE/Группа/Системные справочники/Mouth_and_year.bun";
-import { matrix, axis } from './matrix_types'
+import { matrix, Coordinate, coordinate } from './matrix_types'
+const {
+    ai_92,
+    ai_920,
+
+    anpz,
+    pkop,
+    pnhz,
+
+    almaty,
+    almaty0,
+    astana,
+    astana0,
+    shymkent,
+    shymkent0,
+
+    а,
+    б,
+    в,
+    г,
+    д,
+
+    first,
+    fourth,
+
+    aug_2025,
+    jul_2025,
+    jun_2025,
+    may_2025,
+    apr_2025,
+    mar_2025,
+    feb_2025,
+    jan_2025,
+    dec_2024,
+    nov_2024,
+    oct_2024,
+    sep_2024,
+} = Coordinate;
 
 const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     if (matrix.matrix_children['#количество'] > 0) {
@@ -12,43 +47,7 @@ const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     }
 }
 
-const ai_92 = CoordinateReg['BENZIN_AI_92'];
-const ai_920 = CoordinateReg['BENZIN_AI_92_0'];
-
-const anpz = CoordinateReg['ANPZ'];
-const pkop = CoordinateReg['PKOP'];
-const pnhz = CoordinateReg['PNHZ'];
-
-const almaty = CoordinateReg['Almaty'];
-const almaty0 = CoordinateReg['Almaty0'];
-const astana = CoordinateReg['Astana'];
-const astana0 = CoordinateReg['Astana0'];
-const shymkent = CoordinateReg['Shymkent'];
-const shymkent0 = CoordinateReg['Shymkent0'];
-
-const а = CoordinateReg['«А.»'];
-const б = CoordinateReg['«Б.»'];
-const в = CoordinateReg['«В.»'];
-const г = CoordinateReg['«Г.»'];
-const д = CoordinateReg['«Е.»'];
-
-const first = CoordinateReg['First'];
-const fourth = CoordinateReg['Fourth'];
-
-const aug_2025 = Mouth_and_yearReg['aug_2025'];
-const jul_2025 = Mouth_and_yearReg['jul_2025'];
-const jun_2025 = Mouth_and_yearReg['jun_2025'];
-const may_2025 = Mouth_and_yearReg['may_2025'];
-const apr_2025 = Mouth_and_yearReg['apr_2025'];
-const mar_2025 = Mouth_and_yearReg['mar_2025'];
-const feb_2025 = Mouth_and_yearReg['feb_2025'];
-const jan_2025 = Mouth_and_yearReg['jan_2025'];
-const dec_2024 = Mouth_and_yearReg['dec_2024'];
-const nov_2024 = Mouth_and_yearReg['nov_2024'];
-const oct_2024 = Mouth_and_yearReg['oct_2024'];
-const sep_2024 = Mouth_and_yearReg['sep_2024'];
-
-type MatrixAmount = { coordinates: CoordinateBoi[], amount: number };
+type MatrixAmount = { coordinates: coordinate[], amount: number };
 type MatrixAmounts = MatrixAmount[];
 
 const volumes_by_period_amounts: MatrixAmounts = [
