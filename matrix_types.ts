@@ -21,18 +21,18 @@ const Month_and_year = CoordinateTypeReg['Month_and_year'];
 type Queue = typeof Queue;
 const Queue = CoordinateTypeReg['Queue'];
 
-export type axis = ValueOf<Axis>;
+export type  axis = ValueOf<Axis>;
 export const axis: axis = {} as axis;
 
 export type Axis = {
-    Region: Region,
-    District: District,
-    Product: Product,
-    Product_category: Product_category,
-    Refinery: Refinery,
+    Region:             Region,
+    District:           District,
+    Product:            Product,
+    Product_category:   Product_category,
+    Refinery:           Refinery,
     Market_participant: Market_participant,
-    Month_and_year: Month_and_year,
-    Queue: Queue
+    Month_and_year:     Month_and_year,
+    Queue:              Queue
 }
 
 export const Axis: Axis = {
@@ -49,25 +49,25 @@ export const Axis: Axis = {
 export type index<TAxis extends axis> = number & { __axis: TAxis };
 
 export type coordinate<TAxis extends axis = axis> = {
-    axis: TAxis,
+    axis:  TAxis,
     index: index<TAxis>
 }
 
 export const coordinate: coordinate<axis> = {} as coordinate<axis>;
 
 export type Coordinate = {
-    ai_92: coordinate<Product>,
+    ai_92:  coordinate<Product>,
     ai_920: coordinate<Product_category>,
 
-    ANPZ: coordinate<Refinery>,
-    PKOP: coordinate<Refinery>,
-    PNHZ: coordinate<Refinery>,
+    ANPZ:   coordinate<Refinery>,
+    PKOP:   coordinate<Refinery>,
+    PNHZ:   coordinate<Refinery>,
 
-    Almaty: coordinate<Region>,
-    Almaty0: coordinate<District>,
-    Astana: coordinate<Region>,
-    Astana0: coordinate<District>,
-    Shymkent: coordinate<Region>,
+    Almaty:    coordinate<Region>,
+    Almaty0:   coordinate<District>,
+    Astana:    coordinate<Region>,
+    Astana0:   coordinate<District>,
+    Shymkent:  coordinate<Region>,
     Shymkent0: coordinate<District>,
 
     а: coordinate<Market_participant>,
@@ -76,7 +76,7 @@ export type Coordinate = {
     г: coordinate<Market_participant>,
     д: coordinate<Market_participant>,
 
-    First: coordinate<Queue>,
+    First:  coordinate<Queue>,
     Fourth: coordinate<Queue>,
 
     aug_2025: coordinate<Month_and_year>,
@@ -94,18 +94,18 @@ export type Coordinate = {
 }
 
 export const Coordinate: Coordinate = {
-    ai_92: CoordinateReg['BENZIN_AI_92'],
+    ai_92:  CoordinateReg['BENZIN_AI_92'],
     ai_920: CoordinateReg['BENZIN_AI_92_0'],
 
     ANPZ: CoordinateReg['ANPZ'],
     PKOP: CoordinateReg['PKOP'],
     PNHZ: CoordinateReg['PNHZ'],
 
-    Almaty: CoordinateReg['Almaty'],
-    Almaty0: CoordinateReg['Almaty0'],
-    Astana: CoordinateReg['Astana'],
-    Astana0: CoordinateReg['Astana0'],
-    Shymkent: CoordinateReg['Shymkent'],
+    Almaty:    CoordinateReg['Almaty'],
+    Almaty0:   CoordinateReg['Almaty0'],
+    Astana:    CoordinateReg['Astana'],
+    Astana0:   CoordinateReg['Astana0'],
+    Shymkent:  CoordinateReg['Shymkent'],
     Shymkent0: CoordinateReg['Shymkent0'],
 
     а: CoordinateReg['«А.»'],
@@ -114,7 +114,7 @@ export const Coordinate: Coordinate = {
     г: CoordinateReg['«Г.»'],
     д: CoordinateReg['«Е.»'],
 
-    First: CoordinateReg['First'],
+    First:  CoordinateReg['First'],
     Fourth: CoordinateReg['Fourth'],
 
     aug_2025: CoordinateReg['aug_2025'],
@@ -132,11 +132,11 @@ export const Coordinate: Coordinate = {
 }
 
 export interface matrix<
-    TAxes extends axis[] = axis[],
-    TAxis extends axis = TAxes[number],
-    TCoords extends coordinate<TAxis>[] = coordinate<TAxis>[],
+    TAxes       extends axis[]              = axis[],
+    TAxis       extends axis                = TAxes[number],
+    TCoords     extends coordinate<TAxis>[] = coordinate<TAxis>[],
     TCoordsNext extends coordinate<TAxis>[] = Exclude<TCoords[number], TCoords[number]>[],
-    TAllCoords extends coordinate<TAxis>[] = TCoords | TCoordsNext
+    TAllCoords  extends coordinate<TAxis>[] = TCoords | TCoordsNext
 > extends MatrixBoi {
     (...coords: coordinate<TAxis>[]): matrix<TAxes>;
     coords: TCoords;
@@ -145,7 +145,7 @@ export interface matrix<
 export const matrix = (
     <
         TAxes extends axis[] = axis[],
-        TAxis extends axis = TAxes[number]
+        TAxis extends axis   = TAxes[number]
     >(...coords: coordinate<TAxis>[]): matrix<TAxes> => {
         return new_empty(...coords)
     }

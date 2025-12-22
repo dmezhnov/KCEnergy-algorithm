@@ -37,6 +37,9 @@ const {
     sep_2024,
 } = Coordinate;
 
+type MatrixAmount = { coordinates: coordinate[], amount: number };
+type MatrixAmounts = MatrixAmount[];
+
 const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     if (matrix.matrix_children['#количество'] > 0) {
         for (const el of matrix.matrix_children['#значение']) {
@@ -46,9 +49,6 @@ const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
         callback(matrix);
     }
 }
-
-type MatrixAmount = { coordinates: coordinate[], amount: number };
-type MatrixAmounts = MatrixAmount[];
 
 const volumes_by_period_amounts: MatrixAmounts = [
     // 0001
@@ -417,6 +417,8 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 
 
 export const requests_by_period: matrix = requestsEmptyMatrix;
+
+// console.log(requests_by_period.toString());
 
 const volumesEmptyMatrix: matrix = matrix(
     ai_92,
