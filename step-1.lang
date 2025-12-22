@@ -1,7 +1,7 @@
-number:              core
-axis, index:         matrix_types.lang
-sum_by_axes:         operations.lang
-requests_by_period:  initial_data.lang
+number:                            core
+axis, index:                       matrix_types.lang
+sum_by_axes, filter_by_coordinate: operations.lang
+requests_by_period:                initial_data.lang
 
 ### Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
 # Отбираем Запросы на покупку НП на рассматриваемый период по виду НП,
@@ -18,14 +18,14 @@ requests_by_period_first_queue(i) = (
 )
     where
         requests_by_period(i, j, k, l, l0):             number # Запрашиваемый объем НП
-        requests_by_period_first_queue(i, j, k, l, l0): number
+        requests_by_period_first_queue(i, j, k, l):     number
         requests_by_period:             matrix(Product, Refinery, Region, Market_participant, Queue)
         requests_by_period_first_queue: matrix(Product, Refinery, Region, Market_participant)
             where
                 Queue(l0) = First
                     where
                         First: coordinate
-                        Product, Refinery, Region, Market_participant, Queue, Queue: axis # Оси заявок
+                        Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
                         i:  index # Индексы нефпродукта
                         j:  index # Индексы НПЗ
                         k:  index # Индексы региона
@@ -35,12 +35,12 @@ requests_by_period_first_queue(i) = (
 requests_by_period_first_queue = filter_by_coordinate(requests_by_period, First)
     where
         requests_by_period(i, j, k, l, l0):             number # Запрашиваемый объем НП
-        requests_by_period_first_queue(i, j, k, l, l0): number
+        requests_by_period_first_queue(i, j, k, l):     number
         requests_by_period:             matrix(Product, Refinery, Region, Market_participant, Queue)
         requests_by_period_first_queue: matrix(Product, Refinery, Region, Market_participant)
             where
                 First: coordinate
-                Product, Refinery, Region, Market_participant, Queue, Queue: axis # Оси заявок
+                Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
                 i:  index # Индексы нефпродукта
                 j:  index # Индексы НПЗ
                 k:  index # Индексы региона

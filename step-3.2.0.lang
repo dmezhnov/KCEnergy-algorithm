@@ -172,8 +172,7 @@ deficit_requests_first_queue_single = filter_by_pair(requests_by_period_first_qu
 deficit_requests_first_queue_multiple(i) = (
     (i, j) = (
         (i, j, k) = (
-            (i, j, k, l) =
-                (i, j, k, l) = requests_by_period_first_queue(i, j, k, l)
+            (i, j, k, l) = requests_by_period_first_queue(i, j, k, l)
         )
     )
 )
