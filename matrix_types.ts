@@ -19,21 +19,28 @@ export const matrixIdent: matrixIdent = [
 // Expose to global scope for MatrixPrinter
 globalThis.matrixIdent = matrixIdent;
 
-type Region = typeof Region;
+type  Region = typeof Region;
 const Region = CoordinateTypeReg['Region'];
-type District = typeof District;
+
+type  District = typeof District;
 const District = CoordinateTypeReg['District'];
-type Product_category = typeof Product_category;
+
+type  Product_category = typeof Product_category;
 const Product_category = CoordinateTypeReg['Product_category'];
-type Product = typeof Product;
+
+type  Product = typeof Product;
 const Product = CoordinateTypeReg['Product'];
-type Refinery = typeof Refinery;
+
+type  Refinery = typeof Refinery;
 const Refinery = CoordinateTypeReg['Refinery'];
-type Market_participant = typeof Market_participant;
+
+type  Market_participant = typeof Market_participant;
 const Market_participant = CoordinateTypeReg['Market_participant'];
-type Month_and_year = typeof Month_and_year;
+
+type  Month_and_year = typeof Month_and_year;
 const Month_and_year = CoordinateTypeReg['Month_and_year'];
-type Queue = typeof Queue;
+
+type  Queue = typeof Queue;
 const Queue = CoordinateTypeReg['Queue'];
 
 export type  axis = ValueOf<Axis>;
