@@ -415,9 +415,8 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
     })
 })
 
-
+requestsEmptyMatrix.matrix_title['#значение'] = 'requests_by_period';
 export const requests_by_period: matrix = requestsEmptyMatrix;
-requests_by_period.matrix_title['#значение'] = 'requests_by_period';
 
 requests_by_period.print();
 
@@ -459,6 +458,10 @@ matrixFor(volumesEmptyMatrix, (el: matrix) => {
     })
 })
 
+volumesEmptyMatrix.matrix_title['#значение'] = 'volumes_by_period';
 export const volumes_by_period: matrix = volumesEmptyMatrix;
 
+volumes_by_period.print();
+
 export const available_by_refinery: matrix = matrix();
+available_by_refinery.matrix_title['#значение'] = 'available_by_refinery';
