@@ -1,412 +1,409 @@
-import { MatrixBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Matrix.bun';
-import { CoordinateReg, CoordinateBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
-import { MatrixOperationNewEmptyBoi } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/MatrixOperationNewEmpty.bun';
-import createMatrix from 'lib/utils/createMatrix.bun';
-import ScratchArr from 'lib/core/default/ScratchArr.bun';
-import asArr from 'lib/core/custom/asArr.bun';
+import { matrix, Coordinate, coordinate } from './matrix_types'
+const {
+    ai_92,
+    ai_920,
 
-const arrayToScratchFormat = <TEl>(array: TEl | asArr<TEl>): ScratchArr<TEl> => {
-    //@ts-ignore
-    return new ScratchArr(array);
-}
+    ANPZ,
+    PKOP,
+    PNHZ,
 
-const matrixFor = (matrix: MatrixBoi, callback: (el: MatrixBoi) => void) => {
+    Almaty,
+    Almaty0,
+    Astana,
+    Astana0,
+    Shymkent,
+    Shymkent0,
+
+    а,
+    б,
+    в,
+    г,
+    д,
+
+    First,
+    Fourth,
+
+    aug_2025,
+    jul_2025,
+    jun_2025,
+    may_2025,
+    apr_2025,
+    mar_2025,
+    feb_2025,
+    jan_2025,
+    dec_2024,
+    nov_2024,
+    oct_2024,
+    sep_2024,
+} = Coordinate;
+
+type MatrixAmount = { coordinates: coordinate[], amount: number };
+type MatrixAmounts = MatrixAmount[];
+
+const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     if (matrix.matrix_children['#количество'] > 0) {
         for (const el of matrix.matrix_children['#значение']) {
-            matrixFor(el as MatrixBoi, callback);
+            matrixFor(el as matrix, callback);
         }
     } else {
         callback(matrix);
     }
 }
 
-const ai_92 = CoordinateReg['BENZIN_AI_92'];
-const anpz = CoordinateReg['ANPZ'];
-const pkop = CoordinateReg['PKOP'];
-const pnhz = CoordinateReg['PNHZ'];
-const almaty = CoordinateReg['Almaty'];
-const astana = CoordinateReg['Astana'];
-const shymkent = CoordinateReg['Shymkent'];
-const а = CoordinateReg['«А.»'];
-const б = CoordinateReg['«Б.»'];
-const в = CoordinateReg['«В.»'];
-const г = CoordinateReg['«Г.»'];
-const д = CoordinateReg['«Е.»'];
-const first = CoordinateReg['First'];
-const fourth = CoordinateReg['Fourth'];
-
-const aug_2025 = new CoordinateBoi("aug_2025", "август 2025");
-const jul_2025 = new CoordinateBoi("jul_2025", "июль 2025");
-const jun_2025 = new CoordinateBoi("jun_2025", "июнь 2025");
-const may_2025 = new CoordinateBoi("may_2025", "май 2025");
-const apr_2025 = new CoordinateBoi("apr_2025", "апрель 2025");
-const mar_2025 = new CoordinateBoi("mar_2025", "март 2025");
-const feb_2025 = new CoordinateBoi("feb_2025", "февраль 2025");
-const jan_2025 = new CoordinateBoi("jan_2025", "январь 2025");
-const dec_2024 = new CoordinateBoi("dec_2024", "декабрь 2024");
-const nov_2024 = new CoordinateBoi("nov_2024", "ноябрь 2024");
-const oct_2024 = new CoordinateBoi("oct_2024", "октябрь 2024");
-const sep_2024 = new CoordinateBoi("sep_2024", "сентябрь 2024");
-
-const volumes_by_period_amounts = [
+const volumes_by_period_amounts: MatrixAmounts = [
     // 0001
     {
-        coordinates: [ai_92, astana, а, aug_2025],
+        coordinates: [ai_92, Astana, а, aug_2025],
         amount: 120
     },
     // 0002
     {
-        coordinates: [ai_92, almaty, а, aug_2025],
+        coordinates: [ai_92, Almaty, а, aug_2025],
         amount: 100
     },
     // 0003
     {
-        coordinates: [ai_92, astana, а, jul_2025],
+        coordinates: [ai_92, Astana, а, jul_2025],
         amount: 120
     },
     // 0004
     {
-        coordinates: [ai_92, almaty, а, jul_2025],
+        coordinates: [ai_92, Almaty, а, jul_2025],
         amount: 100
     },
     // 0005
     {
-        coordinates: [ai_92, astana, а, jun_2025],
+        coordinates: [ai_92, Astana, а, jun_2025],
         amount: 100
     },
     // 0006
     {
-        coordinates: [ai_92, almaty, а, jun_2025],
+        coordinates: [ai_92, Almaty, а, jun_2025],
         amount: 100
     },
     // 0007
     {
-        coordinates: [ai_92, astana, а, may_2025],
+        coordinates: [ai_92, Astana, а, may_2025],
         amount: 100
     },
     // 0008
     {
-        coordinates: [ai_92, almaty, а, may_2025],
+        coordinates: [ai_92, Almaty, а, may_2025],
         amount: 100
     },
     // 0009
     {
-        coordinates: [ai_92, astana, а, apr_2025],
+        coordinates: [ai_92, Astana, а, apr_2025],
         amount: 120
     },
     // 0010
     {
-        coordinates: [ai_92, almaty, а, apr_2025],
+        coordinates: [ai_92, Almaty, а, apr_2025],
         amount: 90
     },
     // 0011
     {
-        coordinates: [ai_92, astana, а, mar_2025],
+        coordinates: [ai_92, Astana, а, mar_2025],
         amount: 80
     },
     // 0012
     {
-        coordinates: [ai_92, almaty, а, mar_2025],
+        coordinates: [ai_92, Almaty, а, mar_2025],
         amount: 90
     },
     // 0013
     {
-        coordinates: [ai_92, astana, а, feb_2025],
+        coordinates: [ai_92, Astana, а, feb_2025],
         amount: 80
     },
     // 0014
     {
-        coordinates: [ai_92, almaty, а, feb_2025],
+        coordinates: [ai_92, Almaty, а, feb_2025],
         amount: 80
     },
     // 0015
     {
-        coordinates: [ai_92, astana, а, jan_2025],
+        coordinates: [ai_92, Astana, а, jan_2025],
         amount: 80
     },
     // 0016
     {
-        coordinates: [ai_92, almaty, а, jan_2025],
+        coordinates: [ai_92, Almaty, а, jan_2025],
         amount: 60
     },
     // 0017
     {
-        coordinates: [ai_92, astana, а, dec_2024],
+        coordinates: [ai_92, Astana, а, dec_2024],
         amount: 80
     },
     // 0018
     {
-        coordinates: [ai_92, almaty, а, dec_2024],
+        coordinates: [ai_92, Almaty, а, dec_2024],
         amount: 0
     },
     // 0019
     {
-        coordinates: [ai_92, astana, а, nov_2024],
+        coordinates: [ai_92, Astana, а, nov_2024],
         amount: 80
     },
     // 0020
     {
-        coordinates: [ai_92, almaty, а, nov_2024],
+        coordinates: [ai_92, Almaty, а, nov_2024],
         amount: 0
     },
     // 0021
     {
-        coordinates: [ai_92, astana, а, oct_2024],
+        coordinates: [ai_92, Astana, а, oct_2024],
         amount: 60
     },
     // 0022
     {
-        coordinates: [ai_92, almaty, а, oct_2024],
+        coordinates: [ai_92, Almaty, а, oct_2024],
         amount: 0
     },
     // 0023
     {
-        coordinates: [ai_92, astana, а, sep_2024],
+        coordinates: [ai_92, Astana, а, sep_2024],
         amount: 60
     },
     // 0024
     {
-        coordinates: [ai_92, almaty, а, sep_2024],
+        coordinates: [ai_92, Almaty, а, sep_2024],
         amount: 0
     },
     // 0025
     {
-        coordinates: [ai_92, shymkent, б, aug_2025],
+        coordinates: [ai_92, Shymkent, б, aug_2025],
         amount: 100
     },
     // 0026
     {
-        coordinates: [ai_92, shymkent, б, jul_2025],
+        coordinates: [ai_92, Shymkent, б, jul_2025],
         amount: 100
     },
     // 0027
     {
-        coordinates: [ai_92, shymkent, б, jun_2025],
+        coordinates: [ai_92, Shymkent, б, jun_2025],
         amount: 100
     },
     // 0028
     {
-        coordinates: [ai_92, shymkent, б, may_2025],
+        coordinates: [ai_92, Shymkent, б, may_2025],
         amount: 100
     },
     // 0029
     {
-        coordinates: [ai_92, shymkent, б, apr_2025],
+        coordinates: [ai_92, Shymkent, б, apr_2025],
         amount: 90
     },
     // 0030
     {
-        coordinates: [ai_92, shymkent, б, mar_2025],
+        coordinates: [ai_92, Shymkent, б, mar_2025],
         amount: 90
     },
     // 0031
     {
-        coordinates: [ai_92, shymkent, б, feb_2025],
+        coordinates: [ai_92, Shymkent, б, feb_2025],
         amount: 80
     },
     // 0032
     {
-        coordinates: [ai_92, shymkent, б, jan_2025],
+        coordinates: [ai_92, Shymkent, б, jan_2025],
         amount: 60
     },
     // 0033
     {
-        coordinates: [ai_92, shymkent, б, dec_2024],
+        coordinates: [ai_92, Shymkent, б, dec_2024],
         amount: 0
     },
     // 0034
     {
-        coordinates: [ai_92, shymkent, б, nov_2024],
+        coordinates: [ai_92, Shymkent, б, nov_2024],
         amount: 0
     },
     // 0035
     {
-        coordinates: [ai_92, shymkent, б, oct_2024],
+        coordinates: [ai_92, Shymkent, б, oct_2024],
         amount: 0
     },
     // 0036
     {
-        coordinates: [ai_92, shymkent, б, sep_2024],
+        coordinates: [ai_92, Shymkent, б, sep_2024],
         amount: 0
     },
     // 0037
     {
-        coordinates: [ai_92, astana, в, aug_2025],
+        coordinates: [ai_92, Astana, в, aug_2025],
         amount: 120
     },
     // 0038
     {
-        coordinates: [ai_92, astana, в, jul_2025],
+        coordinates: [ai_92, Astana, в, jul_2025],
         amount: 120
     },
     // 0039
     {
-        coordinates: [ai_92, astana, в, jun_2025],
+        coordinates: [ai_92, Astana, в, jun_2025],
         amount: 100
     },
     // 0040
     {
-        coordinates: [ai_92, astana, в, may_2025],
+        coordinates: [ai_92, Astana, в, may_2025],
         amount: 100
     },
     // 0041
     {
-        coordinates: [ai_92, astana, в, apr_2025],
+        coordinates: [ai_92, Astana, в, apr_2025],
         amount: 120
     },
     // 0042
     {
-        coordinates: [ai_92, astana, в, mar_2025],
+        coordinates: [ai_92, Astana, в, mar_2025],
         amount: 80
     },
     // 0043
     {
-        coordinates: [ai_92, astana, в, feb_2025],
+        coordinates: [ai_92, Astana, в, feb_2025],
         amount: 80
     },
     // 0044
     {
-        coordinates: [ai_92, astana, в, jan_2025],
+        coordinates: [ai_92, Astana, в, jan_2025],
         amount: 80
     },
     // 0045
     {
-        coordinates: [ai_92, astana, в, dec_2024],
+        coordinates: [ai_92, Astana, в, dec_2024],
         amount: 80
     },
     // 0046
     {
-        coordinates: [ai_92, astana, в, nov_2024],
+        coordinates: [ai_92, Astana, в, nov_2024],
         amount: 80
     },
     // 0047
     {
-        coordinates: [ai_92, astana, в, oct_2024],
+        coordinates: [ai_92, Astana, в, oct_2024],
         amount: 60
     },
     // 0048
     {
-        coordinates: [ai_92, astana, в, sep_2024],
+        coordinates: [ai_92, Astana, в, sep_2024],
         amount: 60
     }
 ]
 
-const newEmptyMAtrixOper = new MatrixOperationNewEmptyBoi();
-newEmptyMAtrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
-    ai_92,
-    anpz,
-    pkop,
-    pnhz,
-    almaty,
-    astana,
-    shymkent,
-    а,
-    б,
-    в,
-    г,
-    д,
-    first,
-    fourth
-])
-
-const requests_by_period_ammounts = [
+const requests_by_period_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
-            pkop,
-            almaty,
+            PKOP,
+            Almaty,
             а,
-            first
+            First
         ],
         amount: 100
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            astana,
+            PKOP,
+            Astana,
             а,
-            first
+            First
         ],
         amount: 150
     },
     {
         coordinates: [
             ai_92,
-            anpz,
-            almaty,
+            ANPZ,
+            Almaty,
             а,
-            first
+            First
         ],
         amount: 40
     },
     {
         coordinates: [
             ai_92,
-            pnhz,
-            almaty,
+            PNHZ,
+            Almaty,
             а,
-            first
+            First
         ],
         amount: 60
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            shymkent,
+            PKOP,
+            Shymkent,
             б,
-            first
+            First
         ],
         amount: 300
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            astana,
-            б,
-            first
+            PKOP,
+            Astana,
+            в,
+            First
         ],
         amount: 200
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            almaty,
-            в,
-            fourth
+            PKOP,
+            Almaty,
+            г,
+            First
         ],
         amount: 250
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            almaty,
-            в,
-            fourth
+            PKOP,
+            Almaty,
+            д,
+            Fourth
         ],
         amount: 500
     },
     {
         coordinates: [
             ai_92,
-            pkop,
-            shymkent,
+            PKOP,
+            Shymkent,
             г,
-            first
+            First
         ],
         amount: 700
     }
 ]
 
-await newEmptyMAtrixOper['#Запустить процесс']();
+const requestsEmptyMatrix: matrix = matrix(
+    ai_92,
+    PKOP,
+    ANPZ,
+    PNHZ,
+    Almaty,
+    Astana,
+    Shymkent,
+    а,
+    б,
+    в,
+    г,
+    д,
+    First,
+    Fourth
+);
 
-const newEmptyMatrix: MatrixBoi = newEmptyMAtrixOper.matrix_output_1['#значение'] as MatrixBoi;
-
-matrixFor(newEmptyMatrix, (el: MatrixBoi) => {
+matrixFor(requestsEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
     requests_by_period_ammounts.forEach((ammount) => {
@@ -419,14 +416,19 @@ matrixFor(newEmptyMatrix, (el: MatrixBoi) => {
 })
 
 
-export const requests_by_period: MatrixBoi = newEmptyMatrix;
+export const requests_by_period: matrix = requestsEmptyMatrix;
+requests_by_period.matrix_title['#значение'] = 'requests_by_period';
 
-const volumesEmptyMatrixOper = new MatrixOperationNewEmptyBoi();
-volumesEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratchFormat([
+
+const volumesEmptyMatrix: matrix = matrix(
     ai_92,
-    astana,
-    almaty,
-    shymkent,
+    ai_920,
+    Astana,
+    Almaty,
+    Shymkent,
+    Astana0,
+    Almaty0,
+    Shymkent0,
     а,
     б,
     в,
@@ -442,13 +444,9 @@ volumesEmptyMatrixOper.coordinates_input_1['#значение'] = arrayToScratch
     nov_2024,
     oct_2024,
     sep_2024
-]);
+);
 
-await volumesEmptyMatrixOper['#Запустить процесс']();
-
-const volumesEmptyMatrix: MatrixBoi = volumesEmptyMatrixOper.matrix_output_1['#значение'] as MatrixBoi;
-
-matrixFor(volumesEmptyMatrix, (el: MatrixBoi) => {
+matrixFor(volumesEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
     volumes_by_period_amounts.forEach((ammount) => {
@@ -460,6 +458,15 @@ matrixFor(volumesEmptyMatrix, (el: MatrixBoi) => {
     })
 })
 
-export const volumes_by_period: MatrixBoi = volumesEmptyMatrix;
 
-export const available_by_refinery: MatrixBoi = createMatrix();
+export const volumes_by_period: matrix = volumesEmptyMatrix;
+volumes_by_period.matrix_title['#значение'] = 'volumes_by_period';
+
+export const available_by_refinery: matrix = matrix();
+available_by_refinery.matrix_title['#значение'] = 'available_by_refinery';
+
+if (import.meta.main) {
+    await requests_by_period.save('algorithm/build/initial_data.example.lang', false);
+    await volumes_by_period.save('algorithm/build/initial_data.example.lang', true);
+    await available_by_refinery.save('algorithm/build/initial_data.example.lang', true);
+}
