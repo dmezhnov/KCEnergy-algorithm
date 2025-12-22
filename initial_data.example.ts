@@ -467,3 +467,5 @@ volumes_by_period.print();
 
 export const available_by_refinery: matrix = matrix();
 available_by_refinery.matrix_title['#значение'] = 'available_by_refinery';
+
+available_by_refinery.print();
