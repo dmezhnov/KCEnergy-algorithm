@@ -1,0 +1,18 @@
+requests_by_period_first_queue = (
+    (1: i) = (
+        (1: i, 1: j) = (
+            (1: i, 1: j, 1: k) = (
+                (1: i, 1: j, 1: k, 5: l) = (
+                    (1: i, 1: j, 1: k, 5: l, 1: l0) = 500
+                )
+            )
+        )
+    )
+)
+
+    where
+        i  : index # Вид нефтепродукта
+        j  : index # НПЗ
+        k  : index # Регион
+        l  : index # Субъект рынка
+        l0 : index # Очередь
