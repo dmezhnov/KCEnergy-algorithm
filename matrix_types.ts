@@ -4,6 +4,20 @@ import { new_empty } from './matrix_operation';
 import { CoordinateReg } from 'lib/domen/kc-e.mybpm.kz/KCE/Группа/Матрицы/Coordinate.bun';
 import ValueOf from 'lib/utils/ValueOf';
 
+export type matrixIdent = [string, string][];
+export const matrixIdent: matrixIdent = [
+    ['Product', 'i'],
+    ['Product_category', 'i0'],
+    ['Region', 'k'],
+    ['District', 'k0'],
+    ['Market_participant', 'l'],
+    ['Mouth_and_year', 't'],
+    ['Queue', 'q']
+]
+
+// Expose to global scope for MatrixPrinter
+globalThis.matrixIdent = matrixIdent;
+
 type Region = typeof Region;
 const Region = CoordinateTypeReg['Region'];
 type District = typeof District;
@@ -153,4 +167,4 @@ export const matrix = (
 
 
 
-export default { axis, Axis, matrix, coordinate, Coordinate };
+export default { axis, Axis, matrix, coordinate, Coordinate, matrixIdent };
