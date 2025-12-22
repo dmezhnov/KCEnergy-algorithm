@@ -349,7 +349,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
             ai_92,
             PKOP,
             Astana,
-            б,
+            в,
             First
         ],
         amount: 200
@@ -359,8 +359,8 @@ const requests_by_period_ammounts: MatrixAmounts = [
             ai_92,
             PKOP,
             Almaty,
-            в,
-            Fourth
+            г,
+            First
         ],
         amount: 250
     },
@@ -369,7 +369,7 @@ const requests_by_period_ammounts: MatrixAmounts = [
             ai_92,
             PKOP,
             Almaty,
-            в,
+            д,
             Fourth
         ],
         amount: 500
@@ -388,8 +388,8 @@ const requests_by_period_ammounts: MatrixAmounts = [
 
 const requestsEmptyMatrix: matrix = matrix(
     ai_92,
-    ANPZ,
     PKOP,
+    ANPZ,
     PNHZ,
     Almaty,
     Astana,
