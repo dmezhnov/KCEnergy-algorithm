@@ -6,13 +6,14 @@ import ValueOf from 'lib/utils/ValueOf';
 
 export type matrixIdent = [string, string][];
 export const matrixIdent: matrixIdent = [
-    ['Product', 'i'],
-    ['Product_category', 'i0'],
-    ['Region', 'k'],
-    ['District', 'k0'],
-    ['Market_participant', 'l'],
-    ['Mouth_and_year', 't'],
-    ['Queue', 'q']
+    ['Product', 'i'],            // Индексы нефпродукта
+    ['Product_category', 'i0'],  // Индексы категории нефпродукта
+    ['Refinery', 'j'],           // Индексы завода (НПЗ)
+    ['Region', 'k'],             // Индексы региона
+    ['District', 'k0'],          // Индексы района
+    ['Market_participant', 'l'], // Индексы участника рынка
+    ['Mouth_and_year', 't'],     // Индексы месяца и года
+    ['Queue', 'l0']              // Индексы очереди
 ]
 
 // Expose to global scope for MatrixPrinter
