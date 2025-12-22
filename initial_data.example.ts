@@ -419,7 +419,7 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 export const requests_by_period: matrix = requestsEmptyMatrix;
 requests_by_period.matrix_title['#значение'] = 'requests_by_period';
 
-requests_by_period.print();
+await requests_by_period.save();
 
 const volumesEmptyMatrix: matrix = matrix(
     ai_92,
@@ -463,9 +463,9 @@ matrixFor(volumesEmptyMatrix, (el: matrix) => {
 export const volumes_by_period: matrix = volumesEmptyMatrix;
 volumes_by_period.matrix_title['#значение'] = 'volumes_by_period';
 
-volumes_by_period.print();
+await volumes_by_period.save();
 
 export const available_by_refinery: matrix = matrix();
 available_by_refinery.matrix_title['#значение'] = 'available_by_refinery';
 
-available_by_refinery.print();
+await available_by_refinery.save();
