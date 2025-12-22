@@ -19,6 +19,5 @@ requests_by_period_first_queue = (
 
 requests_by_queue = 2300
 
-requests_by_market_participant = 0
 
-requests_by_market_participant_region = 0
+
