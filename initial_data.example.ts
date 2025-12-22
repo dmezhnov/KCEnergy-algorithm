@@ -417,6 +417,7 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 
 
 export const requests_by_period: matrix = requestsEmptyMatrix;
+requests_by_period.matrix_title['#значение'] = 'requests_by_period';
 
 requests_by_period.print();
 
