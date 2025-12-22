@@ -36,13 +36,13 @@ copy_values(matrix_source, copied_matrix) = copied_matrix*
 
 ### - Суммировать по оси
 
-sum_by_axes(matrix_source, ...TaxisSum) = summed_matrix
+sum_by_axes(matrix_source, ...TaxesSum) = summed_matrix
     where
-        matrix_source: matrix(...Taxis, ...TaxisSum) # Матрица, содержащая ось суммирования
-        summed_matrix: matrix(...Taxis) # Матрица после свёртки по оси
+        matrix_source: matrix(...Taxes, ...TaxesSum) # Матрица, содержащая ось суммирования
+        summed_matrix: matrix(...Taxes) # Матрица после свёртки по оси
             where
-                ...Taxis    = (1), ..., (N): axis # Оставшиеся оси
-                ...TaxisSum = (1), ..., (M): axis # Оси по которым суммируем (ось суммирования)
+                ...Taxes    = (1), ..., (N): axis # Оставшиеся оси
+                ...TaxesSum = (1), ..., (M): axis # Оси по которым суммируем (ось суммирования)
                     where
                         M: index # Количество осей суммирования
                         N: index # Количество осей результата
