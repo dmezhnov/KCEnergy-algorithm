@@ -418,7 +418,7 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 
 export const requests_by_period: matrix = requestsEmptyMatrix;
 
-console.log(requests_by_period.toString());
+requests_by_period.print();
 
 const volumesEmptyMatrix: matrix = matrix(
     ai_92,
