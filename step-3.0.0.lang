@@ -1,5 +1,64 @@
-### Период дефицита
-# В Период дефицита выполняем корректировку Запросов Владельцев АЗС с учётом
-# их исторических розничных продаж за 12 месяцев и перераспределяем выпадающие
-# объёмы на НПЗ с профицитом (при наличии запросов туда), действуя
-# в интересах Владельцев АЗС.
+number:                                                       core
+matrix, axis, index, condition:                               matrix_types.lang
+filter_by_value, filter_by_coordinate, sum_by_axes, operation: operations.lang
+surplus_requests_by_market_participant_region:                step-2.lang
+shortfall_volume, requests_adjusted:                          step-3.2.2.lang
+requests_by_period:                                           step-1.lang
+
+### Шаг 3.3. Перераспределение выпадающих объемов на НПЗ с профицитом
+# Если среди НПЗ, на которые поданы Запросы, имеются НПЗ с Периодом профицита,
+# Система перераспределяет выпадающий объем с дефицитного НПЗ на первый доступный профицитный НПЗ.
+
+# Вычисляем общий дефицит по субъекту/региону/продукту
+shortfall_volume_total(i, k, l) = shortfall_volume(i, 1, k, l) + ... + shortfall_volume(i, M, k, l)
+    where
+        shortfall_volume_total: matrix(Product, Region, Market_participant)
+        shortfall_volume(i, j, k, l): matrix(Product, Refinery, Region, Market_participant)
+        shortfall_volume(i, 1, k, l), ..., shortfall_volume(i, M, k, l): shortfall_volume
+            where
+                j: index # Индексы НПЗ (1..M)
+
+target_refinery_indicator(i) = (
+    (1) = value
+        where
+            value = 1
+                where
+                    surplus_requests_by_market_participant_region(i, 1) > 0
+            value = 0
+                where
+                    surplus_requests_by_market_participant_region(i, 1) = 0
+
+    ...
+
+    (j) = value
+        where
+            value = 1
+                where
+                    surplus_requests_by_market_participant_region(i, j) > 0
+                    surplus_requests_by_market_participant_region(i, 1) + ... + surplus_requests_by_market_participant_region(i, j-1) = 0
+            value = 0
+                where
+                    surplus_requests_by_market_participant_region(i, j) = 0
+            value = 0
+                where
+                    surplus_requests_by_market_participant_region(i, 1) + ... + surplus_requests_by_market_participant_region(i, j-1) > 0
+)
+    where
+        target_refinery_indicator: matrix(Product, Refinery)
+        surplus_requests_by_market_participant_region:        matrix(Product, Refinery)
+        surplus_requests_by_market_participant_region(i, 1), ..., surplus_requests_by_market_participant_region(i, j-1): surplus_requests_by_market_participant_region
+
+requests_adjusted_step_3_3(i, j, k, l) = value
+    where
+        value = requests_adjusted(i, j, k, l) + shortfall_volume_total(i, k, l)
+            where
+                target_refinery_indicator(i, j) = 1
+        value = requests_adjusted(i, j, k, l)
+            where
+                target_refinery_indicator(i, j) = 0
+
+    where
+        requests_adjusted_step_3_3: matrix(Product, Refinery, Region, Market_participant)
+        requests_adjusted:          matrix(Product, Refinery, Region, Market_participant)
+        shortfall_volume_total:     matrix(Product, Region, Market_participant)
+        target_refinery_indicator:  matrix(Product, Refinery)
