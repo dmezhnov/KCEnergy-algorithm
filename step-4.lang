@@ -1,14 +1,14 @@
-deficit_requests_first_queue_multiple_reduced_2: step-3.3.0.lang
+deficit_requests_first_multiple_reduced_2: step-3.3.0.lang
 sum_by_axes:                                     matrix_operation.lang
 axis                                             matrix_types.lang
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-x = sum_by_axes(deficit_requests_first_queue_multiple_reduced_2, Region)
+x = sum_by_axes(deficit_requests_first_multiple_reduced_2, Region)
     where
-        deficit_requests_first_queue_multiple_reduced_2(i, j, l, k): number
+        deficit_requests_first_multiple_reduced_2(i, j, l, k): number
         x(i, j, l):                                                  number
-        deficit_requests_first_queue_multiple_reduced_2: matrix(Product, Refinery, Market_participant, Region)
+        deficit_requests_first_multiple_reduced_2: matrix(Product, Refinery, Market_participant, Region)
         x:                                               matrix(Product, Refinery, Market_participant)
             where
                 Product, Refinery, Market_participant, Region: axis
@@ -17,13 +17,13 @@ x = sum_by_axes(deficit_requests_first_queue_multiple_reduced_2, Region)
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-x2 = sum_by_axes(deficit_requests_first_queue_multiple_reduced_2, Region, Market_participant)
+x2 = sum_by_axes(deficit_requests_first_multiple_reduced_2, Region, Market_participant)
 x2 = sum_by_axes(x, Market_participant)
     where
-        deficit_requests_first_queue_multiple_reduced_2(i, j, l, k): number
+        deficit_requests_first_multiple_reduced_2(i, j, l, k): number
         x(i, j, l):                                                  number
         x2(i, j):                                                    number
-        deficit_requests_first_queue_multiple_reduced_2: matrix(Product, Refinery, Market_participant, Region)
+        deficit_requests_first_multiple_reduced_2: matrix(Product, Refinery, Market_participant, Region)
         x:                                               matrix(Product, Refinery, Market_participant)
         x2:                                              matrix(Product, Refinery)
             where
