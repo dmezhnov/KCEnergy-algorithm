@@ -9,7 +9,7 @@ requests_by_period:                initial_data.lang
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
-requests_by_period_first_queue(i) = (
+requests_by_period_first(i) = (
     (i, j) = (
         (i, j, k) = (
             (i, j, k, l) = requests_by_period(i, j, k, l, l0)
@@ -18,9 +18,9 @@ requests_by_period_first_queue(i) = (
 )
     where
         requests_by_period(i, j, k, l, l0):             number # Запрашиваемый объем НП
-        requests_by_period_first_queue(i, j, k, l):     number
+        requests_by_period_first(i, j, k, l):     number
         requests_by_period:             matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_by_period_first_queue: matrix(Product, Refinery, Region, Market_participant)
+        requests_by_period_first: matrix(Product, Refinery, Region, Market_participant)
             where
                 Queue(l0) = First
                     where
@@ -32,12 +32,12 @@ requests_by_period_first_queue(i) = (
                         l:  index # Индексы субъекта рынка
                         l0: index # Индексы очереди
 
-requests_by_period_first_queue = filter_by_coordinate(requests_by_period, First)
+requests_by_period_first = filter_by_coordinate(requests_by_period, First)
     where
         requests_by_period(i, j, k, l, l0):             number # Запрашиваемый объем НП
-        requests_by_period_first_queue(i, j, k, l):     number
+        requests_by_period_first(i, j, k, l):     number
         requests_by_period:             matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_by_period_first_queue: matrix(Product, Refinery, Region, Market_participant)
+        requests_by_period_first: matrix(Product, Refinery, Region, Market_participant)
             where
                 First: coordinate
                 Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
