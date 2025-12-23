@@ -7,7 +7,7 @@ Index = i, ..., j: index # Множество индексов
 
 Operation = multiply, divide, safe_divide, round, add, subtract, min, max: operation
 
-Condition = less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: condition
+Condition = equal,less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: condition
 
 Queue = First, Second, Third, Fourth: queue
 

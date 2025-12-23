@@ -1,3 +1,8 @@
+number:                                                                                 core
+matrix, axis, index, condition, operation:                                              matrix_types.lang
+filter_by_value, filter_by_coordinate, sum_by_axes, for_each_pair, copy_values:         matrix_operation.lang
+deficit_requests_first_queue_multiple_reduced, deficit_requests_first_queue_reduction: step-3.2.2.lang
+
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
 # на первый профицитный НПЗ в порядке обхода, пропорционально заявкам субъекта
