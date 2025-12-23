@@ -421,17 +421,11 @@ requests_by_period.matrix_title['#значение'] = 'requests_by_period';
 
 
 const volumesEmptyMatrix: matrix = matrix(
-    ai_92,
-    ai_920,
-    Astana,
-    Almaty,
-    Shymkent,
-    Astana0,
-    Almaty0,
-    Shymkent0,
-    а,
-    б,
-    в,
+    ai_92,                        // Product (i)
+    ai_920,                       // Product_category (i0)
+    Astana, Almaty, Shymkent,     // Region (k)
+    Astana0, Almaty0, Shymkent0,  // District (k0)
+    а, б, в,                      // Market_participant (l)
     aug_2025,
     jul_2025,
     jun_2025,
@@ -443,7 +437,7 @@ const volumesEmptyMatrix: matrix = matrix(
     dec_2024,
     nov_2024,
     oct_2024,
-    sep_2024
+    sep_2024                      // Month_and_year (t)
 );
 
 matrixFor(volumesEmptyMatrix, (el: matrix) => {
