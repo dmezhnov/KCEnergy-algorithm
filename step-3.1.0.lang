@@ -127,10 +127,10 @@ moving_average(l) = (
     )
 )
     where
-        matrix_of_activity(l, i, k):                         number # Число активных месяцев
-        moving_average(l, i, k):                             number # Скользящее среднее
-        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
-        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+        matrix_of_activity(l, i, k): number # Число активных месяцев
+        moving_average(l, i, k):     number # Скользящее среднее
+        matrix_of_activity: matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:     matrix(Market_participant, Product, Region) # Скользящее среднее
             where
                 matrix_of_activity(l, i, k): number = 0
                 Market_participant, Product, Region: axis # Оси расчёта среднего
@@ -147,9 +147,9 @@ moving_average(l) = (
         volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период
         matrix_of_activity(l, i, k):                         number # Число активных месяцев
         moving_average(l, i, k):                             number # Скользящее среднее
-        volumes_by_product_category_district_total:     matrix(Market_participant, Product, Region) # Сумма проливов за период
-        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
-        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+        volumes_by_product_category_district_total: matrix(Market_participant, Product, Region) # Сумма проливов за период
+        matrix_of_activity:                         matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:                             matrix(Market_participant, Product, Region) # Скользящее среднее
             where
                 matrix_of_activity(l, i, k): number > 0
                 Market_participant, Product, Region: axis # Оси расчёта среднего
@@ -162,9 +162,9 @@ moving_average = for_each_pair(volumes_by_product_category_district_total, safe_
         volumes_by_product_category_district_total(l, i, k): number # Сумма проливов за период
         matrix_of_activity(l, i, k):                         number # Число активных месяцев
         moving_average(l, i, k):                             number # Скользящее среднее
-        volumes_by_product_category_district_total:     matrix(Market_participant, Product, Region) # Сумма проливов за период
-        matrix_of_activity:                             matrix(Market_participant, Product, Region) # Число активных месяцев
-        moving_average:                                 matrix(Market_participant, Product, Region) # Скользящее среднее
+        volumes_by_product_category_district_total: matrix(Market_participant, Product, Region) # Сумма проливов за период
+        matrix_of_activity:                         matrix(Market_participant, Product, Region) # Число активных месяцев
+        moving_average:                             matrix(Market_participant, Product, Region) # Скользящее среднее
         safe_divide: operation # Операция деления
             where
                 Market_participant, Product, Region: axis # Оси расчёта среднего
