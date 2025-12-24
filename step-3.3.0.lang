@@ -12,7 +12,7 @@ operation:                                                                 matri
 # матрица которая содержит все запросы, если среди них есть хоть и профицитный, иначе матрица пустая
 all_requests_if_surplus =
 
-share = for_each_pair( ,divide, )
+share = for_each_pair(all_requests_if_surplus, safe_divide, surplus_requests)
 
 deficit_requests_first_reduction_2 =
     where
