@@ -10,7 +10,7 @@ operation:                                                                 matri
 
 # если еть хоть 1 профицитный запрос (запрос на профицитный НПЗ):
 # матрица которая содержит все запросы, если среди них есть хоть и профицитный, иначе матрица пустая
-all_requests_if_surplus
+all_requests_if_surplus =
 
 share = for_each_pair( ,divide, )
 
