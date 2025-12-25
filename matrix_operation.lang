@@ -30,7 +30,15 @@ copy_values(matrix_source, copied_matrix) = copied_matrix*
         copied_matrix:  matrix # Приёмник (форма/координаты)
         copied_matrix*: matrix # Результат копирования значений
 
-### - ????
+
+
+### - Объединить матрицы
+assign_matrix(...Tmatrix_source ) = new_assigned_matrix
+    where
+        new_assigned_matrix: matrix(...Tcoords)
+        ...Tmatrix_source = (1), ..., (n): matrix(...Tcoords)
+            where
+                ...Tcoords = (1), ..., (n): coordinate
 
 ## Основные операции
 
@@ -46,10 +54,6 @@ sum_by_axes(matrix_source, ...TaxesSum) = summed_matrix
                     where
                         M: index # Количество осей суммирования
                         N: index # Количество осей результата
-
-#### 1. Создать без оси
-#### 2. Копировать значения
-#### 3. ????
 
 ### - Для каждого элемента
 
