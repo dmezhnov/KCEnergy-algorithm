@@ -9,7 +9,7 @@ requests_i_j:                                        step-1.lang
 # Если суммарный Запрос ≥ порога — устанавливаем Период дефицита для пары (Product, Refinery),
 # иначе — Период профицита. Периоды определяются отдельно для каждого вида НП и НПЗ.
 
-# threshold_i_j — порог превышения доступных объёмов.
+# Матрица порогов превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_i_j(i) = (
     (i, j) = available_i_j(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
@@ -38,7 +38,7 @@ threshold_i_j = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACI
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
-# Период дефицита, переход к Шагу 3
+# Матрица объемов в дифицитных запросах (запросы поданные на дифицитные НПЗ) от всех субъектов ранка
 requests_i_j_deficit(i) = (
     (i, j) = requests_i_j(i, j)
 )
@@ -72,7 +72,7 @@ requests_i_j_deficit = filter_by_value(requests_i_j, greater_or_equal_than, thre
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
-# Период профицита, переход к Шагу 4
+# Матрица объемов в профицитных запросах (запросы поданные на профицитные НПЗ) от всех субъектов ранка
 requests_i_j_surplus(i) = (
     (i, j) = requests_i_j(i, j)
 )
