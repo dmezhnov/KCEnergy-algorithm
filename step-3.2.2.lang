@@ -4,6 +4,7 @@ sum_by_axes, for_each_pair:              matrix_operation.lang
 requests_i_j_k_l_first_deficit_multiple: step-3.2.0.lang
 moving_average:                          step-3.1.0.lang
 
+# Матрица множественных (запросы на несколько НПЗ) дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
 requests_i_k_l_first_deficit_multiple(i) = (
     (i, k) = (
         (i, k, l) = requests_i_j_k_l_first_deficit_multiple(i, k, l, 1) + ... + requests_i_j_k_l_first_deficit_multiple(i, k, l, J)
@@ -25,7 +26,7 @@ requests_i_k_l_first_deficit_multiple(i) = (
 requests_i_k_l_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_first_deficit_multiple, Refinery)
     where
         requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_k_l_first_deficit_multiple(i, k, l):       number
+        requests_i_k_l_first_deficit_multiple(i, k, l):      number
         requests_i_j_k_l_first_deficit_multiple: matrix(Product, Region, Market_participant, Refinery)
         requests_i_k_l_first_deficit_multiple:   matrix(Product, Region, Market_participant)
             where
@@ -35,7 +36,8 @@ requests_i_k_l_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_first_defic
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_fraction(i) = (
+# Матрица долей множественных (запросы на несколько НПЗ) дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
+requests_i_j_k_l_first_deficit_multiple_share(i) = (
     (i, k) = (
         (i, k, l) = (
             (i, k, l , j) = requests_i_j_k_l_first_deficit_multiple(i, k, l, j) / requests_i_k_l_first_deficit_multiple(i, k, l)
@@ -43,12 +45,12 @@ requests_i_j_k_l_first_deficit_fraction(i) = (
     )
 )
     where
-        requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_k_l_first_deficit_multiple(i, k, l):      number
-        requests_i_j_k_l_first_deficit_fraction: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_k_l_first_deficit_multiple:   matrix(Product, Region, Market_participant)
+        requests_i_j_k_l_first_deficit_multiple_share(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):       number
+        requests_i_k_l_first_deficit_multiple(i, k, l):            number
+        requests_i_j_k_l_first_deficit_multiple_share: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple:       matrix(Product, Region, Market_participant, Refinery)
+        requests_i_k_l_first_deficit_multiple:         matrix(Product, Region, Market_participant)
             where
                 /: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -57,14 +59,14 @@ requests_i_j_k_l_first_deficit_fraction(i) = (
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_fraction = for_each_pair(requests_i_j_k_l_first_deficit_multiple, divide, requests_i_k_l_first_deficit_multiple)
+requests_i_j_k_l_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_first_deficit_multiple, divide, requests_i_k_l_first_deficit_multiple)
     where
-        requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_k_l_first_deficit_multiple(i, k, l):      number
-        requests_i_j_k_l_first_deficit_fraction:  matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple:  matrix(Product, Region, Market_participant, Refinery)
-        requests_i_k_l_first_deficit_multiple:    matrix(Product, Region, Market_participant)
+        requests_i_j_k_l_first_deficit_multiple_share(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):       number
+        requests_i_k_l_first_deficit_multiple(i, k, l):            number
+        requests_i_j_k_l_first_deficit_multiple_share:  matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple:        matrix(Product, Region, Market_participant, Refinery)
+        requests_i_k_l_first_deficit_multiple:          matrix(Product, Region, Market_participant)
             where
                 divide: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -73,20 +75,20 @@ requests_i_j_k_l_first_deficit_fraction = for_each_pair(requests_i_j_k_l_first_d
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-moving_average_distributed(i) = (
+requests_i_j_k_l_first_deficit_multiple_distributed_aux(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l, j) = requests_i_j_k_l_first_deficit_fraction(i, k, l, j) * moving_average(i, k, l)
+            (i, k, l, j) = requests_i_j_k_l_first_deficit_multiple_share(i, k, l, j) * moving_average(i, k, l)
         )
     )
 )
     where
-        moving_average_distributed(i, k, l, j):              number
-        requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
-        moving_average(i, k, l):                             number # Скользящее среднее
-        moving_average_distributed:              matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_fraction: matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                          matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_share(i, k, l, j):       number
+        moving_average(i, k, l):                                         number # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_share:       matrix(Product, Region, Market_participant, Refinery)
+        moving_average:                                      matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 *: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -95,14 +97,14 @@ moving_average_distributed(i) = (
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-moving_average_distributed = for_each_pair(requests_i_j_k_l_first_deficit_fraction, multiply, moving_average)
+requests_i_j_k_l_first_deficit_multiple_distributed_aux = for_each_pair(requests_i_j_k_l_first_deficit_multiple_share, multiply, moving_average)
     where
-        moving_average_distributed(i, k, l, j):              number
-        requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
-        moving_average(i, k, l):                             number # Скользящее среднее
-        moving_average_distributed:                matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_fraction:   matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                            matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_share(i, k, l, j):       number
+        moving_average(i, k, l):                                         number # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_share:       matrix(Product, Region, Market_participant, Refinery)
+        moving_average:                                      matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 multiply: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -111,20 +113,21 @@ moving_average_distributed = for_each_pair(requests_i_j_k_l_first_deficit_fracti
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_reduction(i) = (
+# Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
+requests_i_j_k_l_first_deficit_multiple_distributed(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l, j) = requests_i_j_k_l_first_deficit_multiple(i, k, l, j) - moving_average_distributed(i, k, l, j)
+            (i, k, l, j) = requests_i_j_k_l_first_deficit_multiple(i, k, l, j) - requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j)
         )
     )
 )
     where
-        requests_i_j_k_l_first_deficit_reduction(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):  number
-        moving_average_distributed(i, k, l, j):               number
-        requests_i_j_k_l_first_deficit_reduction: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple:  matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:               matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed(i, k, l, j):            number
+        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):             number
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_distributed:            matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple:             matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
@@ -132,14 +135,14 @@ requests_i_j_k_l_first_deficit_reduction(i) = (
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_reduction = for_each_pair(requests_i_j_k_l_first_deficit_multiple, subtract, moving_average_distributed)
+requests_i_j_k_l_first_deficit_multiple_distributed = for_each_pair(requests_i_j_k_l_first_deficit_multiple, subtract, requests_i_j_k_l_first_deficit_multiple_distributed_aux)
     where
-        requests_i_j_k_l_first_deficit_reduction(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):  number
-        moving_average_distributed(i, k, l, j):               number
-        requests_i_j_k_l_first_deficit_reduction: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple:  matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:               matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed(i, k, l, j):            number
+        requests_i_j_k_l_first_deficit_multiple(i, k, l, j):             number
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_distributed:            matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple:             matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
             where
                 subtract: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -148,20 +151,21 @@ requests_i_j_k_l_first_deficit_reduction = for_each_pair(requests_i_j_k_l_first_
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
+# Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дифицитных запросах (запросы на дифицитный НПЗ) первой очереди
 requests_i_j_k_l_first_deficit_multiple_reduced(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l, j) = moving_average_distributed(i, k, l, j)
+            (i, k, l, j) = requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j)
         )
     )
 )
     where
-        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j): number
-        moving_average_distributed(i, k, l, j):                      number = requsest_value
-        moving_average(i, k, l):                                     number = average_value # Скользящее среднее
-        requests_i_j_k_l_first_deficit_multiple_reduced: matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:                      matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                  matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):     number
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number = requsest_value
+        moving_average(i, k, l):                                         number = average_value # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_reduced:     matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
+        moving_average:                                      matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 requsest_value > average_value
                     where
@@ -172,14 +176,14 @@ requests_i_j_k_l_first_deficit_multiple_reduced(i) = (
                         l: index # Индексы субъекта рынка
                         j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_multiple_reduced = for_each_pair(moving_average_distributed, min, moving_average)
+requests_i_j_k_l_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k_l_first_deficit_multiple_distributed_aux, min, moving_average)
     where
-        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j): number
-        moving_average_distributed(i, k, l, j):                      number
-        moving_average(i, k, l):                                     number # Скользящее среднее
-        requests_i_j_k_l_first_deficit_multiple_reduced: matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:                      matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                  matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):     number
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
+        moving_average(i, k, l):                                         number # Скользящее среднее
+        requests_i_j_k_l_first_deficit_multiple_reduced:     matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
+        moving_average:                                      matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 min: operation
                 Product, Region, Market_participant, Refinery: axis
