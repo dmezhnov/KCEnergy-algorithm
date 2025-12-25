@@ -9,7 +9,7 @@ requests_i_j_k_l_l0:               initial_data.lang
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
-requests_i_j_k_l_l0_first(i) = (
+requests_i_j_k_l_first(i) = (
     (i, j) = (
         (i, j, k) = (
             (i, j, k, l) = requests_i_j_k_l_l0(i, j, k, l, l0)
@@ -17,10 +17,10 @@ requests_i_j_k_l_l0_first(i) = (
     )
 )
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0):   number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0_first(i, j, k, l): number
-        requests_i_j_k_l_l0:       matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_k_l_l0_first: matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
+        requests_i_j_k_l_first(i, j, k, l):  number
+        requests_i_j_k_l_l0:    matrix(Product, Refinery, Region, Market_participant, Queue)
+        requests_i_j_k_l_first: matrix(Product, Refinery, Region, Market_participant)
             where
                 Queue(l0) = First
                     where
@@ -32,12 +32,12 @@ requests_i_j_k_l_l0_first(i) = (
                         l:  index # Индексы субъекта рынка
                         l0: index # Индексы очереди
 
-requests_i_j_k_l_l0_first = filter_by_coordinate(requests_i_j_k_l_l0, First)
+requests_i_j_k_l_first = filter_by_coordinate(requests_i_j_k_l_l0, First)
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0):   number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0_first(i, j, k, l): number
-        requests_i_j_k_l_l0:       matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_k_l_l0_first: matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
+        requests_i_j_k_l_first(i, j, k, l):  number
+        requests_i_j_k_l_l0:    matrix(Product, Refinery, Region, Market_participant, Queue)
+        requests_i_j_k_l_first: matrix(Product, Refinery, Region, Market_participant)
             where
                 First: coordinate
                 Product, Refinery, Region, Market_participant, Queue: axis # Оси заявок
