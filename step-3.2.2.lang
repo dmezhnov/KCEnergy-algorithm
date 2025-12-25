@@ -89,7 +89,7 @@ requests_i_j_k_l_first_deficit_multiple_distributed_aux(i) = (
         moving_average(i, k, l):                                             number # Скользящее среднее
         requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_multiple_share:           matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                         matrix(Product, Region, Market_participant)  # Скользящее среднее
+        moving_average:                                          matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 *: operation
                 Product, Region, Market_participant, Refinery: axis
