@@ -4,16 +4,16 @@ sum_by_axes, for_each_pair:              matrix_operation.lang
 requests_i_j_k_l_first_deficit_multiple: step-3.2.0.lang
 moving_average:                          step-3.1.0.lang
 
-requests_i_j_k_l_first_deficit(i) = (
+requests_i_k_l_first_deficit_multiple(i) = (
     (i, k) = (
         (i, k, l) = requests_i_j_k_l_first_deficit_multiple(i, k, l, 1) + ... + requests_i_j_k_l_first_deficit_multiple(i, k, l, J)
     )
 )
     where
         requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_j_k_l_first_deficit(i, k, l):             number
+        requests_i_k_l_first_deficit_multiple(i, k, l):      number
         requests_i_j_k_l_first_deficit_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit:          matrix(Product, Region, Market_participant)
+        requests_i_k_l_first_deficit_multiple:   matrix(Product, Region, Market_participant)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
@@ -22,12 +22,12 @@ requests_i_j_k_l_first_deficit(i) = (
                 j: index # Индексы НПЗ
                 J: index # Количество НПЗ
 
-requests_i_j_k_l_first_deficit = sum_by_axes(requests_i_j_k_l_first_deficit_multiple, Refinery)
+requests_i_k_l_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_first_deficit_multiple, Refinery)
     where
         requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_j_k_l_first_deficit(i, k, l):             number
+        requests_i_k_l_first_deficit_multiple(i, k, l):       number
         requests_i_j_k_l_first_deficit_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit:          matrix(Product, Region, Market_participant)
+        requests_i_k_l_first_deficit_multiple:   matrix(Product, Region, Market_participant)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
@@ -38,17 +38,17 @@ requests_i_j_k_l_first_deficit = sum_by_axes(requests_i_j_k_l_first_deficit_mult
 requests_i_j_k_l_first_deficit_fraction(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l , j) = requests_i_j_k_l_first_deficit_multiple(i, k, l, j) / requests_i_j_k_l_first_deficit(i, k, l)
+            (i, k, l , j) = requests_i_j_k_l_first_deficit_multiple(i, k, l, j) / requests_i_k_l_first_deficit_multiple(i, k, l)
         )
     )
 )
     where
         requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
         requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_j_k_l_first_deficit(i, k, l):             number
+        requests_i_k_l_first_deficit_multiple(i, k, l):      number
         requests_i_j_k_l_first_deficit_fraction: matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit:          matrix(Product, Region, Market_participant)
+        requests_i_k_l_first_deficit_multiple:   matrix(Product, Region, Market_participant)
             where
                 /: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -57,14 +57,14 @@ requests_i_j_k_l_first_deficit_fraction(i) = (
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_fraction = for_each_pair(requests_i_j_k_l_first_deficit_multiple, divide, requests_i_j_k_l_first_deficit)
+requests_i_j_k_l_first_deficit_fraction = for_each_pair(requests_i_j_k_l_first_deficit_multiple, divide, requests_i_k_l_first_deficit_multiple)
     where
         requests_i_j_k_l_first_deficit_fraction(i, k, l, j): number
         requests_i_j_k_l_first_deficit_multiple(i, k, l, j): number
-        requests_i_j_k_l_first_deficit(i, k, l):             number
+        requests_i_k_l_first_deficit_multiple(i, k, l):      number
         requests_i_j_k_l_first_deficit_fraction:  matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_multiple:  matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit:           matrix(Product, Region, Market_participant)
+        requests_i_k_l_first_deficit_multiple:    matrix(Product, Region, Market_participant)
             where
                 divide: operation
                 Product, Region, Market_participant, Refinery: axis
