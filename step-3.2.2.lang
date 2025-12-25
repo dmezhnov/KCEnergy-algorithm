@@ -163,10 +163,10 @@ requests_i_j_k_l_first_deficit_multiple_reduced(i) = (
     where
         requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):         number
         requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number = requsest_value
-        moving_average(i, k, l):                                            number = average_value # Скользящее среднее
+        moving_average(i, k, l):                                             number = average_value # Скользящее среднее
         requests_i_j_k_l_first_deficit_multiple_reduced:         matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                         matrix(Product, Region, Market_participant)  # Скользящее среднее
+        moving_average:                                          matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 requsest_value > average_value
                     where
@@ -181,7 +181,7 @@ requests_i_j_k_l_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k_l
     where
         requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):         number
         requests_i_j_k_l_first_deficit_multiple_distributed_aux(i, k, l, j): number
-        moving_average(i, k, l):                                            number # Скользящее среднее
+        moving_average(i, k, l):                                             number # Скользящее среднее
         requests_i_j_k_l_first_deficit_multiple_reduced:         matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_multiple_distributed_aux: matrix(Product, Region, Market_participant, Refinery)
         moving_average:                                          matrix(Product, Region, Market_participant)  # Скользящее среднее
