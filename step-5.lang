@@ -4,3 +4,36 @@ requests_i_j_first_region_participant_reduced: step-4.lang
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
 # распределяем доступное пропорционально скорректированным запросам (дефицит).
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
+
+# Матрица итоговых суммарных объемов Запросов, которые превышают доступный объём
+requests_i_j_first_region_participant_reduced_exceed =
+    where
+        requests_i_j_first_region_participant_reduced(i, j):        number
+        requests_i_j_first_region_participant_reduced_exceed(i, j): number
+        requests_i_j_first_region_participant_reduced:        matrix(Product, Refinery)
+        requests_i_j_first_region_participant_reduced_exceed: matrix(Product, Refinery)
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+
+# Матрица итоговых суммарных объемов Запросов, которые не превышают доступный объём
+requests_i_j_first_region_participant_reduced_not_exceed =
+    where
+        requests_i_j_first_region_participant_reduced(i, j):           number
+        requests_i_j_first_region_participant_reduced_not_exceed(i, j): number
+        requests_i_j_first_region_participant_reduced:            matrix(Product, Refinery)
+        requests_i_j_first_region_participant_reduced_not_exceed: matrix(Product, Refinery)
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+
+# Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ превышает доступный объём
+estimated_1 =
+
+# Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ не превышает доступный объём
+estimated_2 =
+
+# Матрица предварительных расчетных объемов НП
+estimated =
