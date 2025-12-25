@@ -1,4 +1,4 @@
-import { volumes_by_period } from './initial_data.example';
+import { volumes_l_t_i_k_k0_i0 } from './initial_data.example';
 
 let filledCount = 0;
 let totalCount = 0;
@@ -19,7 +19,7 @@ function countElements(matrix: any) {
     }
 }
 
-countElements(volumes_by_period);
+countElements(volumes_l_t_i_k_k0_i0);
 console.log(`Total elements: ${totalCount}`);
 console.log(`Filled elements: ${filledCount}`);
 console.log(`Empty elements: ${totalCount - filledCount}`);

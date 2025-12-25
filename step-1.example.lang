@@ -1,4 +1,4 @@
-requests_by_period_first = (
+requests_i_j_k_l_l0_first = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
@@ -87,7 +87,7 @@ requests_by_period_first = (
         l:  index # Индексы субъекта рынка
         l0: index # Индексы очереди
 
-requests_by_period_first = (
+requests_i_j_k_l_l0_first = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (

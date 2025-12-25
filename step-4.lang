@@ -1,24 +1,24 @@
 deficit_requests_first_multiple_reduced_2: step-3.3.0.lang
-requests_by_period_first:                  step-1.lang
+requests_i_j_k_l_l0_first:                  step-1.lang
 sum_by_axes, copy_values:                  matrix_operation.lang
 axis:                                      matrix_types.lang
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
-requests_by_period_first_reduced = copy_values(deficit_requests_first_multiple_reduced_2, requests_by_period_first)
+requests_i_j_k_l_l0_first_reduced = copy_values(deficit_requests_first_multiple_reduced_2, requests_i_j_k_l_l0_first)
     where
-        requests_by_period_first_reduced(i, j, l, k):          number
+        requests_i_j_k_l_l0_first_reduced(i, j, l, k):          number
         deficit_requests_first_multiple_reduced_2(i, j, l, k): number
-        requests_by_period_first(i, j, l, k):                  number
-        requests_by_period_first_reduced:          matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_l0_first(i, j, l, k):                  number
+        requests_i_j_k_l_l0_first_reduced:          matrix(Product, Refinery, Market_participant, Region)
         deficit_requests_first_multiple_reduced_2: matrix(Product, Refinery, Market_participant, Region)
-        requests_by_period_first:                  matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_l0_first:                  matrix(Product, Refinery, Market_participant, Region)
 
-requests_by_period_first_region_reduced = sum_by_axes(requests_by_period_first_reduced, Region)
+requests_i_j_k_l_l0_first_region_reduced = sum_by_axes(requests_i_j_k_l_l0_first_reduced, Region)
     where
-        requests_by_period_first_reduced(i, j, l, k):     number
-        requests_by_period_first_region_reduced(i, j, l): number
-        requests_by_period_first_reduced:        matrix(Product, Refinery, Market_participant, Region)
-        requests_by_period_first_region_reduced: matrix(Product, Refinery, Market_participant)
+        requests_i_j_k_l_l0_first_reduced(i, j, l, k):     number
+        requests_i_j_k_l_l0_first_region_reduced(i, j, l): number
+        requests_i_j_k_l_l0_first_reduced:        matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_l0_first_region_reduced: matrix(Product, Refinery, Market_participant)
             where
                 Product, Refinery, Market_participant, Region: axis
                 i: index # Индексы нефпродукта
@@ -26,15 +26,15 @@ requests_by_period_first_region_reduced = sum_by_axes(requests_by_period_first_r
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_by_period_first_region_participant_reduced = sum_by_axes(requests_by_period_first_reduced, Region, Market_participant)
-requests_by_period_first_region_participant_reduced = sum_by_axes(requests_by_period_first_region_reduced, Market_participant)
+requests_i_j_k_l_l0_first_region_participant_reduced = sum_by_axes(requests_i_j_k_l_l0_first_reduced, Region, Market_participant)
+requests_i_j_k_l_l0_first_region_participant_reduced = sum_by_axes(requests_i_j_k_l_l0_first_region_reduced, Market_participant)
     where
-        requests_by_period_first_reduced(i, j, l, k):              number
-        requests_by_period_first_region_reduced(i, j, l):          number
-        requests_by_period_first_region_participant_reduced(i, j): number
-        requests_by_period_first_reduced:                    matrix(Product, Refinery, Market_participant, Region)
-        requests_by_period_first_region_reduced:             matrix(Product, Refinery, Market_participant)
-        requests_by_period_first_region_participant_reduced: matrix(Product, Refinery)
+        requests_i_j_k_l_l0_first_reduced(i, j, l, k):              number
+        requests_i_j_k_l_l0_first_region_reduced(i, j, l):          number
+        requests_i_j_k_l_l0_first_region_participant_reduced(i, j): number
+        requests_i_j_k_l_l0_first_reduced:                    matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_l0_first_region_reduced:             matrix(Product, Refinery, Market_participant)
+        requests_i_j_k_l_l0_first_region_participant_reduced: matrix(Product, Refinery)
             where
                 Product, Refinery, Market_participant, Region: axis
                 i: index # Индексы нефпродукта

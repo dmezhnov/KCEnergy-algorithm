@@ -1,6 +1,6 @@
-import { volumes_by_period } from './initial_data.example';
+import { volumes_l_t_i_k_k0_i0 } from './initial_data.example';
 
-const firstChild = volumes_by_period.matrix_children['#значение']['взять'](1);
+const firstChild = volumes_l_t_i_k_k0_i0.matrix_children['#значение']['взять'](1);
 if (firstChild) {
     const coords = firstChild.coordinate_types['#значение'];
     console.log('First child coords count:', coords['размер']);

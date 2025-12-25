@@ -1,4 +1,4 @@
-volumes_by_product_category = (
+volumes_l_t_i_k_k0 = (
     (1: i) = (
         (1: i, 1: i0) = (
             (1: i, 1: i0, 1: k) = (
@@ -73,7 +73,7 @@ volumes_by_product_category = (
         k:  index # Индексы региона
         k0: index # Индексы района
 
-volumes_by_product_category_district = (
+volumes_l_t_i_k = (
     (1: i) = (
         (1: i, 1: k) = (
                 (1: i, 1: k, 1: l) = (

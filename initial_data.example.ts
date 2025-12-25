@@ -50,7 +50,7 @@ const matrixFor = (matrix: matrix, callback: (el: matrix) => void) => {
     }
 }
 
-const volumes_by_period_amounts: MatrixAmounts = [
+const volumes_l_t_i_k_k0_i0_amounts: MatrixAmounts = [
     // 0001
     {
         coordinates: [ai_92, Astana, а, aug_2025],
@@ -293,7 +293,7 @@ const volumes_by_period_amounts: MatrixAmounts = [
     }
 ]
 
-const requests_by_period_ammounts: MatrixAmounts = [
+const requests_i_j_k_l_l0_ammounts: MatrixAmounts = [
     {
         coordinates: [
             ai_92,
@@ -406,7 +406,7 @@ const requestsEmptyMatrix: matrix = matrix(
 matrixFor(requestsEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
-    requests_by_period_ammounts.forEach((ammount) => {
+    requests_i_j_k_l_l0_ammounts.forEach((ammount) => {
         const isMatch = ammount.coordinates.every((coord) => coords['содержит ли'](coord));
 
         if (isMatch) {
@@ -416,8 +416,8 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 })
 
 
-export const requests_by_period: matrix = requestsEmptyMatrix;
-requests_by_period.matrix_title['#значение'] = 'requests_by_period';
+export const requests_i_j_k_l_l0: matrix = requestsEmptyMatrix;
+requests_i_j_k_l_l0.matrix_title['#значение'] = 'requests_i_j_k_l_l0';
 
 
 const volumesEmptyMatrix: matrix = matrix(
@@ -443,7 +443,7 @@ const volumesEmptyMatrix: matrix = matrix(
 matrixFor(volumesEmptyMatrix, (el: matrix) => {
     const coords = el.coordinate_types['#значение'];
 
-    volumes_by_period_amounts.forEach((ammount) => {
+    volumes_l_t_i_k_k0_i0_amounts.forEach((ammount) => {
         const isMatch = ammount.coordinates.every((coord) => coords['содержит ли'](coord));
 
         if (isMatch) {
@@ -453,14 +453,14 @@ matrixFor(volumesEmptyMatrix, (el: matrix) => {
 })
 
 
-export const volumes_by_period: matrix = volumesEmptyMatrix;
-volumes_by_period.matrix_title['#значение'] = 'volumes_by_period';
+export const volumes_l_t_i_k_k0_i0: matrix = volumesEmptyMatrix;
+volumes_l_t_i_k_k0_i0.matrix_title['#значение'] = 'volumes_l_t_i_k_k0_i0';
 
-export const available_by_refinery: matrix = matrix();
-available_by_refinery.matrix_title['#значение'] = 'available_by_refinery';
+export const available_i_j: matrix = matrix();
+available_i_j.matrix_title['#значение'] = 'available_i_j';
 
 if (import.meta.main) {
-    await requests_by_period.save('algorithm/build/initial_data.example.lang', false);
-    await volumes_by_period.save('algorithm/build/initial_data.example.lang', true);
-    await available_by_refinery.save('algorithm/build/initial_data.example.lang', true);
+    await requests_i_j_k_l_l0.save('algorithm/build/initial_data.example.lang', false);
+    await volumes_l_t_i_k_k0_i0.save('algorithm/build/initial_data.example.lang', true);
+    await available_i_j.save('algorithm/build/initial_data.example.lang', true);
 }
