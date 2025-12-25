@@ -122,7 +122,7 @@ requests_i_j_k_l_l0_first = (
         k:  index # Индексы региона
         l:  index # Индексы субъекта рынка
 
-requests_by_queue = (
+requests_i_j_k_l = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
@@ -158,7 +158,7 @@ requests_by_queue = (
         l:  index # Индексы субъекта рынка
 
 
-requests_by_market_participant = (
+requests_i_j_k = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = 100 + 250 + 500 = 850, # 001 + 007 + 008
@@ -179,7 +179,7 @@ requests_by_market_participant = (
         k:  index # Индексы региона
 
 
-requests_by_market_participant_region = (
+requests_i_j = (
     (1: i) = (
         (1: i, 1: j) = 850 + 350 + 900 = 2 100, # (001 + 007 + 008) + (002 + 006) + (005 + 009)
         (1: i, 2: j) = 40,                      # 003
