@@ -9,6 +9,7 @@ requests_i_j_k_l_l0:               initial_data.lang
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
 requests_i_j_k_l_first(i) = (
     (i, j) = (
         (i, j, k) = (
@@ -32,6 +33,7 @@ requests_i_j_k_l_first(i) = (
                         l:  index # Индексы субъекта рынка
                         l0: index # Индексы очереди
 
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
 requests_i_j_k_l_first = filter_by_coordinate(requests_i_j_k_l_l0, First)
     where
         requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
@@ -146,6 +148,7 @@ requests_i_j(i) = (
                 k: index # Индексы региона
                 Q: index # Количество регионов
 
+# Матрица объемов в запросах от всех субъектов ранка, размерами N x M
 requests_i_j = sum_by_axes(requests_i_j_k_l, Region, Market_participant)
 requests_i_j = sum_by_axes(requests_i_j_k,   Region)
 requests_i_j = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)

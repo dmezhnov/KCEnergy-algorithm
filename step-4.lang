@@ -4,6 +4,8 @@ sum_by_axes, copy_values:                          matrix_operation.lang
 axis:                                              matrix_types.lang
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
+
+# Матрица объемов (не скорректированных и скорректированных) запрашиваемых субъектами рынка
 requests_i_j_k_l_first_reduced = copy_values(requests_i_j_k_l_first_deficit_multiple_reduced_2, requests_i_j_k_l_first)
     where
         requests_i_j_k_l_first_reduced(i, j, l, k):                    number
@@ -32,6 +34,7 @@ requests_i_j_l_first_region_reduced = sum_by_axes(requests_i_j_k_l_first_reduced
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
+# Матрица итоговых суммарных скорректированных объемов размера N x M
 requests_i_j_first_region_participant_reduced = sum_by_axes(requests_i_j_k_l_first_reduced, Region, Market_participant)
 requests_i_j_first_region_participant_reduced = sum_by_axes(requests_i_j_l_first_region_reduced,    Market_participant)
     where
