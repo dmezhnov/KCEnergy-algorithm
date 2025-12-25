@@ -8,8 +8,7 @@ volumes_l_t_i_k:                                                         step-0.
 # по фактическим месяцам активности (только месяцы с объёмом > 0) за последние 12 месяцев.
 # Это среднее ограничивает объём Запроса в дефиците.
 
-# volumes_l_t_i_k_positive — проливы по активным месяцам (>0).
-# Исключает нулевые периоды из расчёта среднего.
+# Проливы субъектов рынка за последние 12 месяцев, где объем пролива > 0
 volumes_l_t_i_k_positive(l) = (
     (l, i) = (
         (l, i, k) = (
@@ -47,7 +46,7 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
                 i:  index # Индексы нефпродукта
                 k:  index # Индексы региона
 
-# matrix_of_activity — число месяцев с продажами у субъекта в регионе по виду НП.
+# Матрица числа месяцев с продажами у субъекта в регионе по виду НП.
 # Используется как знаменатель при расчёте скользящего среднего.
 matrix_of_activity(l) = (
     (l, i) = (
@@ -83,7 +82,7 @@ matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_a
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
-# volumes_l_i_k — сумма проливов за период по региону/виду/субъекту.
+# Матрица сумм проливов за период по региону/виду/субъекту.
 # Числитель для вычисления скользящего среднего.
 volumes_l_i_k(l) = (
     (l, i) = (
@@ -121,6 +120,7 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
+# Матрица скользящих средних, где число активных месяцев = 0
 moving_average(l) = (
     (l, i) = (
         (l, i, k) = 0
@@ -138,6 +138,7 @@ moving_average(l) = (
                 i:  index # Индексы нефпродукта
                 k:  index # Индексы региона
 
+# Матрица скользящих средних, где число активных месяцев > 0
 moving_average(l) = (
     (l, i) = (
         (l, i, k) = volumes_l_i_k(l, i, k) / matrix_of_activity(l, i, k)
@@ -157,6 +158,7 @@ moving_average(l) = (
                 i:  index # Индексы нефпродукта
                 k:  index # Индексы региона
 
+# Матрица скользящих средних
 moving_average = for_each_pair(volumes_l_i_k, safe_divide, matrix_of_activity)
     where
         volumes_l_i_k(l, i, k):      number # Сумма проливов за период
