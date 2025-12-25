@@ -1,25 +1,38 @@
+requests_i_j_k_l_first_deficit_single_reduced:                                                        step-3.2.1.lang
 requests_i_j_k_l_first_deficit_multiple_distributed, requests_i_j_k_l_first_deficit_multiple_reduced: step-3.2.2.lang
-for_each_pair:                                                             matrix_operation.lang
-operation:                                                                 matrix_types.lang
+for_each_pair, assign_matrix:                                                                         matrix_operation.lang
+operation:                                                                                            matrix_types.lang
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
 # на первый профицитный НПЗ в порядке обхода, пропорционально заявкам субъекта
 # на НПЗ с профицитом. Остаток «выпадающего» объёма зануляется.
 
+# Матрица скорректированных на проливы объемы дифицитных запросах (запросы на дифицитный НПЗ) первой очереди
+requests_i_j_k_l_first_deficit_reduced = assign_matrix(requests_i_j_k_l_first_deficit_single_reduced, requests_i_j_k_l_first_deficit_multiple_reduced)
+        requests_i_j_k_l_first_deficit_reduced(i, k, l, j):          number
+        requests_i_j_k_l_first_deficit_single_reduced(i, k, l, j):   number
+        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_reduced:          matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_single_reduced:   matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_reduced: matrix(Product, Region, Market_participant, Refinery)
+            where
+                Product, Region, Market_participant, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
 
-# если еть хоть 1 профицитный запрос (запрос на профицитный НПЗ):
-# матрица которая содержит все запросы, если среди них есть хоть и профицитный, иначе матрица пустая
-all_requests_if_surplus =
+requests_has_surplus =
 
-share = for_each_pair(all_requests_if_surplus, safe_divide, surplus_requests)
+share = for_each_pair(, safe_divide, )
 
-requests_i_j_k_l_first_deficit_multiple_distributed_2 =
+requests_i_j_k_l_first_deficit_distributed_2 =
     where
-        requests_i_j_k_l_first_deficit_multiple_distributed_2(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple_distributed(i, k, l, j):   number
-        requests_i_j_k_l_first_deficit_multiple_distributed:  matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple_distributed_2 matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_distributed_2(i, k, l, j):        number
+        requests_i_j_k_l_first_deficit_multiple_distributed(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_distributed: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_distributed_2         matrix(Product, Region, Market_participant, Refinery)
             where
                 subtract: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -28,11 +41,12 @@ requests_i_j_k_l_first_deficit_multiple_distributed_2 =
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_multiple_reduced_2 =
-        requests_i_j_k_l_first_deficit_multiple_reduced_2(i, k, l, j): number
-        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):   number
-        requests_i_j_k_l_first_deficit_multiple_reduced_2: matrix(Product, Region, Market_participant, Refinery)
-        requests_i_j_k_l_first_deficit_multiple_reduced:   matrix(Product, Region, Market_participant, Refinery)
+# Матрица дважды скорректированных на проливы объемы дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
+requests_i_j_k_l_first_deficit_reduced_2 =
+        requests_i_j_k_l_first_deficit_reduced_2(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_reduced(i, k, l, j):   number
+        requests_i_j_k_l_first_deficit_reduced_2: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_reduced:   matrix(Product, Region, Market_participant, Refinery)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
