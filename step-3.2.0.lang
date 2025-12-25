@@ -1,7 +1,7 @@
 number:                                        core
 count_coordinates_by_axis, filter_by_pair:     matrix_operation.lang
 axis, condition, matrix, index:                matrix_types.lang
-deficit_requests_i_j: step-2.lang
+requests_i_j_deficit: step-2.lang
 requests_i_j_k_l_l0_first:                step-1.lang
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС)
@@ -19,10 +19,10 @@ deficit_requests_first(i) = (
     where
         requests_i_j_k_l_l0_first(i, j, k, l):                  number # Запрашиваемый объем НП
         deficit_requests_first(i, j, k, l):                    number
-        deficit_requests_i_j(i*, j*): number
+        requests_i_j_deficit(i*, j*): number
         requests_i_j_k_l_l0_first:                      matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_first:                        matrix(Product, Refinery, Region, Market_participant)
-        deficit_requests_i_j: matrix(Product, Refinery)
+        requests_i_j_deficit: matrix(Product, Refinery)
             where
                 i = i*
                 j = j*
@@ -34,14 +34,14 @@ deficit_requests_first(i) = (
                         k:     index # Индексы региона
                         l:     index # Индексы субъекта рынка
 
-deficit_requests_first = filter_by_pair(requests_i_j_k_l_l0_first, contains, deficit_requests_i_j)
+deficit_requests_first = filter_by_pair(requests_i_j_k_l_l0_first, contains, requests_i_j_deficit)
     where
         requests_i_j_k_l_l0_first(i, j, k, l):                number # Запрашиваемый объем НП
         deficit_requests_first(i, j, k, l):                  number
-        deficit_requests_i_j(i, j): number
+        requests_i_j_deficit(i, j): number
         requests_i_j_k_l_l0_first:                      matrix(Product, Refinery, Region, Market_participant)
         deficit_requests_first:                        matrix(Product, Refinery, Region, Market_participant)
-        deficit_requests_i_j: matrix(Product, Refinery)
+        requests_i_j_deficit: matrix(Product, Refinery)
         contains: condition
             where
                 Product, Refinery, Region, Market_participant: axis # Оси заявок
