@@ -1,4 +1,4 @@
-requests_first_deficit_reduction, requests_first_deficit_multiple_reduced: step-3.2.2.lang
+requests_i_j_k_l_first_deficit_reduction, requests_i_j_k_l_first_deficit_multiple_reduced: step-3.2.2.lang
 for_each_pair:                                                             matrix_operation.lang
 operation:                                                                 matrix_types.lang
 
@@ -14,12 +14,12 @@ all_requests_if_surplus =
 
 share = for_each_pair(all_requests_if_surplus, safe_divide, surplus_requests)
 
-requests_first_deficit_reduction_2 =
+requests_i_j_k_l_first_deficit_reduction_2 =
     where
-        requests_first_deficit_reduction_2(i, k, l, j): number
-        requests_first_deficit_reduction(i, k, l, j):   number
-        requests_first_deficit_reduction:  matrix(Product, Region, Market_participant, Refinery)
-        requests_first_deficit_reduction_2 matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_reduction_2(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_reduction(i, k, l, j):   number
+        requests_i_j_k_l_first_deficit_reduction:  matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_reduction_2 matrix(Product, Region, Market_participant, Refinery)
             where
                 subtract: operation
                 Product, Region, Market_participant, Refinery: axis
@@ -28,11 +28,11 @@ requests_first_deficit_reduction_2 =
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
-requests_first_deficit_multiple_reduced_2 =
-        requests_first_deficit_multiple_reduced_2(i, k, l, j): number
-        requests_first_deficit_multiple_reduced(i, k, l, j):   number
-        requests_first_deficit_multiple_reduced_2: matrix(Product, Region, Market_participant, Refinery)
-        requests_first_deficit_multiple_reduced:   matrix(Product, Region, Market_participant, Refinery)
+requests_i_j_k_l_first_deficit_multiple_reduced_2 =
+        requests_i_j_k_l_first_deficit_multiple_reduced_2(i, k, l, j): number
+        requests_i_j_k_l_first_deficit_multiple_reduced(i, k, l, j):   number
+        requests_i_j_k_l_first_deficit_multiple_reduced_2: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_first_deficit_multiple_reduced:   matrix(Product, Region, Market_participant, Refinery)
             where
                 Product, Region, Market_participant, Refinery: axis
                 i: index # Индексы нефпродукта
