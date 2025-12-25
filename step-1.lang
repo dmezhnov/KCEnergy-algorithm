@@ -1,7 +1,7 @@
 number:                            core
 axis, index:                       matrix_types.lang
 sum_by_axes, filter_by_coordinate: operations.lang
-requests_i_j_k_l_l0:                initial_data.lang
+requests_i_j_k_l_l0:               initial_data.lang
 
 ### Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
 # Отбираем Запросы на покупку НП на рассматриваемый период по виду НП,
