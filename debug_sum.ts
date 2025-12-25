@@ -1,9 +1,9 @@
-import { volumes_by_period } from './initial_data.example';
+import { volumes_l_t_i_k_k0_i0 } from './initial_data.example';
 import { sum_by_axes } from './matrix_operation';
 import { Axis } from './matrix_types';
 
 console.log('=== Input matrix ===');
-console.log('volumes_by_period children:', volumes_by_period.matrix_children['#значение']['размер']);
+console.log('volumes_l_t_i_k_k0_i0 children:', volumes_l_t_i_k_k0_i0.matrix_children['#значение']['размер']);
 
 // Get all leaf nodes
 function getLeaves(matrix: any, leaves: any[] = []): any[] {
@@ -18,7 +18,7 @@ function getLeaves(matrix: any, leaves: any[] = []): any[] {
     return leaves;
 }
 
-const inputLeaves = getLeaves(volumes_by_period);
+const inputLeaves = getLeaves(volumes_l_t_i_k_k0_i0);
 console.log('Input leaf count:', inputLeaves.length);
 console.log('Sample input leaf coords:');
 for (let i = 0; i < Math.min(3, inputLeaves.length); i++) {
@@ -32,7 +32,7 @@ for (let i = 0; i < Math.min(3, inputLeaves.length); i++) {
 }
 
 console.log('\n=== Running sum_by_axes ===');
-const result = sum_by_axes(volumes_by_period, Axis.Product_category);
+const result = sum_by_axes(volumes_l_t_i_k_k0_i0, Axis.Product_category);
 
 console.log('\n=== Output matrix ===');
 console.log('Result children:', result.matrix_children['#значение']['размер']);

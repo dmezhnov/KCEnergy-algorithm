@@ -3,9 +3,9 @@ axis,   index, matrix:  matrix_types.lang
 
 ## Исходные данные
 
-requests_by_period: matrix(Product, Refinery, Region, Market_participant, Queue) # Заявки за рассматриваемый период
+requests_i_j_k_l_l0: matrix(Product, Refinery, Region, Market_participant, Queue) # Заявки за рассматриваемый период
     where
-        requests_by_period(i, j, k, l, l0): number # Запрашиваемый объем НП
+        requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
         Product, Refinery, Region, Market_participant, Queue: axis # Оси
             where
                 i:  index # Индексы нефпродукта
@@ -14,9 +14,9 @@ requests_by_period: matrix(Product, Refinery, Region, Market_participant, Queue)
                 l:  index # Индексы субъекта рынка
                 l0: index # Индексы очереди
 
-volumes_by_period: matrix(Market_participant, Region, Product, Month_and_year, District, Product_category) # История проливов помесячно (до 12 мес.)
+volumes_l_t_i_k_k0_i0: matrix(Market_participant, Region, Product, Month_and_year, District, Product_category) # История проливов помесячно (до 12 мес.)
     where
-        volumes_by_period(l, t, i, k, k0, i0): number # Объем пролива
+        volumes_l_t_i_k_k0_i0(l, t, i, k, k0, i0): number # Объем пролива
         Market_participant, Region, Product, Month_and_year, District, Product_category: axis # Оси
             where
                 l:  index # Индексы субъекта рынка
@@ -26,9 +26,9 @@ volumes_by_period: matrix(Market_participant, Region, Product, Month_and_year, D
                 k0: index # Индексы района
                 i0: index # Индексы категории нефпродукта
 
-available_by_refinery: matrix(Product, Refinery) # Доступные объёмы по НПЗ на текущий месяц
+available_i_j: matrix(Product, Refinery) # Доступные объёмы по НПЗ на текущий месяц
     where
-        available_by_refinery(i, j): number
+        available_i_j(i, j): number
             where
                 Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта

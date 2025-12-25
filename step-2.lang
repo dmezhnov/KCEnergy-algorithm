@@ -1,7 +1,7 @@
 number:                                                       core
 for_each_element, filter_by_value, operation:                 operations.lang
 matrix, axis, index:                                          matrix_types.lang
-OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_by_refinery:  initial_data.lang
+OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j:  initial_data.lang
 requests_by_market_participant_region:                        step-1.lang
 
 ### Порог «Превышение Доступных объемов по Запросам»
@@ -12,13 +12,13 @@ requests_by_market_participant_region:                        step-1.lang
 # threshold_by_refinery — порог превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_by_refinery(i) = (
-    (i, j) = available_by_refinery(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
+    (i, j) = available_i_j(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
 )
     where
         threshold_by_refinery(i, j):  number
-        available_by_refinery(i, j):  number # Доступные объёмы
+        available_i_j(i, j):  number # Доступные объёмы
         threshold_by_refinery:  matrix(Product, Refinery) # Порог по НПЗ/виду НП
-        available_by_refinery:  matrix(Product, Refinery) # Доступные объёмы
+        available_i_j:  matrix(Product, Refinery) # Доступные объёмы
         OVERALL_REQUEST_CAPACITY_COEFFICIENT: number # Коэффициент порога
         *: operation # Операция умножения
             where
@@ -26,12 +26,12 @@ threshold_by_refinery(i) = (
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
-threshold_by_refinery = for_each_element(available_by_refinery, multiply, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
+threshold_by_refinery = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
     where
         threshold_by_refinery(i, j): number
-        available_by_refinery(i, j): number # Доступные объёмы
+        available_i_j(i, j): number # Доступные объёмы
         threshold_by_refinery:  matrix(Product, Refinery) # Порог по НПЗ/виду НП
-        available_by_refinery:  matrix(Product, Refinery) # Доступные объёмы
+        available_i_j:  matrix(Product, Refinery) # Доступные объёмы
         multiply: operation # Операция умножения
             where
                 Product, Refinery: axis # Оси

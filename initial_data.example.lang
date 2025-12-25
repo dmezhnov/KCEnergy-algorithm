@@ -44,7 +44,7 @@ Region = Алматы, Астана, Шымкент
 # 009   1: i,     1: j,   3: k,    6: l,   4: l0 - 700
 # 009   (АИ-92,   ПКОП,   Шымкент, «Е.»,   Fourth)
 
-requests_by_period = (
+requests_i_j_k_l_l0 = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
@@ -295,7 +295,7 @@ requests_by_period = (
         l:  index # Индексы субъекта рынка
         l0: index # Индексы очереди
 
-requests_by_period = (
+requests_i_j_k_l_l0 = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
@@ -506,7 +506,7 @@ requests_by_period = (
 # 0048 1: i,   1: i0, 1: k,    1: k0,   3: l, 12: t          - 60
 # 0048 (АИ-92, АИ-92, Астана,  Астана,  «В.», сентябрь 2024)
 
-volumes_by_period = (
+volumes_l_t_i_k_k0_i0 = (
     (1: i) = (
         (1: i, 1: i0) = (
             (1: i, 1: i0, 1: k) = (
@@ -785,7 +785,7 @@ volumes_by_period = (
         k0: index # Индексы района
         i0: index # Индексы категории нефпродукта
 
-volumes_by_period = (
+volumes_l_t_i_k_k0_i0 = (
     (1: i) = (
         (1: i, 1: i0) = (
             (1: i, 1: i0, 1: k) = (
@@ -868,6 +868,6 @@ volumes_by_period = (
         k0: index # Индексы района
         i0: index # Индексы категории нефпродукта
 
-available_by_refinery = (
+available_i_j = (
 
 )
