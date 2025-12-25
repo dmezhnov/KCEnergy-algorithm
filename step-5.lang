@@ -1,7 +1,7 @@
 requests_i_j_first_reduced, requests_i_j_k_l_first_reduced: step-4.lang
 available_i_j:                                              step-5.lang
 assign_matrix, for_each_pair, filter_by_pair:               matrix_operation.lang
-operation:                                                  matrix_types.lang
+operation, condition, index, axis:                          matrix_types.lang
 
 ### Предварительный расчетный объем НП (для Владельцев АЗС)
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
@@ -9,24 +9,30 @@ operation:                                                  matrix_types.lang
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
 
 # Матрица итоговых суммарных объемов Запросов, которые превышают доступный объём
-requests_i_j_first_reduced_exceed = filter_by_pair(requests_i_j_first_reduced, greater_than, volumes_j_i)
+requests_i_j_first_reduced_exceed = filter_by_pair(requests_i_j_first_reduced, greater_than, available_i_j)
     where
         requests_i_j_first_reduced(i, j):        number
         requests_i_j_first_reduced_exceed(i, j): number
+        available_i_j(i, j):                     number
         requests_i_j_first_reduced:        matrix(Product, Refinery)
         requests_i_j_first_reduced_exceed: matrix(Product, Refinery)
+        available_i_j:                     matrix(Product, Refinery)
+        greater_than: condition
             where
                 Product, Refinery: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
 # Матрица итоговых суммарных объемов Запросов, которые не превышают доступный объём
-requests_i_j_first_reduced_not_exceed = filter_by_pair(requests_i_j_first_reduced, less_or_equal_than, volumes_j_i)
+requests_i_j_first_reduced_not_exceed = filter_by_pair(requests_i_j_first_reduced, less_or_equal_than, available_i_j)
     where
         requests_i_j_first_reduced(i, j):            number
         requests_i_j_first_reduced_not_exceed(i, j): number
+        available_i_j(i, j):                         number
         requests_i_j_first_reduced:            matrix(Product, Refinery)
         requests_i_j_first_reduced_not_exceed: matrix(Product, Refinery)
+        available_i_j:                         matrix(Product, Refinery)
+        less_or_equal_than: condition
             where
                 Product, Refinery: axis
                 i: index # Индексы нефпродукта
@@ -34,12 +40,58 @@ requests_i_j_first_reduced_not_exceed = filter_by_pair(requests_i_j_first_reduce
 
 # Доля превышения доступного объёма
 estimated_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_first_reduced)
+    where
+        estimated_exceed_share(i, j):     number
+        available_i_j(i, j):              number
+        requests_i_j_first_reduced(i, j): number
+        estimated_exceed_share:     matrix(Product, Refinery)
+        available_i_j:              matrix(Product, Refinery)
+        requests_i_j_first_reduced: matrix(Product, Refinery)
+        divided: operation
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
 
 # Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ превышает доступный объём
 estimated_exceed = for_each_pair(requests_i_j_k_l_first_reduced, multiply, estimated_exceed_share)
+    where
+        estimated_exceed(i, j):               number
+        requests_i_j_k_l_first_reduced(i, j): number
+        estimated_exceed_share(i, j):         number
+        estimated_exceed:               matrix(Product, Refinery)
+        requests_i_j_k_l_first_reduced: matrix(Product, Refinery)
+        estimated_exceed_share:         matrix(Product, Refinery)
+        multiply: operation
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
 
 # Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ не превышает доступный объём
 estimated_not_exceed = assign_matrix(available_i_j, requests_i_j_first_reduced_not_exceed);
+    where
+        estimated_not_exceed(i, j):                  number
+        available_i_j(i, j):                         number
+        requests_i_j_first_reduced_not_exceed(i, j): number
+        estimated_not_exceed:                   matrix(Product, Refinery)
+        available_i_j:                         matrix(Product, Refinery)
+        requests_i_j_first_reduced_not_exceed: matrix(Product, Refinery)
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
 
 # Матрица предварительных расчетных объемов НП
 estimated = assign_matrix(estimated_exceed, estimated_not_exceed)
+    where
+        estimated(i, j):            number
+        estimated_exceed(i, j):     number
+        estimated_not_exceed(i, j): number
+        estimated:            matrix(Product, Refinery)
+        estimated_exceed:     matrix(Product, Refinery)
+        estimated_not_exceed: matrix(Product, Refinery)
+            where
+                Product, Refinery: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
