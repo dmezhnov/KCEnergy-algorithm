@@ -23,10 +23,10 @@ requests_i_j_k_l_first_deficit_reduced = assign_matrix(requests_i_j_k_l_first_de
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
 
+# Матрица запросов, если есть хотя 1 НПЗ с профицитом, иначе пустая матрица
 requests_has_surplus =
 
-share = for_each_pair(, safe_divide, )
-
+# Матрица выпадающих при второй корректировке на проливы объемы дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
 requests_i_j_k_l_first_deficit_distributed_2 =
     where
         requests_i_j_k_l_first_deficit_distributed_2(i, k, l, j):        number
