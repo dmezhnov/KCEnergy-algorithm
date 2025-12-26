@@ -20,7 +20,7 @@ new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without
         matrix_source:                 matrix(...Taxis, axis_to_remove) # Исходная матрица с удаляемой осью
         new_empty_matrix_without_axis: matrix(...Taxis)                 # Результат без удаляемой оси
             where
-                axis_to_remove:       axis # Удаляемая ось
+                axis_to_remove:           axis # Удаляемая ось
                 ...Taxis = (1), ..., (n): axis # Оставшиеся оси
 
 ### - Копировать значения матрицы
