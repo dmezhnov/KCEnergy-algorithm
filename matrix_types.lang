@@ -11,6 +11,8 @@ Condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal
 
 Queue = First, Second, Third, Fourth: queue
 
+Ship_terms = FCA, EXW: ship_terms
+
 Axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms: axis
 
 matrix(...Tcoords) = {
