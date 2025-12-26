@@ -1,4 +1,4 @@
-requests_i_j_first_reduced, requests_i_j_k_l_first_reduced: step-4.lang
+requests_i_j_s_first_reduced, requests_i_j_k_l_s_first_reduced: step-4.lang
 available_i_j:                                              step-5.lang
 assign_matrix, for_each_pair, filter_by_pair:               matrix_operation.lang
 operation, condition, index, axis, matrix:                  matrix_types.lang
@@ -9,127 +9,135 @@ operation, condition, index, axis, matrix:                  matrix_types.lang
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
 
 # Матрица объемов (не скорректированных и скорректированных) запрашиваемых субъектами рынка, которые превышают доступный объём
-requests_i_j_k_l_first_reduced_exceed = filter_by_pair(requests_i_j_k_l_first_reduced, greater_than, available_i_j)
+requests_i_j_k_l_s_first_reduced_exceed = filter_by_pair(requests_i_j_k_l_s_first_reduced, greater_than, available_i_j)
     where
-        requests_i_j_k_l_first_reduced(i, j, k, l):        number
-        requests_i_j_k_l_first_reduced_exceed(i, j, k, l): number
-        available_i_j(i, j):                               number
-        requests_i_j_k_l_first_reduced:        matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l_first_reduced_exceed: matrix(Product, Refinery, Region, Market_participant)
-        available_i_j:                         matrix(Product, Refinery)
+        requests_i_j_k_l_s_first_reduced(i, j, s, k, l):        number
+        requests_i_j_k_l_s_first_reduced_exceed(i, j, s, k, l): number
+        available_i_j(i, j):                                    number
+        requests_i_j_k_l_s_first_reduced:        matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_reduced_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        available_i_j:                           matrix(Product, Refinery)
         greater_than: condition
             where
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
 # Матрица объемов (не скорректированных и скорректированных) запрашиваемых субъектами рынка, которые не превышают доступный объём
-requests_i_j_k_l_first_reduced_not_exceed = filter_by_pair(requests_i_j_k_l_first_reduced, less_or_equal_than, available_i_j)
+requests_i_j_k_l_s_first_reduced_not_exceed = filter_by_pair(requests_i_j_k_l_s_first_reduced, less_or_equal_than, available_i_j)
     where
-        requests_i_j_k_l_first_reduced(i, j, k, l):            number
-        requests_i_j_k_l_first_reduced_not_exceed(i, j, k, l): number
-        available_i_j(i, j):                                   number
-        requests_i_j_k_l_first_reduced:            matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l_first_reduced_not_exceed: matrix(Product, Refinery, Region, Market_participant)
-        available_i_j:                             matrix(Product, Refinery)
+        requests_i_j_k_l_s_first_reduced(i, j, s, k, l):            number
+        requests_i_j_k_l_s_first_reduced_not_exceed(i, j, s, k, l): number
+        available_i_j(i, j):                                        number
+        requests_i_j_k_l_s_first_reduced:            matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_reduced_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        available_i_j:                               matrix(Product, Refinery)
         less_or_equal_than: condition
             where
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
 # Матрица итоговых суммарных объемов Запросов, которые превышают доступный объём
-requests_i_j_first_reduced_exceed = filter_by_pair(requests_i_j_first_reduced, greater_than, available_i_j)
+requests_i_j_s_first_reduced_exceed = filter_by_pair(requests_i_j_s_first_reduced, greater_than, available_i_j)
     where
-        requests_i_j_first_reduced(i, j):        number
-        requests_i_j_first_reduced_exceed(i, j): number
-        available_i_j(i, j):                     number
-        requests_i_j_first_reduced:        matrix(Product, Refinery)
-        requests_i_j_first_reduced_exceed: matrix(Product, Refinery)
-        available_i_j:                     matrix(Product, Refinery)
+        requests_i_j_s_first_reduced(i, j, s):        number
+        requests_i_j_s_first_reduced_exceed(i, j, s): number
+        available_i_j(i, j):                          number
+        requests_i_j_s_first_reduced:        matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_reduced_exceed: matrix(Product, Refinery, Ship_terms)
+        available_i_j:                       matrix(Product, Refinery)
         greater_than: condition
             where
-                Product, Refinery: axis
+                Product, Refinery, Ship_terms: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
 
 # Матрица итоговых суммарных объемов Запросов, которые не превышают доступный объём
-requests_i_j_first_reduced_not_exceed = filter_by_pair(requests_i_j_first_reduced, less_or_equal_than, available_i_j)
+requests_i_j_s_first_reduced_not_exceed = filter_by_pair(requests_i_j_s_first_reduced, less_or_equal_than, available_i_j)
     where
-        requests_i_j_first_reduced(i, j):            number
-        requests_i_j_first_reduced_not_exceed(i, j): number
-        available_i_j(i, j):                         number
-        requests_i_j_first_reduced:            matrix(Product, Refinery)
-        requests_i_j_first_reduced_not_exceed: matrix(Product, Refinery)
-        available_i_j:                         matrix(Product, Refinery)
+        requests_i_j_s_first_reduced(i, j, s):            number
+        requests_i_j_s_first_reduced_not_exceed(i, j, s): number
+        available_i_j(i, j):                              number
+        requests_i_j_s_first_reduced:            matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_reduced_not_exceed: matrix(Product, Refinery, Ship_terms)
+        available_i_j:                           matrix(Product, Refinery)
         less_or_equal_than: condition
             where
-                Product, Refinery: axis
+                Product, Refinery, Ship_terms: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
 
 # Доля превышения доступного объёма
-estimated_i_j_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_first_reduced_exceed)
+estimated_i_j_s_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_s_first_reduced_exceed)
     where
-        estimated_i_j_exceed_share(i, j):        number
-        available_i_j(i, j):                     number
-        requests_i_j_first_reduced_exceed(i, j): number
-        estimated_i_j_exceed_share:        matrix(Product, Refinery)
-        available_i_j:                     matrix(Product, Refinery)
-        requests_i_j_first_reduced_exceed: matrix(Product, Refinery)
+        estimated_i_j_s_exceed_share(i, j, s):        number
+        requests_i_j_s_first_reduced_exceed(i, j, s): number
+        available_i_j(i, j):                          number
+        estimated_i_j_s_exceed_share:        matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_reduced_exceed: matrix(Product, Refinery, Ship_terms)
+        available_i_j:                       matrix(Product, Refinery)
         divided: operation
             where
-                Product, Refinery: axis
+                Product, Refinery, Ship_terms: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
 
 # Предварительный объем НП, где итоговый суммарный объём Запросов на НПЗ превышает доступный объём
-estimated_i_j_k_l_exceed = for_each_pair(requests_i_j_k_l_first_reduced_exceed, multiply, estimated_i_j_exceed_share)
+estimated_i_j_k_l_s_exceed = for_each_pair(requests_i_j_k_l_s_first_reduced_exceed, multiply, estimated_i_j_s_exceed_share)
     where
-        estimated_i_j_k_l_exceed(i, j, k, l):              number
-        requests_i_j_k_l_first_reduced_exceed(i, j, k, l): number
-        estimated_i_j_exceed_share(i, j):                  number
-        estimated_i_j_k_l_exceed:              matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l_first_reduced_exceed: matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_exceed_share:            matrix(Product, Refinery)
+        estimated_i_j_k_l_s_exceed(i, j, s, k, l):              number
+        requests_i_j_k_l_s_first_reduced_exceed(i, j, s, k, l): number
+        estimated_i_j_s_exceed_share(i, j, s):                  number
+        estimated_i_j_k_l_s_exceed:              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_reduced_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_s_exceed_share:            matrix(Product, Refinery, Ship_terms)
         multiply: operation
             where
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
 # Предварительный объем НП, где итоговый суммарный объём Запросов на НПЗ не превышает доступный объём
-estimated_i_j_k_l_not_exceed = requests_i_j_k_l_first_reduced_not_exceed;
+estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_reduced_not_exceed;
     where
-        estimated_i_j_k_l_not_exceed(i, j, k, l):              number
-        requests_i_j_k_l_first_reduced_not_exceed(i, j, k, l): number
-        estimated_i_j_k_l_not_exceed:              matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l_first_reduced_not_exceed: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l):              number
+        requests_i_j_k_l_s_first_reduced_not_exceed(i, j, s, k, l): number
+        estimated_i_j_k_l_s_not_exceed:              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_reduced_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
 # Матрица предварительных расчетных объемов НП
-estimated_i_j_k_l = assign_matrix(estimated_i_j_k_l_not_exceed, estimated_i_j_k_l_exceed)
+estimated_i_j_k_l_s = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated_i_j_k_l_s_exceed)
     where
-        estimated_i_j_k_l(i, j, k , l):            number
-        estimated_i_j_k_l_exceed(i, j, k , l):     number
-        estimated_i_j_k_l_not_exceed(i, j, k , l): number
-        estimated_i_j_k_l:            matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exceed:     matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_not_exceed: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_s(i, j, s, k, l):            number
+        estimated_i_j_k_l_s_exceed(i, j, s, k, l):     number
+        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l): number
+        estimated_i_j_k_l_s:            matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_exceed:     matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                s: index # Индексы условия поставки
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
