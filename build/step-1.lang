@@ -17,4 +17,4 @@ requests_i_j_k_l_s_first = (
         l  : index # Субъект рынка
         l0 : index # Очередь
 
-requests_i_j_k_l = 2300
+requests_i_j_s_k_l = 2300
