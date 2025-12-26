@@ -2,7 +2,7 @@ number:                                              core
 for_each_element, filter_by_value:                   operations.lang
 matrix, axis, index, operation:                      matrix_types.lang
 OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j: initial_data.lang
-requests_i_j_s:                                      step-1.lang
+requests_i_j:                                        step-1.lang
 
 ### Порог «Превышение Доступных объемов по Запросам»
 # Сравниваем суммарные Запросы с порогом «Доступный объём × коэффициент» (по умолчанию 120%).
@@ -39,77 +39,69 @@ threshold_i_j = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACI
                 j: index # Индексы НПЗ
 
 # Матрица объемов в дифицитных запросах (запросы поданные на дифицитные НПЗ) от всех субъектов ранка
-requests_i_j_s_deficit(i) = (
-    (i, j) = (
-        (i, j, s) = requests_i_j_s(i, j, s)
-    )
+requests_i_j_deficit(i) = (
+    (i, j) = requests_i_j(i, j)
 )
     where
-        requests_i_j_s_deficit(i, j, s): number = deficit_value
-        requests_i_j_s(i, j, s):         number = request_value
-        threshold_i_j(i, j):             number = threshold
-        requests_i_j_s_deficit: matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s:         matrix(Product, Refinery, Ship_terms)
-        threshold_i_j:          matrix(Product, Refinery)
+        requests_i_j_deficit(i, j): number = deficit_value
+        requests_i_j(i, j):         number = request_value
+        threshold_i_j(i, j):        number = threshold
+        requests_i_j_deficit: matrix(Product, Refinery)
+        requests_i_j:         matrix(Product, Refinery)
+        threshold_i_j:        matrix(Product, Refinery)
             where
                 deficit_value = request_value
                     where
                         request_value >= threshold
                         deficit_value, threshold, request_value: number
-                        Product, Refinery, Ship_terms: axis
+                        Product, Refinery: axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
-                        s: index # Индексы условий поставки
 
-requests_i_j_s_deficit = filter_by_value(requests_i_j_s, greater_or_equal_than, threshold_i_j)
+requests_i_j_deficit = filter_by_value(requests_i_j, greater_or_equal_than, threshold_i_j)
     where
-        requests_i_j_s_deficit(i, j, s): number
-        requests_i_j_s(i, j, s):         number
-        threshold_i_j(i, j):             number
-        requests_i_j_s_deficit: matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s:         matrix(Product, Refinery, Ship_terms)
-        threshold_i_j:          matrix(Product, Refinery)
+        requests_i_j_deficit(i, j): number
+        requests_i_j(i, j):         number
+        threshold_i_j(i, j):        number
+        requests_i_j_deficit: matrix(Product, Refinery)
+        requests_i_j:         matrix(Product, Refinery)
+        threshold_i_j:        matrix(Product, Refinery)
         greater_or_equal_than: condition
             where
-                Product, Refinery, Ship_terms: axis # Оси
+                Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
-                s: index # Индексы условий поставки
 
 # Матрица объемов в профицитных запросах (запросы поданные на профицитные НПЗ) от всех субъектов ранка
-requests_i_j_s_surplus(i) = (
-    (i, j) = (
-        (i, j, s) = requests_i_j_s(i, j, s)
-    )
+requests_i_j_surplus(i) = (
+    (i, j) = requests_i_j(i, j)
 )
     where
-        requests_i_j_s_surplus(i, j, s): number = surplus_value
-        requests_i_j_s(i, j, s):         number = request_value
-        threshold_i_j(i, j):             number = threshold
-        requests_i_j_s_surplus: matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s:         matrix(Product, Refinery, Ship_terms)
-        threshold_i_j:          matrix(Product, Refinery)
+        requests_i_j_surplus(i, j): number = surplus_value
+        requests_i_j(i, j):         number = request_value
+        threshold_i_j(i, j):        number = threshold
+        requests_i_j_surplus: matrix(Product, Refinery)
+        requests_i_j:         matrix(Product, Refinery)
+        threshold_i_j:        matrix(Product, Refinery)
             where
                 surplus_value = request_value
                     where
                         request_value < threshold
                         surplus_value, threshold, request_value: number
-                        Product, Refinery, Ship_terms: axis
+                        Product, Refinery: axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
-                        s: index # Индексы условий поставки
 
-requests_i_j_s_surplus = filter_by_value(requests_i_j_s, less_than, threshold_i_j)
+requests_i_j_surplus = filter_by_value(requests_i_j, less_than, threshold_i_j)
     where
-        requests_i_j_s_surplus(i, j, s): number
-        requests_i_j_s(i, j, s):         number
-        threshold_i_j(i, j):             number
-        requests_i_j_s_surplus: matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s:         matrix(Product, Refinery, Ship_terms)
-        threshold_i_j:          matrix(Product, Refinery)
+        requests_i_j_surplus(i, j): number
+        requests_i_j(i, j):         number
+        threshold_i_j(i, j):        number
+        requests_i_j_surplus: matrix(Product, Refinery)
+        requests_i_j:         matrix(Product, Refinery)
+        threshold_i_j:        matrix(Product, Refinery)
         less_than: condition
             where
-                Product, Refinery, Ship_terms: axis # Оси
+                Product, Refinery: axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
-                s: index # Индексы условий поставки
