@@ -1,8 +1,8 @@
-number:                                                                                                 core
-requests_i_j_k_l_s_first_deficit_single_reduced:                                                        step-3.2.1.lang
+number:                                                                                                   core
+requests_i_j_k_l_s_first_deficit_single_reduced:                                                          step-3.2.1.lang
 requests_i_j_k_l_s_first_deficit_multiple_distributed, requests_i_j_k_l_s_first_deficit_multiple_reduced: step-3.2.2.lang
-for_each_pair, assign_matrix:                                                                           matrix_operation.lang
-operation, matrix, axis, index:                                                                         matrix_types.lang
+for_each_pair, assign_matrix:                                                                             matrix_operation.lang
+operation, matrix, axis, index:                                                                           matrix_types.lang
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
@@ -31,10 +31,10 @@ requests_has_surplus =
 # Матрица выпадающих при второй корректировке на проливы объемы дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_distributed_2 =
     where
-        requests_i_j_k_l_s_first_deficit_distributed_2(i, k, l, j, s):      number
+        requests_i_j_k_l_s_first_deficit_distributed_2(i, k, l, j, s):        number
         requests_i_j_k_l_s_first_deficit_multiple_distributed(i, k, l, j, s): number
         requests_i_j_k_l_s_first_deficit_multiple_distributed: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_deficit_distributed_2       matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_deficit_distributed_2         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 subtract: operation
                 Product, Region, Market_participant, Refinery, Ship_terms: axis
