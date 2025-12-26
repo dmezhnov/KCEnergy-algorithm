@@ -39,14 +39,14 @@ requests_i_j_first_reduced_not_exceed = filter_by_pair(requests_i_j_first_reduce
                 j: index # Индексы НПЗ
 
 # Доля превышения доступного объёма
-estimated_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_first_reduced)
+estimated_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_first_reduced_exceed)
     where
-        estimated_exceed_share(i, j):     number
-        available_i_j(i, j):              number
-        requests_i_j_first_reduced(i, j): number
-        estimated_exceed_share:     matrix(Product, Refinery)
-        available_i_j:              matrix(Product, Refinery)
-        requests_i_j_first_reduced: matrix(Product, Refinery)
+        estimated_exceed_share(i, j):           number
+        available_i_j(i, j):                     number
+        requests_i_j_first_reduced_exceed(i, j): number
+        estimated_exceed_share:            matrix(Product, Refinery)
+        available_i_j:                     matrix(Product, Refinery)
+        requests_i_j_first_reduced_exceed: matrix(Product, Refinery)
         divided: operation
             where
                 Product, Refinery: axis
