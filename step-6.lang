@@ -1,4 +1,6 @@
-estimated_i_j_k_l: step-5.lang
+WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE: initial_data.lang
+estimated_i_j_k_l:                          step-5.lang
+axis, index, matrix:                        matrix_types.lang
 
 ### Предварительное итоговое распределение (нормирование)
 # Нормируем (округляем) предварительно предоставленные объёмы по правилам:

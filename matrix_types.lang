@@ -11,7 +11,7 @@ Condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal
 
 Queue = First, Second, Third, Fourth: queue
 
-Axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue: axis
+Axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms: axis
 
 matrix(...Tcoords) = {
     coords = (1), ..., (C): coordinate = ...Tcoords
@@ -43,7 +43,8 @@ Matrix = (1), ..., (M): matrix # Множество матриц
 1, ..., L       => l        # Индексы субъекта рынка
 1, ..., T       => t        # Индексы месяца и года
 1, ..., L0      => l0       # Индексы очереди
+1, ..., S       => s        # Индексы условий поставки
     where
-        I, J, K:       Index         # Множества индексов
-        i, j, k, l, t: index: number # Индексы
-        N, M, Q, L, T: index: number # Количество индексов (последний индекс)
+        I, J, K:          Index         # Множества индексов
+        i, j, k, l, t, s: index: number # Индексы
+        N, M, Q, L, T, S: index: number # Количество индексов (последний индекс)
