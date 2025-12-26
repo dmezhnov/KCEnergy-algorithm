@@ -9,17 +9,17 @@ moving_average:                        step-3.1.0.lang
 # При нескольких НПЗ рассчитываем доли по НПЗ в общем объёме субъекта.
 
 # Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
-requests_i_j_k_l_first_deficit_single_reduced(i) = (
+requests_i_j_k_l_s_first_deficit_single_reduced(i) = (
     (i, k) = (
         (i, k, l) =
             (i, k, l, j) = moving_average(i, k, l, j)
     )
 )
     where
-        requests_i_j_k_l_first_deficit_single_reduced(i, k, l, j): number
+        requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, j): number
         requests_i_j_k_l_first_deficit_single(i, k, l, j):         number = requsest_value
         moving_average(i, k, l):                                   number = average_value  # Скользящее среднее
-        requests_i_j_k_l_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_s_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_single:         matrix(Product, Region, Market_participant, Refinery)
         moving_average:                                matrix(Product, Region, Market_participant) # Скользящее среднее
             where
@@ -32,12 +32,12 @@ requests_i_j_k_l_first_deficit_single_reduced(i) = (
                         l: index # Индексы субъекта рынка
                         j: index # Индексы НПЗ
 
-requests_i_j_k_l_first_deficit_single_reduced = for_each_pair(requests_i_j_k_l_first_deficit_single, min, moving_average)
+requests_i_j_k_l_s_first_deficit_single_reduced = for_each_pair(requests_i_j_k_l_first_deficit_single, min, moving_average)
     where
-        requests_i_j_k_l_first_deficit_single_reduced(i, k, l, j): number
+        requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, j): number
         requests_i_j_k_l_first_deficit_single(i, k, l, j):         number
         moving_average(i, k, l):                                   number # Скользящее среднее
-        requests_i_j_k_l_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_s_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Refinery)
         requests_i_j_k_l_first_deficit_single:         matrix(Product, Region, Market_participant, Refinery)
         moving_average:                                matrix(Product, Region, Market_participant) # Скользящее среднее
         min: operation
