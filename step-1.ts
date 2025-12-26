@@ -15,12 +15,12 @@ requests_i_j_k_l.matrix_title['#значение'] = 'requests_i_j_k_l';
 export const requests_i_j_k: matrix = sum_by_axes(requests_i_j_k_l, Market_participant);
 requests_i_j_k.matrix_title['#значение'] = 'requests_i_j_k';
 
-export const requests_i_j: matrix = sum_by_axes(requests_i_j_k_l, Region, Market_participant);
-requests_i_j.matrix_title['#значение'] = 'requests_i_j';
+export const requests_i_j_s: matrix = sum_by_axes(requests_i_j_k_l, Region, Market_participant);
+requests_i_j_s.matrix_title['#значение'] = 'requests_i_j_s';
 
 if (import.meta.main) {
     await requests_i_j_k_l_s_first.save('algorithm/build/step-1.lang', false);
     await requests_i_j_k_l.save('algorithm/build/step-1.lang', true);
     await requests_i_j_k.save('algorithm/build/step-1.lang', true);
-    await requests_i_j.save('algorithm/build/step-1.lang', true);
+    await requests_i_j_s.save('algorithm/build/step-1.lang', true);
 }
