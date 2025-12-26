@@ -1,7 +1,7 @@
 WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE:            initial_data.lang
 estimated_i_j_k_l:                                     step-5.lang
 axis, index, matrix, operation:                        matrix_types.lang
-filter_by_coordinate, for_each_pair, for_each_element: matrix_operation.lang
+filter_by_coordinate, for_each_element, assign_matrix: matrix_operation.lang
 
 ### Предварительное итоговое распределение (нормирование)
 # Нормируем (округляем) предварительно предоставленные объёмы по правилам:
@@ -12,13 +12,30 @@ filter_by_coordinate, for_each_pair, for_each_element: matrix_operation.lang
 # Матрица предварительных расчетных объемов НП, для поставки с НПЗ
 estimated_i_j_k_l_fca = filter_by_coordinate(estimated_i_j_k_l, FCA)
 
-x1 = for_each_pair(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
+x1 = for_each_element(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
 
-x2 = for_each_element(x1, round, 1)
+x2 = for_each_element(x1, round, 0)
 
-x3 = for_each_pair(x2, min, WAGON_NORM_TONNAGE)
+x3 = for_each_element(x2, min, WAGON_NORM_TONNAGE)
 
+x4 = for_each_element(x3, multiply, WAGON_NORM_TONNAGE)
 
+# Матрица нормированных объемов НП, для поставки с НПЗ
+normalized_i_j_k_l_fca = for_each_element(x4, min, WAGON_NORM_TONNAGE)
 
 # Матрица предварительных расчетных объемов НП, для поставки с нефтебаз
 estimated_i_j_k_l_exw = filter_by_coordinate(estimated_i_j_k_l, EXW)
+
+y1 = for_each_element(estimated_i_j_k_l_fca, divide, BASE_DEPOT_MIN_TONNAGE)
+
+y2 = for_each_element(y1, round, 0)
+
+y3 = for_each_element(y2, min, BASE_DEPOT_MIN_TONNAGE)
+
+y4 = for_each_element(y3, multiply, BASE_DEPOT_MIN_TONNAGE)
+
+# Матрица нормированных объемов НП, для поставки с нефтебаз
+normalized_i_j_k_l_exw = for_each_element(y4, min, BASE_DEPOT_MIN_TONNAGE)
+
+# Матрица нормированных объемов НП
+normalized_i_j_k_l = assign_matrix(normalized_i_j_k_l_fca, normalized_i_j_k_l_exw)
