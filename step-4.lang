@@ -1,19 +1,19 @@
-requests_i_j_k_l_first_deficit_reduced_2: step-3.3.0.lang
-requests_i_j_k_l_first:                   step-1.lang
-sum_by_axes, assign_matrix:               matrix_operation.lang
-axis, matrix, index:                      matrix_types.lang
+requests_i_j_k_l_s_first_deficit_reduced_2: step-3.3.0.lang
+requests_i_j_k_l_first:                     step-1.lang
+sum_by_axes, assign_matrix:                 matrix_operation.lang
+axis, matrix, index:                        matrix_types.lang
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
 # Матрица объемов (не скорректированных и скорректированных) запрашиваемых субъектами рынка
-requests_i_j_k_l_s_first_reduced = assign_matrix(requests_i_j_k_l_first, requests_i_j_k_l_first_deficit_reduced_2)
+requests_i_j_k_l_s_first_reduced = assign_matrix(requests_i_j_k_l_first, requests_i_j_k_l_s_first_deficit_reduced_2)
     where
-        requests_i_j_k_l_s_first_reduced(i, j, s, l, k):         number
-        requests_i_j_k_l_first_deficit_reduced_2(i, j, s, l, k): number
-        requests_i_j_k_l_first(i, j, s, l, k):                   number
-        requests_i_j_k_l_s_first_reduced:         matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_first_deficit_reduced_2: matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_first:                   matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_first_reduced(i, j, s, l, k):           number
+        requests_i_j_k_l_s_first_deficit_reduced_2(i, j, s, l, k): number
+        requests_i_j_k_l_first(i, j, s, l, k):                     number
+        requests_i_j_k_l_s_first_reduced:           matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_first_deficit_reduced_2: matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_first:                     matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region: axis
                 i: index # Индексы нефпродукта
