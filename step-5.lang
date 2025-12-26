@@ -54,27 +54,29 @@ estimated_exceed_share = for_each_pair(available_i_j, divided, requests_i_j_firs
                 j: index # Индексы НПЗ
 
 # Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ превышает доступный объём
-estimated_exceed = for_each_pair(requests_i_j_k_l_first_reduced, multiply, estimated_exceed_share)
+estimated_i_j_k_l_exceed = for_each_pair(requests_i_j_k_l_first_reduced, multiply, estimated_exceed_share)
     where
-        estimated_exceed(i, j):               number
-        requests_i_j_k_l_first_reduced(i, j): number
-        estimated_exceed_share(i, j):         number
-        estimated_exceed:               matrix(Product, Refinery)
-        requests_i_j_k_l_first_reduced: matrix(Product, Refinery)
+        estimated_i_j_k_l_exceed(i, j, k, l):       number
+        requests_i_j_k_l_first_reduced(i, j, k, l): number
+        estimated_exceed_share(i, j):               number
+        estimated_i_j_k_l_exceed:       matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_k_l_first_reduced: matrix(Product, Refinery, Region, Market_participant)
         estimated_exceed_share:         matrix(Product, Refinery)
         multiply: operation
             where
-                Product, Refinery: axis
+                Product, Refinery, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
 # Предварительный объем НП, если итоговый суммарный объём Запросов на НПЗ не превышает доступный объём
-estimated_not_exceed = assign_matrix(available_i_j, requests_i_j_first_reduced_not_exceed);
+estimated_i_j_not_exceed = assign_matrix(available_i_j, requests_i_j_first_reduced_not_exceed);
     where
-        estimated_not_exceed(i, j):                  number
+        estimated_i_j_not_exceed(i, j):              number
         available_i_j(i, j):                         number
         requests_i_j_first_reduced_not_exceed(i, j): number
-        estimated_not_exceed:                   matrix(Product, Refinery)
+        estimated_i_j_not_exceed:              matrix(Product, Refinery)
         available_i_j:                         matrix(Product, Refinery)
         requests_i_j_first_reduced_not_exceed: matrix(Product, Refinery)
             where
@@ -83,15 +85,17 @@ estimated_not_exceed = assign_matrix(available_i_j, requests_i_j_first_reduced_n
                 j: index # Индексы НПЗ
 
 # Матрица предварительных расчетных объемов НП
-estimated = assign_matrix(estimated_exceed, estimated_not_exceed)
+estimated_i_j_k_l = assign_matrix(estimated_i_j_k_l_exceed, estimated_i_j_not_exceed)
     where
-        estimated(i, j):            number
-        estimated_exceed(i, j):     number
-        estimated_not_exceed(i, j): number
-        estimated:            matrix(Product, Refinery)
-        estimated_exceed:     matrix(Product, Refinery)
-        estimated_not_exceed: matrix(Product, Refinery)
+        estimated_i_j_k_l(i, j, k , l):        number
+        estimated_i_j_k_l_exceed(i, j, k , l): number
+        estimated_i_j_not_exceed(i, j):        number
+        estimated_i_j_k_l:        matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exceed: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_not_exceed: matrix(Product, Refinery)
             where
-                Product, Refinery: axis
+                Product, Refinery, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
