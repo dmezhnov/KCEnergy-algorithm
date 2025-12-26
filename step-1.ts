@@ -5,8 +5,8 @@ import { requests_i_j_k_l_l0 } from './initial_data.example'
 const { First } = Coordinate;
 const { Queue, Market_participant, Region } = Axis;
 
-export const requests_i_j_k_l_first: matrix = filter_by_coordinate(requests_i_j_k_l_l0, First);
-requests_i_j_k_l_first.matrix_title['#значение'] = 'requests_i_j_k_l_first';
+export const requests_i_j_k_l_s_first: matrix = filter_by_coordinate(requests_i_j_k_l_l0, First);
+requests_i_j_k_l_s_first.matrix_title['#значение'] = 'requests_i_j_k_l_s_first';
 
 
 export const requests_i_j_k_l: matrix = sum_by_axes(requests_i_j_k_l_l0, Queue);
@@ -19,7 +19,7 @@ export const requests_i_j: matrix = sum_by_axes(requests_i_j_k_l, Region, Market
 requests_i_j.matrix_title['#значение'] = 'requests_i_j';
 
 if (import.meta.main) {
-    await requests_i_j_k_l_first.save('algorithm/build/step-1.lang', false);
+    await requests_i_j_k_l_s_first.save('algorithm/build/step-1.lang', false);
     await requests_i_j_k_l.save('algorithm/build/step-1.lang', true);
     await requests_i_j_k.save('algorithm/build/step-1.lang', true);
     await requests_i_j.save('algorithm/build/step-1.lang', true);

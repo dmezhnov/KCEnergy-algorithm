@@ -39,14 +39,14 @@ threshold_i_j = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACI
                 j: index # Индексы НПЗ
 
 # Матрица объемов в дифицитных запросах (запросы поданные на дифицитные НПЗ) от всех субъектов ранка
-requests_i_j_deficit(i) = (
+requests_i_j_s_deficit(i) = (
     (i, j) = requests_i_j(i, j)
 )
     where
-        requests_i_j_deficit(i, j): number = deficit_value
+        requests_i_j_s_deficit(i, j): number = deficit_value
         threshold_i_j(i, j):        number = threshold
         requests_i_j(i, j):         number = request_value
-        requests_i_j_deficit: matrix(Product, Refinery)
+        requests_i_j_s_deficit: matrix(Product, Refinery)
         threshold_i_j:        matrix(Product, Refinery)
         requests_i_j:         matrix(Product, Refinery)
             where
@@ -58,12 +58,12 @@ requests_i_j_deficit(i) = (
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
 
-requests_i_j_deficit = filter_by_value(requests_i_j, greater_or_equal_than, threshold_i_j)
+requests_i_j_s_deficit = filter_by_value(requests_i_j, greater_or_equal_than, threshold_i_j)
     where
-        requests_i_j_deficit(i, j): number
+        requests_i_j_s_deficit(i, j): number
         threshold_i_j(i, j):        number
         requests_i_j(i, j):         number
-        requests_i_j_deficit: matrix(Product, Refinery)
+        requests_i_j_s_deficit: matrix(Product, Refinery)
         threshold_i_j:        matrix(Product, Refinery)
         requests_i_j:         matrix(Product, Refinery)
         greater_or_equal_than: condition
