@@ -1,5 +1,5 @@
 WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE:            initial_data.lang
-estimated_i_j_k_l:                                     step-5.lang
+estimated_i_j_k_l_s:                                   step-5.lang
 axis, index, matrix, operation:                        matrix_types.lang
 filter_by_coordinate, for_each_element, assign_matrix: matrix_operation.lang
 
@@ -10,7 +10,7 @@ filter_by_coordinate, for_each_element, assign_matrix: matrix_operation.lang
 # После контроля доли (Шаг 7) возможно повторное нормирование.
 
 # Матрица предварительных расчетных объемов НП, для поставки с НПЗ
-estimated_i_j_k_l_fca = filter_by_coordinate(estimated_i_j_k_l, FCA)
+estimated_i_j_k_l_fca = filter_by_coordinate(estimated_i_j_k_l_s, FCA)
 
 x1 = for_each_element(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
 
@@ -24,7 +24,7 @@ x4 = for_each_element(x3, multiply, WAGON_NORM_TONNAGE)
 normalized_i_j_k_l_fca = for_each_element(x4, min, WAGON_NORM_TONNAGE)
 
 # Матрица предварительных расчетных объемов НП, для поставки с нефтебаз
-estimated_i_j_k_l_exw = filter_by_coordinate(estimated_i_j_k_l, EXW)
+estimated_i_j_k_l_exw = filter_by_coordinate(estimated_i_j_k_l_s, EXW)
 
 y1 = for_each_element(estimated_i_j_k_l_fca, divide, BASE_DEPOT_MIN_TONNAGE)
 

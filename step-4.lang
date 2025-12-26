@@ -6,12 +6,12 @@ axis, matrix, index:                      matrix_types.lang
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
 # Матрица объемов (не скорректированных и скорректированных) запрашиваемых субъектами рынка
-requests_i_j_k_l_first_reduced = assign_matrix(requests_i_j_k_l_first, requests_i_j_k_l_first_deficit_reduced_2)
+requests_i_j_k_l_s_first_reduced = assign_matrix(requests_i_j_k_l_first, requests_i_j_k_l_first_deficit_reduced_2)
     where
-        requests_i_j_k_l_first_reduced(i, j, l, k):           number
+        requests_i_j_k_l_s_first_reduced(i, j, l, k):           number
         requests_i_j_k_l_first_deficit_reduced_2(i, j, l, k): number
         requests_i_j_k_l_first(i, j, l, k):                   number
-        requests_i_j_k_l_first_reduced:           matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_s_first_reduced:           matrix(Product, Refinery, Market_participant, Region)
         requests_i_j_k_l_first_deficit_reduced_2: matrix(Product, Refinery, Market_participant, Region)
         requests_i_j_k_l_first:                   matrix(Product, Refinery, Market_participant, Region)
             where
@@ -21,11 +21,11 @@ requests_i_j_k_l_first_reduced = assign_matrix(requests_i_j_k_l_first, requests_
                 l: index # Индексы субъекта рынка
                 k: index # Индексы региона
 
-requests_i_j_l_first_reduced = sum_by_axes(requests_i_j_k_l_first_reduced, Region)
+requests_i_j_l_first_reduced = sum_by_axes(requests_i_j_k_l_s_first_reduced, Region)
     where
-        requests_i_j_k_l_first_reduced(i, j, l, k): number
+        requests_i_j_k_l_s_first_reduced(i, j, l, k): number
         requests_i_j_l_first_reduced(i, j, l):      number
-        requests_i_j_k_l_first_reduced: matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_s_first_reduced: matrix(Product, Refinery, Market_participant, Region)
         requests_i_j_l_first_reduced:   matrix(Product, Refinery, Market_participant)
             where
                 Product, Refinery, Market_participant, Region: axis
@@ -35,15 +35,15 @@ requests_i_j_l_first_reduced = sum_by_axes(requests_i_j_k_l_first_reduced, Regio
                 k: index # Индексы региона
 
 # Матрица итоговых суммарных скорректированных объемов размера N x M
-requests_i_j_first_reduced = sum_by_axes(requests_i_j_k_l_first_reduced, Region, Market_participant)
-requests_i_j_first_reduced = sum_by_axes(requests_i_j_l_first_reduced,           Market_participant)
+requests_i_j_s_first_reduced = sum_by_axes(requests_i_j_k_l_s_first_reduced, Region, Market_participant)
+requests_i_j_s_first_reduced = sum_by_axes(requests_i_j_l_first_reduced,           Market_participant)
     where
-        requests_i_j_k_l_first_reduced(i, j, l, k): number
+        requests_i_j_k_l_s_first_reduced(i, j, l, k): number
         requests_i_j_l_first_reduced(i, j, l):      number
-        requests_i_j_first_reduced(i, j):           number
-        requests_i_j_k_l_first_reduced: matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_s_first_reduced(i, j):           number
+        requests_i_j_k_l_s_first_reduced: matrix(Product, Refinery, Market_participant, Region)
         requests_i_j_l_first_reduced:   matrix(Product, Refinery, Market_participant)
-        requests_i_j_first_reduced:     matrix(Product, Refinery)
+        requests_i_j_s_first_reduced:     matrix(Product, Refinery)
             where
                 Product, Refinery, Market_participant, Region: axis
                 i: index # Индексы нефпродукта
