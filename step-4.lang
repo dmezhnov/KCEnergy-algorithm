@@ -1,7 +1,7 @@
 requests_i_j_k_l_first_deficit_reduced_2: step-3.3.0.lang
 requests_i_j_k_l_first:                   step-1.lang
 sum_by_axes, assign_matrix:               matrix_operation.lang
-axis:                                     matrix_types.lang
+axis, matrix, index:                      matrix_types.lang
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
@@ -40,7 +40,7 @@ requests_i_j_first_reduced = sum_by_axes(requests_i_j_l_first_reduced,          
     where
         requests_i_j_k_l_first_reduced(i, j, l, k): number
         requests_i_j_l_first_reduced(i, j, l):      number
-        requests_i_j_first_reduced(i, j):            number
+        requests_i_j_first_reduced(i, j):           number
         requests_i_j_k_l_first_reduced: matrix(Product, Refinery, Market_participant, Region)
         requests_i_j_l_first_reduced:   matrix(Product, Refinery, Market_participant)
         requests_i_j_first_reduced:     matrix(Product, Refinery)

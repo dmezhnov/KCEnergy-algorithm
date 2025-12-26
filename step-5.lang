@@ -1,7 +1,7 @@
 requests_i_j_first_reduced, requests_i_j_k_l_first_reduced: step-4.lang
 available_i_j:                                              step-5.lang
 assign_matrix, for_each_pair, filter_by_pair:               matrix_operation.lang
-operation, condition, index, axis:                          matrix_types.lang
+operation, condition, index, axis, matrix:                  matrix_types.lang
 
 ### Предварительный расчетный объем НП (для Владельцев АЗС)
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
