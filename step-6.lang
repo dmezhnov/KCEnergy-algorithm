@@ -1,9 +1,24 @@
-WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE: initial_data.lang
-estimated_i_j_k_l:                          step-5.lang
-axis, index, matrix:                        matrix_types.lang
+WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE:            initial_data.lang
+estimated_i_j_k_l:                                     step-5.lang
+axis, index, matrix, operation:                        matrix_types.lang
+filter_by_coordinate, for_each_pair, for_each_element: matrix_operation.lang
 
 ### Предварительное итоговое распределение (нормирование)
 # Нормируем (округляем) предварительно предоставленные объёмы по правилам:
 # — для НПЗ — до кратности вагонной норме (по умолчанию 65 МТ) вверх/вниз по правилам 0.5;
 # — для нефтебаз — до не ниже минимальной нормы и кратности шагу вывоза.
 # После контроля доли (Шаг 7) возможно повторное нормирование.
+
+# Матрица предварительных расчетных объемов НП, для поставки с НПЗ
+estimated_i_j_k_l_fca = filter_by_coordinate(estimated_i_j_k_l, FCA)
+
+x1 = for_each_pair(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
+
+x2 = for_each_element(x1, round, 1)
+
+x3 = for_each_pair(x2, min, WAGON_NORM_TONNAGE)
+
+
+
+# Матрица предварительных расчетных объемов НП, для поставки с нефтебаз
+estimated_i_j_k_l_exw = filter_by_coordinate(estimated_i_j_k_l, EXW)

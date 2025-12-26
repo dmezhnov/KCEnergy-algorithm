@@ -5,7 +5,7 @@ number: core
 index: number # Индекс
 Index = i, ..., j: index # Множество индексов
 
-Operation = multiply, divide, safe_divide, round, add, subtract, min, max: operation
+Operation = multiply, divide, safe_divide, round, add, subtract, min, max, round: operation
 
 Condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: condition
 
