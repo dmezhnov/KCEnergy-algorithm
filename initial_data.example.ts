@@ -416,8 +416,8 @@ matrixFor(requestsEmptyMatrix, (el: matrix) => {
 })
 
 
-export const requests_i_j_s_k_l_l0: matrix = requestsEmptyMatrix;
-requests_i_j_s_k_l_l0.matrix_title['#значение'] = 'requests_i_j_s_k_l_l0';
+export const requests_i_j_k_l_l0: matrix = requestsEmptyMatrix;
+requests_i_j_k_l_l0.matrix_title['#значение'] = 'requests_i_j_k_l_l0';
 
 
 const volumesEmptyMatrix: matrix = matrix(
@@ -460,7 +460,7 @@ export const available_i_j: matrix = matrix();
 available_i_j.matrix_title['#значение'] = 'available_i_j';
 
 if (import.meta.main) {
-    await requests_i_j_s_k_l_l0.save('algorithm/build/initial_data.example.lang', false);
+    await requests_i_j_k_l_l0.save('algorithm/build/initial_data.example.lang', false);
     await volumes_l_t_i_k_k0_i0.save('algorithm/build/initial_data.example.lang', true);
     await available_i_j.save('algorithm/build/initial_data.example.lang', true);
 }
