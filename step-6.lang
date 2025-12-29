@@ -37,6 +37,7 @@ estimated_i_j_k_l_fca_coeff = for_each_element(estimated_i_j_k_l_fca, divide, WA
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
+# Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
 x2 = for_each_element(estimated_i_j_k_l_fca_coeff, round, 0)
 
 x3 = for_each_element(x2, min, WAGON_NORM_TONNAGE)
@@ -74,6 +75,7 @@ estimated_i_j_k_l_exw_coeff = for_each_element(estimated_i_j_k_l_exw, divide, BA
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
+# Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
 y2 = for_each_element(estimated_i_j_k_l_exw_coeff, round, 0)
 
 y3 = for_each_element(y2, min, BASE_DEPOT_MIN_TONNAGE)
