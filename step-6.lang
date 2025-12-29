@@ -11,10 +11,33 @@ filter_by_coordinate, for_each_element, assign_matrix: matrix_operation.lang
 
 # Матрица предварительных расчетных объемов НП, для поставки с НПЗ
 estimated_i_j_k_l_fca = filter_by_coordinate(estimated_i_j_k_l_s, FCA)
+    where
+        estimated_i_j_k_l_s(i, j, k, l, s): number
+        estimated_i_j_k_l_fca(i, j, k, l):  number
+        estimated_i_j_k_l_s:   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_fca: matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant, Ship_terms: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                s: index # Индексы условия поставки
 
-x1 = for_each_element(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
+estimated_i_j_k_l_fca_coeff = for_each_element(estimated_i_j_k_l_fca, divide, WAGON_NORM_TONNAGE)
+    where
+        estimated_i_j_k_l_fca_coeff(i, j, k, l): number
+        estimated_i_j_k_l_fca(i, j, k, l):       number
+        estimated_i_j_k_l_fca_coeff: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca:       matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
-x2 = for_each_element(x1, round, 0)
+x2 = for_each_element(estimated_i_j_k_l_fca_coeff, round, 0)
 
 x3 = for_each_element(x2, min, WAGON_NORM_TONNAGE)
 
@@ -25,10 +48,33 @@ normalized_i_j_k_l_fca = for_each_element(x4, min, WAGON_NORM_TONNAGE)
 
 # Матрица предварительных расчетных объемов НП, для поставки с нефтебаз
 estimated_i_j_k_l_exw = filter_by_coordinate(estimated_i_j_k_l_s, EXW)
+    where
+        estimated_i_j_k_l_s(i, j, k, l, s): number
+        estimated_i_j_k_l_exw(i, j, k, l):  number
+        estimated_i_j_k_l_s:   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_exw: matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant, Ship_terms: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                s: index # Индексы условия поставки
 
-y1 = for_each_element(estimated_i_j_k_l_fca, divide, BASE_DEPOT_MIN_TONNAGE)
+estimated_i_j_k_l_exw_coeff = for_each_element(estimated_i_j_k_l_exw, divide, BASE_DEPOT_MIN_TONNAGE)
+    where
+        estimated_i_j_k_l_exw_coeff(i, j, k, l): number
+        estimated_i_j_k_l_exw(i, j, k, l):       number
+        estimated_i_j_k_l_exw_coeff: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw:       matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
-y2 = for_each_element(y1, round, 0)
+y2 = for_each_element(estimated_i_j_k_l_exw_coeff, round, 0)
 
 y3 = for_each_element(y2, min, BASE_DEPOT_MIN_TONNAGE)
 
