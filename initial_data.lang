@@ -57,6 +57,8 @@ BASE_DEPOT_STEP_TONNAGE:              number     = 5
 
 # Предельная доля одному Субъекту, %
 MAX_SUBJECT_SHARE_PERCENTAGE:         percentage = 50
+    where
+        percentage: number
 
 # Предельная доля одному Субъекту, коэффициент
 MAX_SUBJECT_SHARE_COEFFICIENT:        number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100 = 0.5
