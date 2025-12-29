@@ -91,7 +91,6 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
                 l:  index # Индексы субъекта рынка
                 l0: index # Индексы очереди
                 s:  index # Индексы условий поставки
-                S:  index # Количество условий поставки
 
 requests_i_j_k_l(i) = (
     (i, j) = (
