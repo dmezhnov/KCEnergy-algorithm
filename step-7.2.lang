@@ -60,12 +60,12 @@ normalized_i_j_k_l_increased = filter_by_pair(normalized_i_j_k_l, contains, norm
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-x3 = for_each_pair(normalized_i_j_k_l_increased, multiply, normalized_i_coeff)
+normalized_i_j_k_l_limited = for_each_pair(normalized_i_j_k_l_increased, multiply, normalized_i_coeff)
     where
-        x3(i, l, j, k):                           number
+        normalized_i_j_k_l_limited(i, l, j, k):   number
         normalized_i_j_k_l_increased(i, l, j, k): number
         normalized_i_coeff(i):                    number
-        x3:                           matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited:   matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_increased: matrix(Product, Market_participant, Refinery, Region)
         normalized_i_coeff:           matrix(Product)
         multiply: operation
@@ -76,14 +76,14 @@ x3 = for_each_pair(normalized_i_j_k_l_increased, multiply, normalized_i_coeff)
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-x4 = for_each_pair(x3, divide, normalized_i_l)
+normalized_i_j_k_l_corrected = for_each_pair(normalized_i_j_k_l_limited, divide, normalized_i_l)
     where
-        x4(i, l, j, k):       number
-        x3(i, l, j, k):       number
-        normalized_i_l(i, l): number
-        x4:             matrix(Product, Market_participant, Refinery, Region)
-        x3:             matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_l: matrix(Product, Market_participant)
+        normalized_i_j_k_l_corrected(i, l, j, k): number
+        normalized_i_j_k_l_limited(i, l, j, k):   number
+        normalized_i_l(i, l):                     number
+        normalized_i_j_k_l_corrected: matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited:   matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l:               matrix(Product, Market_participant)
         divide: operation
             where
                 Product, Market_participant, Refinery, Region: axis
@@ -92,14 +92,14 @@ x4 = for_each_pair(x3, divide, normalized_i_l)
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-normalized_i_j_k_l_not_increased = assign_matrix(normalized_i_j_k_l, x4)
+normalized_i_j_k_l_not_increased = assign_matrix(normalized_i_j_k_l, normalized_i_j_k_l_corrected)
     where
         normalized_i_j_k_l_not_increased(i, l, j, k): number
         normalized_i_j_k_l(i, l, j, k):               number
-        x4(i, l, j, k):                               number
+        normalized_i_j_k_l_corrected(i, l, j, k):     number
         normalized_i_j_k_l_not_increased: matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l:               matrix(Product, Market_participant, Refinery, Region)
-        x4:                               matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected:     matrix(Product, Market_participant, Refinery, Region)
             where
                 Product, Market_participant, Refinery, Region: axis
                 i: index # Индексы нефпродукта
