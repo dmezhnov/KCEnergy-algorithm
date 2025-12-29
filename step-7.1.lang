@@ -1,4 +1,33 @@
+normalized_i_j_k_l: step-6.lang
+sum_by_axes:        matrix_operation.lang
+
 #### Суммарный нормированный объем НП
 # Суммируем нормированные предоставленные объёмы:
 # — по всем Субъектам рынка (итог по виду НП),
 # — по каждому Субъекту рынка (его суммарный объём).
+
+# Матрица суммарных нормированных объемов НП
+normalized_i_l = sum_by_axes(normalized_i_j_k_l, Refinery, Region)
+    where
+        normalized_i_j_k_l(i, l, j, k): number
+        normalized_i_l(i, l):           number
+        normalized_i_j_k_l: matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l:     matrix(Product, Market_participant)
+            where
+                Product, Market_participant, Refinery, Region: axis
+                l: index # Индексы субъекта рынка
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+
+# Матрица суммарных нормированных объемов НП
+normalized_i = sum_by_axes(normalized_i_l, Market_participant)
+    where
+        normalized_i_l(i, l): number
+        normalized_i(i):      number
+        normalized_i_l: matrix(Product, Market_participant)
+        normalized_i:   matrix(Product)
+            where
+                Product, Market_participant: axis
+                l: index # Индексы субъекта рынка
+                i: index # Индексы нефпродукта
