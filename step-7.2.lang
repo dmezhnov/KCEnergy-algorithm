@@ -65,3 +65,19 @@ x4 = for_each_pair(x3, divide, normalized_i_l)
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
+
+x5 = assign_matrix(normalized_i_j_k_l, x4)
+    where
+        x5(i, l, j, k):                 number
+        normalized_i_j_k_l(i, l, j, k): number
+        x4(i, l, j, k):                 number
+        x5:                 matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l: matrix(Product, Market_participant, Refinery, Region)
+        x4:                 matrix(Product, Market_participant, Refinery, Region)
+            where
+                Product, Market_participant, Refinery, Region: axis
+                i: index # Индексы нефпродукта
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+
