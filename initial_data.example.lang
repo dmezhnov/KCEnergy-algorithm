@@ -44,7 +44,7 @@ Region = Алматы, Астана, Шымкент
 # 009   1: i,     1: j,   3: k,    6: l,   4: l0 - 700
 # 009   (АИ-92,   ПКОП,   Шымкент, «Е.»,   Fourth)
 
-requests_i_j_k_l_l0 = (
+requests_i_j_k_l_s_l0 = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
@@ -295,7 +295,7 @@ requests_i_j_k_l_l0 = (
         l:  index # Индексы субъекта рынка
         l0: index # Индексы очереди
 
-requests_i_j_k_l_l0 = (
+requests_i_j_k_l_s_l0 = (
     (1: i) = (
         (1: i, 1: j) = (
             (1: i, 1: j, 1: k) = (
