@@ -1,15 +1,15 @@
 import { filter_by_coordinate, sum_by_axes } from './matrix_operation';
 import { Axis, Coordinate, matrix } from './matrix_types';
-import { requests_i_j_k_l_l0 } from './initial_data.example'
+import { requests_i_j_k_l_s_l0 } from './initial_data.example'
 
 const { First } = Coordinate;
 const { Queue, Market_participant, Region } = Axis;
 
-export const requests_i_j_k_l_s_first: matrix = filter_by_coordinate(requests_i_j_k_l_l0, First);
+export const requests_i_j_k_l_s_first: matrix = filter_by_coordinate(requests_i_j_k_l_s_l0, First);
 requests_i_j_k_l_s_first.matrix_title['#значение'] = 'requests_i_j_k_l_s_first';
 
 
-export const requests_i_j_k_l: matrix = sum_by_axes(requests_i_j_k_l_l0, Queue);
+export const requests_i_j_k_l: matrix = sum_by_axes(requests_i_j_k_l_s_l0, Queue);
 requests_i_j_k_l.matrix_title['#значение'] = 'requests_i_j_k_l';
 
 export const requests_i_j_k: matrix = sum_by_axes(requests_i_j_k_l, Market_participant);
