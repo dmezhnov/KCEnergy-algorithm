@@ -2,46 +2,72 @@ MAX_SUBJECT_SHARE_PERCENTAGE:                    initial_data.lang
 normalized_i_j_k_l:                              step-6.lang
 normalized_i_l, normalized_i:                    step-7.1.lang
 for_each_element, filter_by_pair, for_each_pair: matrix_operation.lang
+condition, axis, index:                          matrix_types.lang
 
 #### Уточненный нормированный объем НП
 # Сравниваем долю субъекта с предельной долей и, при необходимости,
 # применяем понижающий коэффициент к его объёмам; затем переходим к повторному
 # нормированию (Шаг 6).
 
-x1 = for_each_element(normalized_i, multiply, MAX_SUBJECT_SHARE_PERCENTAGE)
+normalized_i_coeff = for_each_element(normalized_i, multiply, MAX_SUBJECT_SHARE_PERCENTAGE)
     where
-        x1(i):           number
-        normalized_i(i): number
-        x1:           matrix(Product)
-        normalized_i: matrix(Product)
+        normalized_i_coeff(i):        number
+        normalized_i(i):              number
         MAX_SUBJECT_SHARE_PERCENTAGE: number
+        normalized_i_coeff: matrix(Product)
+        normalized_i:       matrix(Product)
         multiply: operation
             where
                 Product: axis
                 i: index # Индексы нефпродукта
 
-x2 = filter_by_pair(normalized_i_l, less_than, x1)
+normalized_i_l_increased = filter_by_pair(normalized_i_l, less_than, normalized_i_coeff)
     where
-        x2(i, l):             number
-        normalized_i_l(i, l): number
-        x1(i):                number
-        x2:             matrix(Product, Market_participant)
-        normalized_i_l: matrix(Product, Market_participant)
-        x1:             matrix(Product)
+        normalized_i_l_increased(i, l): number
+        normalized_i_l(i, l):           number
+        normalized_i_coeff(i):          number
+        normalized_i_l_increased:  matrix(Product, Market_participant)
+        normalized_i_l:            matrix(Product, Market_participant)
+        normalized_i_coeff:        matrix(Product)
         less_than: operation
             where
                 Product, Market_participant: axis
                 i: index # Индексы нефпродукта
                 l: index # Индексы субъекта рынка
 
-x3 = for_each_pair(normalized_i_j_k_l, multiply, x1)
+normalized_i_increased = sum_by_axes(normalized_i_l_increased, Market_participant)
     where
-        x3(i, l, j, k):                 number
-        normalized_i_j_k_l(i, l, j, k): number
-        x1(i):                          number
-        x3:                 matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l: matrix(Product, Market_participant, Refinery, Region)
-        x1: matrix(Product)
+        normalized_i_l_increased(i, l): number
+        normalized_i_increased(i):      number
+        normalized_i_l_increased: matrix(Product, Market_participant)
+        normalized_i_increased:   matrix(Product)
+            where
+                Product, Market_participant: axis
+                l: index # Индексы субъекта рынка
+                i: index # Индексы нефпродукта
+
+normalized_i_j_k_l_increased = filter_by_pair(normalized_i_j_k_l, contains, normalized_i_increased)
+    where
+        normalized_i_j_k_l_increased(i, l, j, k): number
+        normalized_i_increased(i):                number
+        normalized_i_j_k_l_increased: matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_increased:       matrix(Product)
+        contains: condition
+            where
+                Product, Market_participant, Refinery, Region: axis
+                i: index # Индексы нефпродукта
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+
+x3 = for_each_pair(normalized_i_j_k_l_increased, multiply, normalized_i_coeff)
+    where
+        x3(i, l, j, k):                           number
+        normalized_i_j_k_l_increased(i, l, j, k): number
+        normalized_i_coeff(i):                    number
+        x3:                           matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_increased: matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_coeff:           matrix(Product)
         multiply: operation
             where
                 Product, Market_participant, Refinery, Region: axis
@@ -66,14 +92,14 @@ x4 = for_each_pair(x3, divide, normalized_i_l)
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-x5 = assign_matrix(normalized_i_j_k_l, x4)
+normalized_i_j_k_l_not_increased = assign_matrix(normalized_i_j_k_l, x4)
     where
-        x5(i, l, j, k):                 number
-        normalized_i_j_k_l(i, l, j, k): number
-        x4(i, l, j, k):                 number
-        x5:                 matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l: matrix(Product, Market_participant, Refinery, Region)
-        x4:                 matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_not_increased(i, l, j, k): number
+        normalized_i_j_k_l(i, l, j, k):               number
+        x4(i, l, j, k):                               number
+        normalized_i_j_k_l_not_increased: matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l:               matrix(Product, Market_participant, Refinery, Region)
+        x4:                               matrix(Product, Market_participant, Refinery, Region)
             where
                 Product, Market_participant, Refinery, Region: axis
                 i: index # Индексы нефпродукта
@@ -81,3 +107,4 @@ x5 = assign_matrix(normalized_i_j_k_l, x4)
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
+# Повторять шаги 6 - 7.2
