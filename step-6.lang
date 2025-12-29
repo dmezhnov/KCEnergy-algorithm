@@ -38,9 +38,20 @@ estimated_i_j_k_l_fca_coeff = for_each_element(estimated_i_j_k_l_fca, divide, WA
                 l: index # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
-x2 = for_each_element(estimated_i_j_k_l_fca_coeff, round, 0)
+estimated_i_j_k_l_fca_coeff_rounded = for_each_element(estimated_i_j_k_l_fca_coeff, round, 0)
+    where
+        estimated_i_j_k_l_fca_coeff(i, j, k, l):         number
+        estimated_i_j_k_l_fca_coeff_rounded(i, j, k, l): number
+        estimated_i_j_k_l_fca_coeff:         matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff_rounded: matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
-x3 = for_each_element(x2, min, WAGON_NORM_TONNAGE)
+x3 = for_each_element(estimated_i_j_k_l_fca_coeff_rounded, min, WAGON_NORM_TONNAGE)
 
 x4 = for_each_element(x3, multiply, WAGON_NORM_TONNAGE)
 
@@ -76,9 +87,21 @@ estimated_i_j_k_l_exw_coeff = for_each_element(estimated_i_j_k_l_exw, divide, BA
                 l: index # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
-y2 = for_each_element(estimated_i_j_k_l_exw_coeff, round, 0)
+estimated_i_j_k_l_exw_coeff_rounded = for_each_element(estimated_i_j_k_l_exw_coeff, round, 0)
+    where
+        estimated_i_j_k_l_exw_coeff(i, j, k, l):         number
+        estimated_i_j_k_l_exw_coeff_rounded(i, j, k, l): number
+        estimated_i_j_k_l_exw_coeff:         matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff_rounded: matrix(Product, Refinery, Region, Market_participant)
+            where
+                Product, Refinery, Region, Market_participant: axis
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
 
-y3 = for_each_element(y2, min, BASE_DEPOT_MIN_TONNAGE)
+
+y3 = for_each_element(estimated_i_j_k_l_exw_coeff_rounded, min, BASE_DEPOT_MIN_TONNAGE)
 
 y4 = for_each_element(y3, multiply, BASE_DEPOT_MIN_TONNAGE)
 
