@@ -4,16 +4,17 @@ axis,   index, matrix:  matrix_types.lang
 ## Исходные данные
 
 # Заявки субъектов рынка за рассматриваемый период
-requests_i_j_k_l_s_l0: matrix(Product, Refinery, Region, Market_participant, Queue)
+requests_i_j_k_l_s_l0: matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
-        Product, Refinery, Region, Market_participant, Queue: axis # Оси
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s): number # Запрашиваемый объем НП
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms: axis # Оси
             where
                 i:  index # Индексы нефпродукта
                 j:  index # Индексы НПЗ
                 k:  index # Индексы региона
                 l:  index # Индексы субъекта рынка
                 l0: index # Индексы очереди
+                s:  index # Индексы условий поставки
 
 # Проливы субъектов рынка за последние 12 месяцев
 volumes_l_t_i_k_k0_i0: matrix(Market_participant, Region, Product, Month_and_year, District, Product_category)
