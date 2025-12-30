@@ -1,3 +1,23 @@
+estimated_i_j_k_l_new:    step-7.2.lang
+available_i_j:              initial_data.lang
+for_each_pair, sum_by_axes: matrix_operation.lang
+operation:                  matrix_types.lang
+
 ### Оставшийся после распределения Владельцам АЗС объем НП
 # Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
+
+estimated_i_j_new = sum_by_axes(estimated_i_j_k_l_new, Region, Market_participant)
+    where
+        estimated_i_j_k_l_new(i, l, j, k): number
+        estimated_i_j_new(i, j):           number
+        estimated_i_j_k_l_new: matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_new:     matrix(Product, Refinery)
+            where
+                Product, Market_participant, Refinery, Region: axis
+                i: index # Индексы нефпродукта
+                l: index # Индексы субъекта рынка
+                j: index # Индексы НПЗ
+                k: index # Индексы региона
+
+available_i_j_k_l_s_new = for_each_pair(available_i_j, subtract, estimated_i_j_new)
