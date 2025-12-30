@@ -206,7 +206,7 @@ requests_i_j_k_l_s_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k
     where
         requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number
         requests_i_j_k_l_s_first_deficit_multiple_reduced:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
