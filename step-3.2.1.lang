@@ -20,20 +20,20 @@ requests_i_j_k_l_s_first_deficit_single_reduced(i) = (
 )
     where
         requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, s, j): number = reduced_value
-        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):         number = requsest_value
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):         number = request_value
         moving_average(i, k, l):                                        number = average_value  # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single:         matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                  matrix(Product, Region, Market_participant) # Скользящее среднее
             where
-                reduced_value = requsest_value
+                reduced_value = request_value
                     where
-                        requsest_value <= average_value
+                        request_value <= average_value
                             where
                                <= : condition
                 reduced_value = average_value
                     where
-                        requsest_value > average_value
+                        request_value > average_value
                             where
                                 > : condition
                 Product, Region, Market_participant, Ship_terms, Refinery: axis
