@@ -19,21 +19,29 @@ requests_i_j_k_l_s_first_deficit_single_reduced(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, s, j): number
+        requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, s, j): number = reduced_value
         requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):         number = requsest_value
         moving_average(i, k, l):                                        number = average_value  # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_single_reduced: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single:         matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                  matrix(Product, Region, Market_participant) # Скользящее среднее
             where
-                requsest_value > average_value
+                reduced_value = requsest_value
                     where
-                        >: condition
-                        Product, Region, Market_participant, Ship_terms, Refinery: axis
-                        i: index # Индексы нефпродукта
-                        k: index # Индексы региона
-                        l: index # Индексы субъекта рынка
-                        j: index # Индексы НПЗ
+                        requsest_value <= average_value
+                            where
+                               <= : condition
+                reduced_value = average_value
+                    where
+                        requsest_value > average_value
+                            where
+                                > : condition
+                Product, Region, Market_participant, Ship_terms, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                s: index # Индексы условия поставки
+                j: index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_single_reduced = for_each_pair(requests_i_j_k_l_s_first_deficit_single, min, moving_average)
     where
