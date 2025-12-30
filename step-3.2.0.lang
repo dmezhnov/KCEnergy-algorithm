@@ -30,7 +30,6 @@ requests_i_j_k_l_s_first_deficit(i) = (
                 i = i*
                 j = j*
                     where
-                        contains: condition
                         Product, Refinery, Ship_terms, Region, Market_participant: axis # Оси заявок
                         i, i*: index # Индексы нефпродукта
                         j, j*: index # Индексы НПЗ
