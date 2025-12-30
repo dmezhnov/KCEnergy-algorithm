@@ -1,8 +1,8 @@
-number:                                                                                                   core
-requests_i_j_k_l_s_first_deficit_single_reduced:                                                          step-3.2.1.lang
+number:                                                                                            core
+requests_i_j_k_l_s_first_deficit_single_reduced:                                                   step-3.2.1.lang
 requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_reduced: step-3.2.2.lang
-for_each_pair, assign_matrix:                                                                             matrix_operation.lang
-operation, matrix, axis, index:                                                                           matrix_types.lang
+for_each_pair, assign_matrix:                                                                      matrix_operation.lang
+operation, matrix, axis, index:                                                                    matrix_types.lang
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
