@@ -38,7 +38,7 @@ threshold_i_j = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACI
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
-# Матрица объемов в дифицитных запросах (запросы поданные на дифицитные НПЗ) от всех субъектов ранка
+# Матрица объемов в дефицитных запросах (запросы поданные на дефицитные НПЗ) от всех субъектов ранка
 requests_i_j_deficit(i) = (
     (i, j) = requests_i_j(i, j)
 )

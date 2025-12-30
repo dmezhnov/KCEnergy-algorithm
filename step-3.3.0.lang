@@ -9,7 +9,7 @@ operation, matrix, axis, index:                                                 
 # на первый профицитный НПЗ в порядке обхода, пропорционально заявкам субъекта
 # на НПЗ с профицитом. Остаток «выпадающего» объёма зануляется.
 
-# Матрица скорректированных на проливы объемы дифицитных запросах (запросы на дифицитный НПЗ) первой очереди
+# Матрица скорректированных на проливы объемы дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_reduced = assign_matrix(requests_i_j_k_l_s_first_deficit_single_reduced, requests_i_j_k_l_s_first_deficit_multiple_reduced)
         requests_i_j_k_l_s_first_deficit_reduced(i, k, l, j, s):          number
         requests_i_j_k_l_s_first_deficit_single_reduced(i, k, l, j, s):   number
@@ -28,7 +28,7 @@ requests_i_j_k_l_s_first_deficit_reduced = assign_matrix(requests_i_j_k_l_s_firs
 # Матрица запросов, если есть хотя 1 НПЗ с профицитом, иначе пустая матрица
 requests_has_surplus =
 
-# Матрица выпадающих при второй корректировке на проливы объемы дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
+# Матрица выпадающих при второй корректировке на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_distributed_2 =
     where
         requests_i_j_k_l_s_first_deficit_distributed_2(i, k, l, j, s):        number
@@ -44,7 +44,7 @@ requests_i_j_k_l_s_first_deficit_distributed_2 =
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
 
-# Матрица дважды скорректированных на проливы объемы дифицитных запросов (запросы на дифицитный НПЗ) первой очереди
+# Матрица дважды скорректированных на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_reduced_2 =
         requests_i_j_k_l_s_first_deficit_reduced_2(i, k, l, j, s): number
         requests_i_j_k_l_s_first_deficit_reduced(i, k, l, j, s):   number
