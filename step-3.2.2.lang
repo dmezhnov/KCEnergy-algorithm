@@ -94,11 +94,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
 )
     where
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):           number
-        moving_average(i, k, l):                                                  number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):    number
+        moving_average(i, k, l):                                           number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_first_deficit_multiple_share:           matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average:                                            matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share:    matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 *: operation
                 Product, Region, Market_participant, Ship_terms, Refinery: axis
@@ -111,11 +111,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
 requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, multiply, moving_average)
     where
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):           number
-        moving_average(i, k, l):                                                  number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):    number
+        moving_average(i, k, l):                                           number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_first_deficit_multiple_share:           matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average:                                            matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share:    matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 multiply: operation
                 Product, Region, Market_participant, Ship_terms, Refinery: axis
@@ -167,7 +167,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_
                 s: index # Индексы условия поставки
                 j: index # Индексы НПЗ
 
-# Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
+# Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_multiple_reduced(i) = (
     (i, k) = (
         (i, k, l) = (
@@ -178,31 +178,38 @@ requests_i_j_k_l_s_first_deficit_multiple_reduced(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number = requsest_value
-        moving_average(i, k, l):                                           number = average_value # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number = reduced_value
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number = pend_aux_value
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number = request_value
         requests_i_j_k_l_s_first_deficit_multiple_reduced:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                requsest_value > average_value
+                reduced_value = pend_aux_value
                     where
-                        >: condition
-                        Product, Region, Market_participant, Ship_terms, Refinery: axis
-                        i: index # Индексы нефпродукта
-                        k: index # Индексы региона
-                        l: index # Индексы субъекта рынка
-                        s: index # Индексы условия поставки
-                        j: index # Индексы НПЗ
+                        pend_aux_value <= pend_aux_value
+                            where
+                                <= : condition
+                reduced_value = request_value
+                    where
+                        pend_aux_value > pend_aux_value
+                            where
+                                > : condition
+                Product, Region, Market_participant, Ship_terms, Refinery: axis
+                i: index # Индексы нефпродукта
+                k: index # Индексы региона
+                l: index # Индексы субъекта рынка
+                s: index # Индексы условия поставки
+                j: index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_pend_aux, min, moving_average)
+requests_i_j_k_l_s_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
         requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        moving_average(i, k, l):                                           number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_multiple_reduced:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
                 min: operation
                 Product, Region, Market_participant, Ship_terms, Refinery: axis
