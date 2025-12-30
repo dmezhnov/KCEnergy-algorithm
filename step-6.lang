@@ -133,28 +133,12 @@ estimated_i_j_k_l_exw_coeff_rounded = for_each_element(estimated_i_j_k_l_exw_coe
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
 
-# Обрезать сверху до OIL_TERMINAL_MIN_TONNAGE
-estimated_i_j_k_l_exw_coeff_rounded_2 = for_each_element(estimated_i_j_k_l_exw_coeff_rounded, min, OIL_TERMINAL_MIN_TONNAGE)
+estimated_i_j_k_l_exw_rounded = for_each_element(estimated_i_j_k_l_exw_coeff_rounded, multiply, OIL_TERMINAL_MIN_TONNAGE)
     where
-        estimated_i_j_k_l_exw_coeff_rounded_2(i, j, k, l): number
-        estimated_i_j_k_l_exw_coeff_rounded(i, j, k, l):   number
-        estimated_i_j_k_l_exw_coeff_rounded_2: matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_coeff_rounded:   matrix(Product, Refinery, Region, Market_participant)
-        OIL_TERMINAL_MIN_TONNAGE: number
-        min: operation
-            where
-                Product, Refinery, Region, Market_participant: axis
-                i: index # Индексы нефпродукта
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-
-estimated_i_j_k_l_exw_coeff_rounded_3 = for_each_element(estimated_i_j_k_l_exw_coeff_rounded_2, multiply, OIL_TERMINAL_MIN_TONNAGE)
-    where
-        estimated_i_j_k_l_exw_coeff_rounded_2(i, j, k, l): number
-        estimated_i_j_k_l_exw_coeff_rounded_3(i, j, k, l): number
-        estimated_i_j_k_l_exw_coeff_rounded_2: matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_coeff_rounded_3: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff_rounded(i, j, k, l): number
+        estimated_i_j_k_l_exw_rounded(i, j, k, l):       number
+        estimated_i_j_k_l_exw_coeff_rounded: matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_rounded:       matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_MIN_TONNAGE: number
         multiply: operation
             where
@@ -165,14 +149,14 @@ estimated_i_j_k_l_exw_coeff_rounded_3 = for_each_element(estimated_i_j_k_l_exw_c
                 l: index # Индексы субъекта рынка
 
 # Матрица нормированных объемов НП, для поставки с нефтебаз
-normalized_i_j_k_l_exw = for_each_element(estimated_i_j_k_l_exw_coeff_rounded_3, min, OIL_TERMINAL_MIN_TONNAGE)
+normalized_i_j_k_l_exw = for_each_element(estimated_i_j_k_l_exw_rounded, max, OIL_TERMINAL_MIN_TONNAGE)
     where
-        normalized_i_j_k_l_exw(i, j, k, l):                number
-        estimated_i_j_k_l_exw_coeff_rounded_3(i, j, k, l): number
-        normalized_i_j_k_l_exw:                matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_coeff_rounded_3: matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_exw(i, j, k, l):        number
+        estimated_i_j_k_l_exw_rounded(i, j, k, l): number
+        normalized_i_j_k_l_exw:        matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_rounded: matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_MIN_TONNAGE: number
-        min: operation
+        max: operation
             where
                 Product, Refinery, Region, Market_participant: axis
                 i: index # Индексы нефпродукта
