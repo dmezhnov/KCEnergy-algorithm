@@ -1,10 +1,10 @@
-number:                                                                                            core
+number:                                                                                              core
 requests_i_j_k_l_s_first_deficit_single_corrected:                                                   step-3.2.1.lang
 requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_corrected: step-3.2.2.lang
-requests_i_j_surplus:                                                                              step-2.lang
-requests_i_j_k_l_s_first:                                                                          step-1.lang
-for_each_pair, assign_matrix:                                                                      matrix_operation.lang
-operation, matrix, axis, index:                                                                    matrix_types.lang
+requests_i_j_surplus:                                                                                step-2.lang
+requests_i_j_k_l_s_first:                                                                            step-1.lang
+for_each_pair, assign_matrix:                                                                        matrix_operation.lang
+operation, matrix, axis, index:                                                                      matrix_types.lang
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
@@ -48,30 +48,14 @@ requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, cont
 
 requests_i_j_k_l_s_first_pend =
 
-# Матрица выпадающих при второй корректировке на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_first_deficit_pend_2 =
-    where
-        requests_i_j_k_l_s_first_deficit_pend_2(i, k, l, j, s):        number
-        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, j, s): number
-        requests_i_j_k_l_s_first_deficit_multiple_pend: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_deficit_pend_2         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-            where
-                subtract: operation
-                Product, Region, Market_participant, Refinery, Ship_terms: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                s: index # Индексы условия поставки
-
 # Матрица дважды скорректированных на проливы объемы профицитных запросов (запросы на профицитный НПЗ) первой очереди
-requests_i_j_k_l_s_first_surplus_corrected_2 = for_each_pair(requests_i_j_k_l_s_first_surplus, add, requests_i_j_k_l_s_first_pend)
-        requests_i_j_k_l_s_first_surplus_corrected_2(i, k, l, j, s): number
-        requests_i_j_k_l_s_first_surplus(i, k, l, j, s):             number
-        requests_i_j_k_l_s_first_pend(i, k, l, j, s):                number
-        requests_i_j_k_l_s_first_surplus_corrected_2: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_surplus:             matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_pend:                matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+requests_i_j_k_l_s_first_surplus_reduced = for_each_pair(requests_i_j_k_l_s_first_surplus, add, requests_i_j_k_l_s_first_pend)
+        requests_i_j_k_l_s_first_surplus_reduced(i, k, l, j, s): number
+        requests_i_j_k_l_s_first_surplus(i, k, l, j, s):         number
+        requests_i_j_k_l_s_first_pend(i, k, l, j, s):            number
+        requests_i_j_k_l_s_first_surplus_reduced: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_surplus:         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_pend:            matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         add: operation
             where
                 Product, Region, Market_participant, Refinery, Ship_terms: axis
@@ -81,5 +65,5 @@ requests_i_j_k_l_s_first_surplus_corrected_2 = for_each_pair(requests_i_j_k_l_s_
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
 
-# Матрица дважды скорректированных на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) второй очереди
-requests_i_j_k_l_s_first_deficit_corrected_2 =
+# Матрица дважды скорректированных на проливы объемы запросов первой очереди
+requests_i_j_k_l_s_first_corrected = assign_matrix(requests_i_j_k_l_s_first_deficit_corrected, requests_i_j_k_l_s_first_surplus_reduced)
