@@ -168,7 +168,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_
                 j: index # Индексы НПЗ
 
 # Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_first_deficit_multiple_reduced(i) = (
+requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
     (i, k) = (
         (i, k, l) = (
             (i, k, l, s) = (
@@ -178,21 +178,21 @@ requests_i_j_k_l_s_first_deficit_multiple_reduced(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number = reduced_value
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j):  number = corrected_value
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number = pend_aux_value
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number = request_value
-        requests_i_j_k_l_s_first_deficit_multiple_reduced:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_corrected:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                reduced_value = pend_aux_value
+                corrected_value = request_value
                     where
-                        pend_aux_value <= pend_aux_value
+                        request_value <= pend_aux_value
                             where
                                 <= : condition
-                reduced_value = request_value
+                corrected_value = pend_aux_value
                     where
-                        pend_aux_value > pend_aux_value
+                        request_value > pend_aux_value
                             where
                                 > : condition
                 Product, Region, Market_participant, Ship_terms, Refinery: axis
@@ -202,12 +202,12 @@ requests_i_j_k_l_s_first_deficit_multiple_reduced(i) = (
                 s: index # Индексы условия поставки
                 j: index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple_reduced = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
+requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
-        requests_i_j_k_l_s_first_deficit_multiple_reduced(i, k, l, s, j):  number
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j):  number
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number
-        requests_i_j_k_l_s_first_deficit_multiple_reduced:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_corrected:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
