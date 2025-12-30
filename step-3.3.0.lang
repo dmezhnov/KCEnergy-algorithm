@@ -1,6 +1,6 @@
 number:                                                                                                   core
 requests_i_j_k_l_s_first_deficit_single_reduced:                                                          step-3.2.1.lang
-requests_i_j_k_l_s_first_deficit_multiple_distributed, requests_i_j_k_l_s_first_deficit_multiple_reduced: step-3.2.2.lang
+requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_reduced: step-3.2.2.lang
 for_each_pair, assign_matrix:                                                                             matrix_operation.lang
 operation, matrix, axis, index:                                                                           matrix_types.lang
 
@@ -29,12 +29,12 @@ requests_i_j_k_l_s_first_deficit_reduced = assign_matrix(requests_i_j_k_l_s_firs
 requests_has_surplus =
 
 # Матрица выпадающих при второй корректировке на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_first_deficit_distributed_2 =
+requests_i_j_k_l_s_first_deficit_pend_2 =
     where
-        requests_i_j_k_l_s_first_deficit_distributed_2(i, k, l, j, s):        number
-        requests_i_j_k_l_s_first_deficit_multiple_distributed(i, k, l, j, s): number
-        requests_i_j_k_l_s_first_deficit_multiple_distributed: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_deficit_distributed_2         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_deficit_pend_2(i, k, l, j, s):        number
+        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, j, s): number
+        requests_i_j_k_l_s_first_deficit_multiple_pend: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_deficit_pend_2         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 subtract: operation
                 Product, Region, Market_participant, Refinery, Ship_terms: axis
