@@ -92,12 +92,12 @@ normalized_i_j_k_l_corrected = for_each_pair(normalized_i_j_k_l_limited, divide,
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-estimated_i_j_k_l_s_new = assign_matrix(normalized_i_j_k_l, normalized_i_j_k_l_corrected)
+estimated_i_j_k_l_new = assign_matrix(normalized_i_j_k_l, normalized_i_j_k_l_corrected)
     where
-        estimated_i_j_k_l_s_new(i, l, j, k): number
-        normalized_i_j_k_l(i, l, j, k):               number
-        normalized_i_j_k_l_corrected(i, l, j, k):     number
-        estimated_i_j_k_l_s_new:      matrix(Product, Market_participant, Refinery, Region)
+        estimated_i_j_k_l_new(i, l, j, k):        number
+        normalized_i_j_k_l(i, l, j, k):           number
+        normalized_i_j_k_l_corrected(i, l, j, k): number
+        estimated_i_j_k_l_new:        matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l:           matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_corrected: matrix(Product, Market_participant, Refinery, Region)
             where
