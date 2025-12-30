@@ -67,11 +67,11 @@ requests_i_j_k_l_s_first_deficit_pend_2 =
 # Матрица дважды скорректированных на проливы объемы профицитных запросов (запросы на профицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_surplus_corrected_2 = for_each_pair(requests_i_j_k_l_s_first_surplus, add, requests_i_j_k_l_s_first_pend)
         requests_i_j_k_l_s_first_surplus_corrected_2(i, k, l, j, s): number
-        requests_i_j_k_l_s_first_surplus(i, k, l, j, s):           number
-        requests_i_j_k_l_s_first_pend(i, k, l, j, s):              number
+        requests_i_j_k_l_s_first_surplus(i, k, l, j, s):             number
+        requests_i_j_k_l_s_first_pend(i, k, l, j, s):                number
         requests_i_j_k_l_s_first_surplus_corrected_2: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_surplus:           matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_pend:              matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_surplus:             matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_pend:                matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         add: operation
             where
                 Product, Region, Market_participant, Refinery, Ship_terms: axis
