@@ -25,8 +25,7 @@ requests_i_j_k_l_s_first_deficit_reduced = assign_matrix(requests_i_j_k_l_s_firs
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
 
-# Матрица запросов, если есть хотя 1 НПЗ с профицитом, иначе пустая матрица
-requests_has_surplus =
+
 
 # Матрица выпадающих при второй корректировке на проливы объемы дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_pend_2 =
