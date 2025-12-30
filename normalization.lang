@@ -1,5 +1,5 @@
 number:                                                                   core
-WAGON_NORM_TONNAGE, BASE_DEPOT_MIN_TONNAGE, MAX_SUBJECT_SHARE_PERCENTAGE: initial_data.lang
+RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, MAX_SUBJECT_SHARE_PERCENTAGE: initial_data.lang
 estimated:                                                                step-5.lang
 axis, index, matrix, operation, coordinate:                               matrix_types.lang
 filter_by_coordinate, for_each_element, assign_matrix:                    matrix_operation.lang
@@ -199,8 +199,8 @@ normalization(
                         length(normalize_by) = 0
 
 # normalization(estimated_i_j_k_l_s, (
-#         (FCA, WAGON_NORM_TONNAGE),
-#         (EXW, BASE_DEPOT_MIN_TONNAGE)
+#         (FCA, RAIL_ROAD_MIN_TONNAGE),
+#         (EXW, OIL_TERMINAL_MIN_TONNAGE)
 #     ),
 #     (MAX_SUBJECT_SHARE_PERCENTAGE, Product, Market_participant)
 # )

@@ -47,13 +47,13 @@ OVERALL_REQUEST_CAPACITY_PERCENTAGE:  percentage = 120
 OVERALL_REQUEST_CAPACITY_COEFFICIENT: number     = OVERALL_REQUEST_CAPACITY_PERCENTAGE / 100 = 1.2
 
 # Вагонная норма для НПЗ, МТ
-WAGON_NORM_TONNAGE:                   number     = 65
+RAIL_ROAD_MIN_TONNAGE:                   number     = 65
 
 # Минимальная норма для нефтебазы, МТ
-BASE_DEPOT_MIN_TONNAGE:               number     = 4
+OIL_TERMINAL_MIN_TONNAGE:               number     = 4
 
 # Шаг нормы для нефтебазы, МТ
-BASE_DEPOT_STEP_TONNAGE:              number     = 5
+OIL_TERMINAL_STEP_TONNAGE:              number     = 5
 
 # Предельная доля одному Субъекту, %
 MAX_SUBJECT_SHARE_PERCENTAGE:         percentage = 50
