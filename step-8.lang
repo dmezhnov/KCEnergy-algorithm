@@ -8,6 +8,7 @@ operation:                  matrix_types.lang
 # Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
 
+# Последняя матрица предварительных расчетных объемов НП
 estimated_i_j_k_l_last = estimated_i_j_k_l(x)
     where
         estimated_i_j_k_l_last(i, l, j, k): number
@@ -15,7 +16,7 @@ estimated_i_j_k_l_last = estimated_i_j_k_l(x)
         estimated_i_j_k_l: matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_k_l: matrix(Product, Refinery, Market_participant, Region)
             where
-                x: index = length(estimated_i_j_k_l)
+                x: index = length(estimated_i_j_k_l) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region: axis
                 i: index # Индексы нефпродукта
                 l: index # Индексы субъекта рынка

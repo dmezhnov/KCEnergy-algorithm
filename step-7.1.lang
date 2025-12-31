@@ -6,7 +6,7 @@ sum_by_axes:        matrix_operation.lang
 # — по всем Субъектам рынка (итог по виду НП),
 # — по каждому Субъекту рынка (его суммарный объём).
 
-# Матрица суммарных нормированных объемов НП
+# n-я матрица суммарных нормированных объемов НП
 normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
     where
         normalized_i_j_k_l(n)(i, l, j, k): number
@@ -14,13 +14,14 @@ normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
         normalized_i_j_k_l(n): matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n):     matrix(Product, Market_participant)
             where
+                n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region: axis
                 l: index # Индексы субъекта рынка
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-# Матрица суммарных нормированных объемов НП
+# n-я матрица суммарных нормированных объемов НП
 normalized_i(n) = sum_by_axes(normalized_i_l(n), Market_participant)
     where
         normalized_i_l(n)(i, l): number
@@ -28,6 +29,7 @@ normalized_i(n) = sum_by_axes(normalized_i_l(n), Market_participant)
         normalized_i_l(n): matrix(Product, Market_participant)
         normalized_i(n):   matrix(Product)
             where
+                n: index # Индекс матрицы
                 Product, Market_participant: axis
                 l: index # Индексы субъекта рынка
                 i: index # Индексы нефпродукта
