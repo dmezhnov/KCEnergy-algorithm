@@ -23,7 +23,7 @@ MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
                 RAIL_ROAD_MIN_TONNAGE: number
                 MIN_TONNAGE: number
 
-# Доступный объем для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
+# Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
 available_i_j_second = filter_by_value(available_i_j_new, more_than, MIN_TONNAGE)
     where
         available_i_j_new(i, j):    number
