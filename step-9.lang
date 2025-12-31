@@ -1,0 +1,26 @@
+available_i_j_new:                               step-8.lang
+OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE: initial_data.lang
+filter_by_pair:                                  matrix_operation.lang
+operation, matrix, index:                        matrix_types.lang
+
+### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
+# Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
+# с учётом минимальной нормы и шага вывоза с нефтебазы.
+
+MIN_TONNAGE = OIL_TERMINAL_MIN_TONNAGE
+    where
+        OIL_TERMINAL_MIN_TONNAGE < RAIL_ROAD_MIN_TONNAGE
+MIN_TONNAGE = OIL_TERMINAL_MIN_TONNAGE
+    where
+        OIL_TERMINAL_MIN_TONNAGE < OIL_TERMINAL_MIN_TONNAGE
+
+# Доступный объем для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
+available_i_j_second = filter_by_pair(available_i_j_new, more_than, MIN_TONNAGE)
+    where
+        available_i_j_new(i, j):    number
+        MIN_TONNAGE(i, j):          number
+        available_i_j_second(i, j): number
+        more_than: operation
+            where
+                i: index # Индексы нефпродукта
+                j: index # Индексы НПЗ
