@@ -26,7 +26,7 @@ estimated_i_j_k_l_last = estimated_i_j_k_l(x)
 estimated_i_j_last = sum_by_axes(estimated_i_j_k_l_last, Region, Market_participant)
     where
         estimated_i_j_k_l_last(i, l, j, k): number
-        estimated_i_j_last(i, j):            number
+        estimated_i_j_last(i, j):           number
         estimated_i_j_k_l_last: matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_last:     matrix(Product, Refinery)
             where
