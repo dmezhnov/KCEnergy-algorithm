@@ -126,12 +126,12 @@ estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_corrected_not_exceed;
                 l: index # Индексы субъекта рынка
 
 # Матрица предварительных расчетных объемов НП
-estimated_i_j_k_l_s = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated_i_j_k_l_s_exceed)
+estimated_i_j_k_l_s(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated_i_j_k_l_s_exceed)
     where
-        estimated_i_j_k_l_s(i, j, s, k, l):            number
+        estimated_i_j_k_l_s(1)(i, j, s, k, l):         number
         estimated_i_j_k_l_s_exceed(i, j, s, k, l):     number
         estimated_i_j_k_l_s_not_exceed(i, j, s, k, l): number
-        estimated_i_j_k_l_s:            matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s(1):         matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_exceed:     matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
