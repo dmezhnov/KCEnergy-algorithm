@@ -1,7 +1,7 @@
 available_i_j_new:                               step-8.lang
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE: initial_data.lang
 filter_by_value:                                 matrix_operation.lang
-operation, matrix, index, axis:                  matrix_types.lang
+condition, matrix, index, axis:                  matrix_types.lang
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
 # Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
@@ -24,14 +24,14 @@ MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
                 MIN_TONNAGE: number
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j_second = filter_by_value(available_i_j_new, more_than, MIN_TONNAGE)
+available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MIN_TONNAGE)
     where
         available_i_j_new(i, j):    number
         MIN_TONNAGE:                number
         available_i_j_second(i, j): number
         available_i_j_new:    matrix(Product, Refinery)
         available_i_j_second: matrix(Product, Refinery)
-        more_than: operation
+        more_or_equal_than: condition
             where
                 Product, Refinery: axis
                 i: index # Индексы нефпродукта
