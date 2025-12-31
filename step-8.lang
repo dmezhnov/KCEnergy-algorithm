@@ -23,12 +23,12 @@ estimated_i_j_k_l_last = estimated_i_j_k_l(x)
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
 
-estimated_i_j_new = sum_by_axes(estimated_i_j_k_l_last, Region, Market_participant)
+estimated_i_j_last = sum_by_axes(estimated_i_j_k_l_last, Region, Market_participant)
     where
         estimated_i_j_k_l_last(i, l, j, k): number
-        estimated_i_j_new(i, j):            number
+        estimated_i_j_last(i, j):            number
         estimated_i_j_k_l_last: matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_new:      matrix(Product, Refinery)
+        estimated_i_j_last:     matrix(Product, Refinery)
             where
                 Product, Market_participant, Refinery, Region: axis
                 i: index # Индексы нефпродукта
@@ -37,14 +37,14 @@ estimated_i_j_new = sum_by_axes(estimated_i_j_k_l_last, Region, Market_participa
                 k: index # Индексы региона
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП
-available_i_j_new = for_each_pair(available_i_j, subtract, estimated_i_j_new)
+available_i_j_new = for_each_pair(available_i_j, subtract, estimated_i_j_last)
     where
-        available_i_j_new(i, j): number
-        available_i_j(i, j):     number
-        estimated_i_j_new(i, j): number
-        available_i_j_new: matrix(Product, Refinery)
-        available_i_j:     matrix(Product, Refinery)
-        estimated_i_j_new: matrix(Product, Refinery)
+        available_i_j_new(i, j):  number
+        available_i_j(i, j):      number
+        estimated_i_j_last(i, j): number
+        available_i_j_new:  matrix(Product, Refinery)
+        available_i_j:      matrix(Product, Refinery)
+        estimated_i_j_last: matrix(Product, Refinery)
         subtract: operation
             where
                 Product, Refinery: axis
