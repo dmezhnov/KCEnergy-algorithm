@@ -27,6 +27,7 @@ estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
                 l: index # Индексы субъекта рынка
                 s: index # Индексы условия поставки
 
+# n-я матрица коэффициентов, для расчета нормированных объемов НП, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca, divide, RAIL_ROAD_MIN_TONNAGE)
     where
         estimated_i_j_k_l_fca_coeff(n)(i, j, k, l): number
@@ -44,6 +45,7 @@ estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca, divide,
                 l: index # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
+# n-я матрица округленных коэффициентов, для расчета нормированных объемов НП, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff, round, 0)
     where
         estimated_i_j_k_l_fca_coeff(n)(i, j, k, l):         number
