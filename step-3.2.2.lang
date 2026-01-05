@@ -28,7 +28,7 @@ requests_i_k_l_s_first_deficit_multiple(i) = (
 requests_i_k_l_s_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_first_deficit_multiple, Refinery)
     where
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of number
-        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)     of  number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)      of number
         requests_i_j_k_l_s_first_deficit_multiple of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms)
             where
