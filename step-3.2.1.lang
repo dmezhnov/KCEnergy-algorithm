@@ -30,12 +30,12 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
                     where
                         request_value <= average_value
                             where
-                               <= : condition
+                               <=  from condition
                 corrected_value = average_value
                     where
                         request_value > average_value
                             where
-                                > : condition
+                                >  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона

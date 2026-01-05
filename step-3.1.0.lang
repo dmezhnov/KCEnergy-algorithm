@@ -38,7 +38,7 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, >, 0)
         volumes_l_t_i_k_positive(l, i, k, t) of  number # Объем пролива за активные месяцы
         volumes_l_t_i_k of         matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
         volumes_l_t_i_k_positive of matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
-        >: condition # Условие >
+        > from condition # Условие >
             where
                 Market_participant, Product, Region, Month_and_year from axis
                 l from index # Индексы субъекта рынка

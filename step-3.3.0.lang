@@ -36,7 +36,7 @@ requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, cont
         requests_i_j_k_l_s_first of       matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_surplus of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_surplus of           matrix(Product, Refinery)
-        contains: condition
+        contains from condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis # Оси заявок
                 i from index # Индексы нефпродукта

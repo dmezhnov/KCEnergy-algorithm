@@ -17,7 +17,7 @@ requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corr
         requests_i_j_s_first_corrected of      matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
         available_i_j of                       matrix(Product, Refinery)
-        >: condition
+        > from condition
             where
                 Product, Refinery, Ship_terms from axis
                 i from index # Индексы нефпродукта
@@ -33,7 +33,7 @@ requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_
         requests_i_j_s_first_corrected of          matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms)
         available_i_j of                           matrix(Product, Refinery)
-        <=: condition
+        <= from condition
             where
                 Product, Refinery, Ship_terms from axis
                 i from index # Индексы нефпродукта
@@ -49,7 +49,7 @@ requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_corrected of      matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_s_first_corrected_exceed of   matrix(Product, Refinery, Ship_terms)
-        contains: condition
+        contains from condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i from index # Индексы нефпродукта
@@ -67,7 +67,7 @@ requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_
         requests_i_j_k_l_s_first_corrected of          matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_s_first_corrected_not_exceed of   matrix(Product, Refinery, Ship_terms)
-        contains: condition
+        contains from condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i from index # Индексы нефпродукта

@@ -30,7 +30,7 @@ normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, norma
         normalized_i_l_increased(n) of matrix(Product, Market_participant)
         normalized_i_l(n) of         matrix(Product, Market_participant)
         normalized_i_coeff(n) of     matrix(Product)
-        more_than: condition
+        more_than from condition
             where
                 n: index # Индекс матрицы
                 Product, Market_participant from axis
@@ -43,7 +43,7 @@ normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l(n), contains
         normalized_i_l_increased(n)(i, l) of   number
         normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l_increased(n) of   matrix(Product, Market_participant)
-        contains: condition
+        contains from condition
             where
                 n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis

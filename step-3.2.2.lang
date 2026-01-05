@@ -189,12 +189,12 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
                     where
                         request_value <= pend_aux_value
                             where
-                                <= : condition
+                                <=  from condition
                 corrected_value = pend_aux_value
                     where
                         request_value > pend_aux_value
                             where
-                                > : condition
+                                >  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
