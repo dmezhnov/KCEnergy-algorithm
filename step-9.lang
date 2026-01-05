@@ -31,7 +31,7 @@ available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MI
         available_i_j_second(i, j) of  number
         available_i_j_new of  matrix(Product, Refinery)
         available_i_j_second of matrix(Product, Refinery)
-        more_or_equal_than: condition
+        more_or_equal_than from condition
             where
                 Product, Refinery from axis
                 i from index # Индексы нефпродукта
