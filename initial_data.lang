@@ -13,7 +13,7 @@ requests_i_j_k_l_s_l0 from matrix(Product, Refinery, Region, Market_participant,
                 j  from index # Индексы НПЗ
                 k  from index # Индексы региона
                 l  from index # Индексы субъекта рынка
-                l0 from index # Индексы очереди
+                l0 of R  from index # Индексы очереди
                 s  from index # Индексы условий поставки
 
 # Проливы субъектов рынка за последние 12 месяцев
@@ -26,8 +26,8 @@ volumes_l_t_i_k_k0_i0 from matrix(Market_participant, Region, Product, Month_and
                 t  from index # Индексы месяца и года
                 i  from index # Индексы нефпродукта
                 k  from index # Индексы региона
-                k0 from index # Индексы района
-                i0 from index # Индексы категории нефпродукта
+                k0 of K0 from index # Индексы района
+                i0 of I0 from index # Индексы категории нефпродукта
 
 # Доступные объемы НП
 available_i_j from matrix(Product, Refinery)
@@ -35,8 +35,8 @@ available_i_j from matrix(Product, Refinery)
         available_i_j(i, j) of number
             where
                 Product, Refinery from axis # Оси
-                i from index # Индексы нефпродукта
-                j from index # Индексы НПЗ
+                i  of  I from index # Индексы нефпродукта
+                j  of  J from index # Индексы НПЗ
 
 # Порог превышения доступных объёмов, %
 OVERALL_REQUEST_CAPACITY_PERCENTAGE from percentage = 120

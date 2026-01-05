@@ -23,7 +23,7 @@ requests_i_j_k_l_s_second = filter_by_coordinate(requests_i_j_k_l_s_l0, Second)
                         j  from index # Индексы НПЗ
                         k  from index # Индексы региона
                         l  from index # Индексы субъекта рынка
-                        l0 from index # Индексы очереди
+                        l0 of R  from index # Индексы очереди
                         s  from index # Индексы условий поставки
 
 requests_i_j_k_l_s_second_corrected from ("step-3.3.0.lang")
@@ -39,11 +39,11 @@ requests_i_j_l_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_correc
         requests_i_j_l_s_second_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
-                i from index # Индексы нефпродукта
-                j from index # Индексы НПЗ
-                s from index # Индексы условия поставки
-                l from index # Индексы субъекта рынка
-                k from index # Индексы региона
+                i  of  I from index # Индексы нефпродукта
+                j  of  J from index # Индексы НПЗ
+                s  of C  from index # Индексы условия поставки
+                l  of P  from index # Индексы субъекта рынка
+                k  of  K from index # Индексы региона
 
 # Матрица итоговых суммарных скорректированных объемов размера N x M
 requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_corrected, Region, Market_participant)
@@ -57,8 +57,8 @@ requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_l_s_second_corrected,
         requests_i_j_s_second_corrected     of matrix(Product, Refinery, Ship_terms)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
-                i from index # Индексы нефпродукта
-                j from index # Индексы НПЗ
-                s from index # Индексы условия поставки
-                l from index # Индексы субъекта рынка
-                k from index # Индексы региона
+                i  of  I from index # Индексы нефпродукта
+                j  of  J from index # Индексы НПЗ
+                s  of C  from index # Индексы условия поставки
+                l  of P  from index # Индексы субъекта рынка
+                k  of  K from index # Индексы региона

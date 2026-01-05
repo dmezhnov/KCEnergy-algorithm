@@ -33,8 +33,8 @@ volumes_l_t_i_k_k0(l) = (
                 t  from index # Индексы месяца и года
                 i  from index # Индексы нефпродукта
                 k  from index # Индексы региона
-                k0 from index # Индексы района
-                i0 from index # Индексы категории нефпродукта
+                k0 of K0 from index # Индексы района
+                i0 of I0 from index # Индексы категории нефпродукта
                 N0 from index # Количество категорий нефпродукта
 
 volumes_l_t_i_k_k0 = sum_by_axes(volumes_l_t_i_k_k0_i0, Product_category)
@@ -56,8 +56,8 @@ volumes_l_t_i_k_k0 = volumes_l_t_i_k_k0(1),                     ...,  volumes_l_
                         t  from index # Индексы месяца и года
                         i  from index # Индексы нефпродукта
                         k  from index # Индексы региона
-                        k0 from index # Индексы района
-                        i0 from index # Индексы категории нефпродукта
+                        k0 of K0 from index # Индексы района
+                        i0 of I0 from index # Индексы категории нефпродукта
                         L  from index # Количество субъектов рынка
                         N0 from index # Количество категорий нефпродукта
 
@@ -81,7 +81,7 @@ volumes_l_t_i_k(l) = (
                 t  from index # Индексы месяца и года
                 i  from index # Индексы нефпродукта
                 k  from index # Индексы региона
-                k0 from index # Индексы района
+                k0 of K0 from index # Индексы района
                 Q0 from index # Количество районов
 
 # volumes_l_t_i_k — проливы по виду НП, региону, субъекту и месяцу.
@@ -108,7 +108,7 @@ volumes_l_t_i_k = volumes_l_t_i_k(1),                 ...,  volumes_l_t_i_k(L)
                         t  from index # Индексы месяца и года
                         i  from index # Индексы нефпродукта
                         k  from index # Индексы региона
-                        k0 from index # Индексы района
-                        i0 from index # Индексы категории нефпродукта
+                        k0 of K0 from index # Индексы района
+                        i0 of I0 from index # Индексы категории нефпродукта
                         Q0 from index # Количество районов
                         L  from index # Количество субъектов рынка
