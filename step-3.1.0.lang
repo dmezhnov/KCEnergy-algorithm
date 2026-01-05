@@ -27,9 +27,9 @@ volumes_l_t_i_k_positive(l) = (
                         value > 0 # Объем пролива за все месяцы > 0
                         value, value_active of  number # Объем пролива за все и активные месяцы
                         Market_participant, Product, Region, Month_and_year from axis
-                        l:  index # Индексы субъекта рынка
-                        i:  index # Индексы нефпродукта
-                        k:  index # Индексы региона
+                        l from index # Индексы субъекта рынка
+                        i from index # Индексы нефпродукта
+                        k from index # Индексы региона
                         t:  index # Индексы месяца и года
 
 volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
@@ -41,10 +41,10 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
         greater_than: condition # Условие >
             where
                 Market_participant, Product, Region, Month_and_year from axis
-                l:  index # Индексы субъекта рынка
+                l from index # Индексы субъекта рынка
                 t:  index # Индексы месяца и года
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
 
 # Матрица числа месяцев с продажами у субъекта в регионе по виду НП.
 # Используется как знаменатель при расчёте скользящего среднего.
@@ -61,9 +61,9 @@ matrix_of_activity(l) = (
         volumes_l_t_i_k_positive(l, i, k, 1), ..., volumes_l_t_i_k_positive(l, i, k, T) => volumes_l_t_i_k_positive(t)
             where
                 Market_participant, Product, Region, Month_and_year from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
@@ -76,9 +76,9 @@ matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_a
         volumes_l_t_i_k_positive(l, i, k, 1), ..., volumes_l_t_i_k_positive(l, i, k, T)
             where
                 Market_participant, Product, Region, Month_and_year from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
@@ -98,9 +98,9 @@ volumes_l_i_k(l) = (
         volumes_l_t_i_k(l, i, k, 1), ..., volumes_l_t_i_k(l, i, k, T) => volumes_l_i_k(t)
             where
                 Market_participant, Product, Region, Month_and_year from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
@@ -114,9 +114,9 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
         volumes_l_t_i_k(l, i, k, 1), ..., volumes_l_t_i_k(l, i, k, T) => volumes_l_i_k(t)
             where
                 Market_participant, Product, Region, Month_and_year from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
                 t:  index # Индексы месяца и года
                 T:  index # Количество месяцев
 
@@ -134,9 +134,9 @@ moving_average(l) = (
             where
                 matrix_of_activity(l, i, k) of  number = 0
                 Market_participant, Product, Region from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
 
 # Матрица скользящих средних, где число активных месяцев > 0
 moving_average(l) = (
@@ -154,9 +154,9 @@ moving_average(l) = (
             where
                 matrix_of_activity(l, i, k) of  number > 0
                 Market_participant, Product, Region from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
 
 # Матрица скользящих средних
 moving_average = for_each_pair(volumes_l_i_k, safe_divide, matrix_of_activity)
@@ -170,6 +170,6 @@ moving_average = for_each_pair(volumes_l_i_k, safe_divide, matrix_of_activity)
         safe_divide: operation # Операция деления
             where
                 Market_participant, Product, Region from axis # Оси расчёта среднего
-                l:  index # Индексы субъекта рынка
-                i:  index # Индексы нефпродукта
-                k:  index # Индексы региона
+                l from index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона

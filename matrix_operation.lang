@@ -4,108 +4,102 @@ coordinate, axis, matrix, condition from ("matrix_types.lang")
 
 ## Служебные операции
 
-### - Создать пустую матрицу по координатам ✅
+### - Создать пустую матрицу по координатам
 
 new_empty(Tcoords) = new_empty_matrix
     where
-        new_empty_matrix: matrix(Tcoords)   # Пустая матрица по заданным осям
-        Tcoords = (1), ..., (n): coordinate # Список координат
+        new_empty_matrix of matrix(Tcoords)   # Пустая матрица по заданным осям
+        Tcoords = (1), ..., (n) of coordinate # Список координат
 
 ### - Создать без оси
 new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without_axis
     where
-        matrix_source:                 matrix(...Taxis, axis_to_remove) # Исходная матрица с удаляемой осью
-        new_empty_matrix_without_axis: matrix(...Taxis)                 # Результат без удаляемой оси
+        matrix_source of                 matrix(Taxis(1), ..., Taxis(n), axis_to_remove) # Исходная матрица с удаляемой осью
+        new_empty_matrix_without_axis of matrix(Taxis(1), ..., Taxis(n))                 # Результат без удаляемой оси
             where
-                axis_to_remove:           axis # Удаляемая ось
-                ...Taxis = (1), ..., (n): axis # Оставшиеся оси
+                axis_to_remove        of axis # Удаляемая ось
+                Taxis = (1), ..., (n) of axis # Оставшиеся оси
 
 ### - Копировать значения матрицы
 copy_values(matrix_source, copied_matrix) = copied_matrix*
     where
-        matrix_source:  matrix # Источник значений
-        copied_matrix:  matrix # Приёмник (форма/координаты)
-        copied_matrix*: matrix # Результат копирования значений
+        matrix_source  of matrix # Источник значений
+        copied_matrix  of matrix # Приёмник (форма/координаты)
+        copied_matrix* of matrix # Результат копирования значений
 
 ### - Объединить матрицы
-assign_matrix(...Tmatrix_source ) = new_assigned_matrix
+assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
     where
-        new_assigned_matrix: matrix(...Tcoords)
-        ...Tmatrix_source = (1), ..., (n): matrix
+        new_assigned_matrix of matrix(Tcoords(1), ..., Tcoords(n))
+        Tmatrix_source = (1), ..., (n) of matrix
             where
-                ...Tcoords = (1), ..., (n): coordinate
+                Tcoords = (1), ..., (n) of coordinate
 
 ## Основные операции
 
 ### - Суммировать по оси
 
-sum_by_axes(matrix_source, ...TaxesSum) = summed_matrix
+sum_by_axes(matrix_source, TaxesSum(1), ..., TaxesSum(M)) = summed_matrix
     where
-        matrix_source: matrix(...Taxes, ...TaxesSum) # Матрица, содержащая ось суммирования
-        summed_matrix: matrix(...Taxes) # Матрица после свёртки по оси
+        matrix_source of matrix(Taxes(1), ..., Taxes(N), TaxesSum(1), ..., TaxesSum(M)) # Матрица, содержащая ось суммирования
+        summed_matrix of matrix(...Taxes) # Матрица после свёртки по оси
             where
-                ...Taxes    = (1), ..., (N): axis # Оставшиеся оси
-                ...TaxesSum = (1), ..., (M): axis # Оси по которым суммируем (ось суммирования)
+                Taxes    = (1), ..., (N) of axis # Оставшиеся оси
+                TaxesSum = (1), ..., (M) of axis # Оси по которым суммируем (ось суммирования)
                     where
-                        M: index # Количество осей суммирования
-                        N: index # Количество осей результата
+                        M of index # Количество осей суммирования
+                        N of index # Количество осей результата
 
 ### - Для каждого элемента
 
 for_each_element(matrix_source, operat, value) = scaled_matrix
     where
-        matrix_source: matrix    # Исходная матрица
-        operat:        operation # Операция для применения к каждому элементу
-        value of   number    # Параметр операции
-        scaled_matrix: matrix    # Результирующая матрица
+        matrix_source of matrix    # Исходная матрица
+        operat        of operation # Операция для применения к каждому элементу
+        value         of number    # Параметр операции
+        scaled_matrix of matrix    # Результирующая матрица
 
 ### - Фильтровать по значению
 
 filter_by_value(matrix_source, condit, value) = filtered_matrix_by_value
     where
-        matrix_source:            matrix    # Исходная матрица
-        condit:                   condition # Условие сравнения (например, <, >=)
-        value of   number    # Порог/значение сравнения
-        filtered_matrix_by_value: matrix    # Результат фильтрации
+        matrix_source            of matrix    # Исходная матрица
+        condit                   of condition # Условие сравнения (например, <, >=)
+        value                    of number    # Порог/значение сравнения
+        filtered_matrix_by_value of matrix    # Результат фильтрации
 
 ### - Фильтровать по матрице
 
 filter_by_pair(matrix_source, condit, matrix_condition) = filtered_matrix_by_pair
     where
-        matrix_source:           matrix    # Первая матрица
-        condit:                  condition # Условие сравнения
-        matrix_condition:        matrix    # Вторая матрица (сопоставляемая)
-        filtered_matrix_by_pair: matrix    # Результат фильтрации
+        matrix_source           of matrix    # Первая матрица
+        condit                  of condition # Условие сравнения
+        matrix_condition        of matrix    # Вторая матрица (сопоставляемая)
+        filtered_matrix_by_pair of matrix    # Результат фильтрации
 
 ### - Для каждой пары
 
 for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
     where
-        matrix_source_1:  matrix(...Taxis) # Левая матрица
-        matrix_source_2:  matrix           # Правая матрица
-        operat:           operation        # Операция поэлементно
-        matrix_result:    matrix(...Taxis) # Результат
-            where
-                ...Taxis: (1), ..., (A) # Общие оси результата
-                    where
-                        (1): axis # Ось
-                        ...
-                        (A): axis # Ось
+        matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
+        matrix_source_2 of  matrix                          # Правая матрица
+        operat          of  operation                       # Операция поэлементно
+        matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
 
 ### - Количество координат по оси
 
 count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
     where
-        matrix_source:  matrix(...Tcoords, axis_to_count) # Исходная матрица
-        counted_matrix: matrix(...Tcoords) # Результирующая матрица численностей
+        matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
+        counted_matrix of matrix(Tcoords(1), ..., Tcoords(C)) # Результирующая матрица численностей
             where
-                axis_to_count:  axis # Ось, по которой считаем количество координат
-                ...Tcoords = (1), ..., (C): coordinate # Оставшиеся оси
+                axis_to_count of  axis # Ось, по которой считаем количество координат
+                Tcoords = (1), ..., (C) of coordinate # Оставшиеся оси
 
 ### - Фильтровать по координате
 
 filter_by_coordinate(matrix_source, coord) = matrix_without_axis
     where
-        matrix_source:       matrix     # Исходная матрица
-        coord:               coordinate # Фиксируемая координата
-        matrix_without_axis: matrix     # Результат фильтрации по координате
+        matrix_source of       matrix     # Исходная матрица
+        coord of               coordinate # Фиксируемая координата
+        matrix_without_axis of matrix     # Результат фильтрации по координате
