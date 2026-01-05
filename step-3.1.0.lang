@@ -20,7 +20,7 @@ volumes_l_t_i_k_positive(l) = (
         volumes_l_t_i_k(l, i, k, t) of   number = value        # Объем пролива за все месяцы
         volumes_l_t_i_k_positive(l, i, k, t) of  number = value_active # Объем пролива за активные месяцы
         volumes_l_t_i_k of         matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
-        volumes_l_t_i_k_positive:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
+        volumes_l_t_i_k_positive of matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
             where
                 value_active = value
                     where
@@ -37,7 +37,7 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
         volumes_l_t_i_k(l, i, k, t) of   number # Объем пролива за все месяцы
         volumes_l_t_i_k_positive(l, i, k, t) of  number # Объем пролива за активные месяцы
         volumes_l_t_i_k of         matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
-        volumes_l_t_i_k_positive:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
+        volumes_l_t_i_k_positive of matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
         greater_than: condition # Условие >
             where
                 Market_participant, Product, Region, Month_and_year from axis
@@ -92,7 +92,7 @@ volumes_l_i_k(l) = (
     where
         volumes_l_t_i_k(l, i, k, t) of  number # Объем пролива за все месяцы
         volumes_l_i_k(l, i, k) of   number # Сумма проливов за период фактической деятельности
-        volumes_l_t_i_k:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_l_t_i_k of matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
         volumes_l_i_k of  matrix(Market_participant, Product, Region) # Сумма проливов за период фактической деятельности
         volumes_l_i_k(l) of matrix(Product, Region)
         volumes_l_t_i_k(l, i, k, 1), ..., volumes_l_t_i_k(l, i, k, T) => volumes_l_i_k(t)
@@ -108,7 +108,7 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
     where
         volumes_l_t_i_k(l, i, k, t) of  number # Объем пролива за все месяцы
         volumes_l_i_k(l, i, k) of   number # Сумма проливов за период фактической деятельности
-        volumes_l_t_i_k:  matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
+        volumes_l_t_i_k of matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
         volumes_l_i_k of  matrix(Market_participant, Product, Region) # Сумма проливов за период фактической деятельности
         volumes_l_i_k(l) of matrix(                    Product, Region)
         volumes_l_t_i_k(l, i, k, 1), ..., volumes_l_t_i_k(l, i, k, T) => volumes_l_i_k(t)

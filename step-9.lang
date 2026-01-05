@@ -34,5 +34,5 @@ available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MI
         more_or_equal_than: condition
             where
                 Product, Refinery from axis
-                i: index # Индексы нефпродукта
-                j: index # Индексы НПЗ
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ
