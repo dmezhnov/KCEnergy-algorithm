@@ -53,3 +53,5 @@ L0 of number = length(Queue) # Количество очередей
 
 s of number = 1, ..., S          # Индексы условий поставки
 S of number = length(Ship_terms) # Количество условий поставки
+
+index = i, N, i0, N0, j, M, k, Q, l, L, t, T, l0, L0, s, S
