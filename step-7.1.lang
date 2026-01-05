@@ -27,7 +27,7 @@ normalized_i(n) = sum_by_axes(normalized_i_l(n), Market_participant)
         normalized_i_l(n)(i, l) of  number
         normalized_i(n)(i) of   number
         normalized_i_l(n) of matrix(Product, Market_participant)
-        normalized_i(n):   matrix(Product)
+        normalized_i(n) of matrix(Product)
             where
                 n: index # Индекс матрицы
                 Product, Market_participant from axis
