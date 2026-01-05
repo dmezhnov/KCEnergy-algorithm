@@ -2,9 +2,9 @@ number, length, index from core
 
 # Системные данные
 
-operation = multiply, divide, safe_divide, round, add, subtract, min, max, round
+operation = *, /, safe_divide, round, +, -, min, max
 
-condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains
+condition = =, <, <=, >, >=, contains, not_contains
 
 Queue = First, Second, Third, Fourth
 

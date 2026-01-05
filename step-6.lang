@@ -61,14 +61,14 @@ estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_
                 k from index # Индексы региона
                 l from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(n), multiply, RAIL_ROAD_MIN_TONNAGE)
+estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(n), *, RAIL_ROAD_MIN_TONNAGE)
     where
         estimated_i_j_k_l_fca_rounded(n)(i, j, k, l) of   number
         estimated_i_j_k_l_fca_coeff_rounded(n)(i, j, k, l) of  number
         estimated_i_j_k_l_fca_rounded(n) of     matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
-        multiply: operation
+        * from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -143,14 +143,14 @@ estimated_i_j_k_l_exw_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_exw_
                 k from index # Индексы региона
                 l from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(n), multiply, OIL_TERMINAL_STEP_TONNAGE)
+estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(n), *, OIL_TERMINAL_STEP_TONNAGE)
     where
         estimated_i_j_k_l_exw_coeff_rounded(n)(i, j, k, l) of  number
         estimated_i_j_k_l_exw_rounded(n)(i, j, k, l) of   number
         estimated_i_j_k_l_exw_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw_rounded(n) of     matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_STEP_TONNAGE of  number
-        multiply: operation
+        * from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis

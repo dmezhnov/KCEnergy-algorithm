@@ -65,7 +65,7 @@ requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
                 s from index # Индексы условия поставки
                 j from index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, divide, requests_i_k_l_s_first_deficit_multiple)
+requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, /, requests_i_k_l_s_first_deficit_multiple)
     where
         requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of  number
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
@@ -74,7 +74,7 @@ requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l
         requests_i_j_k_l_s_first_deficit_multiple of      matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple of        matrix(Product, Region, Market_participant, Ship_terms)
             where
-                divide: operation
+                /: operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -100,7 +100,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
         requests_i_j_k_l_s_first_deficit_multiple_share of  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average of                                   matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                *: operation
+                * from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -108,7 +108,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
                 s from index # Индексы условия поставки
                 j from index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, multiply, moving_average)
+requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, *, moving_average)
     where
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
         requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of   number
@@ -117,7 +117,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_
         requests_i_j_k_l_s_first_deficit_multiple_share of  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average of                                   matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                multiply: operation
+                * from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -150,7 +150,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
                 s from index # Индексы условия поставки
                 j from index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, subtract, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
+requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, -, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
         requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j) of   number
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
@@ -159,7 +159,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_
         requests_i_j_k_l_s_first_deficit_multiple of        matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                subtract: operation
+                -: operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
