@@ -12,16 +12,16 @@ Ship_terms = FCA, EXW
 
 axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms
 
-matrix(Tcoords) = (
-    coords = (1), ..., (C) of coordinate = Tcoords
+matrix(Tcoords(1), ..., Tcoords(C)) = (
+    coords = Tcoords(1), ..., Tcoords(C)
     value of number OR matrix(TcoordsNext)
         where
-            TcoordsNext = (1), ..., (C-1) of coordinate
+            TcoordsNext = Tcoords(1), ..., Tcoords(C-1) of coordinate
                 where
                     C of index = length(coords) # Количество координат
 )
 
-matrix(Indexes) = (
+matrix(Index) = (
 
 )
 
