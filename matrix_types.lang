@@ -1,9 +1,6 @@
-number, length from core
+number, length, index from core
 
 # Системные данные
-
-index of number                    # Индекс
-Index(n of index) = 1, ..., m of n # Множество индексов
 
 operation = multiply, divide, safe_divide, round, add, subtract, min, max, round
 
@@ -26,22 +23,29 @@ matrix(Tcoords) = (
 
 coordinate = axis, index
 
-1, ..., N  of I   => i  of I  # Индексы нефпродукта
-1, ..., N0 of I0  => i0 of I0 # Индексы категории нефпродукта
-1, ..., M  of J   => j  of J  # Индексы завода (НПЗ)
-1, ..., Q  of K   => k  of K  # Индексы региона
-1, ..., Q0 of K0  => k0 of K0 # Индексы района
-1, ..., L         => l        # Индексы субъекта рынка
-1, ..., T         => t        # Индексы месяца и года
-1, ..., L0        => l0       # Индексы очереди
-1, ..., S         => s        # Индексы условий поставки
-    where
-        I, I0, J, K, K0              of Index           # Множества индексов
-        i, j,  k, l, t,  s           of index of number # Индексы
-        N, N0, M, Q, Q0, L, T, L0, S of index of number # Количество индексов (последний индекс)
-            where
-                N  = length(I)
-                N0 = length(I0)
-                M  = length(J)
-                Q  = length(K)
-                Q0 = length(K0)
+i  from index(Product) = 1, ..., N  # Индексы нефпродукта
+N  from index(Product) = length(i)
+
+i0 from index(Product_category) = 1, ..., N0 # Индексы категории нефпродукта
+N0 from index(Product_category) = length(i0)
+
+j  from index(Refinery) = 1, ..., M  # Индексы завода (НПЗ)
+M  from index(Refinery) = length(j)
+
+k  from index(Region) = 1, ..., Q  # Индексы региона
+Q  from index(Region) = length(k)
+
+k0 from index(District) = 1, ..., Q0 # Индексы района
+Q0 from index(District) = length(k0)
+
+l  from index(Market_participant) = 1, ..., L  # Индексы субъекта рынка
+L  from index(Market_participant) = length(l)
+
+t  from index(Month_and_year) = 1, ..., T  # Индексы месяца и года
+T  from index(Month_and_year) = length(t)
+
+l0 from index(Queue) = 1, ..., L0 # Индексы очереди
+L0 from index(Queue) = length(l0)
+
+s  from index(Ship_terms) = 1, ..., S  # Индексы условий поставки
+S  from index(Ship_terms) = length(s)

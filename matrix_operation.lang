@@ -1,7 +1,4 @@
-coordinate: matrix_types.lang
-axis:       matrix_types.lang
-matrix:     matrix_types.lang
-condition:  matrix_types.lang
+coordinate, axis, matrix, condition from ("matrix_types.lang")
 
 # Операции с матрицами
 
@@ -9,10 +6,10 @@ condition:  matrix_types.lang
 
 ### - Создать пустую матрицу по координатам ✅
 
-new_empty(...Tcoords) = new_empty_matrix
+new_empty(Tcoords) = new_empty_matrix
     where
-        new_empty_matrix: matrix(...Tcoords) # Пустая матрица по заданным осям
-        ...Tcoords = (1), ..., (n): coordinate # Список координат
+        new_empty_matrix: matrix(Tcoords)   # Пустая матрица по заданным осям
+        Tcoords = (1), ..., (n): coordinate # Список координат
 
 ### - Создать без оси
 new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without_axis
