@@ -1,4 +1,4 @@
-number:                                    core
+number from core
 operation from        ("matrix_types.lang")
 sum_by_axes, for_each_pair:                matrix_operation.lang
 requests_i_j_k_l_s_first_deficit_multiple: step-3.2.0.lang
@@ -57,7 +57,7 @@ requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
         requests_i_j_k_l_s_first_deficit_multiple of     matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple of       matrix(Product, Region, Market_participant, Ship_terms)
             where
-                /: operation
+                / from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -74,7 +74,7 @@ requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l
         requests_i_j_k_l_s_first_deficit_multiple of      matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple of        matrix(Product, Region, Market_participant, Ship_terms)
             where
-                /: operation
+                / from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -159,7 +159,7 @@ requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_
         requests_i_j_k_l_s_first_deficit_multiple of        matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                -: operation
+                - from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
@@ -211,7 +211,7 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple of        matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                min: operation
+                min from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона

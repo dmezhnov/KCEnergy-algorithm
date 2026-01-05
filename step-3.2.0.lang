@@ -1,4 +1,4 @@
-number:                                    core
+number from core
 count_coordinates_by_axis, filter_by_pair: matrix_operation.lang
 axis, condition, matrix, index from        ("matrix_types.lang")
 requests_i_j_deficit:                      step-2.lang

@@ -45,7 +45,7 @@ available_i_j_new = for_each_pair(available_i_j, -, estimated_i_j_last)
         available_i_j_new of matrix(Product, Refinery)
         available_i_j of    matrix(Product, Refinery)
         estimated_i_j_last of matrix(Product, Refinery)
-        -: operation
+        - from operation
             where
                 Product, Refinery from axis
                 i from index # Индексы нефпродукта
