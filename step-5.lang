@@ -85,7 +85,7 @@ estimated_i_j_s_exceed_share = for_each_pair(available_i_j, safe_divide, request
         estimated_i_j_s_exceed_share of        matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
         available_i_j of                       matrix(Product, Refinery)
-        safe_divide: operation
+        safe_divide from operation
             where
                 Product, Refinery, Ship_terms from axis
                 i from index # Индексы нефпродукта

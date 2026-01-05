@@ -70,7 +70,7 @@ requests_i_j_k_l_s_first_surplus_corrected = for_each_pair(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_surplus_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_surplus of         matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_pend of            matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        +: operation
+        + from operation
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i from index # Индексы нефпродукта

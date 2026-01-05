@@ -77,7 +77,7 @@ normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), /
         normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_limited(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n) of             matrix(Product, Market_participant)
-        /: operation
+        / from operation
             where
                 n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis

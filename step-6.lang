@@ -1,4 +1,4 @@
-number, langth:                                                             core
+number, langth from core
 RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
 estimated_i_j_k_l_s:                                                        step-5.lang
 axis, index, matrix, operation, coordinate from        ("matrix_types.lang")
@@ -35,7 +35,7 @@ estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca(n), safe
         estimated_i_j_k_l_fca_coeff(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca(n) of     matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
-        safe_divide: operation
+        safe_divide from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -52,7 +52,7 @@ estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_
         estimated_i_j_k_l_fca_coeff_rounded(n)(i, j, k, l) of  number
         estimated_i_j_k_l_fca_coeff(n) of       matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
-        round: operation
+        round from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -85,7 +85,7 @@ normalized_i_j_k_l_fca(n) = for_each_element(estimated_i_j_k_l_fca_rounded(n), m
         normalized_i_j_k_l_fca(n) of      matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
-        max: operation
+        max from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -118,7 +118,7 @@ estimated_i_j_k_l_exw_coeff(n) = for_each_element(estimated_i_j_k_l_exw(n), safe
         estimated_i_j_k_l_exw_coeff(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw(n) of     matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_STEP_TONNAGE of  number
-        safe_divide: operation
+        safe_divide from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -134,7 +134,7 @@ estimated_i_j_k_l_exw_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_exw_
         estimated_i_j_k_l_exw_coeff_rounded(n)(i, j, k, l) of  number
         estimated_i_j_k_l_exw_coeff(n) of       matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
-        round: operation
+        round from operation
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
@@ -186,7 +186,7 @@ normalized_i_j_k_l_exw(n) = for_each_element(estimated_i_j_k_l_exw_rounded(n), m
                 normalized_i_j_k_l_exw(n) of      matrix(Product, Refinery, Region, Market_participant)
                 estimated_i_j_k_l_exw_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
                 OIL_TERMINAL_MIN_TONNAGE of  number
-                max: operation
+                max from operation
                     where
                         n: index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
