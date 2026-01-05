@@ -1,7 +1,7 @@
-requests_i_j_s_first_corrected, requests_i_j_k_l_s_first_corrected: step-4.lang
-available_i_j:                                                      step-5.lang
-assign_matrix, for_each_pair, filter_by_pair from                   ("matrix_operation.lang")
-operation, condition, index, axis, matrix from        ("matrix_types.lang")
+requests_i_j_s_first_corrected, requests_i_j_k_l_s_first_corrected from ("step-4.lang")
+available_i_j                                                      from ("step-5.lang")
+assign_matrix, for_each_pair, filter_by_pair                       from ("matrix_operation.lang")
+operation, condition, index, axis, matrix                          from ("matrix_types.lang")
 
 ### Предварительный расчетный объем НП (для Владельцев АЗС)
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
@@ -11,12 +11,12 @@ operation, condition, index, axis, matrix from        ("matrix_types.lang")
 # Матрица итоговых суммарных объемов Запросов, которые превышают доступный объём
 requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corrected, >, available_i_j)
     where
-        requests_i_j_s_first_corrected(i, j, s) of   number
-        requests_i_j_s_first_corrected_exceed(i, j, s) of  number
-        available_i_j(i, j) of   number
-        requests_i_j_s_first_corrected of      matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected(i, j, s)        of number
+        requests_i_j_s_first_corrected_exceed(i, j, s) of number
+        available_i_j(i, j)                            of number
+        requests_i_j_s_first_corrected        of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
-        available_i_j of                       matrix(Product, Refinery)
+        available_i_j                         of matrix(Product, Refinery)
         > from condition
             where
                 Product, Refinery, Ship_terms from axis
@@ -27,12 +27,12 @@ requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corr
 # Матрица итоговых суммарных объемов Запросов, которые не превышают доступный объём
 requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_corrected, <=, available_i_j)
     where
-        requests_i_j_s_first_corrected(i, j, s) of   number
-        requests_i_j_s_first_corrected_not_exceed(i, j, s) of  number
-        available_i_j(i, j) of   number
-        requests_i_j_s_first_corrected of          matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected(i, j, s)            of number
+        requests_i_j_s_first_corrected_not_exceed(i, j, s) of number
+        available_i_j(i, j)                                of number
+        requests_i_j_s_first_corrected            of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms)
-        available_i_j of                           matrix(Product, Refinery)
+        available_i_j                             of matrix(Product, Refinery)
         <= from condition
             where
                 Product, Refinery, Ship_terms from axis
@@ -43,12 +43,12 @@ requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_
 # Матрица скорректированных объемов запрашиваемых субъектами рынка, которые превышают доступный объём
 requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_first_corrected, contains, requests_i_j_s_first_corrected_exceed)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, k, l) of   number
-        requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of  number
-        requests_i_j_s_first_corrected_exceed(i, j) of   number
-        requests_i_j_k_l_s_first_corrected of      matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected(i, j, s, k, l)        of number
+        requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of number
+        requests_i_j_s_first_corrected_exceed(i, j)              of number
+        requests_i_j_k_l_s_first_corrected        of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_s_first_corrected_exceed of   matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected_exceed     of matrix(Product, Refinery, Ship_terms)
         contains from condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -61,12 +61,12 @@ requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_fi
 # Матрица скорректированных объемов запрашиваемых субъектами рынка, которые не превышают доступный объём
 requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_s_first_corrected, contains, requests_i_j_s_first_corrected_not_exceed)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, k, l) of   number
-        requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of  number
-        requests_i_j_s_first_corrected_not_exceed(i, j) of   number
-        requests_i_j_k_l_s_first_corrected of          matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected(i, j, s, k, l)            of number
+        requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of number
+        requests_i_j_s_first_corrected_not_exceed(i, j)              of number
+        requests_i_j_k_l_s_first_corrected            of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_s_first_corrected_not_exceed of   matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected_not_exceed     of matrix(Product, Refinery, Ship_terms)
         contains from condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -79,12 +79,12 @@ requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_
 # Доля превышения доступного объёма
 estimated_i_j_s_exceed_share = for_each_pair(available_i_j, safe_divide, requests_i_j_s_first_corrected_exceed)
     where
-        estimated_i_j_s_exceed_share(i, j, s) of   number
-        requests_i_j_s_first_corrected_exceed(i, j, s) of  number
-        available_i_j(i, j) of   number
-        estimated_i_j_s_exceed_share of        matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_s_exceed_share(i, j, s)          of number
+        requests_i_j_s_first_corrected_exceed(i, j, s) of number
+        available_i_j(i, j)                            of number
+        estimated_i_j_s_exceed_share          of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
-        available_i_j of                       matrix(Product, Refinery)
+        available_i_j                         of matrix(Product, Refinery)
         safe_divide from operation
             where
                 Product, Refinery, Ship_terms from axis
@@ -95,12 +95,12 @@ estimated_i_j_s_exceed_share = for_each_pair(available_i_j, safe_divide, request
 # Предварительный объем НП, где итоговый суммарный объём Запросов на НПЗ превышает доступный объём
 estimated_i_j_k_l_s_exceed = for_each_pair(requests_i_j_k_l_s_first_corrected_exceed, *, estimated_i_j_s_exceed_share)
     where
-        estimated_i_j_k_l_s_exceed(i, j, s, k, l) of   number
-        requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of  number
-        estimated_i_j_s_exceed_share(i, j, s) of   number
-        estimated_i_j_k_l_s_exceed of              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_exceed(i, j, s, k, l)                of number
+        requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of number
+        estimated_i_j_s_exceed_share(i, j, s)                    of number
+        estimated_i_j_k_l_s_exceed                of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_s_exceed_share of            matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_s_exceed_share              of matrix(Product, Refinery, Ship_terms)
         * from operation
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -113,9 +113,9 @@ estimated_i_j_k_l_s_exceed = for_each_pair(requests_i_j_k_l_s_first_corrected_ex
 # Предварительный объем НП, где итоговый суммарный объём Запросов на НПЗ не превышает доступный объём
 estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_corrected_not_exceed;
     where
-        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l) of   number
-        requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of  number
-        estimated_i_j_k_l_s_not_exceed of              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l)                of number
+        requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of number
+        estimated_i_j_k_l_s_not_exceed                of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -128,11 +128,11 @@ estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_corrected_not_exceed;
 # 1-я матрица предварительных расчетных объемов НП
 estimated_i_j_k_l_s(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated_i_j_k_l_s_exceed)
     where
-        estimated_i_j_k_l_s(1)(i, j, s, k, l) of   number
-        estimated_i_j_k_l_s_exceed(i, j, s, k, l) of   number
-        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l) of  number
-        estimated_i_j_k_l_s(1) of       matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_k_l_s_exceed of   matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s(1)(i, j, s, k, l)         of number
+        estimated_i_j_k_l_s_exceed(i, j, s, k, l)     of number
+        estimated_i_j_k_l_s_not_exceed(i, j, s, k, l) of number
+        estimated_i_j_k_l_s(1)         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_exceed     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
