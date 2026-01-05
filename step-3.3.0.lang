@@ -1,10 +1,10 @@
-number:                                                                                              core
+number from                                                                                               core
 requests_i_j_k_l_s_first_deficit_single_pend, requests_i_j_k_l_s_first_deficit_single_corrected      step-3.2.1.lang
-requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_corrected: step-3.2.2.lang
-requests_i_j_surplus:                                                                                step-2.lang
-requests_i_j_k_l_s_first:                                                                            step-1.lang
-for_each_pair, assign_matrix:                                                                        matrix_operation.lang
-operation, matrix, axis, index:                                                                      matrix_types.lang
+requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_corrected from  step-3.2.2.lang
+requests_i_j_surplus from                                                                                 step-2.lang
+requests_i_j_k_l_s_first from                                                                             step-1.lang
+for_each_pair, assign_matrix from                                                                         matrix_operation.lang
+operation, matrix, axis, index from                                                                       matrix_types.lang
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
@@ -44,7 +44,7 @@ requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, cont
                 s from index # Индексы условий поставки
                 k from index # Индексы региона
                 l from index # Индексы субъекта рынка
-                J: index # Количество НПЗ
+                J from index # Количество НПЗ
 
 requests_i_j_k_l_s_first_deficit_pend = assign_matrix(requests_i_j_k_l_s_first_deficit_single_pend, requests_i_j_k_l_s_first_deficit_multiple_pend)
     where
