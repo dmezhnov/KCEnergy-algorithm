@@ -1,81 +1,81 @@
 requests_i_j_k_l_s_first = (
-    (1 from i) = (
-        (1 from i, 1 from j) = (
-            (1 from i, 1 from j, 1 from k) = (
-                (1 from i, 1 from j, 1 from k, 1 from l) = 100, # 001
-                (1 from i, 1 from j, 1 from k, 2 from l),
-                (1 from i, 1 from j, 1 from k, 3 from l),
-                (1 from i, 1 from j, 1 from k, 4 from l) = 250, # 007
-                (1 from i, 1 from j, 1 from k, 5 from l) = 500, # 008
-                (1 from i, 1 from j, 1 from k, 6 from l)
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                (1 from I, 1 from J, 1 from K, 2 from P),
+                (1 from I, 1 from J, 1 from K, 3 from P),
+                (1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 500, # 008
+                (1 from I, 1 from J, 1 from K, 6 from P)
             ),
-            (1 from i, 1 from j, 2 from k) = (
-                (1 from i, 1 from j, 2 from k, 1 from l) = 150, # 002,
-                (1 from i, 1 from j, 2 from k, 2 from l),
-                (1 from i, 1 from j, 2 from k, 3 from l) = 200, # 006,
-                (1 from i, 1 from j, 2 from k, 4 from l),
-                (1 from i, 1 from j, 2 from k, 5 from l),
-                (1 from i, 1 from j, 2 from k, 6 from l)
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002,
+                (1 from I, 1 from J, 2 from K, 2 from P),
+                (1 from I, 1 from J, 2 from K, 3 from P) = 200, # 006,
+                (1 from I, 1 from J, 2 from K, 4 from P),
+                (1 from I, 1 from J, 2 from K, 5 from P),
+                (1 from I, 1 from J, 2 from K, 6 from P)
             ),
-            (1 from i, 1 from j, 3 from k) = (
-                (1 from i, 1 from j, 3 from k, 1 from l),
-                (1 from i, 1 from j, 3 from k, 2 from l) = 300, # 005
-                (1 from i, 1 from j, 3 from k, 3 from l),
-                (1 from i, 1 from j, 3 from k, 4 from l),
-                (1 from i, 1 from j, 3 from k, 5 from l),
-                (1 from i, 1 from j, 3 from k, 6 from l)  = 700  # 009
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 1 from P),
+                (1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
+                (1 from I, 1 from J, 3 from K, 3 from P),
+                (1 from I, 1 from J, 3 from K, 4 from P),
+                (1 from I, 1 from J, 3 from K, 5 from P),
+                (1 from I, 1 from J, 3 from K, 6 from P)  = 700  # 009
             )
         ),
-        (1 from i, 2 from j) = (
-            (1 from i, 2 from j, 1 from k) = (
-                (1 from i, 2 from j, 1 from k, 1 from l) = 40, # 003
-                (1 from i, 2 from j, 1 from k, 2 from l),
-                (1 from i, 2 from j, 1 from k, 3 from l),
-                (1 from i, 2 from j, 1 from k, 4 from l),
-                (1 from i, 2 from j, 1 from k, 5 from l),
-                (1 from i, 2 from j, 1 from k, 6 from l)
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40, # 003
+                (1 from I, 2 from J, 1 from K, 2 from P),
+                (1 from I, 2 from J, 1 from K, 3 from P),
+                (1 from I, 2 from J, 1 from K, 4 from P),
+                (1 from I, 2 from J, 1 from K, 5 from P),
+                (1 from I, 2 from J, 1 from K, 6 from P)
             ),
-            (1 from i, 2 from j, 2 from k) = (
-                (1 from i, 2 from j, 2 from k, 1 from l),
-                (1 from i, 2 from j, 2 from k, 2 from l),
-                (1 from i, 2 from j, 2 from k, 3 from l),
-                (1 from i, 2 from j, 2 from k, 4 from l),
-                (1 from i, 2 from j, 2 from k, 5 from l),
-                (1 from i, 2 from j, 2 from k, 6 from l)
+            (1 from I, 2 from J, 2 from K) = (
+                (1 from I, 2 from J, 2 from K, 1 from P),
+                (1 from I, 2 from J, 2 from K, 2 from P),
+                (1 from I, 2 from J, 2 from K, 3 from P),
+                (1 from I, 2 from J, 2 from K, 4 from P),
+                (1 from I, 2 from J, 2 from K, 5 from P),
+                (1 from I, 2 from J, 2 from K, 6 from P)
             ),
-            (1 from i, 2 from j, 3 from k) = (
-                (1 from i, 2 from j, 3 from k, 1 from l),
-                (1 from i, 2 from j, 3 from k, 2 from l),
-                (1 from i, 2 from j, 3 from k, 3 from l),
-                (1 from i, 2 from j, 3 from k, 4 from l),
-                (1 from i, 2 from j, 3 from k, 5 from l),
-                (1 from i, 2 from j, 3 from k, 6 from l)
+            (1 from I, 2 from J, 3 from K) = (
+                (1 from I, 2 from J, 3 from K, 1 from P),
+                (1 from I, 2 from J, 3 from K, 2 from P),
+                (1 from I, 2 from J, 3 from K, 3 from P),
+                (1 from I, 2 from J, 3 from K, 4 from P),
+                (1 from I, 2 from J, 3 from K, 5 from P),
+                (1 from I, 2 from J, 3 from K, 6 from P)
             )
         ),
-        (1 from i, 3 from j) = (
-            (1 from i, 3 from j, 1 from k) = (
-                (1 from i, 3 from j, 1 from k, 1 from l) = 60, # 004
-                (1 from i, 3 from j, 1 from k, 2 from l),
-                (1 from i, 3 from j, 1 from k, 3 from l),
-                (1 from i, 3 from j, 1 from k, 4 from l),
-                (1 from i, 3 from j, 1 from k, 5 from l),
-                (1 from i, 3 from j, 1 from k, 6 from l)
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60, # 004
+                (1 from I, 3 from J, 1 from K, 2 from P),
+                (1 from I, 3 from J, 1 from K, 3 from P),
+                (1 from I, 3 from J, 1 from K, 4 from P),
+                (1 from I, 3 from J, 1 from K, 5 from P),
+                (1 from I, 3 from J, 1 from K, 6 from P)
             ),
-            (1 from i, 3 from j, 2 from k) = (
-                (1 from i, 3 from j, 2 from k, 1 from l),
-                (1 from i, 3 from j, 2 from k, 2 from l),
-                (1 from i, 3 from j, 2 from k, 3 from l),
-                (1 from i, 3 from j, 2 from k, 4 from l),
-                (1 from i, 3 from j, 2 from k, 5 from l),
-                (1 from i, 3 from j, 2 from k, 6 from l)
+            (1 from I, 3 from J, 2 from K) = (
+                (1 from I, 3 from J, 2 from K, 1 from P),
+                (1 from I, 3 from J, 2 from K, 2 from P),
+                (1 from I, 3 from J, 2 from K, 3 from P),
+                (1 from I, 3 from J, 2 from K, 4 from P),
+                (1 from I, 3 from J, 2 from K, 5 from P),
+                (1 from I, 3 from J, 2 from K, 6 from P)
             ),
-            (1 from i, 3 from j, 3 from k) = (
-                (1 from i, 3 from j, 3 from k, 1 from l),
-                (1 from i, 3 from j, 3 from k, 2 from l),
-                (1 from i, 3 from j, 3 from k, 3 from l),
-                (1 from i, 3 from j, 3 from k, 4 from l),
-                (1 from i, 3 from j, 3 from k, 5 from l),
-                (1 from i, 3 from j, 3 from k, 6 from l)
+            (1 from I, 3 from J, 3 from K) = (
+                (1 from I, 3 from J, 3 from K, 1 from P),
+                (1 from I, 3 from J, 3 from K, 2 from P),
+                (1 from I, 3 from J, 3 from K, 3 from P),
+                (1 from I, 3 from J, 3 from K, 4 from P),
+                (1 from I, 3 from J, 3 from K, 5 from P),
+                (1 from I, 3 from J, 3 from K, 6 from P)
             )
         )
     )
@@ -88,30 +88,30 @@ requests_i_j_k_l_s_first = (
         l0 of R  from index # Индексы очереди
 
 requests_i_j_k_l_s_first = (
-    (1 from i) = (
-        (1 from i, 1 from j) = (
-            (1 from i, 1 from j, 1 from k) = (
-                (1 from i, 1 from j, 1 from k, 1 from l) = 100, # 001
-                (1 from i, 1 from j, 1 from k, 4 from l) = 250, # 007
-                (1 from i, 1 from j, 1 from k, 5 from l) = 500  # 008
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                (1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
             ),
-            (1 from i, 1 from j, 2 from k) = (
-                (1 from i, 1 from j, 2 from k, 1 from l) = 150, # 002
-                (1 from i, 1 from j, 2 from k, 3 from l) = 200  # 006
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
             ),
-            (1 from i, 1 from j, 3 from k) = (
-                (1 from i, 1 from j, 3 from k, 2 from l) = 300, # 005
-                (1 from i, 1 from j, 3 from k, 6 from l) = 700  # 009
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
+                (1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
             )
         ),
-        (1 from i, 2 from j) = (
-            (1 from i, 2 from j, 1 from k) = (
-                (1 from i, 2 from j, 1 from k, 1 from l) = 40 # 003
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40 # 003
             )
         ),
-        (1 from i, 3 from j) = (
-            (1 from i, 3 from j, 1 from k) = (
-                (1 from i, 3 from j, 1 from k, 1 from l) = 60 # 004
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60 # 004
             )
         )
     )
@@ -123,30 +123,30 @@ requests_i_j_k_l_s_first = (
         l  of P  from index # Индексы субъекта рынка
 
 requests_i_j_k_l = (
-    (1 from i) = (
-        (1 from i, 1 from j) = (
-            (1 from i, 1 from j, 1 from k) = (
-                (1 from i, 1 from j, 1 from k, 1 from l) = 100, # 001
-                (1 from i, 1 from j, 1 from k, 4 from l) = 250, # 007
-                (1 from i, 1 from j, 1 from k, 5 from l) = 500  # 008
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                (1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
             ),
-            (1 from i, 1 from j, 2 from k) = (
-                (1 from i, 1 from j, 2 from k, 1 from l) = 150, # 002
-                (1 from i, 1 from j, 2 from k, 3 from l) = 200  # 006
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
             ),
-            (1 from i, 1 from j, 3 from k) = (
-                (1 from i, 1 from j, 3 from k, 2 from l) = 300, # 005
-                (1 from i, 1 from j, 3 from k, 6 from l) = 700  # 009
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
+                (1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
             )
         ),
-        (1 from i, 2 from j) = (
-            (1 from i, 2 from j, 1 from k) = (
-                (1 from i, 2 from j, 1 from k, 1 from l) = 40 # 003
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40 # 003
             )
         ),
-        (1 from i, 3 from j) = (
-            (1 from i, 3 from j, 1 from k) = (
-                (1 from i, 3 from j, 1 from k, 1 from l) = 60 # 004
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60 # 004
             )
         )
     )
@@ -159,17 +159,17 @@ requests_i_j_k_l = (
 
 
 requests_i_j_k = (
-    (1 from i) = (
-        (1 from i, 1 from j) = (
-            (1 from i, 1 from j, 1 from k) = 100 + 250 + 500 = 850, # 001 + 007 + 008
-            (1 from i, 1 from j, 2 from k) = 150 + 200       = 350  # 002 + 006
-            (1 from i, 1 from j, 3 from k) = 300 + 700       = 900  # 005 + 009
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = 100 + 250 + 500 = 850, # 001 + 007 + 008
+            (1 from I, 1 from J, 2 from K) = 150 + 200       = 350  # 002 + 006
+            (1 from I, 1 from J, 3 from K) = 300 + 700       = 900  # 005 + 009
         ),
-        (1 from i, 2 from j) = (
-            (1 from i, 2 from j, 1 from k) = 40 # 003
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = 40 # 003
         ),
-        (1 from i, 3 from j) = (
-            (1 from i, 3 from j, 1 from k) = 60 # 004
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = 60 # 004
         )
     )
 )
@@ -180,10 +180,10 @@ requests_i_j_k = (
 
 
 requests_i_j = (
-    (1 from i) = (
-        (1 from i, 1 from j) = 850 + 350 + 900 = 2 100, # (001 + 007 + 008) + (002 + 006) + (005 + 009)
-        (1 from i, 2 from j) = 40,                      # 003
-        (1 from i, 3 from j) = 60                       # 004
+    (1 from I) = (
+        (1 from I, 1 from J) = 850 + 350 + 900 = 2 100, # (001 + 007 + 008) + (002 + 006) + (005 + 009)
+        (1 from I, 2 from J) = 40,                      # 003
+        (1 from I, 3 from J) = 60                       # 004
     )
 )
     where
