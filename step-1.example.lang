@@ -81,11 +81,11 @@ requests_i_j_k_l_s_first = (
     )
 )
     where
-        i from index # Индексы нефпродукта
-        j from index # Индексы НПЗ
-        k from index # Индексы региона
-        l from index # Индексы субъекта рынка
-        l0 from index # Индексы очереди
+        i  of  I from index # Индексы нефпродукта
+        j  of  J from index # Индексы НПЗ
+        k  of  K from index # Индексы региона
+        l  of P  from index # Индексы субъекта рынка
+        l0 of R  from index # Индексы очереди
 
 requests_i_j_k_l_s_first = (
     (1 from i) = (
@@ -117,10 +117,10 @@ requests_i_j_k_l_s_first = (
     )
 )
     where
-        i from index # Индексы нефпродукта
-        j from index # Индексы НПЗ
-        k from index # Индексы региона
-        l from index # Индексы субъекта рынка
+        i  of  I from index # Индексы нефпродукта
+        j  of  J from index # Индексы НПЗ
+        k  of  K from index # Индексы региона
+        l  of P  from index # Индексы субъекта рынка
 
 requests_i_j_k_l = (
     (1 from i) = (
@@ -152,10 +152,10 @@ requests_i_j_k_l = (
     )
 )
     where
-        i from index # Индексы нефпродукта
-        j from index # Индексы НПЗ
-        k from index # Индексы региона
-        l from index # Индексы субъекта рынка
+        i  of  I from index # Индексы нефпродукта
+        j  of  J from index # Индексы НПЗ
+        k  of  K from index # Индексы региона
+        l  of P  from index # Индексы субъекта рынка
 
 
 requests_i_j_k = (
@@ -174,9 +174,9 @@ requests_i_j_k = (
     )
 )
     where
-        i from index # Индексы нефпродукта
-        j from index # Индексы НПЗ
-        k from index # Индексы региона
+        i  of  I from index # Индексы нефпродукта
+        j  of  J from index # Индексы НПЗ
+        k  of  K from index # Индексы региона
 
 
 requests_i_j = (
@@ -187,5 +187,5 @@ requests_i_j = (
     )
 )
     where
-        i from index # Индексы нефпродукта
-        j from index # Индексы НПЗ
+        i  of  I from index # Индексы нефпродукта
+        j  of  J from index # Индексы НПЗ
