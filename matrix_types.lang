@@ -23,29 +23,29 @@ matrix(Tcoords) = (
 
 coordinate = axis, index
 
-i  from index(Product) = 1, ..., N  # Индексы нефпродукта
-N  from index(Product) = length(i)
+i  = index(Product) = 1, ..., N  # Индексы нефпродукта
+N  = length(Product)
 
-i0 from index(Product_category) = 1, ..., N0 # Индексы категории нефпродукта
-N0 from index(Product_category) = length(i0)
+i0 = index(Product_category) = 1, ..., N0 # Индексы категории нефпродукта
+N0 = length(Product_category)
 
-j  from index(Refinery) = 1, ..., M  # Индексы завода (НПЗ)
-M  from index(Refinery) = length(j)
+j  = index(Refinery) = 1, ..., M  # Индексы завода (НПЗ)
+M  = length(Refinery)
 
-k  from index(Region) = 1, ..., Q  # Индексы региона
-Q  from index(Region) = length(k)
+k  = index(Region) = 1, ..., Q  # Индексы региона
+Q  = length(Region)
 
-k0 from index(District) = 1, ..., Q0 # Индексы района
-Q0 from index(District) = length(k0)
+k0 = index(District) = 1, ..., Q0 # Индексы района
+Q0 = length(District)
 
-l  from index(Market_participant) = 1, ..., L  # Индексы субъекта рынка
-L  from index(Market_participant) = length(l)
+l  = index(Market_participant) = 1, ..., L  # Индексы субъекта рынка
+L  = length(Market_participant)
 
-t  from index(Month_and_year) = 1, ..., T  # Индексы месяца и года
-T  from index(Month_and_year) = length(t)
+t  = index(Month_and_year) = 1, ..., T  # Индексы месяца и года
+T  = length(Month_and_year)
 
-l0 from index(Queue) = 1, ..., L0 # Индексы очереди
-L0 from index(Queue) = length(l0)
+l0 = index(Queue) = 1, ..., L0 # Индексы очереди
+L0 = length(Queue)
 
-s  from index(Ship_terms) = 1, ..., S  # Индексы условий поставки
-S  from index(Ship_terms) = length(s)
+s  = index(Ship_terms) = 1, ..., S  # Индексы условий поставки
+S  = length(Ship_terms)
