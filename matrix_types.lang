@@ -36,6 +36,12 @@ coordinate = axis, index
 1, ..., L0        => l0       # Индексы очереди
 1, ..., S         => s        # Индексы условий поставки
     where
-        I, I0, J, K, K0   of Index           # Множества индексов
-        i, j,  k, l, t, s of index of number # Индексы
-        N, M,  Q, L, T, S of index of number # Количество индексов (последний индекс)
+        I, I0, J, K, K0              of Index           # Множества индексов
+        i, j,  k, l, t,  s           of index of number # Индексы
+        N, N0, M, Q, Q0, L, T, L0, S of index of number # Количество индексов (последний индекс)
+            where
+                N  = length(I)
+                N0 = length(I0)
+                M  = length(J)
+                Q  = length(K)
+                Q0 = length(K0)
