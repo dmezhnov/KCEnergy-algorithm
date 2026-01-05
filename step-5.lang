@@ -14,9 +14,9 @@ requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corr
         requests_i_j_s_first_corrected(i, j, s) of   number
         requests_i_j_s_first_corrected_exceed(i, j, s) of  number
         available_i_j(i, j) of   number
-        requests_i_j_s_first_corrected:        matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s_first_corrected_exceed: matrix(Product, Refinery, Ship_terms)
-        available_i_j:                         matrix(Product, Refinery)
+        requests_i_j_s_first_corrected of      matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
+        available_i_j of                       matrix(Product, Refinery)
         greater_than: condition
             where
                 Product, Refinery, Ship_terms from axis
@@ -30,9 +30,9 @@ requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_
         requests_i_j_s_first_corrected(i, j, s) of   number
         requests_i_j_s_first_corrected_not_exceed(i, j, s) of  number
         available_i_j(i, j) of   number
-        requests_i_j_s_first_corrected:            matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s_first_corrected_not_exceed: matrix(Product, Refinery, Ship_terms)
-        available_i_j:                             matrix(Product, Refinery)
+        requests_i_j_s_first_corrected of          matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms)
+        available_i_j of                           matrix(Product, Refinery)
         less_or_equal_than: condition
             where
                 Product, Refinery, Ship_terms from axis
@@ -46,9 +46,9 @@ requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_corrected(i, j, s, k, l) of   number
         requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of  number
         requests_i_j_s_first_corrected_exceed(i, j) of   number
-        requests_i_j_k_l_s_first_corrected:        matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_first_corrected_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_s_first_corrected_exceed:     matrix(Product, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_corrected of      matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_s_first_corrected_exceed of   matrix(Product, Refinery, Ship_terms)
         contains: condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -64,9 +64,9 @@ requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_
         requests_i_j_k_l_s_first_corrected(i, j, s, k, l) of   number
         requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of  number
         requests_i_j_s_first_corrected_not_exceed(i, j) of   number
-        requests_i_j_k_l_s_first_corrected:            matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_first_corrected_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_s_first_corrected_not_exceed:     matrix(Product, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_corrected of          matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_s_first_corrected_not_exceed of   matrix(Product, Refinery, Ship_terms)
         contains: condition
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -82,9 +82,9 @@ estimated_i_j_s_exceed_share = for_each_pair(available_i_j, safe_divide, request
         estimated_i_j_s_exceed_share(i, j, s) of   number
         requests_i_j_s_first_corrected_exceed(i, j, s) of  number
         available_i_j(i, j) of   number
-        estimated_i_j_s_exceed_share:          matrix(Product, Refinery, Ship_terms)
-        requests_i_j_s_first_corrected_exceed: matrix(Product, Refinery, Ship_terms)
-        available_i_j:                         matrix(Product, Refinery)
+        estimated_i_j_s_exceed_share of        matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
+        available_i_j of                       matrix(Product, Refinery)
         safe_divide: operation
             where
                 Product, Refinery, Ship_terms from axis
@@ -98,9 +98,9 @@ estimated_i_j_k_l_s_exceed = for_each_pair(requests_i_j_k_l_s_first_corrected_ex
         estimated_i_j_k_l_s_exceed(i, j, s, k, l) of   number
         requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of  number
         estimated_i_j_s_exceed_share(i, j, s) of   number
-        estimated_i_j_k_l_s_exceed:                matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_first_corrected_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_s_exceed_share:              matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_k_l_s_exceed of              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_s_exceed_share of            matrix(Product, Refinery, Ship_terms)
         multiply: operation
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -115,8 +115,8 @@ estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_corrected_not_exceed;
     where
         estimated_i_j_k_l_s_not_exceed(i, j, s, k, l) of   number
         requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of  number
-        estimated_i_j_k_l_s_not_exceed:                matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_first_corrected_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_not_exceed of              matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
@@ -131,9 +131,9 @@ estimated_i_j_k_l_s(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated
         estimated_i_j_k_l_s(1)(i, j, s, k, l) of   number
         estimated_i_j_k_l_s_exceed(i, j, s, k, l) of   number
         estimated_i_j_k_l_s_not_exceed(i, j, s, k, l) of  number
-        estimated_i_j_k_l_s(1):         matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_k_l_s_exceed:     matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_k_l_s_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s(1) of       matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_exceed of   matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
