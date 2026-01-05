@@ -1,7 +1,7 @@
 available_i_j_new:                               step-8.lang
-OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE: initial_data.lang
+OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
 filter_by_value:                                 matrix_operation.lang
-condition, matrix, index, axis:                  matrix_types.lang
+condition, matrix, index, axis from        ("matrix_types.lang")
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
 # Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров

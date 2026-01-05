@@ -1,7 +1,7 @@
 number, langth:                                                             core
-RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE: initial_data.lang
+RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
 estimated_i_j_k_l_s:                                                        step-5.lang
-axis, index, matrix, operation, coordinate:                                 matrix_types.lang
+axis, index, matrix, operation, coordinate from        ("matrix_types.lang")
 filter_by_coordinate, for_each_element, assign_matrix:                      matrix_operation.lang
 
 ### Предварительное итоговое распределение (нормирование)

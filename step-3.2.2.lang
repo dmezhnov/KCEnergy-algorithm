@@ -1,5 +1,5 @@
 number:                                    core
-operation:                                 matrix_types.lang
+operation from        ("matrix_types.lang")
 sum_by_axes, for_each_pair:                matrix_operation.lang
 requests_i_j_k_l_s_first_deficit_multiple: step-3.2.0.lang
 moving_average:                            step-3.1.0.lang
