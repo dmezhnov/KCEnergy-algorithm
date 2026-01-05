@@ -1,7 +1,7 @@
 MAX_SUBJECT_SHARE_PERCENTAGE from         ("initial_data.lang")
 normalized_i_j_k_l:                              step-6.lang
 normalized_i_l, normalized_i:                    step-7.1.lang
-for_each_element, filter_by_pair, for_each_pair: matrix_operation.lang
+for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
 condition, axis, index from        ("matrix_types.lang")
 
 #### Уточненный нормированный объем НП
