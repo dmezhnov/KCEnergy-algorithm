@@ -29,9 +29,9 @@ requests_i_j_k_l_s_first_deficit(i) = (
                 j = j*
                     where
                         Product, Refinery, Ship_terms, Region, Market_participant from axis # Оси заявок
-                        i, i* from index # Индексы нефпродукта
-                        j, j* from index # Индексы НПЗ
-                        s, s* from index # Индексы условий поставки
+                        i, i, i* of I from index # Индексы нефпродукта
+                        j, j* of J from index # Индексы НПЗ
+                        s, s* of C from index # Индексы условий поставки
                         k from     index # Индексы региона
                         l from     index # Индексы субъекта рынка
 
@@ -163,10 +163,10 @@ requests_i_j_k_l_s_first_deficit_single(i) = (
                 s = s*
                     where
                         Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
-                        i, i* from index # Индексы нефпродукта
-                        k, k* from index # Индексы региона
-                        l, l* from index # Индексы субъекта рынка
-                        s, s* from index # Индексы условия поставки
+                        i, i, i* of I from index # Индексы нефпродукта
+                        k, k* of K from index # Индексы региона
+                        l, l* of P from index # Индексы субъекта рынка
+                        s, s* of C from index # Индексы условия поставки
                         j  of  J from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s_first, contains, refinery_count_by_deficit_requests_single)
@@ -211,10 +211,10 @@ requests_i_j_k_l_s_first_deficit_multiple(i) = (
                 s = s*
                     where
                         Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
-                        i, i* from index # Индексы нефпродукта
-                        k, k* from index # Индексы региона
-                        l, l* from index # Индексы субъекта рынка
-                        s, s* from index # Индексы условия поставки
+                        i, i, i* of I from index # Индексы нефпродукта
+                        k, k* of K from index # Индексы региона
+                        l, l* of P from index # Индексы субъекта рынка
+                        s, s* of C from index # Индексы условия поставки
                         j     from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_first, contains, refinery_count_by_deficit_requests_multiple)
