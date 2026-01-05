@@ -57,7 +57,7 @@ normalized_i_j_k_l_limited(n) = for_each_pair(normalized_i_j_k_l_increased(n), m
         normalized_i_j_k_l_limited(n)(i, l, j, k) of   number
         normalized_i_j_k_l_increased(n)(i, l, j, k) of  number
         normalized_i_coeff(n)(i) of   number
-        normalized_i_j_k_l_limited(n):   matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_coeff(n) of         matrix(Product)
         multiply: operation
@@ -75,7 +75,7 @@ normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), d
         normalized_i_j_k_l_limited(n)(i, l, j, k) of   number
         normalized_i_l(n)(i, l) of   number
         normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_limited(n):   matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n) of             matrix(Product, Market_participant)
         divide: operation
             where

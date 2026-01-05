@@ -15,7 +15,7 @@ estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
     where
         estimated_i_j_k_l_s(n)(i, j, k, l, s) of  number
         estimated_i_j_k_l_fca(n)(i, j, k, l) of   number
-        estimated_i_j_k_l_s(n):   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s(n) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_fca(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
@@ -99,7 +99,7 @@ estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), EXW)
     where
         estimated_i_j_k_l_s(n)(i, j, k, l, s) of  number
         estimated_i_j_k_l_exw(n)(i, j, k, l) of   number
-        estimated_i_j_k_l_s(n):   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s(n) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_exw(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where

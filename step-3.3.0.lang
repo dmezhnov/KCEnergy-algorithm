@@ -17,7 +17,7 @@ requests_i_j_k_l_s_first_deficit_corrected = assign_matrix(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, j, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, j, s) of  number
         requests_i_j_k_l_s_first_deficit_corrected of        matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_deficit_single_corrected:   matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_deficit_single_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_deficit_multiple_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
@@ -52,7 +52,7 @@ requests_i_j_k_l_s_first_deficit_pend = assign_matrix(requests_i_j_k_l_s_first_d
         requests_i_j_k_l_s_first_deficit_single_pend(i, k, l, j, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, j, s) of  number
         requests_i_j_k_l_s_first_deficit_pend of        matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_first_deficit_single_pend:   matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_first_deficit_single_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_deficit_multiple_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
