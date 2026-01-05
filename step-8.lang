@@ -18,10 +18,10 @@ estimated_i_j_k_l_last = estimated_i_j_k_l(x)
             where
                 x: index = length(estimated_i_j_k_l) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона
 
 estimated_i_j_last = sum_by_axes(estimated_i_j_k_l_last, Region, Market_participant)
     where
@@ -31,10 +31,10 @@ estimated_i_j_last = sum_by_axes(estimated_i_j_k_l_last, Region, Market_particip
         estimated_i_j_last of   matrix(Product, Refinery)
             where
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП
 available_i_j_new = for_each_pair(available_i_j, subtract, estimated_i_j_last)
@@ -42,11 +42,11 @@ available_i_j_new = for_each_pair(available_i_j, subtract, estimated_i_j_last)
         available_i_j_new(i, j) of   number
         available_i_j(i, j) of   number
         estimated_i_j_last(i, j) of  number
-        available_i_j_new:  matrix(Product, Refinery)
+        available_i_j_new of matrix(Product, Refinery)
         available_i_j of    matrix(Product, Refinery)
         estimated_i_j_last of matrix(Product, Refinery)
         subtract: operation
             where
                 Product, Refinery from axis
-                i: index # Индексы нефпродукта
-                j: index # Индексы НПЗ
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ

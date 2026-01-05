@@ -20,7 +20,7 @@ normalized_i_coeff(n) = for_each_element(normalized_i(n), multiply, MAX_SUBJECT_
             where
                 n: index # Индекс матрицы
                 Product from axis
-                i: index # Индексы нефпродукта
+                i from index # Индексы нефпродукта
 
 normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, normalized_i_coeff(n))
     where
@@ -34,8 +34,8 @@ normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, norma
             where
                 n: index # Индекс матрицы
                 Product, Market_participant from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
 
 normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l(n), contains, normalized_i_l_increased(n))
     where
@@ -47,10 +47,10 @@ normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l(n), contains
             where
                 n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона
 
 normalized_i_j_k_l_limited(n) = for_each_pair(normalized_i_j_k_l_increased(n), multiply, normalized_i_coeff(n))
     where
@@ -64,10 +64,10 @@ normalized_i_j_k_l_limited(n) = for_each_pair(normalized_i_j_k_l_increased(n), m
             where
                 n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона
 
 normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), divide, normalized_i_l(n))
     where
@@ -81,10 +81,10 @@ normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), d
             where
                 n: index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона
 
 estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l(n), normalized_i_j_k_l_corrected(n))
     where
@@ -98,7 +98,7 @@ estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l(n), normalized_i_j_k_l_c
                 n: index
                 m: index = n + 1
                 Product, Market_participant, Refinery, Region from axis
-                i: index # Индексы нефпродукта
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                k: index # Индексы региона
+                i from index # Индексы нефпродукта
+                l from index # Индексы субъекта рынка
+                j from index # Индексы НПЗ
+                k from index # Индексы региона

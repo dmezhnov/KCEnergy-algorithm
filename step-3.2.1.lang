@@ -37,11 +37,11 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
                             where
                                 > : condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                s: index # Индексы условия поставки
-                j: index # Индексы НПЗ
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_single, min, moving_average)
     where
@@ -54,11 +54,11 @@ requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k
         min: operation
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                s: index # Индексы условия поставки
-                j: index # Индексы НПЗ
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_single, subtract, requests_i_j_k_l_s_first_deficit_single_corrected)
     where
@@ -71,8 +71,8 @@ requests_i_j_k_l_s_first_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_
         subtract: operation
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                s: index # Индексы условия поставки
-                j: index # Индексы НПЗ
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
