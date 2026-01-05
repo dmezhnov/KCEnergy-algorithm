@@ -56,7 +56,7 @@ for_each_element(matrix_source, operat, value) = scaled_matrix
     where
         matrix_source: matrix    # Исходная матрица
         operat:        operation # Операция для применения к каждому элементу
-        value:         number    # Параметр операции
+        value of   number    # Параметр операции
         scaled_matrix: matrix    # Результирующая матрица
 
 ### - Фильтровать по значению
@@ -65,7 +65,7 @@ filter_by_value(matrix_source, condit, value) = filtered_matrix_by_value
     where
         matrix_source:            matrix    # Исходная матрица
         condit:                   condition # Условие сравнения (например, <, >=)
-        value:                    number    # Порог/значение сравнения
+        value of   number    # Порог/значение сравнения
         filtered_matrix_by_value: matrix    # Результат фильтрации
 
 ### - Фильтровать по матрице

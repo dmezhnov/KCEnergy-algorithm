@@ -12,23 +12,23 @@ MIN_TONNAGE = OIL_TERMINAL_MIN_TONNAGE
     where
         OIL_TERMINAL_MIN_TONNAGE <= RAIL_ROAD_MIN_TONNAGE
             where
-                OIL_TERMINAL_MIN_TONNAGE: number
-                RAIL_ROAD_MIN_TONNAGE: number
-                MIN_TONNAGE: number
+                OIL_TERMINAL_MIN_TONNAGE of  number
+                RAIL_ROAD_MIN_TONNAGE of  number
+                MIN_TONNAGE of  number
 MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
     where
         RAIL_ROAD_MIN_TONNAGE <= OIL_TERMINAL_MIN_TONNAGE
             where
-                OIL_TERMINAL_MIN_TONNAGE: number
-                RAIL_ROAD_MIN_TONNAGE: number
-                MIN_TONNAGE: number
+                OIL_TERMINAL_MIN_TONNAGE of  number
+                RAIL_ROAD_MIN_TONNAGE of  number
+                MIN_TONNAGE of  number
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
 available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MIN_TONNAGE)
     where
-        available_i_j_new(i, j):    number
-        MIN_TONNAGE:                number
-        available_i_j_second(i, j): number
+        available_i_j_new(i, j) of   number
+        MIN_TONNAGE of   number
+        available_i_j_second(i, j) of  number
         available_i_j_new:    matrix(Product, Refinery)
         available_i_j_second: matrix(Product, Refinery)
         more_or_equal_than: condition

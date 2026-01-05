@@ -20,8 +20,8 @@ requests_i_j_k_l_s_first(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s): number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_first(i, j, k, l, s):  number
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_first(i, j, k, l, s) of   number
         requests_i_j_k_l_s_l0:    matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
         requests_i_j_k_l_s_first: matrix(Product, Refinery, Region, Market_participant, Ship_terms)
             where
@@ -39,8 +39,8 @@ requests_i_j_k_l_s_first(i) = (
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
 requests_i_j_k_l_s_first = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s): number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_first(i, j, k, l, s):  number
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_first(i, j, k, l, s) of   number
         requests_i_j_k_l_s_l0:    matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
         requests_i_j_k_l_s_first: matrix(Product, Refinery, Region, Market_participant, Ship_terms)
             where
@@ -63,8 +63,8 @@ requests_i_j_k_l_l0(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s): number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0(i, j, k, l, l0):      number
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_l0(i, j, k, l, l0) of   number
         requests_i_j_k_l_s_l0: matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
         requests_i_j_k_l_l0:   matrix(Product, Refinery, Region, Market_participant, Queue)
             where
@@ -79,8 +79,8 @@ requests_i_j_k_l_l0(i) = (
 
 requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s): number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0(i, j, k, l, l0):      number
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_l0(i, j, k, l, l0) of   number
         requests_i_j_k_l_s_l0: matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
         requests_i_j_k_l_l0:   matrix(Product, Refinery, Region, Market_participant, Queue)
             where
@@ -100,8 +100,8 @@ requests_i_j_k_l(i) = (
     )
 )
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
-        requests_i_j_k_l(i, j, k, l):        number
+        requests_i_j_k_l_l0(i, j, k, l, l0) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l(i, j, k, l) of   number
         requests_i_j_k_l_l0: matrix(Product, Refinery, Region, Market_participant, Queue)
         requests_i_j_k_l:    matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k_l(i): matrix(         Refinery, Region, Market_participant)
@@ -117,8 +117,8 @@ requests_i_j_k_l(i) = (
 
 requests_i_j_k_l = sum_by_axes(requests_i_j_k_l_l0, Queue)
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0): number # Запрашиваемый объем НП
-        requests_i_j_k_l(i, j, k, l):        number
+        requests_i_j_k_l_l0(i, j, k, l, l0) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l(i, j, k, l) of   number
         requests_i_j_k_l_l0: matrix(Product, Refinery, Region, Market_participant, Queue)
         requests_i_j_k_l:    matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k_l(i): matrix(         Refinery, Region, Market_participant)
@@ -138,8 +138,8 @@ requests_i_j_k(i) = (
     )
 )
     where
-        requests_i_j_k_l(i, j, k, l): number # Запрашиваемый объем НП
-        requests_i_j_k(i, j, k):      number
+        requests_i_j_k_l(i, j, k, l) of  number # Запрашиваемый объем НП
+        requests_i_j_k(i, j, k) of   number
         requests_i_j_k_l:  matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k:    matrix(Product, Refinery, Region)
         requests_i_j_k(i): matrix(         Refinery, Region)
@@ -156,8 +156,8 @@ requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant)
 requests_i_j_k = requests_i_j_k_l(i, j, k, 1) + ... + requests_i_j_k_l(i, j, k, L)
 requests_i_j_k = requests_i_j_k(1),             ...,  requests_i_j_k(N)
     where
-        requests_i_j_k_l(i, j, k, l): number # Запрашиваемый объем НП
-        requests_i_j_k(i, j, k):      number
+        requests_i_j_k_l(i, j, k, l) of  number # Запрашиваемый объем НП
+        requests_i_j_k(i, j, k) of   number
         requests_i_j_k_l: matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k:   matrix(Product, Refinery, Region)
         requests_i_j_k_l(i, j, k, 1), ..., requests_i_j_k_l(i, j, k, L) => requests_i_j_k_l(l)
@@ -178,8 +178,8 @@ requests_i_j(i) = (
     (i, j) = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
 )
     where
-        requests_i_j_k(i, j, k): number
-        requests_i_j(i, j):      number
+        requests_i_j_k(i, j, k) of  number
+        requests_i_j(i, j) of   number
         requests_i_j_k:  matrix(Product, Refinery, Region)
         requests_i_j:    matrix(Product, Refinery, Region)
         requests_i_j(i): matrix(         Refinery, Region)
@@ -199,9 +199,9 @@ requests_i_j = sum_by_axes(requests_i_j_s,   Ship_terms)
 requests_i_j = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
 requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
     where
-        requests_i_j_k_l(i, k, j, l): number # Запрашиваемый объем НП
-        requests_i_j_k(i, k, j, l):   number
-        requests_i_j(i, j):           number
+        requests_i_j_k_l(i, k, j, l) of  number # Запрашиваемый объем НП
+        requests_i_j_k(i, k, j, l) of   number
+        requests_i_j(i, j) of   number
         requests_i_j_k_l: matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k:   matrix(Product, Refinery, Region)
         requests_i_j:     matrix(Product, Refinery)
