@@ -1,5 +1,5 @@
 filter_by_pair, for_each_pair:           matrix_operation.lang
-condition, operation:                    matrix_types.lang
+condition, operation from        ("matrix_types.lang")
 requests_i_j_k_l_s_first_deficit_single: step-3.2.0.lang
 moving_average:                          step-3.1.0.lang
 

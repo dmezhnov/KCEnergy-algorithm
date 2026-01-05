@@ -1,6 +1,6 @@
 number:                                    core
 count_coordinates_by_axis, filter_by_pair: matrix_operation.lang
-axis, condition, matrix, index:            matrix_types.lang
+axis, condition, matrix, index from        ("matrix_types.lang")
 requests_i_j_deficit:                      step-2.lang
 requests_i_j_k_l_s_first:                  step-1.lang
 

@@ -1,7 +1,7 @@
 number:                                              core
-for_each_element, filter_by_value:                   operations.lang
-matrix, axis, index, operation:                      matrix_types.lang
-OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j: initial_data.lang
+for_each_element, filter_by_value from       ("operations.lang")
+matrix, axis, index, operation from        ("matrix_types.lang")
+OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j from ("initial_data.lang")
 requests_i_j:                                        step-1.lang
 
 ### Порог «Превышение Доступных объемов по Запросам»

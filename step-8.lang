@@ -1,8 +1,8 @@
-length, number:             core
+length, number from         core
 estimated_i_j_k_l:          step-7.2.lang
-available_i_j:              initial_data.lang
+available_i_j from         ("initial_data.lang")
 for_each_pair, sum_by_axes: matrix_operation.lang
-operation:                  matrix_types.lang
+operation from        ("matrix_types.lang")
 
 ### Оставшийся после распределения Владельцам АЗС объем НП
 # Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:

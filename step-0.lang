@@ -1,7 +1,7 @@
-number:                core
-axis, index, matrix:   matrix_types.lang
-sum_by_axes:           operations.lang
-volumes_l_t_i_k_k0_i0: initial_data.lang
+number from            core
+axis, index, matrix from ("matrix_types.lang")
+sum_by_axes from       ("operations.lang")
+volumes_l_t_i_k_k0_i0 from ("initial_data.lang")
 
 ### Вычисляем суммарные объемы проливов по всем категориям НП в каждом регионе деятельности
 # Подготовительный шаг (для Владельцев АЗС).
