@@ -13,8 +13,8 @@ requests_i_k_l_s_first_deficit_multiple(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j): number
-        requests_i_k_l_s_first_deficit_multiple(i, k, l, s):      number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of  number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple:   matrix(Product, Region, Market_participant, Ship_terms)
             where
@@ -27,8 +27,8 @@ requests_i_k_l_s_first_deficit_multiple(i) = (
 
 requests_i_k_l_s_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_first_deficit_multiple, Refinery)
     where
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j): number
-        requests_i_k_l_s_first_deficit_multiple(i, k, l, s):      number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of  number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple:   matrix(Product, Region, Market_participant, Ship_terms)
             where
@@ -50,9 +50,9 @@ requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):       number
-        requests_i_k_l_s_first_deficit_multiple(i, k, l, s):            number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple_share: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:       matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple:         matrix(Product, Region, Market_participant, Ship_terms)
@@ -67,9 +67,9 @@ requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
 
 requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, divide, requests_i_k_l_s_first_deficit_multiple)
     where
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):       number
-        requests_i_k_l_s_first_deficit_multiple(i, k, l, s):            number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s) of   number
         requests_i_j_k_l_s_first_deficit_multiple_share:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:        matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms)
@@ -93,9 +93,9 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):    number
-        moving_average(i, k, l):                                           number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of   number
+        moving_average(i, k, l) of   number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_share:    matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
@@ -110,9 +110,9 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
 
 requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, multiply, moving_average)
     where
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j):    number
-        moving_average(i, k, l):                                           number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of   number
+        moving_average(i, k, l) of   number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_share:    matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                     matrix(Product, Region, Market_participant)  # Скользящее среднее
@@ -136,9 +136,9 @@ requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j):     number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
+        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
         requests_i_j_k_l_s_first_deficit_multiple_pend:     matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
@@ -152,9 +152,9 @@ requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
 
 requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, subtract, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
-        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j):     number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
+        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
         requests_i_j_k_l_s_first_deficit_multiple_pend:     matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
@@ -178,9 +178,9 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j):  number = corrected_value
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number = pend_aux_value
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number = request_value
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j) of   number = corrected_value
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number = pend_aux_value
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number = request_value
         requests_i_j_k_l_s_first_deficit_multiple_corrected:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)
@@ -204,9 +204,9 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
 
 requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
-        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j):  number
-        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j):          number
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of   number
         requests_i_j_k_l_s_first_deficit_multiple_corrected:  matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple:          matrix(Product, Region, Market_participant, Ship_terms, Refinery)

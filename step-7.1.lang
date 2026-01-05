@@ -9,8 +9,8 @@ sum_by_axes:        matrix_operation.lang
 # n-я матрица суммарных нормированных объемов НП
 normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
     where
-        normalized_i_j_k_l(n)(i, l, j, k): number
-        normalized_i_l(n)(i, l):           number
+        normalized_i_j_k_l(n)(i, l, j, k) of  number
+        normalized_i_l(n)(i, l) of   number
         normalized_i_j_k_l(n): matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n):     matrix(Product, Market_participant)
             where
@@ -24,8 +24,8 @@ normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
 # n-я матрица суммарных нормированных объемов НП
 normalized_i(n) = sum_by_axes(normalized_i_l(n), Market_participant)
     where
-        normalized_i_l(n)(i, l): number
-        normalized_i(n)(i):      number
+        normalized_i_l(n)(i, l) of  number
+        normalized_i(n)(i) of   number
         normalized_i_l(n): matrix(Product, Market_participant)
         normalized_i(n):   matrix(Product)
             where

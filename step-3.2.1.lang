@@ -19,9 +19,9 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j): number = corrected_value
-        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):           number = request_value
-        moving_average(i, k, l):                                          number = average_value  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of  number = corrected_value
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j) of   number = request_value
+        moving_average(i, k, l) of   number = average_value  # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_single_corrected: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single:           matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                    matrix(Product, Region, Market_participant) # Скользящее среднее
@@ -45,9 +45,9 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
 
 requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_single, min, moving_average)
     where
-        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j): number
-        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):           number
-        moving_average(i, k, l):                                          number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of  number
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j) of   number
+        moving_average(i, k, l) of   number # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_single_corrected: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single:           matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average:                                    matrix(Product, Region, Market_participant) # Скользящее среднее
@@ -62,9 +62,9 @@ requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k
 
 requests_i_j_k_l_s_first_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_single, subtract, requests_i_j_k_l_s_first_deficit_single_corrected)
     where
-        requests_i_j_k_l_s_first_deficit_single_pend(i, k, l, s, j):      number
-        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j):           number
-        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j): number
+        requests_i_j_k_l_s_first_deficit_single_pend(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j) of   number
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of  number
         requests_i_j_k_l_s_first_deficit_single_pend:      matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single:           matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single_corrected: matrix(Product, Region, Market_participant, Ship_terms, Refinery)

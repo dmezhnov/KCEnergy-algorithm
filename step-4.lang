@@ -7,8 +7,8 @@ axis, matrix, index:                          matrix_types.lang
 
 requests_i_j_l_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_corrected, Region)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, l, k): number
-        requests_i_j_l_s_first_corrected(i, j, s, l):      number
+        requests_i_j_k_l_s_first_corrected(i, j, s, l, k) of  number
+        requests_i_j_l_s_first_corrected(i, j, s, l) of   number
         requests_i_j_k_l_s_first_corrected: matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         requests_i_j_l_s_first_corrected:   matrix(Product, Refinery, Ship_terms, Market_participant)
             where
@@ -23,9 +23,9 @@ requests_i_j_l_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_correcte
 requests_i_j_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_corrected, Region, Market_participant)
 requests_i_j_s_first_corrected = sum_by_axes(requests_i_j_l_s_first_corrected,           Market_participant)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, l, k): number
-        requests_i_j_l_s_first_corrected(i, j, s, l):      number
-        requests_i_j_s_first_corrected(i, j, s):           number
+        requests_i_j_k_l_s_first_corrected(i, j, s, l, k) of  number
+        requests_i_j_l_s_first_corrected(i, j, s, l) of   number
+        requests_i_j_s_first_corrected(i, j, s) of   number
         requests_i_j_k_l_s_first_corrected: matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         requests_i_j_l_s_first_corrected:   matrix(Product, Refinery, Ship_terms, Market_participant)
         requests_i_j_s_first_corrected:     matrix(Product, Refinery, Ship_terms)
