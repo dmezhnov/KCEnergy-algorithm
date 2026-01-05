@@ -20,7 +20,7 @@ estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
         FCA: coordinate
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant, Ship_terms: axis
+                Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -38,7 +38,7 @@ estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca(n), safe
         safe_divide: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -55,7 +55,7 @@ estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_
         round: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -71,7 +71,7 @@ estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_
         multiply: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -88,7 +88,7 @@ normalized_i_j_k_l_fca(n) = for_each_element(estimated_i_j_k_l_fca_rounded(n), m
         max: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -104,7 +104,7 @@ estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), EXW)
         EXW: coordinate
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant, Ship_terms: axis
+                Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -121,7 +121,7 @@ estimated_i_j_k_l_exw_coeff(n) = for_each_element(estimated_i_j_k_l_exw(n), safe
         safe_divide: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -137,7 +137,7 @@ estimated_i_j_k_l_exw_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_exw_
         round: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -153,7 +153,7 @@ estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_
         multiply: operation
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона
@@ -172,7 +172,7 @@ normalized_i_j_k_l_exw(n) = OIL_TERMINAL_MIN_TONNAGE
                 OIL_TERMINAL_MIN_TONNAGE of  number
                     where
                         n: index # Индекс матрицы
-                        Product, Refinery, Region, Market_participant: axis
+                        Product, Refinery, Region, Market_participant from axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
                         k: index # Индексы региона
@@ -189,7 +189,7 @@ normalized_i_j_k_l_exw(n) = for_each_element(estimated_i_j_k_l_exw_rounded(n), m
                 max: operation
                     where
                         n: index # Индекс матрицы
-                        Product, Refinery, Region, Market_participant: axis
+                        Product, Refinery, Region, Market_participant from axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
                         k: index # Индексы региона
@@ -206,7 +206,7 @@ normalized_i_j_k_l(n) = assign_matrix(normalized_i_j_k_l_fca(n), normalized_i_j_
         normalized_i_j_k_l_exw(n): matrix(Product, Refinery, Region, Market_participant)
             where
                 n: index # Индекс матрицы
-                Product, Refinery, Region, Market_participant: axis
+                Product, Refinery, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 k: index # Индексы региона

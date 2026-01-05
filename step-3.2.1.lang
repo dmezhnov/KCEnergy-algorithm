@@ -36,7 +36,7 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
                         request_value > average_value
                             where
                                 > : condition
-                Product, Region, Market_participant, Ship_terms, Refinery: axis
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -53,7 +53,7 @@ requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k
         moving_average:                                    matrix(Product, Region, Market_participant) # Скользящее среднее
         min: operation
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -70,7 +70,7 @@ requests_i_j_k_l_s_first_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_
         requests_i_j_k_l_s_first_deficit_single_corrected: matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         subtract: operation
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка

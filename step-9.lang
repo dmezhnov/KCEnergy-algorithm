@@ -33,6 +33,6 @@ available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MI
         available_i_j_second: matrix(Product, Refinery)
         more_or_equal_than: condition
             where
-                Product, Refinery: axis
+                Product, Refinery from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ

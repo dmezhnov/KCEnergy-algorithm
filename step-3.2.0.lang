@@ -30,7 +30,7 @@ requests_i_j_k_l_s_first_deficit(i) = (
                 i = i*
                 j = j*
                     where
-                        Product, Refinery, Ship_terms, Region, Market_participant: axis # Оси заявок
+                        Product, Refinery, Ship_terms, Region, Market_participant from axis # Оси заявок
                         i, i*: index # Индексы нефпродукта
                         j, j*: index # Индексы НПЗ
                         s, s*: index # Индексы условий поставки
@@ -47,7 +47,7 @@ requests_i_j_k_l_s_first_deficit = filter_by_pair(requests_i_j_k_l_s_first, cont
         requests_i_j_deficit:             matrix(Product, Refinery)
         contains: condition
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis # Оси заявок
+                Product, Refinery, Ship_terms, Region, Market_participant from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условий поставки
@@ -70,7 +70,7 @@ refinery_count_by_deficit_requests(i) = (
         refinery_count_by_deficit_requests: matrix(Product, Region, Market_participant, Ship_terms)
         requests_i_j_k_l_s_first_deficit(i, k, l, s, 1), ..., requests_i_j_k_l_s_first_deficit(i, k, l, s, J) => requests_i_j_k_l_s_first_deficit(j)
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -86,7 +86,7 @@ refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_
         refinery_count_by_deficit_requests: matrix(Product, Region, Market_participant, Ship_terms)
         requests_i_j_k_l_s_first_deficit(i, k, l, s, 1), ..., requests_i_j_k_l_s_first_deficit(i, k, l, s, J) => requests_i_j_k_l_s_first_deficit(j)
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -110,7 +110,7 @@ refinery_count_by_deficit_requests_single(i) = (
             where
                 J = 1 # Количество НПЗ = 1
                     where
-                        Product, Region, Market_participant, Ship_terms: axis # Оси заявок
+                        Product, Region, Market_participant, Ship_terms from axis # Оси заявок
                         i: index # Индексы нефпродукта
                         k: index # Индексы региона
                         l: index # Индексы субъекта рынка
@@ -133,7 +133,7 @@ refinery_count_by_deficit_requests_multiple(i) = (
             where
                 J != 1 # Количество НПЗ != 1
                     where
-                        Product, Region, Market_participant, Ship_terms: axis # Оси заявок
+                        Product, Region, Market_participant, Ship_terms from axis # Оси заявок
                         i: index  # Индексы нефпродукта
                         k: index  # Индексы региона
                         l: index  # Индексы субъекта рынка
@@ -164,7 +164,7 @@ requests_i_j_k_l_s_first_deficit_single(i) = (
                 l = l*
                 s = s*
                     where
-                        Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                        Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                         i, i*: index # Индексы нефпродукта
                         k, k*: index # Индексы региона
                         l, l*: index # Индексы субъекта рынка
@@ -181,7 +181,7 @@ requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s_firs
         refinery_count_by_deficit_requests_single: matrix(Product, Region, Market_participant, Ship_terms)
         contains: condition
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -212,7 +212,7 @@ requests_i_j_k_l_s_first_deficit_multiple(i) = (
                 l = l*
                 s = s*
                     where
-                        Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                        Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                         i, i*: index # Индексы нефпродукта
                         k, k*: index # Индексы региона
                         l, l*: index # Индексы субъекта рынка
@@ -229,7 +229,7 @@ requests_i_j_k_l_s_first_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_fi
         refinery_count_by_deficit_requests_multiple: matrix(Product, Region, Market_participant, Ship_terms)
         contains: condition
             where
-                Product, Region, Market_participant, Ship_terms, Refinery: axis # Оси заявок
+                Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
