@@ -211,10 +211,10 @@ requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
         requests_i_j(1),          ..., requests_i_j(I)          => requests_i_j(i)
             where
                 Product, Region, Ship_terms, Refinery, Market_participant from axis # Оси агрегатов
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
-                s  of C  from index # Индексы условий поставки
-                j  of  J from index # Индексы НПЗ
-                l  of P  from index # Индексы субъекта рынка
+                i  of I from index # Индексы нефпродукта
+                k  of K from index # Индексы региона
+                s  of C from index # Индексы условий поставки
+                j  of J from index # Индексы НПЗ
+                l  of P from index # Индексы субъекта рынка
                 Q from index # Количество регионов
                 I from index # Количество нефпродуктов
