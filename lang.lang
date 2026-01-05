@@ -1,0 +1,11 @@
+() = this = this()
+
+x = x() = ("x") = this("x") = this.x = this.x()
+
+y from f = f("y") = f.y = this.f.y = y from f from this = ("y") from f
+
+f(a, b) = f(a)(b)
+
+f("a", "b") = f("a")("b") = f.a("b") = f.a.b = b from a from f = b from f.a = b from f("a")
+
+A, B = (A, B) = A(), B()
