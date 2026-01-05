@@ -344,10 +344,10 @@ requests_i_j_k_l_s_l0 = (
     )
 )
     where
-        i  of  I from index # Индексы нефпродукта
+        i  of I  from index # Индексы нефпродукта
         s  of C  from index # Индексы условия поставки
-        j  of  J from index # Индексы НПЗ
-        k  of  K from index # Индексы региона
+        j  of J  from index # Индексы НПЗ
+        k  of K  from index # Индексы региона
         l  of P  from index # Индексы субъекта рынка
         l0 of R  from index # Индексы очереди
 
@@ -782,8 +782,8 @@ volumes_l_t_i_k_k0_i0 = (
     where
         l  of P  from index # Индексы субъекта рынка
         t  of Y  from index # Индексы месяца и года
-        i  of  I from index # Индексы нефпродукта
-        k  of  K from index # Индексы региона
+        i  of I  from index # Индексы нефпродукта
+        k  of K  from index # Индексы региона
         k0 of K0 from index # Индексы района
         i0 of I0 from index # Индексы категории нефпродукта
 
@@ -865,8 +865,8 @@ volumes_l_t_i_k_k0_i0 = (
     where
         l  of P  from index # Индексы субъекта рынка
         t  of Y  from index # Индексы месяца и года
-        i  of  I from index # Индексы нефпродукта
-        k  of  K from index # Индексы региона
+        i  of I  from index # Индексы нефпродукта
+        k  of K  from index # Индексы региона
         k0 of K0 from index # Индексы района
         i0 of I0 from index # Индексы категории нефпродукта
 
