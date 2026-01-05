@@ -1,5 +1,64 @@
-available_i_j_second from ("step-9.lang")
+available_i_j_second       from ("step-9.lang")
+sum_by_axes, assign_matrix from ("matrix_operation.lang")
+axis, matrix, index        from ("matrix_types.lang")
 
 ### Распределение для Владельцев нефтебаз и (или) резервуаров (аналог Шагов 4–7)
 # Выполняем для нефтебаз шаги, аналогичные 4–7: пропорциональное распределение,
 # нормирование по правилам для нефтебаз (минимум и шаг), контроль достаточности.
+
+requests_i_j_k_l_s_l0 from ("initial_data.lang")
+
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые во вторую очередь
+requests_i_j_k_l_s_second = filter_by_coordinate(requests_i_j_k_l_s_l0, Second)
+    where
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_second(i, j, k, l, s) of number
+        requests_i_j_k_l_s_l0     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_second of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
+            where
+                Second from Queue
+                    where
+                        Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                        i  from index # Индексы нефпродукта
+                        j  from index # Индексы НПЗ
+                        k  from index # Индексы региона
+                        l  from index # Индексы субъекта рынка
+                        l0 from index # Индексы очереди
+                        s  from index # Индексы условий поставки
+
+requests_i_j_k_l_s_second_corrected from ("step-3.3.0.lang")
+
+
+### Итоговый суммарный объем Запросов (после корректировок в дефиците)
+
+requests_i_j_l_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_corrected, Region)
+    where
+        requests_i_j_k_l_s_second_corrected(i, j, s, l, k) of number
+        requests_i_j_l_s_second_corrected(i, j, s, l)      of number
+        requests_i_j_k_l_s_second_corrected of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_second_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
+            where
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ
+                s from index # Индексы условия поставки
+                l from index # Индексы субъекта рынка
+                k from index # Индексы региона
+
+# Матрица итоговых суммарных скорректированных объемов размера N x M
+requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_corrected, Region, Market_participant)
+requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_l_s_second_corrected,           Market_participant)
+    where
+        requests_i_j_k_l_s_second_corrected(i, j, s, l, k) of number
+        requests_i_j_l_s_second_corrected(i, j, s, l)      of number
+        requests_i_j_s_second_corrected(i, j, s)           of number
+        requests_i_j_k_l_s_second_corrected of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_second_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_s_second_corrected     of matrix(Product, Refinery, Ship_terms)
+            where
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ
+                s from index # Индексы условия поставки
+                l from index # Индексы субъекта рынка
+                k from index # Индексы региона
