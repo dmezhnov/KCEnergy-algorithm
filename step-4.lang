@@ -1,6 +1,6 @@
 requests_i_j_k_l_s_first_corrected:           step-3.3.0.lang
 requests_i_j_k_l_s_first from ("step-1.lang")
-sum_by_axes, assign_matrix:                   matrix_operation.lang
+sum_by_axes, assign_matrix from               ("matrix_operation.lang")
 axis, matrix, index from        ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)

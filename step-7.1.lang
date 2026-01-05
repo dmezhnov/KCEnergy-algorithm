@@ -1,5 +1,5 @@
 normalized_i_j_k_l: step-6.lang
-sum_by_axes:        matrix_operation.lang
+sum_by_axes from    ("matrix_operation.lang")
 
 #### Суммарный нормированный объем НП
 # Суммируем нормированные предоставленные объёмы:
