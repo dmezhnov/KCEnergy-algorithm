@@ -351,18 +351,18 @@ requests_i_j_k_l_s_l0 = (
         l from index # Индексы субъекта рынка
         l0 from index # Индексы очереди
 
-# 1:  t - август 2025
-# 2:  t - июль 2025
-# 3:  t - июнь 2025
-# 4:  t - май 2025
-# 5:  t - апрель 2025
-# 6:  t - март 2025
-# 7:  t - февраль 2025
-# 8:  t - январь 2024
-# 9:  t - декабрь 2024
-# 10: t - ноябрь 2024
-# 11: t - октябрь 2024
-# 12: t - сентябрь 2024
+# 1 from t - август 2025
+# 2 from t - июль 2025
+# 3 from t - июнь 2025
+# 4 from t - май 2025
+# 5 from t - апрель 2025
+# 6 from t - март 2025
+# 7 from t - февраль 2025
+# 8 from t - январь 2024
+# 9 from t - декабрь 2024
+# 10 from t - ноябрь 2024
+# 11 from t - октябрь 2024
+# 12 from t - сентябрь 2024
 
 # 0001 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 1: t           - 120
 # 0001 (АИ-92, АИ-92, Астана,  Астана,  «А.», август   2025)
@@ -418,22 +418,22 @@ requests_i_j_k_l_s_l0 = (
 # 0018 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 9: t           - 0
 # 0018 (АИ-92, АИ-92, Алматы,  Алматы,  «А.», декабрь  2024)
 
-# 0019 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 10: t          - 80
+# 0019 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 10 from t          - 80
 # 0019 (АИ-92, АИ-92, Астана,  Астана,  «А.», ноябрь   2024)
 
-# 0020 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 10: t          - 0
+# 0020 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 10 from t          - 0
 # 0020 (АИ-92, АИ-92, Алматы,  Алматы,  «А.», ноябрь   2024)
 
-# 0021 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 11: t          - 60
+# 0021 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 11 from t          - 60
 # 0021 (АИ-92, АИ-92, Астана,  Астана,  «А.», октябрь  2024)
 
-# 0022 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 11: t          - 0
+# 0022 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 11 from t          - 0
 # 0022 (АИ-92, АИ-92, Алматы,  Алматы,  «А.», октябрь  2024)
 
-# 0023 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 12: t          - 60
+# 0023 1 from i,   1: i0, 1 from k,    1: k0,   1 from l, 12 from t          - 60
 # 0023 (АИ-92, АИ-92, Астана,  Астана,  «А.», сентябрь 2024)
 
-# 0024 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 12: t          - 0
+# 0024 1 from i,   1: i0, 2 from k,    2: k0,   1 from l, 12 from t          - 0
 # 0024 (АИ-92, АИ-92, Алматы,  Алматы,  «А.», сентябрь 2024)
 
 # 0025 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 1: t           - 100
@@ -463,13 +463,13 @@ requests_i_j_k_l_s_l0 = (
 # 0033 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 9: t           - 0
 # 0033 (АИ-92, АИ-92, Шымкент, Шымкент, «Б.», декабрь  2024)
 
-# 0034 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 10: t          - 0
+# 0034 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 10 from t          - 0
 # 0034 (АИ-92, АИ-92, Шымкент, Шымкент, «Б.», ноябрь   2024)
 
-# 0035 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 11: t          - 0
+# 0035 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 11 from t          - 0
 # 0035 (АИ-92, АИ-92, Шымкент, Шымкент, «Б.», октябрь  2024)
 
-# 0036 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 12: t          - 0
+# 0036 1 from i,   1: i0, 3 from k,    3: k0,   2 from l, 12 from t          - 0
 # 0036 (АИ-92, АИ-92, Шымкент, Шымкент, «Б.», сентябрь 2024)
 
 # 0037 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 1: t           - 120
@@ -499,13 +499,13 @@ requests_i_j_k_l_s_l0 = (
 # 0045 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 9: t           - 80
 # 0045 (АИ-92, АИ-92, Астана,  Астана,  «В.», декабрь  2024)
 
-# 0046 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 10: t          - 80
+# 0046 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 10 from t          - 80
 # 0046 (АИ-92, АИ-92, Астана,  Астана,  «В.», ноябрь   2024)
 
-# 0047 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 11: t          - 60
+# 0047 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 11 from t          - 60
 # 0047 (АИ-92, АИ-92, Астана,  Астана,  «В.», октябрь  2024)
 
-# 0048 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 12: t          - 60
+# 0048 1 from i,   1: i0, 1 from k,    1: k0,   3 from l, 12 from t          - 60
 # 0048 (АИ-92, АИ-92, Астана,  Астана,  «В.», сентябрь 2024)
 
 volumes_l_t_i_k_k0_i0 = (
@@ -514,264 +514,264 @@ volumes_l_t_i_k_k0_i0 = (
             (1 from i, 1: i0, 1 from k) = (
                 (1 from i, 1: i0, 1 from k, 1: k0) = (
                     (1 from i, 1: i0, 1 from k, 1: k0, 1 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 1:  t)  = 120, # 0001
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 2:  t)  = 120, # 0003
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 3:  t)  = 100, # 0005
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 4:  t)  = 100, # 0007
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 5:  t)  = 120, # 0009
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 6:  t)  = 80,  # 0011
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 7:  t)  = 80,  # 0013
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 8:  t)  = 80,  # 0015
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 9:  t)  = 80,  # 0017
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 10: t)  = 80,  # 0019
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 11: t)  = 60,  # 0021
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 12: t)  = 60   # 0023
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 1 from t)  = 120, # 0001
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 2 from t)  = 120, # 0003
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 3 from t)  = 100, # 0005
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 4 from t)  = 100, # 0007
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 5 from t)  = 120, # 0009
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 6 from t)  = 80,  # 0011
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 7 from t)  = 80,  # 0013
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 8 from t)  = 80,  # 0015
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 9 from t)  = 80,  # 0017
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 10 from t)  = 80,  # 0019
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 11 from t)  = 60,  # 0021
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 12 from t)  = 60   # 0023
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 2 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 1:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 2:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 3:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 4:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 5:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 6:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 7:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 8:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 9:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 10: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 11: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 12: t)
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 1 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 2 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 3 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 4 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 5 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 6 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 7 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 8 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 9 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 10 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 11 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 2 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 3 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 1:  t) = 120, # 0037
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 2:  t) = 120, # 0038
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 3:  t) = 100, # 0039
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 4:  t) = 100, # 0040
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 5:  t) = 120, # 0041
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 6:  t) = 80,  # 0042
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 7:  t) = 80,  # 0043
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 8:  t) = 80,  # 0044
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 9:  t) = 80,  # 0045
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 10: t) = 80,  # 0046
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 11: t) = 60,  # 0047
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 12: t) = 60   # 0048
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 1 from t) = 120, # 0037
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 2 from t) = 120, # 0038
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 3 from t) = 100, # 0039
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 4 from t) = 100, # 0040
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 5 from t) = 120, # 0041
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 6 from t) = 80,  # 0042
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 7 from t) = 80,  # 0043
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 8 from t) = 80,  # 0044
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 9 from t) = 80,  # 0045
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 10 from t) = 80,  # 0046
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 11 from t) = 60,  # 0047
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 12 from t) = 60   # 0048
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 4 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 1:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 2:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 3:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 4:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 5:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 6:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 7:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 8:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 9:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 10: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 11: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 12: t)
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 1 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 2 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 3 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 4 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 5 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 6 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 7 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 8 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 9 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 10 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 11 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 4 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 5 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 1:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 2:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 3:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 4:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 5:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 6:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 7:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 8:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 9:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 10: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 11: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 12: t)
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 1 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 2 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 3 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 4 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 5 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 6 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 7 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 8 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 9 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 10 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 11 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 5 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 6 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 1:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 2:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 3:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 4:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 5:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 6:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 7:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 8:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 9:  t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 10: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 11: t),
-                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 12: t)
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 1 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 2 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 3 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 4 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 5 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 6 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 7 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 8 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 9 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 10 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 11 from t),
+                        (1 from i, 1: i0, 1 from k, 1: k0, 6 from l, 12 from t)
                     )
                 )
             ),
             (1 from i, 1: i0, 2 from k) = (
                 (1 from i, 1: i0, 2 from k, 2: k0) = (
                     (1 from i, 1: i0, 2 from k, 2: k0, 1 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 1:  t) = 100, # 0002
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 2:  t) = 100, # 0004
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 3:  t) = 100, # 0006
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 4:  t) = 100, # 0008
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 5:  t) = 90,  # 0010
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 6:  t) = 90,  # 0012
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 7:  t) = 80,  # 0014
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 8:  t) = 60,  # 0016
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 9:  t) = 0,   # 0018
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 10: t) = 0,   # 0020
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 11: t) = 0,   # 0022
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 12: t) = 0    # 0024
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 1 from t) = 100, # 0002
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 2 from t) = 100, # 0004
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 3 from t) = 100, # 0006
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 4 from t) = 100, # 0008
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 5 from t) = 90,  # 0010
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 6 from t) = 90,  # 0012
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 7 from t) = 80,  # 0014
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 8 from t) = 60,  # 0016
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 9 from t) = 0,   # 0018
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 10 from t) = 0,   # 0020
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 11 from t) = 0,   # 0022
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 12 from t) = 0    # 0024
                     ),
                     (1 from i, 1: i0, 2 from k, 2: k0, 2 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 1:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 2:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 3:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 4:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 5:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 6:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 7:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 8:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 9:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 10: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 11: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 12: t)
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 1 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 2 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 3 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 4 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 5 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 6 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 7 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 8 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 9 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 10 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 11 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 2 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 2 from k, 2: k0, 3 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 1:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 2:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 3:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 4:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 5:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 6:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 7:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 8:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 9:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 10: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 11: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 12: t)
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 1 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 2 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 3 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 4 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 5 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 6 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 7 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 8 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 9 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 10 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 11 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 3 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 2 from k, 2: k0, 4 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 1:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 2:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 3:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 4:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 5:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 6:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 7:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 8:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 9:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 10: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 11: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 12: t)
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 1 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 2 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 3 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 4 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 5 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 6 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 7 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 8 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 9 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 10 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 11 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 4 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 2 from k, 2: k0, 5 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 1:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 2:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 3:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 4:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 5:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 6:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 7:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 8:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 9:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 10: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 11: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 12: t)
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 1 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 2 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 3 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 4 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 5 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 6 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 7 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 8 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 9 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 10 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 11 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 5 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 2 from k, 2: k0, 6 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 1:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 2:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 3:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 4:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 5:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 6:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 7:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 8:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 9:  t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 10: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 11: t),
-                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 12: t)
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 1 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 2 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 3 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 4 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 5 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 6 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 7 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 8 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 9 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 10 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 11 from t),
+                        (1 from i, 1: i0, 2 from k, 2: k0, 6 from l, 12 from t)
                     )
                 )
             ),
             (1 from i, 1: i0, 3 from k) = (
                 (1 from i, 1: i0, 3 from k, 3: k0) = (
                     (1 from i, 1: i0, 3 from k, 3: k0, 1 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 1:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 2:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 3:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 4:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 5:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 6:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 7:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 8:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 9:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 10: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 11: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 12: t)
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 1 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 2 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 3 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 4 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 5 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 6 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 7 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 8 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 9 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 10 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 11 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 1 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 3 from k, 3: k0, 2 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 1:  t) = 100, # 0025
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 2:  t) = 100, # 0026
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 3:  t) = 100, # 0027
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 4:  t) = 100, # 0028
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 5:  t) = 90,  # 0029
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 6:  t) = 90,  # 0030
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 7:  t) = 80,  # 0031
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 8:  t) = 60,  # 0032
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 9:  t) = 0,   # 0033
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 10: t) = 0,   # 0034
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 11: t) = 0,   # 0035
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 12: t) = 0    # 0036
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 1 from t) = 100, # 0025
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 2 from t) = 100, # 0026
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 3 from t) = 100, # 0027
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 4 from t) = 100, # 0028
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 5 from t) = 90,  # 0029
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 6 from t) = 90,  # 0030
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 7 from t) = 80,  # 0031
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 8 from t) = 60,  # 0032
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 9 from t) = 0,   # 0033
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 10 from t) = 0,   # 0034
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 11 from t) = 0,   # 0035
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 12 from t) = 0    # 0036
                     ),
                     (1 from i, 1: i0, 3 from k, 3: k0, 3 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 1:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 2:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 3:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 4:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 5:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 6:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 7:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 8:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 9:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 10: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 11: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 12: t)
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 1 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 2 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 3 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 4 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 5 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 6 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 7 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 8 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 9 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 10 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 11 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 3 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 3 from k, 3: k0, 4 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 1:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 2:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 3:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 4:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 5:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 6:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 7:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 8:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 9:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 10: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 11: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 12: t)
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 1 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 2 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 3 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 4 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 5 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 6 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 7 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 8 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 9 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 10 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 11 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 4 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 3 from k, 3: k0, 5 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 1:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 2:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 3:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 4:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 5:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 6:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 7:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 8:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 9:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 10: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 11: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 12: t)
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 1 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 2 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 3 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 4 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 5 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 6 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 7 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 8 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 9 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 10 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 11 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 5 from l, 12 from t)
                     ),
                     (1 from i, 1: i0, 3 from k, 3: k0, 6 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 1:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 2:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 3:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 4:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 5:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 6:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 7:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 8:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 9:  t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 10: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 11: t),
-                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 12: t)
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 1 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 2 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 3 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 4 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 5 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 6 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 7 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 8 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 9 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 10 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 11 from t),
+                        (1 from i, 1: i0, 3 from k, 3: k0, 6 from l, 12 from t)
                     )
                 )
             )
@@ -781,10 +781,10 @@ volumes_l_t_i_k_k0_i0 = (
 
     where
         l from index # Индексы субъекта рынка
-        t:  index # Индексы месяца и года
+        t from index # Индексы месяца и года
         i from index # Индексы нефпродукта
         k from index # Индексы региона
-        k0: index # Индексы района
+        k0 from index # Индексы района
         i0: index # Индексы категории нефпродукта
 
 volumes_l_t_i_k_k0_i0 = (
@@ -793,68 +793,68 @@ volumes_l_t_i_k_k0_i0 = (
             (1 from i, 1: i0, 1 from k) = (
                 (1 from i, 1: i0, 1 from k, 1: k0) = (
                     (1 from i, 1: i0, 1 from k, 1: k0, 1 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 1:  t) = 120, # 0001
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 2:  t) = 120, # 0003
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 3:  t) = 100, # 0005
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 4:  t) = 100, # 0007
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 5:  t) = 120, # 0009
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 6:  t) = 80,  # 0011
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 7:  t) = 80,  # 0013
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 8:  t) = 80,  # 0015
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 9:  t) = 80,  # 0017
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 10: t) = 80,  # 0019
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 11: t) = 60,  # 0021
-                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 12: t) = 60   # 0023
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 1 from t) = 120, # 0001
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 2 from t) = 120, # 0003
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 3 from t) = 100, # 0005
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 4 from t) = 100, # 0007
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 5 from t) = 120, # 0009
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 6 from t) = 80,  # 0011
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 7 from t) = 80,  # 0013
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 8 from t) = 80,  # 0015
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 9 from t) = 80,  # 0017
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 10 from t) = 80,  # 0019
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 11 from t) = 60,  # 0021
+                        (1 from i, 1: i0, 1 from k, 1: k0, 1 from l, 12 from t) = 60   # 0023
                     ),
                     (1 from i, 1: i0, 1 from k, 1: k0, 3 from l) = (
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 1:  t) = 120, # 0037
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 2:  t) = 120, # 0038
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 3:  t) = 100, # 0039
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 4:  t) = 100, # 0040
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 5:  t) = 120, # 0041
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 6:  t) = 80,  # 0042
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 7:  t) = 80,  # 0043
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 8:  t) = 80,  # 0044
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 9:  t) = 80,  # 0045
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 10: t) = 80,  # 0046
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 11: t) = 60,  # 0047
-                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 12: t) = 60   # 0048
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 1 from t) = 120, # 0037
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 2 from t) = 120, # 0038
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 3 from t) = 100, # 0039
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 4 from t) = 100, # 0040
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 5 from t) = 120, # 0041
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 6 from t) = 80,  # 0042
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 7 from t) = 80,  # 0043
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 8 from t) = 80,  # 0044
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 9 from t) = 80,  # 0045
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 10 from t) = 80,  # 0046
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 11 from t) = 60,  # 0047
+                        (1 from i, 1: i0, 1 from k, 1: k0, 3 from l, 12 from t) = 60   # 0048
                     )
                 )
             ),
             (1 from i, 1: i0, 2 from k) = (
                 (1 from i, 1: i0, 2 from k, 2: k0) = (
                     (1 from i, 1: i0, 2 from k, 2: k0, 1 from l) = (
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 1:  t) = 100, # 0002
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 2:  t) = 100, # 0004
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 3:  t) = 100, # 0006
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 4:  t) = 100, # 0008
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 5:  t) = 90,  # 0010
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 6:  t) = 90,  # 0012
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 7:  t) = 80,  # 0014
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 8:  t) = 60,  # 0016
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 9:  t) = 0,   # 0018
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 10: t) = 0,   # 0020
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 11: t) = 0,   # 0022
-                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 12: t) = 0    # 0024
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 1 from t) = 100, # 0002
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 2 from t) = 100, # 0004
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 3 from t) = 100, # 0006
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 4 from t) = 100, # 0008
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 5 from t) = 90,  # 0010
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 6 from t) = 90,  # 0012
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 7 from t) = 80,  # 0014
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 8 from t) = 60,  # 0016
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 9 from t) = 0,   # 0018
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 10 from t) = 0,   # 0020
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 11 from t) = 0,   # 0022
+                        (1 from i, 1: i0, 2 from k, 2: k0, 1 from l, 12 from t) = 0    # 0024
                     )
                 )
             ),
             (1 from i, 1: i0, 3 from k) = (
                 (1 from i, 1: i0, 3 from k, 3: k0) = (
                     (1 from i, 1: i0, 3 from k, 3: k0, 2 from l) = (
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 1:  t) = 100, # 0025
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 2:  t) = 100, # 0026
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 3:  t) = 100, # 0027
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 4:  t) = 100, # 0028
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 5:  t) = 90,  # 0029
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 6:  t) = 90,  # 0030
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 7:  t) = 80,  # 0031
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 8:  t) = 60,  # 0032
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 9:  t) = 0,   # 0033
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 10: t) = 0,   # 0034
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 11: t) = 0,   # 0035
-                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 12: t) = 0    # 0036
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 1 from t) = 100, # 0025
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 2 from t) = 100, # 0026
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 3 from t) = 100, # 0027
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 4 from t) = 100, # 0028
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 5 from t) = 90,  # 0029
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 6 from t) = 90,  # 0030
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 7 from t) = 80,  # 0031
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 8 from t) = 60,  # 0032
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 9 from t) = 0,   # 0033
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 10 from t) = 0,   # 0034
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 11 from t) = 0,   # 0035
+                        (1 from i, 1: i0, 3 from k, 3: k0, 2 from l, 12 from t) = 0    # 0036
                     )
                 )
             )
@@ -864,10 +864,10 @@ volumes_l_t_i_k_k0_i0 = (
 
     where
         l from index # Индексы субъекта рынка
-        t:  index # Индексы месяца и года
+        t from index # Индексы месяца и года
         i from index # Индексы нефпродукта
         k from index # Индексы региона
-        k0: index # Индексы района
+        k0 from index # Индексы района
         i0: index # Индексы категории нефпродукта
 
 available_i_j = (

@@ -30,7 +30,7 @@ volumes_l_t_i_k_positive(l) = (
                         l from index # Индексы субъекта рынка
                         i from index # Индексы нефпродукта
                         k from index # Индексы региона
-                        t:  index # Индексы месяца и года
+                        t from index # Индексы месяца и года
 
 volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
     where
@@ -42,7 +42,7 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, greater_than, 0)
             where
                 Market_participant, Product, Region, Month_and_year from axis
                 l from index # Индексы субъекта рынка
-                t:  index # Индексы месяца и года
+                t from index # Индексы месяца и года
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
 
@@ -64,7 +64,7 @@ matrix_of_activity(l) = (
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
-                t:  index # Индексы месяца и года
+                t from index # Индексы месяца и года
                 T:  index # Количество месяцев
 
 matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_and_year)
@@ -79,7 +79,7 @@ matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_a
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
-                t:  index # Индексы месяца и года
+                t from index # Индексы месяца и года
                 T:  index # Количество месяцев
 
 # Матрица сумм проливов за период по региону/виду/субъекту.
@@ -101,7 +101,7 @@ volumes_l_i_k(l) = (
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
-                t:  index # Индексы месяца и года
+                t from index # Индексы месяца и года
                 T:  index # Количество месяцев
 
 volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
@@ -117,7 +117,7 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
                 k from index # Индексы региона
-                t:  index # Индексы месяца и года
+                t from index # Индексы месяца и года
                 T:  index # Количество месяцев
 
 # Матрица скользящих средних, где число активных месяцев = 0
