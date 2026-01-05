@@ -16,7 +16,7 @@ estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
         estimated_i_j_k_l_s(n)(i, j, k, l, s) of  number
         estimated_i_j_k_l_fca(n)(i, j, k, l) of   number
         estimated_i_j_k_l_s(n):   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        estimated_i_j_k_l_fca(n): matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
                 n: index # Индекс матрицы
@@ -32,8 +32,8 @@ estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca(n), safe
     where
         estimated_i_j_k_l_fca_coeff(n)(i, j, k, l) of  number
         estimated_i_j_k_l_fca(n)(i, j, k, l) of   number
-        estimated_i_j_k_l_fca_coeff(n): matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca(n):       matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff(n) of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca(n) of     matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
         safe_divide: operation
             where
@@ -50,8 +50,8 @@ estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_
     where
         estimated_i_j_k_l_fca_coeff(n)(i, j, k, l) of   number
         estimated_i_j_k_l_fca_coeff_rounded(n)(i, j, k, l) of  number
-        estimated_i_j_k_l_fca_coeff(n):         matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_coeff_rounded(n): matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff(n) of       matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         round: operation
             where
                 n: index # Индекс матрицы
@@ -65,8 +65,8 @@ estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_
     where
         estimated_i_j_k_l_fca_rounded(n)(i, j, k, l) of   number
         estimated_i_j_k_l_fca_coeff_rounded(n)(i, j, k, l) of  number
-        estimated_i_j_k_l_fca_rounded(n):       matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_coeff_rounded(n): matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_rounded(n) of     matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
         multiply: operation
             where
@@ -82,8 +82,8 @@ normalized_i_j_k_l_fca(n) = for_each_element(estimated_i_j_k_l_fca_rounded(n), m
     where
         normalized_i_j_k_l_fca(n)(i, j, k, l) of   number
         estimated_i_j_k_l_fca_rounded(n)(i, j, k, l) of  number
-        normalized_i_j_k_l_fca(n):        matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_rounded(n): matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_fca(n) of      matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         RAIL_ROAD_MIN_TONNAGE of  number
         max: operation
             where
@@ -100,7 +100,7 @@ estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), EXW)
         estimated_i_j_k_l_s(n)(i, j, k, l, s) of  number
         estimated_i_j_k_l_exw(n)(i, j, k, l) of   number
         estimated_i_j_k_l_s(n):   matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        estimated_i_j_k_l_exw(n): matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where
                 n: index # Индекс матрицы
@@ -115,8 +115,8 @@ estimated_i_j_k_l_exw_coeff(n) = for_each_element(estimated_i_j_k_l_exw(n), safe
     where
         estimated_i_j_k_l_exw_coeff(n)(i, j, k, l) of  number
         estimated_i_j_k_l_exw(n)(i, j, k, l) of   number
-        estimated_i_j_k_l_exw_coeff(n): matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw(n):       matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff(n) of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw(n) of     matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_STEP_TONNAGE of  number
         safe_divide: operation
             where
@@ -132,8 +132,8 @@ estimated_i_j_k_l_exw_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_exw_
     where
         estimated_i_j_k_l_exw_coeff(n)(i, j, k, l) of   number
         estimated_i_j_k_l_exw_coeff_rounded(n)(i, j, k, l) of  number
-        estimated_i_j_k_l_exw_coeff(n):         matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_coeff_rounded(n): matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff(n) of       matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
         round: operation
             where
                 n: index # Индекс матрицы
@@ -147,8 +147,8 @@ estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_
     where
         estimated_i_j_k_l_exw_coeff_rounded(n)(i, j, k, l) of  number
         estimated_i_j_k_l_exw_rounded(n)(i, j, k, l) of   number
-        estimated_i_j_k_l_exw_coeff_rounded(n): matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_rounded(n):       matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_coeff_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_exw_rounded(n) of     matrix(Product, Refinery, Region, Market_participant)
         OIL_TERMINAL_STEP_TONNAGE of  number
         multiply: operation
             where
@@ -183,8 +183,8 @@ normalized_i_j_k_l_exw(n) = for_each_element(estimated_i_j_k_l_exw_rounded(n), m
             where
                 normalized_i_j_k_l_exw(n)(i, j, k, l) of   number
                 estimated_i_j_k_l_exw_rounded(n)(i, j, k, l) of  number
-                normalized_i_j_k_l_exw(n):        matrix(Product, Refinery, Region, Market_participant)
-                estimated_i_j_k_l_exw_rounded(n): matrix(Product, Refinery, Region, Market_participant)
+                normalized_i_j_k_l_exw(n) of      matrix(Product, Refinery, Region, Market_participant)
+                estimated_i_j_k_l_exw_rounded(n) of matrix(Product, Refinery, Region, Market_participant)
                 OIL_TERMINAL_MIN_TONNAGE of  number
                 max: operation
                     where
@@ -201,9 +201,9 @@ normalized_i_j_k_l(n) = assign_matrix(normalized_i_j_k_l_fca(n), normalized_i_j_
         normalized_i_j_k_l(n)(i, j, k, l) of   number
         normalized_i_j_k_l_fca(n)(i, j, k, l) of  number
         normalized_i_j_k_l_exw(n)(i, j, k, l) of  number
-        normalized_i_j_k_l(n):     matrix(Product, Refinery, Region, Market_participant)
-        normalized_i_j_k_l_fca(n): matrix(Product, Refinery, Region, Market_participant)
-        normalized_i_j_k_l_exw(n): matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l(n) of   matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_fca(n) of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_exw(n) of matrix(Product, Refinery, Region, Market_participant)
             where
                 n: index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis

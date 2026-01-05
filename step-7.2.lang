@@ -14,8 +14,8 @@ normalized_i_coeff(n) = for_each_element(normalized_i(n), multiply, MAX_SUBJECT_
         normalized_i_coeff(n)(i) of   number
         normalized_i(n)(i) of   number
         MAX_SUBJECT_SHARE_PERCENTAGE of  number
-        normalized_i_coeff(n): matrix(Product)
-        normalized_i(n):       matrix(Product)
+        normalized_i_coeff(n) of matrix(Product)
+        normalized_i(n) of     matrix(Product)
         multiply: operation
             where
                 n: index # Индекс матрицы
@@ -27,9 +27,9 @@ normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, norma
         normalized_i_l_increased(n)(i, l) of  number
         normalized_i_l(n)(i, l) of   number
         normalized_i_coeff(n)(i) of   number
-        normalized_i_l_increased(n): matrix(Product, Market_participant)
-        normalized_i_l(n):           matrix(Product, Market_participant)
-        normalized_i_coeff(n):       matrix(Product)
+        normalized_i_l_increased(n) of matrix(Product, Market_participant)
+        normalized_i_l(n) of         matrix(Product, Market_participant)
+        normalized_i_coeff(n) of     matrix(Product)
         more_than: condition
             where
                 n: index # Индекс матрицы
@@ -41,8 +41,8 @@ normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l(n), contains
     where
         normalized_i_j_k_l_increased(n)(i, l, j, k) of  number
         normalized_i_l_increased(n)(i, l) of   number
-        normalized_i_j_k_l_increased(n): matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_l_increased(n):     matrix(Product, Market_participant)
+        normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l_increased(n) of   matrix(Product, Market_participant)
         contains: condition
             where
                 n: index # Индекс матрицы
@@ -58,8 +58,8 @@ normalized_i_j_k_l_limited(n) = for_each_pair(normalized_i_j_k_l_increased(n), m
         normalized_i_j_k_l_increased(n)(i, l, j, k) of  number
         normalized_i_coeff(n)(i) of   number
         normalized_i_j_k_l_limited(n):   matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_increased(n): matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_coeff(n):           matrix(Product)
+        normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_coeff(n) of         matrix(Product)
         multiply: operation
             where
                 n: index # Индекс матрицы
@@ -74,9 +74,9 @@ normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), d
         normalized_i_j_k_l_corrected(n)(i, l, j, k) of  number
         normalized_i_j_k_l_limited(n)(i, l, j, k) of   number
         normalized_i_l(n)(i, l) of   number
-        normalized_i_j_k_l_corrected(n): matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_limited(n):   matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_l(n):               matrix(Product, Market_participant)
+        normalized_i_l(n) of             matrix(Product, Market_participant)
         divide: operation
             where
                 n: index # Индекс матрицы
@@ -91,9 +91,9 @@ estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l(n), normalized_i_j_k_l_c
         estimated_i_j_k_l(m)(i, l, j, k) of   number
         normalized_i_j_k_l(n)(i, l, j, k) of   number
         normalized_i_j_k_l_corrected(n)(i, l, j, k) of  number
-        estimated_i_j_k_l(m):            matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l(n):           matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_corrected(n): matrix(Product, Market_participant, Refinery, Region)
+        estimated_i_j_k_l(m) of          matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l(n) of         matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
             where
                 n: index
                 m: index = n + 1

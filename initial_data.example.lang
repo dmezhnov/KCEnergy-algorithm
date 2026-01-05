@@ -785,7 +785,7 @@ volumes_l_t_i_k_k0_i0 = (
         i from index # Индексы нефпродукта
         k from index # Индексы региона
         k0 from index # Индексы района
-        i0: index # Индексы категории нефпродукта
+        i0 from index # Индексы категории нефпродукта
 
 volumes_l_t_i_k_k0_i0 = (
     (1 from i) = (
@@ -868,7 +868,7 @@ volumes_l_t_i_k_k0_i0 = (
         i from index # Индексы нефпродукта
         k from index # Индексы региона
         k0 from index # Индексы района
-        i0: index # Индексы категории нефпродукта
+        i0 from index # Индексы категории нефпродукта
 
 available_i_j = (
 
