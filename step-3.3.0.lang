@@ -20,7 +20,7 @@ requests_i_j_k_l_s_first_deficit_corrected = assign_matrix(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_deficit_single_corrected:   matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_deficit_multiple_corrected: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
-                Product, Region, Market_participant, Refinery, Ship_terms: axis
+                Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -38,7 +38,7 @@ requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, cont
         requests_i_j_surplus:             matrix(Product, Refinery)
         contains: condition
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis # Оси заявок
+                Product, Refinery, Ship_terms, Region, Market_participant from axis # Оси заявок
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условий поставки
@@ -55,7 +55,7 @@ requests_i_j_k_l_s_first_deficit_pend = assign_matrix(requests_i_j_k_l_s_first_d
         requests_i_j_k_l_s_first_deficit_single_pend:   matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_deficit_multiple_pend: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
-                Product, Region, Market_participant, Refinery, Ship_terms: axis
+                Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -72,7 +72,7 @@ requests_i_j_k_l_s_first_surplus_corrected = for_each_pair(requests_i_j_k_l_s_fi
         requests_i_j_k_l_s_first_pend:              matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         add: operation
             where
-                Product, Region, Market_participant, Refinery, Ship_terms: axis
+                Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка
@@ -89,7 +89,7 @@ requests_i_j_k_l_s_first_corrected = assign_matrix(requests_i_j_k_l_s_first_defi
         requests_i_j_k_l_s_first_deficit_corrected: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_first_surplus_corrected: matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
-                Product, Region, Market_participant, Refinery, Ship_terms: axis
+                Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 k: index # Индексы региона
                 l: index # Индексы субъекта рынка

@@ -19,7 +19,7 @@ requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corr
         available_i_j:                         matrix(Product, Refinery)
         greater_than: condition
             where
-                Product, Refinery, Ship_terms: axis
+                Product, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -35,7 +35,7 @@ requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_
         available_i_j:                             matrix(Product, Refinery)
         less_or_equal_than: condition
             where
-                Product, Refinery, Ship_terms: axis
+                Product, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -51,7 +51,7 @@ requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_fi
         requests_i_j_s_first_corrected_exceed:     matrix(Product, Refinery, Ship_terms)
         contains: condition
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -69,7 +69,7 @@ requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_
         requests_i_j_s_first_corrected_not_exceed:     matrix(Product, Refinery, Ship_terms)
         contains: condition
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -87,7 +87,7 @@ estimated_i_j_s_exceed_share = for_each_pair(available_i_j, safe_divide, request
         available_i_j:                         matrix(Product, Refinery)
         safe_divide: operation
             where
-                Product, Refinery, Ship_terms: axis
+                Product, Refinery, Ship_terms from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -103,7 +103,7 @@ estimated_i_j_k_l_s_exceed = for_each_pair(requests_i_j_k_l_s_first_corrected_ex
         estimated_i_j_s_exceed_share:              matrix(Product, Refinery, Ship_terms)
         multiply: operation
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -118,7 +118,7 @@ estimated_i_j_k_l_s_not_exceed = requests_i_j_k_l_s_first_corrected_not_exceed;
         estimated_i_j_k_l_s_not_exceed:                matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -135,7 +135,7 @@ estimated_i_j_k_l_s(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed, estimated
         estimated_i_j_k_l_s_exceed:     matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed: matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                Product, Refinery, Ship_terms, Region, Market_participant: axis
+                Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки

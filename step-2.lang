@@ -22,7 +22,7 @@ threshold_i_j(i) = (
         OVERALL_REQUEST_CAPACITY_COEFFICIENT of  number # Коэффициент порога
         *: operation # Операция умножения
             where
-                Product, Refinery: axis # Оси
+                Product, Refinery from axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
@@ -34,7 +34,7 @@ threshold_i_j = for_each_element(available_i_j, multiply, OVERALL_REQUEST_CAPACI
         available_i_j: matrix(Product, Refinery) # Доступные объёмы
         multiply: operation # Операция умножения
             where
-                Product, Refinery: axis # Оси
+                Product, Refinery from axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
@@ -54,7 +54,7 @@ requests_i_j_deficit(i) = (
                     where
                         request_value >= threshold
                         deficit_value, threshold, request_value of  number
-                        Product, Refinery: axis
+                        Product, Refinery from axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
 
@@ -68,7 +68,7 @@ requests_i_j_deficit = filter_by_value(requests_i_j, greater_or_equal_than, thre
         threshold_i_j:        matrix(Product, Refinery)
         greater_or_equal_than: condition
             where
-                Product, Refinery: axis # Оси
+                Product, Refinery from axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
 
@@ -88,7 +88,7 @@ requests_i_j_surplus(i) = (
                     where
                         request_value < threshold
                         surplus_value, threshold, request_value of  number
-                        Product, Refinery: axis
+                        Product, Refinery from axis
                         i: index # Индексы нефпродукта
                         j: index # Индексы НПЗ
 
@@ -102,6 +102,6 @@ requests_i_j_surplus = filter_by_value(requests_i_j, less_than, threshold_i_j)
         threshold_i_j:        matrix(Product, Refinery)
         less_than: condition
             where
-                Product, Refinery: axis # Оси
+                Product, Refinery from axis # Оси
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ

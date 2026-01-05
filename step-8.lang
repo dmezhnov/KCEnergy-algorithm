@@ -17,7 +17,7 @@ estimated_i_j_k_l_last = estimated_i_j_k_l(x)
         estimated_i_j_k_l: matrix(Product, Refinery, Market_participant, Region)
             where
                 x: index = length(estimated_i_j_k_l) # индекс последней матрицы предварительных расчетных объемов НП
-                Product, Market_participant, Refinery, Region: axis
+                Product, Market_participant, Refinery, Region from axis
                 i: index # Индексы нефпродукта
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
@@ -30,7 +30,7 @@ estimated_i_j_last = sum_by_axes(estimated_i_j_k_l_last, Region, Market_particip
         estimated_i_j_k_l_last: matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_last:     matrix(Product, Refinery)
             where
-                Product, Market_participant, Refinery, Region: axis
+                Product, Market_participant, Refinery, Region from axis
                 i: index # Индексы нефпродукта
                 l: index # Индексы субъекта рынка
                 j: index # Индексы НПЗ
@@ -47,6 +47,6 @@ available_i_j_new = for_each_pair(available_i_j, subtract, estimated_i_j_last)
         estimated_i_j_last: matrix(Product, Refinery)
         subtract: operation
             where
-                Product, Refinery: axis
+                Product, Refinery from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ

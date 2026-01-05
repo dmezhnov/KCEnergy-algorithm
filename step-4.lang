@@ -12,7 +12,7 @@ requests_i_j_l_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_correcte
         requests_i_j_k_l_s_first_corrected: matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         requests_i_j_l_s_first_corrected:   matrix(Product, Refinery, Ship_terms, Market_participant)
             where
-                Product, Refinery, Ship_terms, Market_participant, Region: axis
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
@@ -30,7 +30,7 @@ requests_i_j_s_first_corrected = sum_by_axes(requests_i_j_l_s_first_corrected,  
         requests_i_j_l_s_first_corrected:   matrix(Product, Refinery, Ship_terms, Market_participant)
         requests_i_j_s_first_corrected:     matrix(Product, Refinery, Ship_terms)
             where
-                Product, Refinery, Ship_terms, Market_participant, Region: axis
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i: index # Индексы нефпродукта
                 j: index # Индексы НПЗ
                 s: index # Индексы условия поставки
