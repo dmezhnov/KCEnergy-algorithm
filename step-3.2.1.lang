@@ -1,7 +1,7 @@
-filter_by_pair, for_each_pair:           matrix_operation.lang
-condition, operation from        ("matrix_types.lang")
-requests_i_j_k_l_s_first_deficit_single: step-3.2.0.lang
-moving_average:                          step-3.1.0.lang
+filter_by_pair, for_each_pair           from ("matrix_operation.lang")
+condition, operation                    from ("matrix_types.lang")
+requests_i_j_k_l_s_first_deficit_single from ("step-3.2.0.lang")
+moving_average                          from ("step-3.1.0.lang")
 
 ##### Скорректированный на проливы объем НП
 # Для случая одного дефицитного НПЗ: если объём запроса превышает скользящее
@@ -19,12 +19,12 @@ requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
     )
 )
     where
-        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of  number = corrected_value
-        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j) of   number = request_value
-        moving_average(i, k, l) of   number = average_value  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of number = corrected_value
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j)           of number = request_value
+        moving_average(i, k, l)                                          of number = average_value  # Скользящее среднее
         requests_i_j_k_l_s_first_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_first_deficit_single of         matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average of                                  matrix(Product, Region, Market_participant) # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                                    of matrix(Product, Region, Market_participant) # Скользящее среднее
             where
                 corrected_value = request_value
                     where
