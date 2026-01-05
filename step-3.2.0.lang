@@ -53,7 +53,7 @@ requests_i_j_k_l_s_first_deficit = filter_by_pair(requests_i_j_k_l_s_first, cont
                 s from index # Индексы условий поставки
                 k from index # Индексы региона
                 l from index # Индексы субъекта рынка
-                J: index # Количество НПЗ
+                J from index # Количество НПЗ
 
 # Матрица количества НПЗ в дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 refinery_count_by_deficit_requests(i) = (
@@ -76,7 +76,7 @@ refinery_count_by_deficit_requests(i) = (
                 l from index # Индексы субъекта рынка
                 s from index # Индексы условия поставки
                 j from index # Индексы НПЗ
-                J: index # Количество НПЗ
+                J from index # Количество НПЗ
 
 refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_s_first_deficit, Refinery)
     where
@@ -92,7 +92,7 @@ refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_
                 l from index # Индексы субъекта рынка
                 s from index # Индексы условия поставки
                 j from index # Индексы НПЗ
-                J: index # Количество НПЗ
+                J from index # Количество НПЗ
 
 # Матрица количества НПЗ в единичных (запросы на один НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 refinery_count_by_deficit_requests_single(i) = (
@@ -115,7 +115,7 @@ refinery_count_by_deficit_requests_single(i) = (
                         k from index # Индексы региона
                         l from index # Индексы субъекта рынка
                         s from index # Индексы условия поставки
-                        J: index # Количество НПЗ
+                        J from index # Количество НПЗ
 
 # Матрица количества НПЗ в множественных (запросы на несколько НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 refinery_count_by_deficit_requests_multiple(i) = (
