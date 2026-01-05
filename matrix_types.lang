@@ -21,7 +21,7 @@ matrix(Tcoords(1), ..., Tcoords(C)) = (
                     C of index = length(coords) # Количество координат
 )
 
-matrix(Index) = (
+matrix(Index(1), ..., Index(C)) = (
 
 )
 
