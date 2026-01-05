@@ -1,52 +1,41 @@
-number from core
+number, length from core
 
 # Системные данные
 
-index: number # Индекс
-Index = i, ..., j: index # Множество индексов
+index of number                    # Индекс
+Index(n of index) = 1, ..., m of n # Множество индексов
 
-Operation = multiply, divide, safe_divide, round, add, subtract, min, max, round: operation
+operation = multiply, divide, safe_divide, round, add, subtract, min, max, round
 
-Condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains: condition
+condition = equal, less_than, less_or_equal_than, greater_than, greater_or_equal_than, contains, not_contains
 
-Queue = First, Second, Third, Fourth: queue
+queue = First, Second, Third, Fourth
 
-Ship_terms = FCA, EXW: ship_terms
+ship_terms = FCA, EXW
 
-Axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms: axis
+axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms
 
-matrix(...Tcoords) = {
-    coords = (1), ..., (C): coordinate = ...Tcoords
-    value: number OR matrix(...TcoordsNext)
+matrix(Tcoords) = (
+    coords = (1), ..., (C) of coordinate = Tcoords
+    value of number OR matrix(TcoordsNext)
         where
-            ...TcoordsNext = (1), ..., (C-1): coordinate
+            TcoordsNext = (1), ..., (C-1) of coordinate
                 where
-                    C: index # Количество координат
-}
+                    C of index = length(coords) # Количество координат
+)
 
-coordinate = {
-    axis: axis
-    index: index
-}
+coordinate = axis, index
 
-Coordinate = (1), ..., (C): coordinate # Множество координат
+1, ..., N  of I   => i  of I  # Индексы нефпродукта
+1, ..., N0 of I0  => i0 of I0 # Индексы категории нефпродукта
+1, ..., M  of J   => j  of J  # Индексы завода (НПЗ)
+1, ..., Q  of K   => k  of K  # Индексы региона
+1, ..., Q0 of K0  => k0 of K0 # Индексы района
+1, ..., L         => l        # Индексы субъекта рынка
+1, ..., T         => t        # Индексы месяца и года
+1, ..., L0        => l0       # Индексы очереди
+1, ..., S         => s        # Индексы условий поставки
     where
-        C: index # Количество координат
-
-Matrix = (1), ..., (M): matrix # Множество матриц
-    where
-        M: index # Количество матриц
-
-1, ..., N:  I   => i:  I    # Индексы нефпродукта
-1, ..., N0: I0  => i0: I0   # Индексы категории нефпродукта
-1, ..., M:  J   => j:  J    # Индексы завода (НПЗ)
-1, ..., Q:  K   => k:  K    # Индексы региона
-1, ..., Q0: K0  => k0: K0   # Индексы района
-1, ..., L       => l        # Индексы субъекта рынка
-1, ..., T       => t        # Индексы месяца и года
-1, ..., L0      => l0       # Индексы очереди
-1, ..., S       => s        # Индексы условий поставки
-    where
-        I, J, K:          Index         # Множества индексов
-        i, j, k, l, t, s: index: number # Индексы
-        N, M, Q, L, T, S: index: number # Количество индексов (последний индекс)
+        I, I0, J, K, K0   of Index           # Множества индексов
+        i, j,  k, l, t, s of index of number # Индексы
+        N, M,  Q, L, T, S of index of number # Количество индексов (последний индекс)
