@@ -1,189 +1,220 @@
-number:                                core
-operation:                             matrix_types.lang
-sum_by_axes, for_each_pair:            matrix_operation.lang
-deficit_requests_first_queue_multiple: step-3.2.0.lang
-moving_average:                        step-3.1.0.lang
+number                                    from core
+operation                                 from ("matrix_types.lang")
+sum_by_axes, for_each_pair                from ("matrix_operation.lang")
+requests_i_j_k_l_s_first_deficit_multiple from ("step-3.2.0.lang")
+moving_average                            from ("step-3.1.0.lang")
 
-requests_by_gas_station_owner(i) = (
-    (i, k) = (
-        (i, k, l) = deficit_requests_first_queue_multiple(i, k, l, 1) + ... + deficit_requests_first_queue_multiple(i, k, l, J)
-    )
-)
-    where
-        deficit_requests_first_queue_multiple(i, k, l, j): number
-        requests_by_gas_station_owner(i, k, l):            number
-        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
-            where
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-                J: index # Количество НПЗ
-
-requests_by_gas_station_owner = sum_by_axes(deficit_requests_first_queue_multiple, Refinery)
-    where
-        deficit_requests_first_queue_multiple(i, k, l, j): number
-        requests_by_gas_station_owner(i, k, l):            number
-        deficit_requests_first_queue_multiple: matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner:         matrix(Product, Region, Market_participant)
-            where
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
-
-requests_by_gas_station_owner_fraction(i) = (
+# Матрица множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_k_l_s_first_deficit_multiple(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l , j) = deficit_requests_first_queue_multiple(i, k, l, j) / requests_by_gas_station_owner(i, k, l)
+            (i, k, l, s) = requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, 1) + ... + requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, J)
         )
     )
 )
     where
-        requests_by_gas_station_owner_fraction(i, k, l, j):   number
-        deficit_requests_first_queue_multiple(i, k, l, j): number
-        requests_by_gas_station_owner(i, k, l):            number
-        requests_by_gas_station_owner_fraction:  matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_multiple:   matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner:           matrix(Product, Region, Market_participant)
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)      of number
+        requests_i_j_k_l_s_first_deficit_multiple of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                /: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-requests_by_gas_station_owner_fraction = for_each_pair(deficit_requests_first_queue_multiple, divide, requests_by_gas_station_owner)
+requests_i_k_l_s_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_first_deficit_multiple, Refinery)
     where
-        requests_by_gas_station_owner_fraction(i, k, l, j): number
-        deficit_requests_first_queue_multiple(i, k, l, j):  number
-        requests_by_gas_station_owner(i, k, l):             number
-        requests_by_gas_station_owner_fraction: matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_multiple:  matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner:          matrix(Product, Region, Market_participant)
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)     of  number
+        requests_i_j_k_l_s_first_deficit_multiple of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                divide: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-moving_average_distributed(i) = (
+# Матрица долей множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l, j) = requests_by_gas_station_owner_fraction(i, k, l, j) * moving_average(i, k, l)
+            (i, k, l, s) = (
+                (i, k, l, s , j) = requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) / requests_i_k_l_s_first_deficit_multiple(i, k, l, s)
+            )
         )
     )
 )
     where
-        moving_average_distributed(i, k, l, j):             number
-        requests_by_gas_station_owner_fraction(i, k, l, j): number
-        moving_average(i, k, l):                            number # Скользящее среднее
-        moving_average_distributed:              matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner_fraction:  matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                          matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)       of number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)            of number
+        requests_i_j_k_l_s_first_deficit_multiple_share of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple       of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_k_l_s_first_deficit_multiple         of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                *: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                / from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-moving_average_distributed = for_each_pair(requests_by_gas_station_owner_fraction, multiply, moving_average)
+requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, /, requests_i_k_l_s_first_deficit_multiple)
     where
-        moving_average_distributed(i, k, l, j):             number
-        requests_by_gas_station_owner_fraction(i, k, l, j): number
-        moving_average(i, k, l):                            number # Скользящее среднее
-        moving_average_distributed:              matrix(Product, Region, Market_participant, Refinery)
-        requests_by_gas_station_owner_fraction:  matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                          matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)       of number
+        requests_i_k_l_s_first_deficit_multiple(i, k, l, s)            of number
+        requests_i_j_k_l_s_first_deficit_multiple_share of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple       of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_k_l_s_first_deficit_multiple         of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                multiply: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                / from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-requests_by_gas_station_owner_reduction(i) = (
+# Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
     (i, k) = (
-        (i, k, l) = (
-            (i, k, l, j) = deficit_requests_first_queue_multiple(i, k, l, j) - moving_average_distributed(i, k, l, j)
+        (i, k, s) = (
+            (i, k, l, s) = (
+                (i, k, l, s, j) = requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j) * moving_average(i, k, l)
+            )
         )
     )
 )
     where
-        requests_by_gas_station_owner_reduction(i, k, l, j):  number
-        deficit_requests_first_queue_multiple(i, k, l, j):    number
-        moving_average_distributed(i, k, l, j):               number
-        requests_by_gas_station_owner_reduction:  matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_multiple:    matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:               matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j)    of number
+        moving_average(i, k, l)                                           of number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                                     of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                * from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-requests_by_gas_station_owner_reduction = for_each_pair(deficit_requests_first_queue_multiple, subtract, moving_average_distributed)
+requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, *, moving_average)
     where
-        requests_by_gas_station_owner_reduction(i, k, l, j):  number
-        deficit_requests_first_queue_multiple(i, k, l, j):    number
-        moving_average_distributed(i, k, l, j):               number
-        requests_by_gas_station_owner_reduction:  matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_multiple:    matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:               matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple_share(i, k, l, s, j)    of number
+        moving_average(i, k, l)                                           of number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                                     of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                subtract: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                * from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-deficit_requests_first_queue_multiple_reduced(i) = (
+# Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
     (i, k) = (
         (i, k, l) = (
-            (i, k, l, j) = moving_average_distributed(i, k, l, j)
+            (i, k, l, s) = (
+                (i, k, l, s, j) = requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) - requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j)
+            )
         )
     )
 )
     where
-        deficit_requests_first_queue_multiple_reduced(i, k, l, j): number
-        moving_average_distributed(i, k, l, j):                    number = requsest_value
-        moving_average(i, k, l):                                   number = average_value # Скользящее среднее
-        deficit_requests_first_queue_multiple_reduced: matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:                    matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j)     of number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)          of number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple_pend     of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple          of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                requsest_value > average_value
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
+
+requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, -, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
+    where
+        requests_i_j_k_l_s_first_deficit_multiple_pend(i, k, l, s, j)     of number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)          of number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple_pend     of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple          of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+            where
+                - from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
+
+# Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
+    (i, k) = (
+        (i, k, l) = (
+            (i, k, l, s) = (
+                (i, k, l, s, j) = requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j)
+            )
+        )
+    )
+)
+    where
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j) of number = corrected_value
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j)  of number = pend_aux_value
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)           of number = request_value
+        requests_i_j_k_l_s_first_deficit_multiple_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+            where
+                corrected_value = request_value
                     where
-                        >: condition
-                        Product, Region, Market_participant, Refinery: axis
-                        i: index # Индексы нефпродукта
-                        k: index # Индексы региона
-                        l: index # Индексы субъекта рынка
-                        j: index # Индексы НПЗ
+                        request_value <= pend_aux_value
+                            where
+                                <=  from condition
+                corrected_value = pend_aux_value
+                    where
+                        request_value > pend_aux_value
+                            where
+                                >  from condition
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-deficit_requests_first_queue_multiple_reduced = for_each_pair(moving_average_distributed, min, moving_average)
+requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
-        deficit_requests_first_queue_multiple_reduced(i, k, l, j): number
-        moving_average_distributed(i, k, l, j):                    number
-        moving_average(i, k, l):                                   number # Скользящее среднее
-        deficit_requests_first_queue_multiple_reduced: matrix(Product, Region, Market_participant, Refinery)
-        moving_average_distributed:                    matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                                matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_multiple_corrected(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i, k, l, s, j)  of number
+        requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)           of number
+        requests_i_j_k_l_s_first_deficit_multiple_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple_pend_aux  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_multiple           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                min: operation
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                min from operation
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ

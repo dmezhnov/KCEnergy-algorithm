@@ -1,48 +1,78 @@
-filter_by_pair, for_each_pair:        matrix_operation.lang
-condition, operation:                 matrix_types.lang
-deficit_requests_first_queue_single:  step-3.2.0.lang
-moving_average:                       step-3.1.0.lang
+filter_by_pair, for_each_pair           from ("matrix_operation.lang")
+condition, operation                    from ("matrix_types.lang")
+requests_i_j_k_l_s_first_deficit_single from ("step-3.2.0.lang")
+moving_average                          from ("step-3.1.0.lang")
 
 ##### Скорректированный на проливы объем НП
 # Для случая одного дефицитного НПЗ: если объём запроса превышает скользящее
 # среднее продаж в регионе, то допустимый объём снижается до уровня среднего.
 # При нескольких НПЗ рассчитываем доли по НПЗ в общем объёме субъекта.
 
-deficit_requests_first_queue_single_reduced(i) = (
+# Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
+requests_i_j_k_l_s_first_deficit_single_corrected(i) = (
     (i, k) = (
-        (i, k, l) =
-            (i, k, l, j) = moving_average(i, k, l, j)
+        (i, k, l) = (
+            (i, k, l, s) = (
+                (i, k, l, s, j) = moving_average(i, k, l, s, j)
+            )
+        )
     )
 )
     where
-        deficit_requests_first_queue_single_reduced(i, k, l, j): number
-        deficit_requests_first_queue_single(i, k, l, j):         number = requsest_value
-        moving_average(i, k, l):                                 number = average_value  # Скользящее среднее
-        deficit_requests_first_queue_single_reduced:  matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_single:          matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                               matrix(Product, Region, Market_participant) # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of number = corrected_value
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j)           of number = request_value
+        moving_average(i, k, l)                                          of number = average_value  # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                                    of matrix(Product, Region, Market_participant) # Скользящее среднее
             where
-                requsest_value > average_value
+                corrected_value = request_value
                     where
-                        >: condition
-                        Product, Region, Market_participant, Refinery: axis
-                        i: index # Индексы нефпродукта
-                        k: index # Индексы региона
-                        l: index # Индексы субъекта рынка
-                        j: index # Индексы НПЗ
+                        request_value <= average_value
+                            where
+                               <=  from condition
+                corrected_value = average_value
+                    where
+                        request_value > average_value
+                            where
+                                >  from condition
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
 
-deficit_requests_first_queue_single_reduced = for_each_pair(deficit_requests_first_queue_single, min, moving_average)
+requests_i_j_k_l_s_first_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_single, min, moving_average)
     where
-        deficit_requests_first_queue_single_reduced(i, k, l, j): number
-        deficit_requests_first_queue_single(i, k, l, j):         number
-        moving_average(i, k, l):                                 number # Скользящее среднее
-        deficit_requests_first_queue_single_reduced:  matrix(Product, Region, Market_participant, Refinery)
-        deficit_requests_first_queue_single:          matrix(Product, Region, Market_participant, Refinery)
-        moving_average:                               matrix(Product, Region, Market_participant) # Скользящее среднее
-        min: operation
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j)           of number
+        moving_average(i, k, l) of   number # Скользящее среднее
+        requests_i_j_k_l_s_first_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                                    of matrix(Product, Region, Market_participant) # Скользящее среднее
+        min from operation
             where
-                Product, Region, Market_participant, Refinery: axis
-                i: index # Индексы нефпродукта
-                k: index # Индексы региона
-                l: index # Индексы субъекта рынка
-                j: index # Индексы НПЗ
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ
+
+requests_i_j_k_l_s_first_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_single, -, requests_i_j_k_l_s_first_deficit_single_corrected)
+    where
+        requests_i_j_k_l_s_first_deficit_single_pend(i, k, l, s, j)      of number
+        requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j)           of number
+        requests_i_j_k_l_s_first_deficit_single_corrected(i, k, l, s, j) of number
+        requests_i_j_k_l_s_first_deficit_single_pend      of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_first_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        - from operation
+            where
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i from index # Индексы нефпродукта
+                k from index # Индексы региона
+                l from index # Индексы субъекта рынка
+                s from index # Индексы условия поставки
+                j from index # Индексы НПЗ

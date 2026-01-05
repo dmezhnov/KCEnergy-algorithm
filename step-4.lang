@@ -1,5 +1,38 @@
+requests_i_j_k_l_s_first_corrected from ("step-3.3.0.lang")
+requests_i_j_k_l_s_first           from ("step-1.lang")
+sum_by_axes, assign_matrix         from ("matrix_operation.lang")
+axis, matrix, index                from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
-# Рассчитываем итоговый суммарный объём Запросов по (Product, Refinery).
-# Если были корректировки на проливы (Шаг 3), используем скорректированные объёмы,
-# в противном случае — исходные. Также формируем маску профицита (запрос < порога).
+
+requests_i_j_l_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_corrected, Region)
+    where
+        requests_i_j_k_l_s_first_corrected(i, j, s, l, k) of number
+        requests_i_j_l_s_first_corrected(i, j, s, l)      of number
+        requests_i_j_k_l_s_first_corrected of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_first_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
+            where
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ
+                s from index # Индексы условия поставки
+                l from index # Индексы субъекта рынка
+                k from index # Индексы региона
+
+# Матрица итоговых суммарных скорректированных объемов размера N x M
+requests_i_j_s_first_corrected = sum_by_axes(requests_i_j_k_l_s_first_corrected, Region, Market_participant)
+requests_i_j_s_first_corrected = sum_by_axes(requests_i_j_l_s_first_corrected,           Market_participant)
+    where
+        requests_i_j_k_l_s_first_corrected(i, j, s, l, k) of number
+        requests_i_j_l_s_first_corrected(i, j, s, l)      of number
+        requests_i_j_s_first_corrected(i, j, s)           of number
+        requests_i_j_k_l_s_first_corrected of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_first_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_s_first_corrected     of matrix(Product, Refinery, Ship_terms)
+            where
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                i from index # Индексы нефпродукта
+                j from index # Индексы НПЗ
+                s from index # Индексы условия поставки
+                l from index # Индексы субъекта рынка
+                k from index # Индексы региона
