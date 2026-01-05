@@ -67,11 +67,11 @@ volumes_l_t_i_k_k0 = (
     )
 )
     where
-        l  from index # Индексы субъекта рынка
-        t  from index # Индексы месяца и года
-        i  from index # Индексы нефпродукта
-        k  from index # Индексы региона
-        k0 of K0 from index # Индексы района
+        P  from index # Индексы субъекта рынка
+        Y  from index # Индексы месяца и года
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        K0 from index # Индексы района
 
 volumes_l_t_i_k = (
     (1 from I) = (
@@ -143,7 +143,7 @@ volumes_l_t_i_k = (
 )
 
     where
-        l  of P from index # Индексы субъекта рынка
-        t  of Y from index # Индексы месяца и года
-        i  of I from index # Индексы нефпродукта
-        k  of K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        Y from index # Индексы месяца и года
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
