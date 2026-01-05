@@ -14,7 +14,7 @@ normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
         normalized_i_j_k_l(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n) of   matrix(Product, Market_participant)
             where
-                n: index # Индекс матрицы
+                n of index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
@@ -29,7 +29,7 @@ normalized_i(n) = sum_by_axes(normalized_i_l(n), Market_participant)
         normalized_i_l(n) of matrix(Product, Market_participant)
         normalized_i(n) of matrix(Product)
             where
-                n: index # Индекс матрицы
+                n of index # Индекс матрицы
                 Product, Market_participant from axis
                 l from index # Индексы субъекта рынка
                 i from index # Индексы нефпродукта
