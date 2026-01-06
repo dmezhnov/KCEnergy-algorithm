@@ -1,5 +1,5 @@
 MAX_SUBJECT_SHARE_PERCENTAGE                    from ("initial_data.lang")
-normalized_i_j_k_l                              from ("step-6.lang")
+normalized_i_j_k_l.First                              from ("step-6.lang")
 normalized_i_l, normalized_i                    from ("step-7.1.lang")
 for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
 condition, axis, index                          from ("matrix_types.lang")
@@ -37,7 +37,7 @@ normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, norma
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l(n), contains, normalized_i_l_increased(n))
+normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l.First(n), contains, normalized_i_l_increased(n))
     where
         normalized_i_j_k_l_increased(n)(i, l, j, k) of number
         normalized_i_l_increased(n)(i, l)           of number
@@ -86,13 +86,13 @@ normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), /
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l(n), normalized_i_j_k_l_corrected(n))
+estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l.First(n), normalized_i_j_k_l_corrected(n))
     where
         estimated_i_j_k_l(m)(i, l, j, k)            of number
-        normalized_i_j_k_l(n)(i, l, j, k)           of number
+        normalized_i_j_k_l.First(n)(i, l, j, k)           of number
         normalized_i_j_k_l_corrected(n)(i, l, j, k) of number
         estimated_i_j_k_l(m)            of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l(n)           of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l.First(n)           of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
             where
                 n of index
