@@ -39,11 +39,11 @@ requests_i_j_l_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_correc
         requests_i_j_l_s_second_corrected   of matrix(Product, Refinery, Ship_terms, Market_participant)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
                 s  of C  from index # Индексы условия поставки
                 l  of P  from index # Индексы субъекта рынка
-                k  of  K from index # Индексы региона
+                k  of K  from index # Индексы региона
 
 # Матрица итоговых суммарных скорректированных объемов размера N x M
 requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_corrected, Region, Market_participant)
@@ -57,8 +57,8 @@ requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_l_s_second_corrected,
         requests_i_j_s_second_corrected     of matrix(Product, Refinery, Ship_terms)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
                 s  of C  from index # Индексы условия поставки
                 l  of P  from index # Индексы субъекта рынка
-                k  of  K from index # Индексы региона
+                k  of K  from index # Индексы региона

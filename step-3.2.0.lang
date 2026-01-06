@@ -132,8 +132,8 @@ refinery_count_by_deficit_requests_multiple(i) = (
                 J != 1 # Количество НПЗ != 1
                     where
                         Product, Region, Market_participant, Ship_terms from axis # Оси заявок
-                        i  of  I from index  # Индексы нефпродукта
-                        k  of  K from index  # Индексы региона
+                        i  of I  from index  # Индексы нефпродукта
+                        k  of K  from index  # Индексы региона
                         l  of P  from index  # Индексы субъекта рынка
                         s  of C  from index  # Индексы условия поставки
                         J of  number # Количество НПЗ
@@ -167,7 +167,7 @@ requests_i_j_k_l_s_first_deficit_single(i) = (
                         k, k* of K from index # Индексы региона
                         l, l* of P from index # Индексы субъекта рынка
                         s, s* of C from index # Индексы условия поставки
-                        j  of  J from index # Индексы НПЗ
+                        j  of J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s_first, contains, refinery_count_by_deficit_requests_single)
     where
