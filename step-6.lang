@@ -19,7 +19,7 @@ estimated_i_j_k_l_fca(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_fca(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -37,7 +37,7 @@ estimated_i_j_k_l_fca.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(
         estimated_i_j_k_l_fca.First(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -55,7 +55,7 @@ estimated_i_j_k_l_fca_coeff(l0)(n) = for_each_element(estimated_i_j_k_l_fca(l0)(
         estimated_i_j_k_l_fca(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -73,7 +73,7 @@ estimated_i_j_k_l_fca_coeff.First(n) = for_each_element(estimated_i_j_k_l_fca.Fi
         estimated_i_j_k_l_fca.First(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -90,7 +90,7 @@ estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -108,7 +108,7 @@ estimated_i_j_k_l_fca_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -124,7 +124,7 @@ estimated_i_j_k_l_fca_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_co
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -141,7 +141,7 @@ estimated_i_j_k_l_fca_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_
         estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -158,7 +158,7 @@ normalized_i_j_k_l_fca(l0)(n) = for_each_element(estimated_i_j_k_l_fca_rounded(l
         estimated_i_j_k_l_fca_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         max from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -176,7 +176,7 @@ normalized_i_j_k_l_fca.First(n) = for_each_element(estimated_i_j_k_l_fca_rounded
         estimated_i_j_k_l_fca_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         max from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -192,7 +192,7 @@ estimated_i_j_k_l_exw(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_exw(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where
-                n  of index # Индекс матрицы
+                n  of        index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -210,7 +210,7 @@ estimated_i_j_k_l_exw.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(
         estimated_i_j_k_l_exw.First(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -227,7 +227,7 @@ estimated_i_j_k_l_exw_coeff(l0)(n) = for_each_element(estimated_i_j_k_l_exw(l0)(
         estimated_i_j_k_l_exw(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -244,7 +244,7 @@ estimated_i_j_k_l_exw_coeff.First(n) = for_each_element(estimated_i_j_k_l_exw.Fi
         estimated_i_j_k_l_exw.First(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -260,7 +260,7 @@ estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_
         estimated_i_j_k_l_exw_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -277,7 +277,7 @@ estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_exw_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -293,7 +293,7 @@ estimated_i_j_k_l_exw_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_co
         estimated_i_j_k_l_exw_rounded(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -310,7 +310,7 @@ estimated_i_j_k_l_exw_rounded.First(n) = for_each_element(estimated_i_j_k_l_exw_
         estimated_i_j_k_l_exw_rounded.First(n)       of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -347,7 +347,7 @@ normalized_i_j_k_l_exw(l0)(n) = for_each_element(estimated_i_j_k_l_exw_rounded(l
                 estimated_i_j_k_l_exw_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
                 max from operation
                     where
-                        n  of index # Индекс матрицы
+                        n  of         index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
                         i  of I  from index # Индексы нефпродукта
                         j  of J  from index # Индексы НПЗ
@@ -364,7 +364,7 @@ normalized_i_j_k_l_exw.First(n) = OIL_TERMINAL_MIN_TONNAGE
                 estimated_i_j_k_l_exw.First(n)(i, j, k, l)  of number
                 OIL_TERMINAL_MIN_TONNAGE                    of  number
                     where
-                        n  of index # Индекс матрицы
+                        n  of         index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
                         i  of I  from index # Индексы нефпродукта
                         j  of J  from index # Индексы НПЗ
@@ -381,7 +381,7 @@ normalized_i_j_k_l_exw.First(n) = for_each_element(estimated_i_j_k_l_exw_rounded
                 estimated_i_j_k_l_exw_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
                 max from operation
                     where
-                        n  of index # Индекс матрицы
+                        n  of         index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
                         i  of I  from index # Индексы нефпродукта
                         j  of J  from index # Индексы НПЗ
@@ -398,7 +398,7 @@ normalized_i_j_k_l(l0)(n) = assign_matrix(normalized_i_j_k_l_fca(l0)(n), normali
         normalized_i_j_k_l_fca(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         normalized_i_j_k_l_exw(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -416,7 +416,7 @@ normalized_i_j_k_l.First(n) = assign_matrix(normalized_i_j_k_l_fca.First(n), nor
         normalized_i_j_k_l_fca.First(n) of matrix(Product, Refinery, Region, Market_participant)
         normalized_i_j_k_l_exw.First(n) of matrix(Product, Refinery, Region, Market_participant)
             where
-                n  of index # Индекс матрицы
+                n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
