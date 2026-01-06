@@ -18,7 +18,7 @@ threshold_i_j(i) = (
         threshold_i_j(i, j)                  of  number
         available_i_j.First(i, j)            of  number # Доступные объёмы
         OVERALL_REQUEST_CAPACITY_COEFFICIENT of  number # Коэффициент порога
-        threshold_i_j of matrix(Product, Refinery) # Порог по НПЗ/виду НП
+        threshold_i_j       of matrix(Product, Refinery) # Порог по НПЗ/виду НП
         available_i_j.First of matrix(Product, Refinery) # Доступные объёмы
         * from operation # Операция умножения
             where

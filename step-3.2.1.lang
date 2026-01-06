@@ -20,10 +20,10 @@ requests_i_j_k_l_s_deficit_single_corrected.First(i) = (
 )
     where
         requests_i_j_k_l_s_deficit_single_corrected.First(i, k, l, s, j) of number = corrected_value
-        requests_i_j_k_l_s_deficit_single.First(i, k, l, s, j)           of number = request_value
+        requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number = request_value
         moving_average(i, k, l)                                          of number = average_value  # Скользящее среднее
         requests_i_j_k_l_s_deficit_single_corrected.First of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_deficit_single.First           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average                                    of matrix(Product, Region, Market_participant) # Скользящее среднее
             where
                 corrected_value = request_value
@@ -43,13 +43,13 @@ requests_i_j_k_l_s_deficit_single_corrected.First(i) = (
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_single_corrected.First = for_each_pair(requests_i_j_k_l_s_deficit_single.First, min, moving_average)
+requests_i_j_k_l_s_deficit_single_corrected.First = for_each_pair(requests_i_j_k_l_s_deficit_single, min, moving_average)
     where
         requests_i_j_k_l_s_deficit_single_corrected.First(i, k, l, s, j) of number
-        requests_i_j_k_l_s_deficit_single.First(i, k, l, s, j)           of number
+        requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number
         moving_average(i, k, l)                                          of number # Скользящее среднее
         requests_i_j_k_l_s_deficit_single_corrected.First of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_deficit_single.First           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average                                    of matrix(Product, Region, Market_participant) # Скользящее среднее
         min from operation
             where
@@ -60,13 +60,13 @@ requests_i_j_k_l_s_deficit_single_corrected.First = for_each_pair(requests_i_j_k
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_single_pend.First = for_each_pair(requests_i_j_k_l_s_deficit_single.First, -, requests_i_j_k_l_s_deficit_single_corrected.First)
+requests_i_j_k_l_s_deficit_single_pend.First = for_each_pair(requests_i_j_k_l_s_deficit_single, -, requests_i_j_k_l_s_deficit_single_corrected.First)
     where
         requests_i_j_k_l_s_deficit_single_pend.First(i, k, l, s, j)      of number
-        requests_i_j_k_l_s_deficit_single.First(i, k, l, s, j)           of number
+        requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number
         requests_i_j_k_l_s_deficit_single_corrected.First(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_single_pend.First      of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_deficit_single.First           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_deficit_single_corrected.First of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         - from operation
             where
