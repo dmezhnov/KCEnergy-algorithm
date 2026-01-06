@@ -49,7 +49,7 @@ requests_i_j_k_l_s_first_deficit = filter_by_pair(requests_i_j_k_l_s_first, cont
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
                 s  of C  from index # Индексы условий поставки
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 J from index # Количество НПЗ
 
@@ -70,7 +70,7 @@ refinery_count_by_deficit_requests(i) = (
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i  of I  from index # Индексы нефпродукта
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
@@ -86,7 +86,7 @@ refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i  of I  from index # Индексы нефпродукта
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
@@ -110,7 +110,7 @@ refinery_count_by_deficit_requests_single(i) = (
                     where
                         Product, Region, Market_participant, Ship_terms from axis # Оси заявок
                         i  of I  from index # Индексы нефпродукта
-                        k  of K from index # Индексы региона
+                        k  of K  from index # Индексы региона
                         l  of P  from index # Индексы субъекта рынка
                         s  of C  from index # Индексы условия поставки
                         J from index # Количество НПЗ
@@ -181,7 +181,7 @@ requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s_firs
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i  of I  from index # Индексы нефпродукта
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
@@ -229,7 +229,7 @@ requests_i_j_k_l_s_first_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_fi
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis # Оси заявок
                 i  of I  from index # Индексы нефпродукта
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ

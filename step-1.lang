@@ -173,8 +173,8 @@ requests_i_j_k = requests_i_j_k(1),             ...,  requests_i_j_k(N)
                         j  of J  from index # Индексы НПЗ
                         k  of K  from index # Индексы региона
                         l  of P  from index # Индексы субъекта рынка
-                        L from index # Количество субъектов рынка
-                        N from index # Количество нефпродуктов
+                        L        from index # Количество субъектов рынка
+                        N        from index # Количество нефпродуктов
 
 requests_i_j(i) = (
     (i, j) = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
@@ -192,7 +192,7 @@ requests_i_j(i) = (
                 j  of J  from index # Индексы НПЗ
                 s  of C  from index # Индексы условий поставки
                 k  of K  from index # Индексы региона
-                Q from index # Количество регионов
+                Q        from index # Количество регионов
 
 # Матрица объемов в запросах от всех субъектов ранка, размерами N x M
 requests_i_j = sum_by_axes(requests_i_j_k_l, Ship_terms, Region, Market_participant)
@@ -212,9 +212,9 @@ requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
             where
                 Product, Region, Ship_terms, Refinery, Market_participant from axis # Оси агрегатов
                 i  of I  from index # Индексы нефпродукта
-                k  of K from index # Индексы региона
+                k  of K  from index # Индексы региона
                 s  of C  from index # Индексы условий поставки
                 j  of J  from index # Индексы НПЗ
                 l  of P  from index # Индексы субъекта рынка
-                Q from index # Количество регионов
-                I from index # Количество нефпродуктов
+                Q        from index # Количество регионов
+                I        from index # Количество нефпродуктов
