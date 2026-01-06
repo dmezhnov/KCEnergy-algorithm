@@ -80,12 +80,12 @@ requests_i_j_k_l_s_surplus_corrected = for_each_pair(requests_i_j_k_l_s_surplus,
                 s  of C  from index # Индексы условия поставки
 
 # Матрица дважды скорректированных на проливы объемы запросов первой очереди
-requests_i_j_k_l_s_corrected = assign_matrix(requests_i_j_k_l_s_deficit_corrected, requests_i_j_k_l_s_surplus_corrected)
+requests_i_j_k_l_s_corrected.First = assign_matrix(requests_i_j_k_l_s_deficit_corrected, requests_i_j_k_l_s_surplus_corrected)
     where
-        requests_i_j_k_l_s_corrected(i, k, l, j, s)         of number
+        requests_i_j_k_l_s_corrected.First(i, k, l, j, s)   of number
         requests_i_j_k_l_s_deficit_corrected(i, k, l, j, s) of number
         requests_i_j_k_l_s_surplus_corrected(i, k, l, j, s) of number
-        requests_i_j_k_l_s_corrected         of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_corrected.First   of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_deficit_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_surplus_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
