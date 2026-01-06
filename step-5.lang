@@ -1,4 +1,4 @@
-requests_i_j_s_first_corrected, requests_i_j_k_l_s_first_corrected from ("step-4.lang")
+requests_i_j_s_first_corrected, requests_i_j_k_l_s_corrected.First from ("step-4.lang")
 available_i_j                                                      from ("step-5.lang")
 assign_matrix, for_each_pair, filter_by_pair                       from ("matrix_operation.lang")
 operation, condition, index, axis, matrix                          from ("matrix_types.lang")
@@ -41,12 +41,12 @@ requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_
                 s  of C  from index # Индексы условия поставки
 
 # Матрица скорректированных объемов запрашиваемых субъектами рынка, которые превышают доступный объём
-requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_first_corrected, contains, requests_i_j_s_first_corrected_exceed)
+requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_corrected.First, contains, requests_i_j_s_first_corrected_exceed)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, k, l)        of number
+        requests_i_j_k_l_s_corrected.First(i, j, s, k, l)        of number
         requests_i_j_k_l_s_first_corrected_exceed(i, j, s, k, l) of number
         requests_i_j_s_first_corrected_exceed(i, j)              of number
-        requests_i_j_k_l_s_first_corrected        of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_corrected.First        of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_s_first_corrected_exceed     of matrix(Product, Refinery, Ship_terms)
         contains from condition
@@ -59,12 +59,12 @@ requests_i_j_k_l_s_first_corrected_exceed = filter_by_pair(requests_i_j_k_l_s_fi
                 l  of P  from index # Индексы субъекта рынка
 
 # Матрица скорректированных объемов запрашиваемых субъектами рынка, которые не превышают доступный объём
-requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_s_first_corrected, contains, requests_i_j_s_first_corrected_not_exceed)
+requests_i_j_k_l_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_k_l_s_corrected.First, contains, requests_i_j_s_first_corrected_not_exceed)
     where
-        requests_i_j_k_l_s_first_corrected(i, j, s, k, l)            of number
+        requests_i_j_k_l_s_corrected.First(i, j, s, k, l)            of number
         requests_i_j_k_l_s_first_corrected_not_exceed(i, j, s, k, l) of number
         requests_i_j_s_first_corrected_not_exceed(i, j)              of number
-        requests_i_j_k_l_s_first_corrected            of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s_corrected.First            of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_s_first_corrected_not_exceed     of matrix(Product, Refinery, Ship_terms)
         contains from condition
