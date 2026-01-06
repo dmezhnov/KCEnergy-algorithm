@@ -1,4 +1,4 @@
-normalized_i_j_k_l from ("step-6.lang")
+normalized_i_j_k_l.First from ("step-6.lang")
 sum_by_axes        from ("matrix_operation.lang")
 
 #### Суммарный нормированный объем НП
@@ -7,11 +7,11 @@ sum_by_axes        from ("matrix_operation.lang")
 # — по каждому Субъекту рынка (его суммарный объём).
 
 # n-я матрица суммарных нормированных объемов НП
-normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l(n), Refinery, Region)
+normalized_i_l(n) = sum_by_axes(normalized_i_j_k_l.First(n), Refinery, Region)
     where
-        normalized_i_j_k_l(n)(i, l, j, k) of number
+        normalized_i_j_k_l.First(n)(i, l, j, k) of number
         normalized_i_l(n)(i, l)           of number
-        normalized_i_j_k_l(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l.First(n) of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_l(n)     of matrix(Product, Market_participant)
             where
                 n of index # Индекс матрицы
