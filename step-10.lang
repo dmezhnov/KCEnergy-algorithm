@@ -19,10 +19,10 @@ requests_i_j_k_l_s_second = filter_by_coordinate(requests_i_j_k_l_s_l0, Second)
                 Second from Queue
                     where
                         Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                        i  of I from index # Индексы нефпродукта
+                        i  of I  from index # Индексы нефпродукта
                         j  of J from index # Индексы НПЗ
-                        k  of k from index # Индексы региона
-                        l  of P from index # Индексы субъекта рынка
+                        k  of k  from index # Индексы региона
+                        l  of P  from index # Индексы субъекта рынка
                         l0 of R from index # Индексы очереди
                         s  of C from index # Индексы условий поставки
 
