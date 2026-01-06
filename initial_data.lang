@@ -9,10 +9,10 @@ requests_i_j_k_l_s_l0 of matrix(Product, Refinery, Region, Market_participant, Q
         requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of number # Запрашиваемый объем НП
         Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси
             where
-                i  of I from index # Индексы нефпродукта
+                i  of I  from index # Индексы нефпродукта
                 j  of J from index # Индексы НПЗ
-                k  of k from index # Индексы региона
-                l  of P from index # Индексы субъекта рынка
+                k  of k  from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
                 l0 of R from index # Индексы очереди
                 s  of C from index # Индексы условий поставки
 
@@ -22,10 +22,10 @@ volumes_l_t_i_k_k0_i0 of matrix(Market_participant, Region, Product, Month_and_y
         volumes_l_t_i_k_k0_i0(l, t, i, k, k0, i0) of number # Объем пролива
         Market_participant, Region, Product, Month_and_year, District, Product_category from axis # Оси
             where
-                l  of P from index # Индексы субъекта рынка
-                t  from index # Индексы месяца и года
-                i  of I from index # Индексы нефпродукта
-                k  of k from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
+                t  of Y  from index # Индексы месяца и года
+                i  of I  from index # Индексы нефпродукта
+                k  of k  from index # Индексы региона
                 k0 of K0 from index # Индексы района
                 i0 of I0 from index # Индексы категории нефпродукта
 
