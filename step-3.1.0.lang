@@ -65,7 +65,7 @@ matrix_of_activity(l) = (
                 i  of I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 t  of Y  from index # Индексы месяца и года
-                T from index # Количество месяцев
+                T        from index # Количество месяцев
 
 matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_and_year)
     where
@@ -80,7 +80,7 @@ matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_a
                 i  of I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 t  of Y  from index # Индексы месяца и года
-                T from index # Количество месяцев
+                T        from index # Количество месяцев
 
 # Матрица сумм проливов за период по региону/виду/субъекту.
 # Числитель для вычисления скользящего среднего.
@@ -102,7 +102,7 @@ volumes_l_i_k(l) = (
                 i  of I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 t  of Y  from index # Индексы месяца и года
-                T from index # Количество месяцев
+                T        from index # Количество месяцев
 
 volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
     where
@@ -118,7 +118,7 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
                 i  of I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 t  of Y  from index # Индексы месяца и года
-                T from index # Количество месяцев
+                T        from index # Количество месяцев
 
 # Матрица скользящих средних, где число активных месяцев = 0
 moving_average(l) = (
