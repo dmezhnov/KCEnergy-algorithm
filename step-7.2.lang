@@ -1,5 +1,5 @@
 MAX_SUBJECT_SHARE_PERCENTAGE                    from ("initial_data.lang")
-normalized_i_j_k_l.First                              from ("step-6.lang")
+normalized_i_j_k_l                              from ("step-6.lang")
 normalized_i_l, normalized_i                    from ("step-7.1.lang")
 for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
 condition, axis, index                          from ("matrix_types.lang")
@@ -9,94 +9,94 @@ condition, axis, index                          from ("matrix_types.lang")
 # применяем понижающий коэффициент к его объёмам; затем переходим к повторному
 # нормированию (Шаг 6).
 
-normalized_i_coeff(n) = for_each_element(normalized_i(n), *, MAX_SUBJECT_SHARE_PERCENTAGE)
+normalized_i_coeff.First(n) = for_each_element(normalized_i.First(n), *, MAX_SUBJECT_SHARE_PERCENTAGE)
     where
-        normalized_i_coeff(n)(i)     of number
-        normalized_i(n)(i)           of number
-        MAX_SUBJECT_SHARE_PERCENTAGE of number
-        normalized_i_coeff(n) of matrix(Product)
-        normalized_i(n)       of matrix(Product)
+        normalized_i_coeff.First(n)(i) of number
+        normalized_i.First(n)(i)       of number
+        MAX_SUBJECT_SHARE_PERCENTAGE   of number
+        normalized_i_coeff.First(n) of matrix(Product)
+        normalized_i.First(n)       of matrix(Product)
         * from operation
             where
-                n of index # Индекс матрицы
+                n  of index # Индекс матрицы
                 Product from axis
-                i  of I  from index # Индексы нефпродукта
+                i  of I from index # Индексы нефпродукта
 
-normalized_i_l_increased(n) = filter_by_pair(normalized_i_l(n), more_than, normalized_i_coeff(n))
+normalized_i_l_increased.First(n) = filter_by_pair(normalized_i_l.First(n), >, normalized_i_coeff.First(n))
     where
-        normalized_i_l_increased(n)(i, l) of number
-        normalized_i_l(n)(i, l)           of number
-        normalized_i_coeff(n)(i)          of number
-        normalized_i_l_increased(n) of matrix(Product, Market_participant)
-        normalized_i_l(n)           of matrix(Product, Market_participant)
-        normalized_i_coeff(n)       of matrix(Product)
-        more_than from condition
+        normalized_i_l_increased.First(n)(i, l) of number
+        normalized_i_l.First(n)(i, l)           of number
+        normalized_i_coeff.First(n)(i)          of number
+        normalized_i_l_increased.First(n) of matrix(Product, Market_participant)
+        normalized_i_l.First(n)           of matrix(Product, Market_participant)
+        normalized_i_coeff.First(n)       of matrix(Product)
+        > from condition
             where
-                n of index # Индекс матрицы
+                n  of index # Индекс матрицы
                 Product, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_increased(n) = filter_by_pair(normalized_i_j_k_l.First(n), contains, normalized_i_l_increased(n))
+normalized_i_j_k_l_increased.First(n) = filter_by_pair(normalized_i_j_k_l.First(n), contains, normalized_i_l_increased.First(n))
     where
-        normalized_i_j_k_l_increased(n)(i, l, j, k) of number
-        normalized_i_l_increased(n)(i, l)           of number
-        normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_l_increased(n)     of matrix(Product, Market_participant)
+        normalized_i_j_k_l_increased.First(n)(i, l, j, k) of number
+        normalized_i_l_increased.First(n)(i, l)           of number
+        normalized_i_j_k_l_increased.First(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l_increased.First(n)     of matrix(Product, Market_participant)
         contains from condition
             where
-                n of index # Индекс матрицы
+                n  of index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-normalized_i_j_k_l_limited(n) = for_each_pair(normalized_i_j_k_l_increased(n), *, normalized_i_coeff(n))
+normalized_i_j_k_l_limited.First(n) = for_each_pair(normalized_i_j_k_l_increased.First(n), *, normalized_i_coeff.First(n))
     where
-        normalized_i_j_k_l_limited(n)(i, l, j, k)   of number
-        normalized_i_j_k_l_increased(n)(i, l, j, k) of number
-        normalized_i_coeff(n)(i)                    of number
-        normalized_i_j_k_l_limited(n)   of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_increased(n) of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_coeff(n)           of matrix(Product)
+        normalized_i_j_k_l_limited.First(n)(i, l, j, k)   of number
+        normalized_i_j_k_l_increased.First(n)(i, l, j, k) of number
+        normalized_i_coeff.First(n)(i)                    of number
+        normalized_i_j_k_l_limited.First(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_increased.First(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_coeff.First(n)           of matrix(Product)
         * from operation
             where
-                n of index # Индекс матрицы
+                n  of index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-normalized_i_j_k_l_corrected(n) = for_each_pair(normalized_i_j_k_l_limited(n), /, normalized_i_l(n))
+normalized_i_j_k_l_corrected.First(n) = for_each_pair(normalized_i_j_k_l_limited.First(n), /, normalized_i_l.First(n))
     where
-        normalized_i_j_k_l_corrected(n)(i, l, j, k) of number
-        normalized_i_j_k_l_limited(n)(i, l, j, k)   of number
-        normalized_i_l(n)(i, l)                     of number
-        normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_limited(n)   of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_l(n)               of matrix(Product, Market_participant)
+        normalized_i_j_k_l_corrected.First(n)(i, l, j, k) of number
+        normalized_i_j_k_l_limited.First(n)(i, l, j, k)   of number
+        normalized_i_l.First(n)(i, l)                     of number
+        normalized_i_j_k_l_corrected.First(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited.First(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l.First(n)               of matrix(Product, Market_participant)
         / from operation
             where
-                n of index # Индекс матрицы
+                n  of index # Индекс матрицы
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-estimated_i_j_k_l(m) = assign_matrix(normalized_i_j_k_l.First(n), normalized_i_j_k_l_corrected(n))
+estimated_i_j_k_l.First(m) = assign_matrix(normalized_i_j_k_l.First(n), normalized_i_j_k_l_corrected.First(n))
     where
-        estimated_i_j_k_l(m)(i, l, j, k)            of number
+        estimated_i_j_k_l.First(m)(i, l, j, k)            of number
         normalized_i_j_k_l.First(n)(i, l, j, k)           of number
-        normalized_i_j_k_l_corrected(n)(i, l, j, k) of number
-        estimated_i_j_k_l(m)            of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected.First(n)(i, l, j, k) of number
+        estimated_i_j_k_l.First(m)            of matrix(Product, Market_participant, Refinery, Region)
         normalized_i_j_k_l.First(n)           of matrix(Product, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_corrected(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected.First(n) of matrix(Product, Market_participant, Refinery, Region)
             where
-                n of index
-                m of index = n + 1
+                n  of index
+                m  of index = n + 1
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка

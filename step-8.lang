@@ -1,5 +1,5 @@
 length, number             from core
-estimated_i_j_k_l          from ("step-7.2.lang")
+estimated_i_j_k_l.First          from ("step-7.2.lang")
 available_i_j              from ("initial_data.lang")
 for_each_pair, sum_by_axes from ("matrix_operation.lang")
 operation                  from ("matrix_types.lang")
@@ -9,14 +9,14 @@ operation                  from ("matrix_types.lang")
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
 
 # Последняя матрица предварительных расчетных объемов НП
-estimated_i_j_k_l_last = estimated_i_j_k_l(x)
+estimated_i_j_k_l_last = estimated_i_j_k_l.First(x)
     where
         estimated_i_j_k_l_last(i, l, j, k) of number
-        estimated_i_j_k_l(x)(i, l, j, k)   of number
-        estimated_i_j_k_l of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l.First(x)(i, l, j, k)   of number
+        estimated_i_j_k_l.First of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l.First of matrix(Product, Refinery, Market_participant, Region)
             where
-                x of index = length(estimated_i_j_k_l) # индекс последней матрицы предварительных расчетных объемов НП
+                x of index = length(estimated_i_j_k_l.First) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
