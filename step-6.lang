@@ -1,6 +1,6 @@
 number                                                                     from core
 RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
-estimated_i_j_k_l_s                                                        from ("step-5.lang")
+estimated_i_j_k_l_s.First                                                        from ("step-5.lang")
 axis, index, matrix, operation, coordinate                                 from ("matrix_types.lang")
 filter_by_coordinate, for_each_element, assign_matrix                      from ("matrix_operation.lang")
 
@@ -11,11 +11,11 @@ filter_by_coordinate, for_each_element, assign_matrix                      from 
 # После контроля доли (Шаг 7) возможно повторное нормирование.
 
 # n-я матрица предварительных расчетных объемов НП, для поставки с НПЗ
-estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
+estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(n), FCA)
     where
-        estimated_i_j_k_l_s(n)(i, j, k, l, s) of number
+        estimated_i_j_k_l_s.First(n)(i, j, k, l, s) of number
         estimated_i_j_k_l_fca(n)(i, j, k, l)  of number
-        estimated_i_j_k_l_s(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s.First(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_fca(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
@@ -95,11 +95,11 @@ normalized_i_j_k_l_fca(n) = for_each_element(estimated_i_j_k_l_fca_rounded(n), m
                 l  of P  from index # Индексы субъекта рынка
 
 # n-я матрица предварительных расчетных объемов НП, для поставки с нефтебаз
-estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), EXW)
+estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(n), EXW)
     where
-        estimated_i_j_k_l_s(n)(i, j, k, l, s) of number
+        estimated_i_j_k_l_s.First(n)(i, j, k, l, s) of number
         estimated_i_j_k_l_exw(n)(i, j, k, l)  of number
-        estimated_i_j_k_l_s(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s.First(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_exw(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where
