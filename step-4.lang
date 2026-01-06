@@ -6,10 +6,13 @@ axis, matrix, index          from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-requests_i_j_k_l_s_corrected(queue) = requests_i_j_k_l_s(queue)
+requests_i_j_k_l_s_corrected(l0) = requests_i_j_k_l_s(l0)
     where
-        queue of R > 1 # Если это не первыя очередь
-        requests_i_j_k_l_s_corrected(queue)(i, j, s, l, k) of number
+        l0 > 1 # Если это не первыя очередь
+        requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k) of number
+        requests_i_j_k_l_s(l0)(i, j, s, l, k)           of number
+        requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s(l0)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  of I  from index # Индексы нефпродукта
@@ -17,16 +20,16 @@ requests_i_j_k_l_s_corrected(queue) = requests_i_j_k_l_s(queue)
                 s  of C  from index # Индексы условия поставки
                 l  of P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
-                R        from index # Индексы очереди
+                l0 of R  from index # Индексы очереди
 
-requests_i_j_l_s_corrected(queue) = sum_by_axes(requests_i_j_k_l_s_corrected(queue), Region)
+requests_i_j_l_s_corrected(l0) = sum_by_axes(requests_i_j_k_l_s_corrected(l0), Region)
     where
-        requests_i_j_k_l_s_corrected(queue)(i, j, s, l, k) of number
-        requests_i_j_l_s_corrected(queue)(i, j, s, l)      of number
-        requests_i_j_k_l_s_corrected(queue) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_l_s_corrected(queue)   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k) of number
+        requests_i_j_l_s_corrected(l0)(i, j, s, l)      of number
+        requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_corrected(l0)   of matrix(Product, Refinery, Ship_terms, Market_participant)
             where
-                queue from Queue
+                R from Queue
                     where
                         Product, Refinery, Ship_terms, Market_participant, Region from axis
                         i  of I  from index # Индексы нефпродукта
@@ -34,6 +37,7 @@ requests_i_j_l_s_corrected(queue) = sum_by_axes(requests_i_j_k_l_s_corrected(que
                         s  of C  from index # Индексы условия поставки
                         l  of P  from index # Индексы субъекта рынка
                         k  of K  from index # Индексы региона
+                        l0 of R  from index # Индексы очереди
 
 requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region)
     where
@@ -49,16 +53,16 @@ requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.Firs
                 l  of P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
 
-# Матрица итоговых суммарных скорректированных объемов размера N x M очереди queue
-requests_i_j_s_corrected(queue) = sum_by_axes(requests_i_j_k_l_s_corrected(queue), Region, Market_participant)
-requests_i_j_s_corrected(queue) = sum_by_axes(requests_i_j_l_s_corrected(queue),           Market_participant)
+# Матрица итоговых суммарных скорректированных объемов размера N x M l0-й очереди
+requests_i_j_s_corrected(l0) = sum_by_axes(requests_i_j_k_l_s_corrected(l0), Region, Market_participant)
+requests_i_j_s_corrected(l0) = sum_by_axes(requests_i_j_l_s_corrected(l0),           Market_participant)
     where
-        requests_i_j_k_l_s_corrected(queue)(i, j, s, l, k) of number
-        requests_i_j_l_s_corrected(queue)(i, j, s, l)      of number
-        requests_i_j_s_corrected(queue)(i, j, s)           of number
-        requests_i_j_k_l_s_corrected(queue) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_l_s_corrected(queue)   of matrix(Product, Refinery, Ship_terms, Market_participant)
-        requests_i_j_s_corrected(queue)     of matrix(Product, Refinery, Ship_terms)
+        requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k) of number
+        requests_i_j_l_s_corrected(l0)(i, j, s, l)      of number
+        requests_i_j_s_corrected(l0)(i, j, s)           of number
+        requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_corrected(l0)   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_s_corrected(l0)     of matrix(Product, Refinery, Ship_terms)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  of I  from index # Индексы нефпродукта
@@ -66,6 +70,7 @@ requests_i_j_s_corrected(queue) = sum_by_axes(requests_i_j_l_s_corrected(queue),
                 s  of C  from index # Индексы условия поставки
                 l  of P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
+                l0 of R  from index # Индексы очереди
 
 # Матрица итоговых суммарных скорректированных объемов размера N x M первой очереди
 requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region, Market_participant)
