@@ -12,13 +12,13 @@ operation, matrix, axis, index                                                  
 # на НПЗ с профицитом. Остаток «выпадающего» объёма зануляется.
 
 # Матрица скорректированных на проливы объемы дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_corrected.First = assign_matrix(requests_i_j_k_l_s_deficit_single_corrected, requests_i_j_k_l_s_deficit_multiple_corrected.First)
+requests_i_j_k_l_s_deficit_corrected.First = assign_matrix(requests_i_j_k_l_s_deficit_single_corrected, requests_i_j_k_l_s_deficit_multiple_corrected)
         requests_i_j_k_l_s_deficit_corrected.First(i, k, l, j, s)          of number
         requests_i_j_k_l_s_deficit_single_corrected(i, k, l, j, s)   of number
-        requests_i_j_k_l_s_deficit_multiple_corrected.First(i, k, l, j, s) of number
+        requests_i_j_k_l_s_deficit_multiple_corrected(i, k, l, j, s) of number
         requests_i_j_k_l_s_deficit_corrected.First          of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_deficit_single_corrected   of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_deficit_multiple_corrected.First of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_deficit_multiple_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
@@ -46,14 +46,14 @@ requests_i_j_k_l_s_surplus.First = filter_by_pair(requests_i_j_k_l_s.First, cont
                 l  of P  from index # Индексы субъекта рынка
                 M        from index # Количество НПЗ
 
-requests_i_j_k_l_s_deficit_pend.First = assign_matrix(requests_i_j_k_l_s_deficit_single_pend, requests_i_j_k_l_s_deficit_multiple_pend.First)
+requests_i_j_k_l_s_deficit_pend.First = assign_matrix(requests_i_j_k_l_s_deficit_single_pend, requests_i_j_k_l_s_deficit_multiple_pend)
     where
         requests_i_j_k_l_s_deficit_pend.First(i, k, l, j, s)          of number
         requests_i_j_k_l_s_deficit_single_pend(i, k, l, j, s)   of number
-        requests_i_j_k_l_s_deficit_multiple_pend.First(i, k, l, j, s) of number
+        requests_i_j_k_l_s_deficit_multiple_pend(i, k, l, j, s) of number
         requests_i_j_k_l_s_deficit_pend.First          of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
         requests_i_j_k_l_s_deficit_single_pend   of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_deficit_multiple_pend.First of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_deficit_multiple_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
