@@ -19,11 +19,11 @@ requests_i_k_l_s_first_deficit_multiple(i) = (
         requests_i_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms)
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 requests_i_k_l_s_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_first_deficit_multiple, Refinery)
     where
@@ -33,11 +33,11 @@ requests_i_k_l_s_first_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_first_d
         requests_i_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms)
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 # Матрица долей множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
@@ -59,11 +59,11 @@ requests_i_j_k_l_s_first_deficit_multiple_share(i) = (
             where
                 / from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, /, requests_i_k_l_s_first_deficit_multiple)
     where
@@ -76,11 +76,11 @@ requests_i_j_k_l_s_first_deficit_multiple_share = for_each_pair(requests_i_j_k_l
             where
                 / from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 # Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
@@ -102,11 +102,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux(i) = (
             where
                 * from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple_share, *, moving_average)
     where
@@ -119,11 +119,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend_aux = for_each_pair(requests_i_j_
             where
                 * from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 # Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
@@ -144,11 +144,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend(i) = (
         requests_i_j_k_l_s_first_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, -, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
@@ -161,11 +161,11 @@ requests_i_j_k_l_s_first_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_
             where
                 - from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 # Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
@@ -196,11 +196,11 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected(i) = (
                             where
                                 >  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_first_deficit_multiple, min, requests_i_j_k_l_s_first_deficit_multiple_pend_aux)
     where
@@ -213,8 +213,8 @@ requests_i_j_k_l_s_first_deficit_multiple_corrected = for_each_pair(requests_i_j
             where
                 min from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of  I from index # Индексы нефпродукта
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
-                j  of  J from index # Индексы НПЗ
+                j  of J  from index # Индексы НПЗ

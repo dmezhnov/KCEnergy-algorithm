@@ -21,9 +21,9 @@ estimated_i_j_k_l_fca(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), FCA)
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
 
@@ -39,9 +39,9 @@ estimated_i_j_k_l_fca_coeff(n) = for_each_element(estimated_i_j_k_l_fca(n), safe
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
@@ -56,9 +56,9 @@ estimated_i_j_k_l_fca_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_fca_
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(n), *, RAIL_ROAD_MIN_TONNAGE)
@@ -72,9 +72,9 @@ estimated_i_j_k_l_fca_rounded(n) = for_each_element(estimated_i_j_k_l_fca_coeff_
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 # n-я матрица нормированных объемов НП, для поставки с НПЗ
@@ -89,9 +89,9 @@ normalized_i_j_k_l_fca(n) = for_each_element(estimated_i_j_k_l_fca_rounded(n), m
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 # n-я матрица предварительных расчетных объемов НП, для поставки с нефтебаз
@@ -105,9 +105,9 @@ estimated_i_j_k_l_exw(n) = filter_by_coordinate(estimated_i_j_k_l_s(n), EXW)
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
 
@@ -122,9 +122,9 @@ estimated_i_j_k_l_exw_coeff(n) = for_each_element(estimated_i_j_k_l_exw(n), safe
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
@@ -138,9 +138,9 @@ estimated_i_j_k_l_exw_coeff_rounded(n) = for_each_element(estimated_i_j_k_l_exw_
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(n), *, OIL_TERMINAL_STEP_TONNAGE)
@@ -154,9 +154,9 @@ estimated_i_j_k_l_exw_rounded(n) = for_each_element(estimated_i_j_k_l_exw_coeff_
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
 
 # if(estimated < MIN) MIN
@@ -173,9 +173,9 @@ normalized_i_j_k_l_exw(n) = OIL_TERMINAL_MIN_TONNAGE
                     where
                         n of index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
-                        i  of  I from index # Индексы нефпродукта
-                        j  of  J from index # Индексы НПЗ
-                        k  of  K from index # Индексы региона
+                        i  of I  from index # Индексы нефпродукта
+                        j  of J  from index # Индексы НПЗ
+                        k  of K  from index # Индексы региона
                         l  of P  from index # Индексы субъекта рынка
 
 normalized_i_j_k_l_exw(n) = for_each_element(estimated_i_j_k_l_exw_rounded(n), max, OIL_TERMINAL_MIN_TONNAGE)
@@ -191,9 +191,9 @@ normalized_i_j_k_l_exw(n) = for_each_element(estimated_i_j_k_l_exw_rounded(n), m
                     where
                         n of index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
-                        i  of  I from index # Индексы нефпродукта
-                        j  of  J from index # Индексы НПЗ
-                        k  of  K from index # Индексы региона
+                        i  of I  from index # Индексы нефпродукта
+                        j  of J  from index # Индексы НПЗ
+                        k  of K  from index # Индексы региона
                         l  of P  from index # Индексы субъекта рынка
 
 # n-я матрица нормированных объемов НП
@@ -208,7 +208,7 @@ normalized_i_j_k_l(n) = assign_matrix(normalized_i_j_k_l_fca(n), normalized_i_j_
             where
                 n of index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
-                k  of  K from index # Индексы региона
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка

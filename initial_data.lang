@@ -35,8 +35,8 @@ available_i_j of matrix(Product, Refinery)
         available_i_j(i, j) of number
             where
                 Product, Refinery from axis # Оси
-                i  of  I from index # Индексы нефпродукта
-                j  of  J from index # Индексы НПЗ
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
 
 # Порог превышения доступных объёмов, %
 OVERALL_REQUEST_CAPACITY_PERCENTAGE from percentage = 120
