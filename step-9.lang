@@ -39,7 +39,7 @@ available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_TONNAGE(l
                 l0 of R  from index # Индексы очереди
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_TONNAGE.First)
+available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_TONNAGE(1))
     where
         available_i_j_new.First(i, j) of number
         MIN_TONNAGE.First             of number
