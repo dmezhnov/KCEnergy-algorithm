@@ -87,25 +87,10 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
         operat:           operation        # Операция поэлементно
         matrix_result:    matrix(...Taxis) # Результат
             where
-<<<<<<< HEAD
-                ...Taxis: (1), ..., (n) # Общие оси результата
-                    where
-                        (1): axis # Ось
-                        ...
-                        (n): axis # Ось
-=======
-                ...Taxis: (1), ..., (A) # Общие оси результата
-                    where
-                        (1): axis # Ось
-                        ...
-                        (A): axis # Ось
->>>>>>> draft
-=======
-        matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
-        matrix_source_2 of  matrix                          # Правая матрица
-        operat          of  operation                       # Операция поэлементно
-        matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
->>>>>>> draft
+                matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
+                matrix_source_2 of  matrix                          # Правая матрица
+                operat          of  operation                       # Операция поэлементно
+                matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
 
 ### - Количество координат по оси
 
@@ -114,17 +99,8 @@ count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
         matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
         counted_matrix of matrix(Tcoords(1), ..., Tcoords(C)) # Результирующая матрица численностей
             where
-<<<<<<< HEAD
-                axis_to_count:  axis # Ось, по которой считаем количество координат
-<<<<<<< HEAD
-                    ...Tcoords = (1), ..., (n): coordinate # Оставшиеся оси
-=======
-                ...Tcoords = (1), ..., (C): coordinate # Оставшиеся оси
->>>>>>> draft
-=======
                 axis_to_count of  axis # Ось, по которой считаем количество координат
                 Tcoords = (1), ..., (C) of coordinate # Оставшиеся оси
->>>>>>> draft
 
 ### - Фильтровать по координате
 
