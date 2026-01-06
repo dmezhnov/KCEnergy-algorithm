@@ -2,7 +2,7 @@ number                                                                          
 requests_i_j_k_l_s_first_deficit_single_pend, requests_i_j_k_l_s_first_deficit_single_corrected     from ("step-3.2.1.lang")
 requests_i_j_k_l_s_first_deficit_multiple_pend, requests_i_j_k_l_s_first_deficit_multiple_corrected from ("step-3.2.2.lang")
 requests_i_j_surplus                                                                                from ("step-2.lang")
-requests_i_j_k_l_s_first                                                                            from ("step-1.lang")
+requests_i_j_k_l_s.First                                                                            from ("step-1.lang")
 for_each_pair, assign_matrix                                                                        from ("matrix_operation.lang")
 operation, matrix, axis, index                                                                      from ("matrix_types.lang")
 
@@ -28,12 +28,12 @@ requests_i_j_k_l_s_first_deficit_corrected = assign_matrix(requests_i_j_k_l_s_fi
                 s  of C  from index # Индексы условия поставки
 
 # Матрица объемов профицитных запросов (запросы на профицитный НПЗ) первой очереди
-requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, contains, requests_i_j_surplus)
+requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s.First, contains, requests_i_j_surplus)
     where
-        requests_i_j_k_l_s_first(i, j, s, k, l)         of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s.First(i, j, s, k, l)         of number # Запрашиваемый объем НП
         requests_i_j_k_l_s_first_surplus(i, j, s, k, l) of number
         requests_i_j_surplus(i, j)                      of number
-        requests_i_j_k_l_s_first         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s.First         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_surplus of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_surplus             of matrix(Product, Refinery)
         contains from condition
