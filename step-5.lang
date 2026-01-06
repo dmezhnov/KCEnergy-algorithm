@@ -1,4 +1,4 @@
-requests_i_j_s_first_corrected, requests_i_j_k_l_s_corrected.First from ("step-4.lang")
+requests_i_j_s_corrected.First, requests_i_j_k_l_s_corrected.First from ("step-4.lang")
 available_i_j                                                      from ("step-5.lang")
 assign_matrix, for_each_pair, filter_by_pair                       from ("matrix_operation.lang")
 operation, condition, index, axis, matrix                          from ("matrix_types.lang")
@@ -9,12 +9,12 @@ operation, condition, index, axis, matrix                          from ("matrix
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
 
 # Матрица итоговых суммарных объемов Запросов, которые превышают доступный объём
-requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corrected, >, available_i_j)
+requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_corrected.First, >, available_i_j)
     where
-        requests_i_j_s_first_corrected(i, j, s)        of number
+        requests_i_j_s_corrected.First(i, j, s)        of number
         requests_i_j_s_first_corrected_exceed(i, j, s) of number
         available_i_j(i, j)                            of number
-        requests_i_j_s_first_corrected        of matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_corrected.First        of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_exceed of matrix(Product, Refinery, Ship_terms)
         available_i_j                         of matrix(Product, Refinery)
         > from condition
@@ -25,12 +25,12 @@ requests_i_j_s_first_corrected_exceed = filter_by_pair(requests_i_j_s_first_corr
                 s  of C  from index # Индексы условия поставки
 
 # Матрица итоговых суммарных объемов Запросов, которые не превышают доступный объём
-requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_first_corrected, <=, available_i_j)
+requests_i_j_s_first_corrected_not_exceed = filter_by_pair(requests_i_j_s_corrected.First, <=, available_i_j)
     where
-        requests_i_j_s_first_corrected(i, j, s)            of number
+        requests_i_j_s_corrected.First(i, j, s)            of number
         requests_i_j_s_first_corrected_not_exceed(i, j, s) of number
         available_i_j(i, j)                                of number
-        requests_i_j_s_first_corrected            of matrix(Product, Refinery, Ship_terms)
+        requests_i_j_s_corrected.First            of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_first_corrected_not_exceed of matrix(Product, Refinery, Ship_terms)
         available_i_j                             of matrix(Product, Refinery)
         <= from condition
