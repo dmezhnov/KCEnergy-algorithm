@@ -29,28 +29,28 @@ coordinate = axis, index
 
 index of number = (
     I  of number = 1, ..., N       # Индексы нефпродукта
-    N  of number = length(Product) # Количество нефтепродуктов (последний индекс)
+    N  of I = length(Product) # Количество нефтепродуктов (последний индекс)
 
     I0 of number = 1, ..., N0               # Индексы категории нефпродукта
-    N0 of number = length(Product_category) # Количество категорий нефтепродуктов (последний индекс)
+    N0 of I0 = length(Product_category) # Количество категорий нефтепродуктов (последний индекс)
 
     J  of number = 1, ..., M        # Индексы завода (НПЗ)
-    M  of number = length(Refinery) # Количество заводов (последний индекс)
+    M  of J = length(Refinery) # Количество заводов (последний индекс)
 
     K  of number = 1, ..., Q      # Индексы региона
-    Q  of number = length(Region) # Количество регионов (последний индекс)
+    Q  of K = length(Region) # Количество регионов (последний индекс)
 
     K0 of number = 1, ..., Q0       # Индексы района
-    Q0 of number = length(District) # Количество регионов (последний индекс)
+    Q0 of K0 = length(District) # Количество регионов (последний индекс)
 
     P  of number = 1, ..., L                  # Индексы субъекта рынка
-    L  of number = length(Market_participant) # Количество субъектов рынка (последний индекс)
+    L  of P = length(Market_participant) # Количество субъектов рынка (последний индекс)
 
     Y  of number = 1, ..., T              # Индексы месяца и года
-    T  of number = length(Month_and_year) # Количество - месяц и год (последний индекс)
+    T  of Y = length(Month_and_year) # Количество - месяц и год (последний индекс)
 
     R  of number = 1, ..., L0    # Индексы очереди
-    L0 of number = length(Queue) # Количество очередей (последний индекс)
+    L0 of R = length(Queue) # Количество очередей (последний индекс)
 
     C  of number = 1, ..., S          # Индексы условий поставки
     S  of number = length(Ship_terms) # Количество условий поставки (последний индекс)
