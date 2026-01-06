@@ -30,12 +30,12 @@ requests_i_j_k_l_s_first(i) = (
                         First from Queue
                             where
                                 Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                                i  from index # Индексы нефпродукта
-                                j  from index # Индексы НПЗ
-                                k  from index # Индексы региона
-                                l  from index # Индексы субъекта рынка
+                                i of I from index # Индексы нефпродукта
+                                j of J from index # Индексы НПЗ
+                                k of k from index # Индексы региона
+                                l of P from index # Индексы субъекта рынка
                                 l0 of R  from index # Индексы очереди
-                                s  from index # Индексы условий поставки
+                                s  of C from index # Индексы условий поставки
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
 requests_i_j_k_l_s_first = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
@@ -48,12 +48,12 @@ requests_i_j_k_l_s_first = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
                 First from Queue
                     where
                         Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                        i  from index # Индексы нефпродукта
-                        j  from index # Индексы НПЗ
-                        k  from index # Индексы региона
-                        l  from index # Индексы субъекта рынка
+                        i of I from index # Индексы нефпродукта
+                        j of J from index # Индексы НПЗ
+                        k of k from index # Индексы региона
+                        l of P from index # Индексы субъекта рынка
                         l0 of R  from index # Индексы очереди
-                        s  from index # Индексы условий поставки
+                        s  of C from index # Индексы условий поставки
 
 requests_i_j_k_l_l0(i) = (
     (i, j) = (
@@ -71,12 +71,12 @@ requests_i_j_k_l_l0(i) = (
         requests_i_j_k_l_l0   of matrix(Product, Refinery, Region, Market_participant, Queue)
             where
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                i  from index # Индексы нефпродукта
-                j  from index # Индексы НПЗ
-                k  from index # Индексы региона
-                l  from index # Индексы субъекта рынка
+                i of I from index # Индексы нефпродукта
+                j of J from index # Индексы НПЗ
+                k of k from index # Индексы региона
+                l of P from index # Индексы субъекта рынка
                 l0 of R  from index # Индексы очереди
-                s  from index # Индексы условий поставки
+                s  of C from index # Индексы условий поставки
                 S  from index # Количество условий поставки
 
 requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
@@ -87,12 +87,12 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
         requests_i_j_k_l_l0   of matrix(Product, Refinery, Region, Market_participant, Queue)
             where
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                i  from index # Индексы нефпродукта
-                j  from index # Индексы НПЗ
-                k  from index # Индексы региона
-                l  from index # Индексы субъекта рынка
+                i of I from index # Индексы нефпродукта
+                j of J from index # Индексы НПЗ
+                k of k from index # Индексы региона
+                l of P from index # Индексы субъекта рынка
                 l0 of R  from index # Индексы очереди
-                s  from index # Индексы условий поставки
+                s  of C from index # Индексы условий поставки
 
 requests_i_j_k_l(i) = (
     (i, j) = (
@@ -110,10 +110,10 @@ requests_i_j_k_l(i) = (
         requests_i_j_k_l_l0(i, j, k, l, 1), ..., requests_i_j_k_l_l0(i, j, k, l, L0) => requests_i_j_k_l_l0(l0)
             where
                 Product, Refinery, Region, Market_participant, Queue from axis # Оси заявок
-                i  from index  # Индексы нефпродукта
-                j  from index  # Индексы НПЗ
-                k  from index  # Индексы региона
-                l  from index  # Индексы субъекта рынка
+                i of I from index  # Индексы нефпродукта
+                j of J from index  # Индексы НПЗ
+                k of k from index  # Индексы региона
+                l of P from index  # Индексы субъекта рынка
                 l0 of R  from index  # Индексы очереди
                 L0 from index  # Количество очередей
 
@@ -127,10 +127,10 @@ requests_i_j_k_l = sum_by_axes(requests_i_j_k_l_l0, Queue)
         requests_i_j_k_l_l0(i, j, k, l, 1), ..., requests_i_j_k_l_l0(i, j, k, l, L0) => requests_i_j_k_l_l0(l0)
             where
                 Product, Refinery, Region, Market_participant, Queue from axis # Оси заявок
-                i  from index  # Индексы нефпродукта
-                j  from index  # Индексы НПЗ
-                k  from index  # Индексы региона
-                l  from index  # Индексы субъекта рынка
+                i of I from index  # Индексы нефпродукта
+                j of J from index  # Индексы НПЗ
+                k of k from index  # Индексы региона
+                l of P from index  # Индексы субъекта рынка
                 l0 of R  from index  # Индексы очереди
                 L0 from index  # Количество очередей
 
