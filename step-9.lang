@@ -24,7 +24,7 @@ MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
                 MIN_TONNAGE              of number
 
 # Доступные объемы для следующей очереди
-available_i_j(l0) = filter_by_value(available_i_j_new(l0 - 1), >=, MIN_TONNAGE)
+available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_TONNAGE)
     where
         available_i_j_new.First(i, j) of number
         MIN_TONNAGE                   of number
