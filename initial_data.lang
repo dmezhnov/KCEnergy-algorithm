@@ -30,9 +30,9 @@ volumes_l_t_i_k_k0_i0 of matrix(Market_participant, Region, Product, Month_and_y
                 i0 of I0 from index # Индексы категории нефпродукта
 
 # Доступные объемы НП
-available_i_j of matrix(Product, Refinery)
+available_i_j.First of matrix(Product, Refinery)
     where
-        available_i_j(i, j) of number
+        available_i_j.First(i, j) of number
             where
                 Product, Refinery from axis # Оси
                 i  of I  from index # Индексы нефпродукта

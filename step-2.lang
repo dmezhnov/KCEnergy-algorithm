@@ -12,26 +12,26 @@ requests_i_j                                        from ("step-1.lang")
 # Матрица порогов превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_i_j(i) = (
-    (i, j, s) = available_i_j(i, j, s) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
+    (i, j, s) = available_i_j.First(i, j, s) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
 )
     where
         threshold_i_j(i, j)                  of  number
-        available_i_j(i, j)                  of  number # Доступные объёмы
+        available_i_j.First(i, j)            of  number # Доступные объёмы
         OVERALL_REQUEST_CAPACITY_COEFFICIENT of  number # Коэффициент порога
         threshold_i_j of matrix(Product, Refinery) # Порог по НПЗ/виду НП
-        available_i_j of matrix(Product, Refinery) # Доступные объёмы
+        available_i_j.First of matrix(Product, Refinery) # Доступные объёмы
         * from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
 
-threshold_i_j = for_each_element(available_i_j, *, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
+threshold_i_j = for_each_element(available_i_j.First, *, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
     where
-        threshold_i_j(i, j) of  number
-        available_i_j(i, j) of  number # Доступные объёмы
-        threshold_i_j of matrix(Product, Refinery) # Порог по НПЗ/виду НП
-        available_i_j of matrix(Product, Refinery) # Доступные объёмы
+        threshold_i_j(i, j)       of  number
+        available_i_j.First(i, j) of  number # Доступные объёмы
+        threshold_i_j       of matrix(Product, Refinery) # Порог по НПЗ/виду НП
+        available_i_j.First of matrix(Product, Refinery) # Доступные объёмы
         * from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
