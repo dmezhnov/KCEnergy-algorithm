@@ -44,7 +44,7 @@ requests_i_j_k_l_s_first_surplus = filter_by_pair(requests_i_j_k_l_s_first, cont
                 s  of C  from index # Индексы условий поставки
                 k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
-                J from index # Количество НПЗ
+                M        from index # Количество НПЗ
 
 requests_i_j_k_l_s_first_deficit_pend = assign_matrix(requests_i_j_k_l_s_first_deficit_single_pend, requests_i_j_k_l_s_first_deficit_multiple_pend)
     where
