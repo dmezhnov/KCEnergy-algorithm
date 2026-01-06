@@ -1,8 +1,4 @@
 number                                                                               from core
-requests_i_j_k_l_s_l0                                                                from ("initial_data.lang")
-requests_i_j_k_l_s_second                                                            from ("step-1.lang")
-requests_i_j_surplus, requests_i_j_deficit                                           from ("step-2.lang")
-moving_average                                                                       from ("step-3.1.0.lang")
 available_i_j_second                                                                 from ("step-9.lang")
 sum_by_axes, assign_matrix, for_each_pair, filter_by_pair, count_coordinates_by_axis from ("matrix_operation.lang")
 operation, matrix, axis, index, condition                                            from ("matrix_types.lang")
@@ -10,39 +6,3 @@ operation, matrix, axis, index, condition                                       
 ### Распределение для Владельцев нефтебаз и (или) резервуаров (аналог Шагов 4–7)
 # Выполняем для нефтебаз шаги, аналогичные 4–7: пропорциональное распределение,
 # нормирование по правилам для нефтебаз (минимум и шаг), контроль достаточности.
-
-requests_i_j_k_l_s_second = filter_by_coordinate(requests_i_j_k_l_s_l0, Second)
-
-requests_i_j_k_l_s_second_deficit = filter_by_pair(requests_i_j_k_l_s_second, contains, requests_i_j_deficit)
-
-refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_s_second_deficit, Refinery)
-
-requests_i_j_k_l_s_second_deficit_single = filter_by_pair(requests_i_j_k_l_s_second, contains, refinery_count_by_deficit_requests_single)
-
-requests_i_j_k_l_s_second_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_second, contains, refinery_count_by_deficit_requests_multiple)
-
-requests_i_j_k_l_s_second_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_second_deficit_single, min, moving_average)
-
-requests_i_j_k_l_s_second_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_second_deficit_single, -, requests_i_j_k_l_s_second_deficit_single_corrected)
-
-requests_i_k_l_s_second_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_second_deficit_multiple, Refinery)
-
-requests_i_j_k_l_s_second_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_second_deficit_multiple, /, requests_i_k_l_s_second_deficit_multiple)
-
-requests_i_j_k_l_s_second_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_second_deficit_multiple_share, *, moving_average)
-
-requests_i_j_k_l_s_second_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_second_deficit_multiple, -, requests_i_j_k_l_s_second_deficit_multiple_pend_aux)
-
-requests_i_j_k_l_s_second_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_second_deficit_multiple, min, requests_i_j_k_l_s_second_deficit_multiple_pend_aux)
-
-requests_i_j_k_l_s_second_deficit_corrected = assign_matrix(requests_i_j_k_l_s_second_deficit_single_corrected, requests_i_j_k_l_s_second_deficit_multiple_corrected)
-
-requests_i_j_k_l_s_second_surplus = filter_by_pair(requests_i_j_k_l_s_second, contains, requests_i_j_surplus)
-
-requests_i_j_k_l_s_second_deficit_pend = assign_matrix(requests_i_j_k_l_s_second_deficit_single_pend, requests_i_j_k_l_s_second_deficit_multiple_pend)
-
-requests_i_j_k_l_s_second_surplus_corrected = for_each_pair(requests_i_j_k_l_s_second_surplus, +, requests_i_j_k_l_s_second_deficit_pend)
-
-requests_i_j_k_l_s_second_corrected = assign_matrix(requests_i_j_k_l_s_second_deficit_corrected, requests_i_j_k_l_s_second_surplus_corrected)
-
-requests_i_j_s_second_corrected = sum_by_axes(requests_i_j_k_l_s_second_corrected, Region, Market_participant)
