@@ -8,60 +8,44 @@ condition, matrix, index, axis                  from ("matrix_types.lang")
 # с учётом минимальной нормы и шага вывоза с нефтебазы.
 
 # Минимальная норма
-MIN_TONNAGE = OIL_TERMINAL_MIN_TONNAGE
+MIN_TONNAGE(l0) = OIL_TERMINAL_MIN_TONNAGE
     where
-        OIL_TERMINAL_MIN_TONNAGE <= RAIL_ROAD_MIN_TONNAGE
+        OIL_TERMINAL_MIN_TONNAGE <= RAIL_ROAD_MIN_TONNAGE AND l0 != 3
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
                 MIN_TONNAGE              of number
-MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
+MIN_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
     where
-        RAIL_ROAD_MIN_TONNAGE <= OIL_TERMINAL_MIN_TONNAGE
+        RAIL_ROAD_MIN_TONNAGE <= OIL_TERMINAL_MIN_TONNAGE OR  l0 =  3
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
                 MIN_TONNAGE              of number
 
 # Доступные объемы для следующей очереди
-available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_TONNAGE)
+available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_TONNAGE(l0))
     where
-        l0 + 1 != 3
-            where
-                available_i_j_new.First(i, j) of number
-                MIN_TONNAGE                   of number
-                available_i_j(l0)(i, j)       of number
-                available_i_j_new.First of matrix(Product, Refinery)
-                available_i_j(l0)       of matrix(Product, Refinery)
-                >= from condition
-                    where
-                        Product, Refinery from axis
-                        i  of I  from index # Индексы нефпродукта
-                        j  of J  from index # Индексы НПЗ
-                        l0 of R  from index # Индексы очереди
-
-# Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_TONNAGE)
-    where
-        available_i_j_new.First(i, j) of number
-        MIN_TONNAGE                   of number
-        available_i_j.Second(i, j)    of number
-        available_i_j_new.First of matrix(Product, Refinery)
-        available_i_j.Second    of matrix(Product, Refinery)
+        available_i_j_new(l0)(i, j)   of number
+        MIN_TONNAGE(l0)               of number
+        available_i_j(l0)(i, j)       of number
+        available_i_j_new(l0) of matrix(Product, Refinery)
+        available_i_j(l0)     of matrix(Product, Refinery)
         >= from condition
             where
                 Product, Refinery from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
+                l0 of R  from index # Индексы очереди
 
-# Доступные объемы для 3-й очереди (обслуживания запросов Субъектов рынка из состава горно-металлургического комплекса (ГМК))
-available_i_j.Third = filter_by_value(available_i_j_new.Second, >=, RAIL_ROAD_MIN_TONNAGE)
+# Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
+available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_TONNAGE.First)
     where
-        available_i_j_new.Second(i, j) of number
-        RAIL_ROAD_MIN_TONNAGE          of number
-        available_i_j.Third(i, j)      of number
-        available_i_j_new.Second of matrix(Product, Refinery)
-        available_i_j.Third      of matrix(Product, Refinery)
+        available_i_j_new.First(i, j) of number
+        MIN_TONNAGE.First             of number
+        available_i_j.Second(i, j)    of number
+        available_i_j_new.First of matrix(Product, Refinery)
+        available_i_j.Second    of matrix(Product, Refinery)
         >= from condition
             where
                 Product, Refinery from axis
