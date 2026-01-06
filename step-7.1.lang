@@ -6,7 +6,22 @@ sum_by_axes        from ("matrix_operation.lang")
 # — по всем Субъектам рынка (итог по виду НП),
 # — по каждому Субъекту рынка (его суммарный объём).
 
-# n-я матрица суммарных нормированных объемов НП
+# n-я матрица суммарных нормированных объемов НП очереди queue
+normalized_i_l(queue)(n) = sum_by_axes(normalized_i_j_k_l(queue)(n), Refinery, Region)
+    where
+        normalized_i_j_k_l(queue)(n)(i, l, j, k) of number
+        normalized_i_l(queue)(n)(i, l)           of number
+        normalized_i_j_k_l(queue)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_l(queue)(n)     of matrix(Product, Market_participant)
+            where
+                n  of index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                l  of P  from index # Индексы субъекта рынка
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
+
+# n-я матрица суммарных нормированных объемов НП первой очереди
 normalized_i_l.First(n) = sum_by_axes(normalized_i_j_k_l.First(n), Refinery, Region)
     where
         normalized_i_j_k_l.First(n)(i, l, j, k) of number
@@ -21,7 +36,20 @@ normalized_i_l.First(n) = sum_by_axes(normalized_i_j_k_l.First(n), Refinery, Reg
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-# n-я матрица суммарных нормированных объемов НП
+# n-я матрица суммарных нормированных объемов НП очереди queue
+normalized_i(queue)(n) = sum_by_axes(normalized_i_l(queue)(n), Market_participant)
+    where
+        normalized_i_l(queue)(n)(i, l) of number
+        normalized_i(queue)(n)(i)      of number
+        normalized_i_l(queue)(n) of matrix(Product, Market_participant)
+        normalized_i(queue)(n)   of matrix(Product)
+            where
+                n  of index # Индекс матрицы
+                Product, Market_participant from axis
+                l  of P  from index # Индексы субъекта рынка
+                i  of I  from index # Индексы нефпродукта
+
+# n-я матрица суммарных нормированных объемов НП первой очереди
 normalized_i.First(n) = sum_by_axes(normalized_i_l.First(n), Market_participant)
     where
         normalized_i_l.First(n)(i, l) of number

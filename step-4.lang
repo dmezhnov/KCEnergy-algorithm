@@ -6,9 +6,9 @@ axis, matrix, index          from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-requests_i_j_k_l_s_corrected(queue) =
+requests_i_j_k_l_s_corrected(queue) = requests_i_j_k_l_s(queue)
     where
-        indexOf( Queue(queue) ) of R > 1 # Если это не первыя очередь
+        queue of R > 1 # Если это не первыя очередь
         requests_i_j_k_l_s_corrected(queue)(i, j, s, l, k) of number
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
