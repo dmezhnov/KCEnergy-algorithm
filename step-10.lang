@@ -1,5 +1,5 @@
 number                                                                               from core
-available_i_j_second                                                                 from ("step-9.lang")
+available_i_j.Second                                                                 from ("step-9.lang")
 sum_by_axes, assign_matrix, for_each_pair, filter_by_pair, count_coordinates_by_axis from ("matrix_operation.lang")
 operation, matrix, axis, index, condition                                            from ("matrix_types.lang")
 

@@ -24,14 +24,14 @@ MIN_TONNAGE = RAIL_ROAD_MIN_TONNAGE
                 MIN_TONNAGE              of number
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j_second = filter_by_value(available_i_j_new, more_or_equal_than, MIN_TONNAGE)
+available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_TONNAGE)
     where
-        available_i_j_new(i, j)    of number
-        MIN_TONNAGE                of number
-        available_i_j_second(i, j) of number
-        available_i_j_new    of matrix(Product, Refinery)
-        available_i_j_second of matrix(Product, Refinery)
-        more_or_equal_than from condition
+        available_i_j_new.First(i, j) of number
+        MIN_TONNAGE                   of number
+        available_i_j.Second(i, j)    of number
+        available_i_j_new.First of matrix(Product, Refinery)
+        available_i_j.Second    of matrix(Product, Refinery)
+        >= from condition
             where
                 Product, Refinery from axis
                 i  of I  from index # Индексы нефпродукта
