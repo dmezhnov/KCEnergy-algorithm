@@ -2,7 +2,7 @@ number                                    from core
 count_coordinates_by_axis, filter_by_pair from ("matrix_operation.lang")
 axis, condition, matrix, index            from ("matrix_types.lang")
 requests_i_j_deficit:                     from ("step-2.lang")
-requests_i_j_k_l_s_first                  from ("step-1.lang")
+requests_i_j_k_l_s.First                  from ("step-1.lang")
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС / которые обслуживаются в 1-ю очередь)
 
@@ -12,16 +12,16 @@ requests_i_j_k_l_s_first_deficit(i) = (
     (i, j) = (
         (i, j, s) = (
             (i, j, s, k) = (
-                (i, j, s, k, l) = requests_i_j_k_l_s_first(i, j, s, k, l)
+                (i, j, s, k, l) = requests_i_j_k_l_s.First(i, j, s, k, l)
             )
         )
     )
 )
     where
-        requests_i_j_k_l_s_first(i, j, s, k, l)         of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s.First(i, j, s, k, l)         of number # Запрашиваемый объем НП
         requests_i_j_k_l_s_first_deficit(i, j, s, k, l) of number
         requests_i_j_deficit(i*, j*)                    of number
-        requests_i_j_k_l_s_first         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s.First         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_deficit of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_deficit             of matrix(Product, Refinery)
             where
@@ -36,12 +36,12 @@ requests_i_j_k_l_s_first_deficit(i) = (
                         k     of K from index # Индексы региона
                         l     of P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_first_deficit = filter_by_pair(requests_i_j_k_l_s_first, contains, requests_i_j_deficit)
+requests_i_j_k_l_s_first_deficit = filter_by_pair(requests_i_j_k_l_s.First, contains, requests_i_j_deficit)
     where
-        requests_i_j_k_l_s_first(i, j, s, k, l)         of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s.First(i, j, s, k, l)         of number # Запрашиваемый объем НП
         requests_i_j_k_l_s_first_deficit(i, j, s, k, l) of number
         requests_i_j_deficit(i, j)                      of number
-        requests_i_j_k_l_s_first         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        requests_i_j_k_l_s.First         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_first_deficit of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_deficit             of matrix(Product, Refinery)
         contains from condition
@@ -142,16 +142,16 @@ requests_i_j_k_l_s_first_deficit_single(i) = (
     (i, k) = (
         (i, k, l) = (
             (i, k, l, s) = (
-                (i, k, l, s, j) = requests_i_j_k_l_s_first(i, k, l, s, j)
+                (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
             )
         )
     )
 )
     where
-        requests_i_j_k_l_s_first(i, k, l, s, j)                   of number
+        requests_i_j_k_l_s.First(i, k, l, s, j)                   of number
         requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j)    of number
         refinery_count_by_deficit_requests_single(i*, k*, l*, s*) of number
-        requests_i_j_k_l_s_first                  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s.First                  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single   of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         refinery_count_by_deficit_requests_single of matrix(Product, Region, Market_participant, Ship_terms)
         contains from condition
@@ -168,12 +168,12 @@ requests_i_j_k_l_s_first_deficit_single(i) = (
                         s, s* of C from index # Индексы условия поставки
                         j     of J from index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s_first, contains, refinery_count_by_deficit_requests_single)
+requests_i_j_k_l_s_first_deficit_single = filter_by_pair(requests_i_j_k_l_s.First, contains, refinery_count_by_deficit_requests_single)
     where
-        requests_i_j_k_l_s_first(i, k, l, s, j)                of number
+        requests_i_j_k_l_s.First(i, k, l, s, j)                of number
         requests_i_j_k_l_s_first_deficit_single(i, k, l, s, j) of number
         refinery_count_by_deficit_requests_single(i, k, l, s)  of number
-        requests_i_j_k_l_s_first                  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s.First                  of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_single   of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         refinery_count_by_deficit_requests_single of matrix(Product, Region, Market_participant, Ship_terms)
         contains from condition
@@ -190,16 +190,16 @@ requests_i_j_k_l_s_first_deficit_multiple(i) = (
     (i, k) = (
         (i, k, l) = (
             (i, k, l, s) = (
-                (i, k, l, s, j) = requests_i_j_k_l_s_first(i, k, l, s, j)
+                (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
             )
         )
     )
 )
     where
-        requests_i_j_k_l_s_first(i, k, l, s, j)                     of number
+        requests_i_j_k_l_s.First(i, k, l, s, j)                     of number
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j)    of number
         refinery_count_by_deficit_requests_multiple(i*, k*, l*, s*) of number
-        requests_i_j_k_l_s_first                    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s.First                    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         refinery_count_by_deficit_requests_multiple of matrix(Product, Region, Market_participant, Ship_terms)
         contains from condition
@@ -216,12 +216,12 @@ requests_i_j_k_l_s_first_deficit_multiple(i) = (
                         s, s* of C from index # Индексы условия поставки
                         j     of J from index # Индексы НПЗ
 
-requests_i_j_k_l_s_first_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_first, contains, refinery_count_by_deficit_requests_multiple)
+requests_i_j_k_l_s_first_deficit_multiple = filter_by_pair(requests_i_j_k_l_s.First, contains, refinery_count_by_deficit_requests_multiple)
     where
-        requests_i_j_k_l_s_first(i, k, l, s, j)                  of number
+        requests_i_j_k_l_s.First(i, k, l, s, j)                  of number
         requests_i_j_k_l_s_first_deficit_multiple(i, k, l, s, j) of number
         refinery_count_by_deficit_requests_multiple(i, k, l, s)  of number
-        requests_i_j_k_l_s_first                    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s.First                    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_first_deficit_multiple   of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         refinery_count_by_deficit_requests_multiple of matrix(Product, Region, Market_participant, Ship_terms)
         contains from condition

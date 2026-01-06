@@ -1,4 +1,4 @@
-requests_i_j_k_l_s_first = (
+requests_i_j_k_l_s.First = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
@@ -87,7 +87,7 @@ requests_i_j_k_l_s_first = (
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
 
-requests_i_j_k_l_s_first = (
+requests_i_j_k_l_s.First = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (

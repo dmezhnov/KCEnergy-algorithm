@@ -9,8 +9,8 @@ requests_i_j_k_l_s_l0             from ("initial_data.lang")
 # Результат — матрица суммарных объёмов по (Product, Refinery) для последующей
 # проверки на дефицит/профицит.
 
-# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
-requests_i_j_k_l_s_first(i) = (
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые в очередь queue
+requests_i_j_k_l_s(queue)(i) = (
     (i, j) = (
         (i, j, k) = (
             (i, j, k, l) = (
@@ -21,9 +21,55 @@ requests_i_j_k_l_s_first(i) = (
 )
     where
         requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_first(i, j, k, l, s)  of  number
+        requests_i_j_k_l_s(queue)(i, j, k, l, s) of  number
+        requests_i_j_k_l_s_l0     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s(queue) of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
+            where
+                Queue(l0) = queue
+                    where
+                        queue from Queue
+                            where
+                                Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                                i  of I  from index # Индексы нефпродукта
+                                j  of J  from index # Индексы НПЗ
+                                k  of k  from index # Индексы региона
+                                l  of P  from index # Индексы субъекта рынка
+                                l0 of R  from index # Индексы очереди
+                                s  of C  from index # Индексы условий поставки
+
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
+requests_i_j_k_l_s(queue) = filter_by_coordinate(requests_i_j_k_l_s_l0, queue)
+    where
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_s(queue)(i, j, k, l, s) of  number
+        requests_i_j_k_l_s_l0     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s(queue) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+            where
+                queue from Queue
+                    where
+                        Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                        i  of I  from index # Индексы нефпродукта
+                        j  of J  from index # Индексы НПЗ
+                        k  of k  from index # Индексы региона
+                        l  of P  from index # Индексы субъекта рынка
+                        l0 of R  from index # Индексы очереди
+                        s  of C  from index # Индексы условий поставки
+
+# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
+requests_i_j_k_l_s.First(i) = (
+    (i, j) = (
+        (i, j, k) = (
+            (i, j, k, l) = (
+                (i, j, k, l, s) = requests_i_j_k_l_s_l0(i, j, k, l, l0, s)
+            )
+        )
+    )
+)
+    where
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_k_l_s.First(i, j, k, l, s)  of  number
         requests_i_j_k_l_s_l0    of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s_first of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        requests_i_j_k_l_s.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
             where
                 Queue(l0) = First
                     where
@@ -38,12 +84,12 @@ requests_i_j_k_l_s_first(i) = (
                                 s  of C  from index # Индексы условий поставки
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
-requests_i_j_k_l_s_first = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
+requests_i_j_k_l_s.First = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
     where
         requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_first(i, j, k, l, s)  of  number
+        requests_i_j_k_l_s.First(i, j, k, l, s)  of  number
         requests_i_j_k_l_s_l0    of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s_first of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        requests_i_j_k_l_s.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
             where
                 First from Queue
                     where
