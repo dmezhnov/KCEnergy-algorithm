@@ -8,15 +8,15 @@ operation                  from ("matrix_types.lang")
 # Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
 
-# Последняя матрица предварительных расчетных объемов НП очереди queue
-estimated_i_j_k_l_last(queue) = estimated_i_j_k_l(queue)(x)
+# Последняя матрица предварительных расчетных объемов НП очереди R
+estimated_i_j_k_l_last(l0) = estimated_i_j_k_l(l0)(x)
     where
-        estimated_i_j_k_l_last(queue)(i, l, j, k) of number
-        estimated_i_j_k_l(queue)(x)(i, l, j, k)   of number
-        estimated_i_j_k_l(queue) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l(queue) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_last(l0)(i, l, j, k) of number
+        estimated_i_j_k_l(l0)(x)(i, l, j, k)   of number
+        estimated_i_j_k_l(l0) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l(l0) of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of index = length(estimated_i_j_k_l(queue)) # индекс последней матрицы предварительных расчетных объемов НП
+                x  of index = length(estimated_i_j_k_l(l0)) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
@@ -38,12 +38,12 @@ estimated_i_j_k_l_last.First = estimated_i_j_k_l.First(x)
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-estimated_i_j_last(queue) = sum_by_axes(estimated_i_j_k_l_last(queue), Region, Market_participant)
+estimated_i_j_last(l0) = sum_by_axes(estimated_i_j_k_l_last(l0), Region, Market_participant)
     where
-        estimated_i_j_k_l_last(queue)(i, l, j, k) of number
-        estimated_i_j_last(queue)(i, j)           of number
-        estimated_i_j_k_l_last(queue) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_last(queue)     of matrix(Product, Refinery)
+        estimated_i_j_k_l_last(l0)(i, l, j, k) of number
+        estimated_i_j_last(l0)(i, j)           of number
+        estimated_i_j_k_l_last(l0) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_last(l0)     of matrix(Product, Refinery)
             where
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
@@ -64,15 +64,15 @@ estimated_i_j_last.First = sum_by_axes(estimated_i_j_k_l_last.First, Region, Mar
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
-# Матрица оставшихся после распределения Владельцам АЗС объемов НП очереди queue
-available_i_j_new(queue) = for_each_pair(available_i_j(queue), -, estimated_i_j_last(queue))
+# Матрица оставшихся после распределения Владельцам АЗС объемов НП очереди R
+available_i_j_new(l0) = for_each_pair(available_i_j(l0), -, estimated_i_j_last(l0))
     where
-        available_i_j_new(queue)(i, j)  of number
-        available_i_j(queue)(i, j)      of number
-        estimated_i_j_last(queue)(i, j) of number
-        available_i_j_new(queue)  of matrix(Product, Refinery)
-        available_i_j(queue)      of matrix(Product, Refinery)
-        estimated_i_j_last(queue) of matrix(Product, Refinery)
+        available_i_j_new(l0)(i, j)  of number
+        available_i_j(l0)(i, j)      of number
+        estimated_i_j_last(l0)(i, j) of number
+        available_i_j_new(l0)  of matrix(Product, Refinery)
+        available_i_j(l0)      of matrix(Product, Refinery)
+        estimated_i_j_last(l0) of matrix(Product, Refinery)
         - from operation
             where
                 Product, Refinery from axis
