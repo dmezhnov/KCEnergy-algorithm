@@ -318,7 +318,7 @@ estimated_i_j_k_l_exw_rounded.First(n) = for_each_element(estimated_i_j_k_l_exw_
                 l  of P  from index # Индексы субъекта рынка
 
 # if(estimated < MIN) MIN
-# else                max(round(estimated / STEP) * STEP, MIN) = estimated_i_j_k_l_exw_rounded.First(n)
+# else                max(round(estimated / STEP) * STEP, MIN) = estimated_i_j_k_l_exw_rounded(l0)(n)
 
 # n-я матрица нормированных объемов НП l0-й очереди, для поставки с нефтебаз
 normalized_i_j_k_l_exw(l0)(n) = OIL_TERMINAL_MIN_TONNAGE
