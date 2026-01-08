@@ -12,7 +12,7 @@ requests_i_j                                        from ("step-1.lang")
 # Матрица порогов превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
 threshold_i_j(i) = (
-    (i, j, s) = available_i_j.First(i, j, s) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
+    (i, j) = available_i_j.First(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
 )
     where
         threshold_i_j(i, j)                  of  number
