@@ -31,17 +31,15 @@ volumes_l_t_i_k_positive = (
             )
         ),
         (1 from I, 2 from K) = (
-            (1 from I, 2 from K) = (
-                (1 from I, 2 from K, 1 from P) = (
-                    (1 from I, 2 from K, 1 from P, 1  from Y) = 100, # 0002
-                    (1 from I, 2 from K, 1 from P, 2  from Y) = 100, # 0004
-                    (1 from I, 2 from K, 1 from P, 3  from Y) = 100, # 0006
-                    (1 from I, 2 from K, 1 from P, 4  from Y) = 100, # 0008
-                    (1 from I, 2 from K, 1 from P, 5  from Y) = 90,  # 0010
-                    (1 from I, 2 from K, 1 from P, 6  from Y) = 90,  # 0012
-                    (1 from I, 2 from K, 1 from P, 7  from Y) = 80,  # 0014
-                    (1 from I, 2 from K, 1 from P, 8  from Y) = 60   # 0016
-                )
+            (1 from I, 2 from K, 1 from P) = (
+                (1 from I, 2 from K, 1 from P, 1  from Y) = 100, # 0002
+                (1 from I, 2 from K, 1 from P, 2  from Y) = 100, # 0004
+                (1 from I, 2 from K, 1 from P, 3  from Y) = 100, # 0006
+                (1 from I, 2 from K, 1 from P, 4  from Y) = 100, # 0008
+                (1 from I, 2 from K, 1 from P, 5  from Y) = 90,  # 0010
+                (1 from I, 2 from K, 1 from P, 6  from Y) = 90,  # 0012
+                (1 from I, 2 from K, 1 from P, 7  from Y) = 80,  # 0014
+                (1 from I, 2 from K, 1 from P, 8  from Y) = 60   # 0016
             )
         ),
         (1 from I, 3 from K) = (
@@ -59,29 +57,49 @@ volumes_l_t_i_k_positive = (
     )
 )
     where
-        P from index # Индексы субъекта рынка
-        Y from index # Индексы месяца и года
         I from index # Индексы нефпродукта
         K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        Y from index # Индексы месяца и года
 
 
-matrix_of_activity(l) = (
-    (l, i) = (
-        (l, i, k) = T
+matrix_of_activity = (
+    (1 from I) = (
+        (1 from I, 1 from K) = (
+            (1 from I, 1 from K, 1 from P) = 12, # 0001, 0003, 0005, 0007, 0009, 0011, 0013, 0015, 0017, 0019, 0021, 0023
+            (1 from I, 1 from K, 3 from P) = 12  # 0037, 0038, 0039, 0040, 0041, 0042, 0043, 0044, 0045, 0046, 0047, 0048
+        ),
+        (1 from I, 2 from K) = (
+            (1 from I, 2 from K, 1 from P) = 8   # 0002, 0004, 0006, 0008, 0010, 0012, 0014, 0016
+        ),
+        (1 from I, 3 from K) = (
+            (1 from I, 3 from K, 2 from P) = 8   # 0025, 0026, 0027, 0028, 0029, 0030, 0031, 0032
+        )
     )
 )
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
 
-volumes_l_i_k(l) = (
-    (l, i) = (
-        (l, i, k) =
+volumes_l_i_k = (
+    (1 from I) = (
+        (1 from I, 1 from K) = (
+            (1 from I, 1 from K, 1 from P) = 120 + 120 + 100 + 100 + 120 + 80 + 80 + 80 + 80 + 80 + 60 + 60 = 1080
+            (1 from I, 1 from K, 3 from P) = 120 + 120 + 100 + 100 + 120 + 80 + 80 + 80 + 80 + 80 + 60 + 60 = 1080
+        ),
+        (1 from I, 2 from K) = (
+            (1 from I, 2 from K, 1 from P) = 100 + 100 + 100 + 100 + 90  + 90 + 80 + 60 = 720
+        ),
+        (1 from I, 3 from K) = (
+            (1 from I, 3 from K, 2 from P) = 100 + 100 + 100 + 100 + 90  + 90 + 80 + 60 = 720
+        )
     )
 )
-
-moving_average(l) = (
-    (l, i) = (
-        (l, i, k) = 0
-    )
-)
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
 
 moving_average(l) = (
     (l, i) = (
