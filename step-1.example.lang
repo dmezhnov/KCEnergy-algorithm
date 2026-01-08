@@ -23,12 +23,12 @@ requests_i_j_k_l_s.First = (
                 (1 from I, 1 from J, 3 from K, 3 from P),
                 (1 from I, 1 from J, 3 from K, 4 from P),
                 (1 from I, 1 from J, 3 from K, 5 from P),
-                (1 from I, 1 from J, 3 from K, 6 from P)  = 700  # 009
+                (1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
             )
         ),
         (1 from I, 2 from J) = (
             (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 40, # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40,  # 003
                 (1 from I, 2 from J, 1 from K, 2 from P),
                 (1 from I, 2 from J, 1 from K, 3 from P),
                 (1 from I, 2 from J, 1 from K, 4 from P),
@@ -106,12 +106,12 @@ requests_i_j_k_l_s.First = (
         ),
         (1 from I, 2 from J) = (
             (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 40 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
             )
         ),
         (1 from I, 3 from J) = (
             (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 60 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
             )
         )
     )
@@ -141,12 +141,12 @@ requests_i_j_k_l = (
         ),
         (1 from I, 2 from J) = (
             (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 40 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
             )
         ),
         (1 from I, 3 from J) = (
             (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 60 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
             )
         )
     )
