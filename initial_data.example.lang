@@ -778,7 +778,6 @@ volumes_l_t_i_k_k0_i0 = (
         )
     )
 )
-
     where
         P  from index # Индексы субъекта рынка
         Y  from index # Индексы месяца и года
@@ -861,7 +860,6 @@ volumes_l_t_i_k_k0_i0 = (
         )
     )
 )
-
     where
         P  from index # Индексы субъекта рынка
         Y  from index # Индексы месяца и года

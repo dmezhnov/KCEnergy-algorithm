@@ -141,7 +141,6 @@ volumes_l_t_i_k = (
             )
         )
 )
-
     where
         P from index # Индексы субъекта рынка
         Y from index # Индексы месяца и года
