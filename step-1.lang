@@ -223,7 +223,7 @@ requests_i_j(i) = (
 )
     where
         requests_i_j_k(i, j, k) of  number
-        requests_i_j(i, j)     of   number
+        requests_i_j(i, j)      of   number
         requests_i_j_k  of matrix(Product, Refinery, Region)
         requests_i_j    of matrix(Product, Refinery, Region)
         requests_i_j(i) of matrix(         Refinery, Region)
