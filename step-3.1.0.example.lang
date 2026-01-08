@@ -101,8 +101,21 @@ volumes_l_i_k = (
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-moving_average(l) = (
-    (l, i) = (
-        (l, i, k) =
+moving_average = (
+    (1 from I) = (
+        (1 from I, 1 from K) = (
+            (1 from I, 1 from K, 1 from P) = 1080 / 12 = 90
+            (1 from I, 1 from K, 3 from P) = 1080 / 12 = 90
+        ),
+        (1 from I, 2 from K) = (
+            (1 from I, 2 from K, 1 from P) = 720  / 8  = 90
+        ),
+        (1 from I, 3 from K) = (
+            (1 from I, 3 from K, 2 from P) = 720  / 8  = 90
+        )
     )
 )
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
