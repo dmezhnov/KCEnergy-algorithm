@@ -351,17 +351,17 @@ requests_i_j_k_l_s_l0 = (
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
 
-# 1 from Y - август 2025
-# 2 from Y - июль 2025
-# 3 from Y - июнь 2025
-# 4 from Y - май 2025
-# 5 from Y - апрель 2025
-# 6 from Y - март 2025
-# 7 from Y - февраль 2025
-# 8 from Y - январь 2024
-# 9 from Y - декабрь 2024
-# 10 from Y - ноябрь 2024
-# 11 from Y - октябрь 2024
+# 1  from Y - август   2025
+# 2  from Y - июль     2025
+# 3  from Y - июнь     2025
+# 4  from Y - май      2025
+# 5  from Y - апрель   2025
+# 6  from Y - март     2025
+# 7  from Y - февраль  2025
+# 8  from Y - январь   2024
+# 9  from Y - декабрь  2024
+# 10 from Y - ноябрь   2024
+# 11 from Y - октябрь  2024
 # 12 from Y - сентябрь 2024
 
 # 0001 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P, 1 from Y           - 120
