@@ -10,6 +10,8 @@ Queue = First, Second, Third, Fourth
 
 Ship_terms = FCA, EXW
 
+Product = AI-92, Diesel
+
 axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms, Request
 
 matrix(Tcoords(1), ..., Tcoords(C)) = (
