@@ -13,8 +13,8 @@ estimated_i_j_k_l_last(l0) = estimated_i_j_k_l(l0)(x)
     where
         estimated_i_j_k_l_last(l0)(i, l, j, k) of number
         estimated_i_j_k_l(l0)(x)(i, l, j, k)   of number
-        estimated_i_j_k_l(l0) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l(l0) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l(l0)      of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_last(l0) of matrix(Product, Refinery, Market_participant, Region)
             where
                 x  of         index = length(estimated_i_j_k_l(l0)) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
