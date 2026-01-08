@@ -11,7 +11,7 @@ threshold_i_j = (
 
 requests_i_j_deficit = (
     (1 from I) = (
-        (1 from I, 1 from J) = 850 # requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J)
+        (1 from I, 1 from J) = 2200 # requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J)
     )
 )
 
