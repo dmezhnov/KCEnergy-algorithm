@@ -11,3 +11,5 @@ f("a", "b") = f("a")("b") = f.a("b") = f.a.b = b from a from f = b from f.a = b 
 list = A, B = (A, B) = A(), B() = (A(), B())
 
 list.A = list("A") = list(1) = list.1 = A from list = 1 from list
+
+list.B = list("B") = list(2) = list.2 = B from list = 2 from list
