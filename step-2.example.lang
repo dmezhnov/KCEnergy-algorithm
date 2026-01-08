@@ -3,9 +3,9 @@ requests_i_j                         from ("step-1.lang")
 
 threshold_i_j = (
     (1 from I) = (
-        (1 from I, 1 from J) = 50 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 50 * 1.2 = 60,
-        (1 from I, 2 from J) = 20 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 20 * 1.2 = 24,
-        (1 from I, 3 from J) = 30 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 30 * 1.2 = 36
+        (1 from I, 1 from J) = 500 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 500 * 1.2 = 600,
+        (1 from I, 2 from J) = 200 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 200 * 1.2 = 240,
+        (1 from I, 3 from J) = 300 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 300 * 1.2 = 360
     )
 )
 

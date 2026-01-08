@@ -869,9 +869,9 @@ volumes_l_t_i_k_k0_i0 = (
         I0 from index # Индексы категории нефпродукта
 
 available_i_j.First = (
-    (1 from I, 1 from J) = 50 000,
-    (1 from I, 2 from J) = 20 000,
-    (1 from I, 3 from J) = 30 000
+    (1 from I, 1 from J) = 500,
+    (1 from I, 2 from J) = 200,
+    (1 from I, 3 from J) = 300
 )
     where
         I from index # Индексы нефпродукта
