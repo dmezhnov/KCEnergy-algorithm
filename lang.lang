@@ -8,4 +8,6 @@ f(a, b) = f(a)(b)
 
 f("a", "b") = f("a")("b") = f.a("b") = f.a.b = b from a from f = b from f.a = b from f("a")
 
-A, B = (A, B) = A(), B()
+list = A, B = (A, B) = A(), B() = (A(), B())
+
+list.A = list("A") = list(1) = list.1 = A from list = 1 from list
