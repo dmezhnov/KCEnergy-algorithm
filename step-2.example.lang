@@ -1,3 +1,5 @@
+OVERALL_REQUEST_CAPACITY_COEFFICIENT from ("initial_data.lang")
+
 threshold_i_j = (
     (1 from I, 1 from J) = 50 000 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 50 000 * 1.2 = 60 000,
     (1 from I, 2 from J) = 20 000 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 20 000 * 1.2 = 24 000,
