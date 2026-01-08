@@ -155,7 +155,7 @@ requests_i_j_k_l = (
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         K from index # Индексы региона
-        P  from index # Индексы субъекта рынка
+        P from index # Индексы субъекта рынка
 
 
 requests_i_j_k = (
