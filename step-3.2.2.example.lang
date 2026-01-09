@@ -1,0 +1,86 @@
+requests_i_k_l_s_deficit_multiple = (
+    (i of I) = (
+        (i of I, k of K) = (
+            (i of I, k of, l of P) = (
+                (i of I, k of, l of , s of C)
+            )
+        )
+    )
+)
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+
+requests_i_j_k_l_s_deficit_multiple_share = (
+    (i of I) = (
+        (i of I, k of K) = (
+            (i of I, k of, l of P) = (
+                (i of I, k of, l of , s of C) = (
+                    (i of I, k of, l of , s of C, j of J)
+                )
+            )
+        )
+    )
+)
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+
+requests_i_j_k_l_s_deficit_multiple_pend_aux = (
+    (i of I) = (
+        (i of I, k of K) = (
+            (i of I, k of, l of P) = (
+                (i of I, k of, l of , s of C) = (
+                    (i of I, k of, l of , s of C, j of J)
+                )
+            )
+        )
+    )
+)
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+
+requests_i_j_k_l_s_deficit_multiple_pend = (
+    (i of I) = (
+        (i of I, k of K) = (
+            (i of I, k of, l of P) = (
+                (i of I, k of, l of , s of C) = (
+                    (i of I, k of, l of , s of C, j of J)
+                )
+            )
+        )
+    )
+)
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+
+requests_i_j_k_l_s_deficit_multiple_corrected = (
+    (i of I) = (
+        (i of I, k of K) = (
+            (i of I, k of, l of P) = (
+                (i of I, k of, l of , s of C) = (
+                    (i of I, k of, l of , s of C, j of J)
+                )
+            )
+        )
+    )
+)
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
