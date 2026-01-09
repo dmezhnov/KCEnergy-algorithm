@@ -81,7 +81,6 @@ filter_by_pair(matrix_source, condit, matrix_condition) = filtered_matrix_by_pai
 
 for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
     where
-<<<<<<< HEAD
         matrix_source_1:  matrix(...Taxis) # Левая матрица
         matrix_source_2:  matrix           # Правая матрица
         operat:           operation        # Операция поэлементно

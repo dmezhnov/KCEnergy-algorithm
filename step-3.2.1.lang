@@ -26,11 +26,6 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
         requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average                              of matrix(Product, Region, Market_participant) # Скользящее среднее
             where
-                corrected_value = request_value
-                    where
-                        request_value <= average_value
-                            where
-                               <=  from condition
                 corrected_value = average_value
                     where
                         request_value > average_value
@@ -42,6 +37,35 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
                 l  of P  from index # Индексы субъекта рынка
                 s  of C  from index # Индексы условия поставки
                 j  of J  from index # Индексы НПЗ
+requests_i_j_k_l_s_deficit_single_corrected(i) = (
+    (i, k) = (
+        (i, k, l) = (
+            (i, k, l, s) = (
+                (i, k, l, s, j) = requests_i_j_k_l_s_deficit_single(i, k, l, s, j)
+            )
+        )
+    )
+)
+    where
+        requests_i_j_k_l_s_deficit_single_corrected(i, k, l, s, j) of number = corrected_value
+        requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number = request_value
+        moving_average(i, k, l)                                    of number = average_value  # Скользящее среднее
+        requests_i_j_k_l_s_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        moving_average                              of matrix(Product, Region, Market_participant) # Скользящее среднее
+            where
+                corrected_value = request_value
+                    where
+                        request_value <= average_value
+                            where
+                               <=  from condition
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
+                s  of C  from index # Индексы условия поставки
+                j  of J  from index # Индексы НПЗ
+
 
 requests_i_j_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_deficit_single, min, moving_average)
     where
