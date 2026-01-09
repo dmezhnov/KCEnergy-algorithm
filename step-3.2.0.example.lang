@@ -1,0 +1,138 @@
+requests_i_j_k_l_s_deficit = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
+                )
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from K) = (
+                (1 from C, 1 from I, 1 from K, 1 from P) = 1, # 001
+                (1 from C, 1 from I, 1 from K, 4 from P) = 1, # 007
+                (1 from C, 1 from I, 1 from K, 5 from P) = 1  # 008
+            ),
+            (1 from C, 1 from I, 2 from K) = (
+                (1 from C, 1 from I, 2 from K, 1 from P) = 1, # 002
+                (1 from C, 1 from I, 2 from K, 3 from P) = 1  # 006
+            ),
+            (1 from C, 1 from I, 3 from K) = (
+                (1 from C, 1 from I, 3 from K, 2 from P) = 1, # 005
+                (1 from C, 1 from I, 3 from K, 6 from P) = 1  # 009
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests_single = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from K) = (
+                (1 from C, 1 from I, 1 from K, 1 from P) = 1, # 001
+                (1 from C, 1 from I, 1 from K, 4 from P) = 1, # 007
+                (1 from C, 1 from I, 1 from K, 5 from P) = 1  # 008
+            ),
+            (1 from C, 1 from I, 2 from K) = (
+                (1 from C, 1 from I, 2 from K, 1 from P) = 1, # 002
+                (1 from C, 1 from I, 2 from K, 3 from P) = 1  # 006
+            ),
+            (1 from C, 1 from I, 3 from K) = (
+                (1 from C, 1 from I, 3 from K, 2 from P) = 1, # 005
+                (1 from C, 1 from I, 3 from K, 6 from P) = 1  # 009
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests_multiple = (
+    (s of C) = (
+        (s of C, i of I) = (
+            (s of C, i of I, k of K) = (
+                (s of C, i of I, k of K, l of P)
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_j_k_l_s_deficit_single = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
+                )
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_j_k_l_s_deficit_multiple = (
+    (s of C) = (
+        (s of C, i of I) = (
+            (s of C, i of I, j of J) = (
+                (s of C, i of I, j of J, k of K) = (
+                    (s of C, i of I, j of J, k of K, l of P)
+                )
+            )
+        )
+    )
+)
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка

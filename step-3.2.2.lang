@@ -44,7 +44,7 @@ requests_i_j_k_l_s_deficit_multiple_share(i) = (
     (i, k) = (
         (i, k, l) = (
             (i, k, l, s) = (
-                (i, k, l, s , j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) / requests_i_k_l_s_deficit_multiple(i, k, l, s)
+                (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) / requests_i_k_l_s_deficit_multiple(i, k, l, s)
             )
         )
     )
