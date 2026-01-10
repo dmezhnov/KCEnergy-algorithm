@@ -1,19 +1,20 @@
-normalized_i_l(l0)(n) = (
-
+normalized_i_l(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
+        (1 from I, 3 from P) = 65, # 006
+        (1 from I, 2 from P) = 65  # 005
+    )
 )
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
-        P  from index # Индексы субъекта рынка
         I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
 
-normalized_i(l0)(n) = (
-
+normalized_i(1 from R)(1 from n) = (
+    (1 from I, 1 from P) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
 )
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
-        P  from index # Индексы субъекта рынка
         I  from index # Индексы нефпродукта
