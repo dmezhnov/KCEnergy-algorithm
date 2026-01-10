@@ -1,4 +1,4 @@
-normalized_i_l(1 from R)(1 from n) = (
+normalized_i_l_s(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
         (1 from I, 3 from P) = 65, # 006
@@ -11,7 +11,7 @@ normalized_i_l(1 from R)(1 from n) = (
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 
-normalized_i(1 from R)(1 from n) = (
+normalized_i_s(1 from R)(1 from n) = (
     (1 from I, 1 from P) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
 )
     where
