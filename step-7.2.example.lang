@@ -1,4 +1,4 @@
-normalized_i_threshold(1 from R)(1 from n) = (
+normalized_i_s_threshold(1 from R)(1 from n) = (
     (1 from I, 1 from P) = 390 * 50% = 195 # 001, 002, 003, 004, 006, 005
 )
     where
@@ -6,7 +6,7 @@ normalized_i_threshold(1 from R)(1 from n) = (
         n of   index # Индекс матрицы
         I from index # Индексы нефпродукта
 
-normalized_i_l_increased(1 from R)(1 from n) = (
+normalized_i_l_s_increased(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from P) = 260 # 260 > 195 -> 001 + 002 + 003 + 004
     )
@@ -17,7 +17,7 @@ normalized_i_l_increased(1 from R)(1 from n) = (
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_increased(1 from R)(1 from n) = (
+normalized_i_j_k_l_s_increased(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (

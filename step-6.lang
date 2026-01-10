@@ -389,35 +389,39 @@ normalized_i_j_k_l_exw.First(n) = for_each_element(estimated_i_j_k_l_exw_rounded
                         l  of P  from index # Индексы субъекта рынка
 
 # n-я матрица нормированных объемов НП l0-й очереди
-normalized_i_j_k_l(l0)(n) = assign_matrix(normalized_i_j_k_l_fca(l0)(n), normalized_i_j_k_l_exw(l0)(n))
+normalized_i_j_k_l_s(l0)(n)(1 from C) = normalized_i_j_k_l_fca(l0)(n)
+normalized_i_j_k_l_s(l0)(n)(2 from C) = normalized_i_j_k_l_exw(l0)(n)
     where
-        normalized_i_j_k_l(l0)(n)(i, j, k, l)     of number
-        normalized_i_j_k_l_fca(l0)(n)(i, j, k, l) of number
-        normalized_i_j_k_l_exw(l0)(n)(i, j, k, l) of number
-        normalized_i_j_k_l(l0)(n)     of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_s(l0)(n)(i, j, k, l, s) of number
+        normalized_i_j_k_l_fca(l0)(n)(i, j, k, l)  of number
+        normalized_i_j_k_l_exw(l0)(n)(i, j, k, l)  of number
+        normalized_i_j_k_l_s(l0)(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         normalized_i_j_k_l_fca(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         normalized_i_j_k_l_exw(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
             where
-                n  of         index # Индекс матрицы
-                Product, Refinery, Region, Market_participant from axis
+                l0 of R  from index # Индексы очереди
+                n  of         index # Индексы матрицы
+                C        from index # Индексы условия поставки
+                Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
-                l0 of R  from index # Индексы очереди
 
 # n-я матрица нормированных объемов НП первой очереди
-normalized_i_j_k_l.First(n) = assign_matrix(normalized_i_j_k_l_fca.First(n), normalized_i_j_k_l_exw.First(n))
+normalized_i_j_k_l_s.First(n)(1 from C) = normalized_i_j_k_l_fca.First(n)
+normalized_i_j_k_l_s.First(n)(2 from C) = normalized_i_j_k_l_exw.First(n)
     where
-        normalized_i_j_k_l.First(n)(i, j, k, l)     of number
-        normalized_i_j_k_l_fca.First(n)(i, j, k, l) of number
-        normalized_i_j_k_l_exw.First(n)(i, j, k, l) of number
-        normalized_i_j_k_l.First(n)     of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l_s.First(n)(i, j, k, l, s) of number
+        normalized_i_j_k_l_fca.First(n)(i, j, k, l)  of number
+        normalized_i_j_k_l_exw.First(n)(i, j, k, l)  of number
+        normalized_i_j_k_l_s.First(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         normalized_i_j_k_l_fca.First(n) of matrix(Product, Refinery, Region, Market_participant)
         normalized_i_j_k_l_exw.First(n) of matrix(Product, Refinery, Region, Market_participant)
             where
-                n  of         index # Индекс матрицы
-                Product, Refinery, Region, Market_participant from axis
+                n  of         index # Индексы матрицы
+                C        from index # Индексы условия поставки
+                Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
