@@ -26,16 +26,22 @@ requests_i_j_k_l_s_corrected(1 from R) = (
         )
     )
 )
-    where
-        R from index # Индексы очереди
-        C from index # Индексы условия поставки
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-
-requests_i_j_k_l_s_corrected(2 from R) = (
-
+requests_i_j_k_l_s_corrected(2 from R) = ()
+requests_i_j_k_l_s_corrected(3 from R) = ()
+requests_i_j_k_l_s_corrected(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
+                )
+            )
+        )
+    )
 )
     where
         R from index # Индексы очереди
@@ -62,6 +68,19 @@ requests_i_j_l_s_corrected(1 from R) = (
         )
     )
 )
+requests_i_j_l_s_corrected(2 from R) = ()
+requests_i_j_l_s_corrected(3 from R) = ()
+requests_i_j_l_s_corrected(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 4 from P) = 250, # 007
+                (1 from C, 1 from I, 1 from J, 5 from P) = 500, # 008
+                (1 from C, 1 from I, 1 from J, 6 from P) = 700  # 009
+            )
+        )
+    )
+)
     where
         R from index # Индексы очереди
         C from index # Индексы условия поставки
@@ -75,6 +94,17 @@ requests_i_j_s_corrected(1 from R) = (
             (1 from C, 1 from I, 1 from J) = 180 + 90 + 90, # 001 + 002 + 006 + 005
             (1 from C, 1 from I, 2 from J) = 40,            # 003
             (1 from C, 1 from I, 3 from J) = 60             # 004
+        )
+    )
+)
+requests_i_j_s_corrected(2 from R) = ()
+requests_i_j_s_corrected(3 from R) = ()
+requests_i_j_s_corrected(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J) = 250 + 500 + 700 # 007 + 008 + 009
+            )
         )
     )
 )
