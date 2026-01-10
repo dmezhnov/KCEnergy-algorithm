@@ -17,7 +17,7 @@ requests_i_j_deficit = (
 
 requests_i_j_surplus = (
     (1 from I) = (
-        (1 from I, 2 from J) = 40,
-        (1 from I, 3 from J) = 60
+        (1 from I, 2 from J) = 40, # 003
+        (1 from I, 3 from J) = 60  # 004
     )
 )
