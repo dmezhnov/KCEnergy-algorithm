@@ -1,71 +1,50 @@
-requests_i_j_k_l_s(l0) = (
+requests_i_j_k_l_s(1 from R) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
                 (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300  # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
+                )
+            )
+        )
+    )
+)
+requests_i_j_k_l_s(2 from R) = ()
+requests_i_j_k_l_s(3 from R) = ()
+requests_i_j_k_l_s(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
                     (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
                     (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
                 ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
-                ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
                     (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
                 )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
-                )
             )
         )
     )
 )
     where
-        lo of R from index # Индекс очереди
-              C from index # Индексы условий поставки
-              I from index # Индексы нефпродукта
-              J from index # Индексы НПЗ
-              K from index # Индексы региона
-              P from index # Индексы субъекта рынка
-
-requests_i_j_k_l_s.First = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100, # 001
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300, # 005
-                )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
-                )
-            )
-        )
-    )
-)
-    where
+        R from index # Индекс очереди
         C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ

@@ -34,6 +34,17 @@ requests_i_j_k_l_s_corrected(1 from R) = (
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
+requests_i_j_k_l_s_corrected(2 from R) = (
+
+)
+    where
+        R from index # Индексы очереди
+        C from index # Индексы условия поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
 requests_i_j_l_s_corrected(1 from R) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
