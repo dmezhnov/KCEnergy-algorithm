@@ -1,0 +1,31 @@
+MIN_NEXT_TONNAGE(l0) = (
+
+)
+    where
+        l0 of R  from index # Индексы очереди
+
+# Доступные объемы для следующей очереди
+available_i_j(l0) = (
+
+)
+    where
+        l0 of R  from index # Индексы очереди
+              I  from index # Индексы нефпродукта
+              J  from index # Индексы НПЗ
+
+available_i_j.Second = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+estimated_i_j_k_l_final = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        P  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        R  from index # Индексы очереди
