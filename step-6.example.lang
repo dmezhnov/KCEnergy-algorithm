@@ -214,7 +214,7 @@ normalized_i_j_k_l_exw = ()
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l(l0)(n)(1 from R)(1 from n) = (
+normalized_i_j_k_l(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
