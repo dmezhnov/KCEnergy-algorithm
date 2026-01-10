@@ -40,11 +40,11 @@ requests_i_j_k_l_s_surplus = (
     )
 )
     where
-        i  of I  from index # Индексы нефпродукта
-        j  of J  from index # Индексы НПЗ
-        s  of C  from index # Индексы условий поставки
-        k  of K  from index # Индексы региона
-        l  of P  from index # Индексы субъекта рынка
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условий поставки
+        K  from index # Индексы региона
+        l  from index # Индексы субъекта рынка
 
 requests_i_j_k_l_s_deficit_pend = (
     (1 from C) = (
@@ -65,10 +65,10 @@ requests_i_j_k_l_s_deficit_pend = (
     )
 )
     where
-        k  of K  from index # Индексы региона
-        l  of P  from index # Индексы субъекта рынка
-        j  of J  from index # Индексы НПЗ
-        s  of C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        l  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 # !!!!!!!!!!!!!!
 requests_i_j_k_l_s_surplus_corrected = (
     (1 from C) = (
@@ -87,11 +87,11 @@ requests_i_j_k_l_s_surplus_corrected = (
     )
 )
     where
-        i  of I  from index # Индексы нефпродукта
-        k  of K  from index # Индексы региона
-        l  of P  from index # Индексы субъекта рынка
-        j  of J  from index # Индексы НПЗ
-        s  of C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        l  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_corrected.First = (
     (1 from C) = (
@@ -122,8 +122,8 @@ requests_i_j_k_l_s_corrected.First = (
     )
 )
     where
-        i  of I  from index # Индексы нефпродукта
-        k  of K  from index # Индексы региона
-        l  of P  from index # Индексы субъекта рынка
-        j  of J  from index # Индексы НПЗ
-        s  of C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        l  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки

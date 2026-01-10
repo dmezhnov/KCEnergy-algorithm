@@ -1,0 +1,156 @@
+requests_i_j_s_corrected_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        R  from index # Индексы очереди
+
+requests_i_j_s_corrected_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+
+requests_i_j_s_corrected_not_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        R  from index # Индексы очереди
+
+requests_i_j_s_corrected_not_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+
+requests_i_j_k_l_s_corrected_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+
+requests_i_j_k_l_s_corrected_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+requests_i_j_k_l_s_corrected_not_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+
+requests_i_j_k_l_s_corrected_not_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_s_exceed_share(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        R  from index # Индексы очереди
+
+estimated_i_j_s_exceed_share.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+
+estimated_i_j_k_l_s_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+
+estimated_i_j_k_l_s_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_s_not_exceed(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+
+estimated_i_j_k_l_s_not_exceed.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_s(l0)(1) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+
+# 1-я матрица предварительных расчетных объемов НП для первой очереди
+estimated_i_j_k_l_s.First(1) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
