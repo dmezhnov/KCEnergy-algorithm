@@ -1,5 +1,5 @@
 length, number             from core
-estimated_i_j_k_l          from ("step-7.2.lang")
+estimated_i_j_k_l_s          from ("step-7.2.lang")
 available_i_j              from ("initial_data.lang")
 for_each_pair, sum_by_axes from ("matrix_operation.lang")
 operation                  from ("matrix_types.lang")
@@ -9,14 +9,14 @@ operation                  from ("matrix_types.lang")
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
 
 # Последняя матрица предварительных расчетных объемов НП l0-й очереди
-estimated_i_j_k_l_last(l0) = estimated_i_j_k_l(l0)(x)
+estimated_i_j_k_l_last(l0) = estimated_i_j_k_l_s(l0)(x)
     where
         estimated_i_j_k_l_last(l0)(i, l, j, k) of number
-        estimated_i_j_k_l(l0)(x)(i, l, j, k)   of number
-        estimated_i_j_k_l(l0)      of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_s(l0)(x)(i, l, j, k)   of number
+        estimated_i_j_k_l_s(l0)      of matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_k_l_last(l0) of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of         index = length(estimated_i_j_k_l(l0)) # индекс последней матрицы предварительных расчетных объемов НП
+                x  of         index = length(estimated_i_j_k_l_s(l0)) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
@@ -25,14 +25,14 @@ estimated_i_j_k_l_last(l0) = estimated_i_j_k_l(l0)(x)
                 l0 of R  from index # Индексы очереди
 
 # Последняя матрица предварительных расчетных объемов НП первой очереди
-estimated_i_j_k_l_last.First = estimated_i_j_k_l.First(x)
+estimated_i_j_k_l_last.First = estimated_i_j_k_l_s.First(x)
     where
         estimated_i_j_k_l_last.First(i, l, j, k) of number
-        estimated_i_j_k_l.First(x)(i, l, j, k)   of number
-        estimated_i_j_k_l.First of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l.First of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_s.First(x)(i, l, j, k)   of number
+        estimated_i_j_k_l_s.First of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_s.First of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of         index = length(estimated_i_j_k_l.First) # индекс последней матрицы предварительных расчетных объемов НП
+                x  of         index = length(estimated_i_j_k_l_s.First) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка
