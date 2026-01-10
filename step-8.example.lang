@@ -1,0 +1,52 @@
+estimated_i_j_k_l_last(l0) = (
+
+)
+    where
+        lo of R from index # Индексы очереди
+              I from index # Индексы нефпродукта
+              P from index # Индексы субъекта рынка
+              J from index # Индексы НПЗ
+              K from index # Индексы региона
+
+estimated_i_j_k_l_last.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        P  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+
+estimated_i_j_last(l0) = (
+
+)
+    where
+        lo of R from index # Индексы очереди
+              I from index # Индексы нефпродукта
+              P from index # Индексы субъекта рынка
+              J from index # Индексы НПЗ
+              K from index # Индексы региона
+
+estimated_i_j_last.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        P  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+
+available_i_j_new(l0) = (
+
+)
+    where
+        lo of R from index # Индексы очереди
+              I from index # Индексы нефпродукта
+              J from index # Индексы НПЗ
+
+available_i_j_new.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
