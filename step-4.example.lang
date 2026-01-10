@@ -1,50 +1,69 @@
-requests_i_j_k_l_s_corrected(l0) = (
-
+requests_i_j_k_l_s_corrected(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
+                )
+            )
+        )
+    )
 )
     where
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
-        P  from index # Индексы субъекта рынка
-        K  from index # Индексы региона
+        R from index # Индексы очереди
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        C from index # Индексы условия поставки
+        P from index # Индексы субъекта рынка
+        K from index # Индексы региона
+
+requests_i_j_l_s_corrected(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from P) = 90 + 90 = 180, # 001 + 002
+                (1 from C, 1 from I, 1 from J, 3 from P) = 90, # 006
+                (1 from C, 1 from I, 1 from J, 2 from P) = 90  # 005
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from P) = 40  # 003
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from P) = 60  # 004
+            )
+        )
+    )
+)
+    where
         R  from index # Индексы очереди
-
-requests_i_j_l_s_corrected(l0) = (
-
-)
-    where
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
         P  from index # Индексы субъекта рынка
         K  from index # Индексы региона
+
+requests_i_j_s_corrected(1 from R) = (
+
+)
+    where
         R  from index # Индексы очереди
-
-requests_i_j_l_s_corrected.First = (
-
-)
-    where
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
-        P  from index # Индексы субъекта рынка
-        K  from index # Индексы региона
-
-requests_i_j_s_corrected(l0) = (
-
-)
-    where
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
-        P  from index # Индексы субъекта рынка
-        K  from index # Индексы региона
-        R  from index # Индексы очереди
-
-requests_i_j_s_corrected.First = (
-
-)
-    where
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
