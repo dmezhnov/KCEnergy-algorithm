@@ -41,7 +41,7 @@ normalized_i_j_k_l_s_increased(1 from R)(1 from n) = (
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
-normalized_i_j_k_l_limited(1 from R)(1 from n) = (
+normalized_i_j_k_l_s_limited(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
@@ -65,7 +65,7 @@ normalized_i_j_k_l_limited(1 from R)(1 from n) = (
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
-normalized_i_j_k_l_corrected(1 from R)(1 from n) = (
+normalized_i_j_k_l_s_corrected(1 from R)(1 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
@@ -89,7 +89,7 @@ normalized_i_j_k_l_corrected(1 from R)(1 from n) = (
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
-estimated_i_j_k_l(1 from R)(2 from n) = (
+estimated_i_j_k_l_s(1 from R)(2 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
