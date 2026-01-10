@@ -1,5 +1,5 @@
 requests_i_j_s_corrected, requests_i_j_k_l_s_corrected from ("step-4.lang")
-available_i_j                                          from ("step-5.lang")
+available_i_j                                          from ("initial_data.lang")
 assign_matrix, for_each_pair, filter_by_pair           from ("matrix_operation.lang")
 operation, condition, index, axis, matrix              from ("matrix_types.lang")
 
@@ -149,12 +149,12 @@ requests_i_j_k_l_s_corrected_not_exceed.First = filter_by_pair(requests_i_j_k_l_
                 l  of P  from index # Индексы субъекта рынка
 
 # Доля превышения доступного объёма для l0-й очереди
-estimated_i_j_s_exceed_share(l0) = for_each_pair(available_i_j(l0), safe_divide, requests_i_j_s_corrected_exceed(l0))
+estimated_i_j_exceed_share(l0) = for_each_pair(available_i_j(l0), safe_divide, requests_i_j_s_corrected_exceed(l0))
     where
-        estimated_i_j_s_exceed_share(l0)(i, j, s)    of number
+        estimated_i_j_exceed_share(l0)(i, j)         of number
         requests_i_j_s_corrected_exceed(l0)(i, j, s) of number
         available_i_j(l0)(i, j)                      of number
-        estimated_i_j_s_exceed_share(l0)    of matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_exceed_share(l0)      of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_corrected_exceed(l0) of matrix(Product, Refinery, Ship_terms)
         available_i_j(l0)                   of matrix(Product, Refinery)
         safe_divide from operation
@@ -166,13 +166,13 @@ estimated_i_j_s_exceed_share(l0) = for_each_pair(available_i_j(l0), safe_divide,
                 l0 of R  from index # Индексы очереди
 
 # Доля превышения доступного объёма для первой очереди
-estimated_i_j_s_exceed_share.First = for_each_pair(available_i_j.First, safe_divide, requests_i_j_s_corrected_exceed.First)
+estimated_i_j_exceed_share.First = for_each_pair(available_i_j.First, safe_divide, requests_i_j_s_corrected_exceed.First)
     where
-        estimated_i_j_s_exceed_share.First(i, j, s)    of number
         requests_i_j_s_corrected_exceed.First(i, j, s) of number
+        estimated_i_j_exceed_share.First(i, j)         of number
         available_i_j.First(i, j)                      of number
-        estimated_i_j_s_exceed_share.First    of matrix(Product, Refinery, Ship_terms)
         requests_i_j_s_corrected_exceed.First of matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_exceed_share.First      of matrix(Product, Refinery)
         available_i_j.First                   of matrix(Product, Refinery)
         safe_divide from operation
             where
@@ -182,14 +182,14 @@ estimated_i_j_s_exceed_share.First = for_each_pair(available_i_j.First, safe_div
                 s  of C  from index # Индексы условия поставки
 
 # Предварительный объем НП, где итоговый суммарный объём Запросов l0-й очереди на НПЗ превышает доступный объём
-estimated_i_j_k_l_s_exceed(l0) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(l0), *, estimated_i_j_s_exceed_share(l0))
+estimated_i_j_k_l_s_exceed(l0) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(l0), *, estimated_i_j_exceed_share(l0))
     where
         estimated_i_j_k_l_s_exceed(l0)(i, j, s, k, l)          of number
         requests_i_j_k_l_s_corrected_exceed(l0)(i, j, s, k, l) of number
-        estimated_i_j_s_exceed_share(l0)(i, j, s)              of number
+        estimated_i_j_exceed_share(l0)(i, j)                   of number
         estimated_i_j_k_l_s_exceed(l0)          of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_corrected_exceed(l0) of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_s_exceed_share(l0)        of matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_exceed_share(l0)          of matrix(Product, Refinery)
         * from operation
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -201,14 +201,14 @@ estimated_i_j_k_l_s_exceed(l0) = for_each_pair(requests_i_j_k_l_s_corrected_exce
                 l0 of R  from index # Индексы очереди
 
 # Предварительный объем НП, где итоговый суммарный объём Запросов первой очереди на НПЗ превышает доступный объём
-estimated_i_j_k_l_s_exceed.First = for_each_pair(requests_i_j_k_l_s_corrected_exceed.First, *, estimated_i_j_s_exceed_share.First)
+estimated_i_j_k_l_s_exceed.First = for_each_pair(requests_i_j_k_l_s_corrected_exceed.First, *, estimated_i_j_exceed_share.First)
     where
         estimated_i_j_k_l_s_exceed.First(i, j, s, k, l)          of number
         requests_i_j_k_l_s_corrected_exceed.First(i, j, s, k, l) of number
-        estimated_i_j_s_exceed_share.First(i, j, s)              of number
+        estimated_i_j_exceed_share.First(i, j)                   of number
         estimated_i_j_k_l_s_exceed.First          of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         requests_i_j_k_l_s_corrected_exceed.First of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_s_exceed_share.First        of matrix(Product, Refinery, Ship_terms)
+        estimated_i_j_exceed_share.First          of matrix(Product, Refinery)
         * from operation
             where
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
@@ -250,15 +250,16 @@ estimated_i_j_k_l_s_not_exceed.First = requests_i_j_k_l_s_corrected_not_exceed.F
                 l  of P  from index # Индексы субъекта рынка
 
 # 1-я матрица предварительных расчетных объемов НП для l0-й очереди
-estimated_i_j_k_l_s(l0)(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed(l0), estimated_i_j_k_l_s_exceed(l0))
+estimated_i_j_k_l_s(l0)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(l0), estimated_i_j_k_l_s_exceed(l0))
     where
-        estimated_i_j_k_l_s(l0)(1)(i, j, s, k, l)         of number
+        estimated_i_j_k_l_s(l0)(1 from n)(i, j, s, k, l)         of number
         estimated_i_j_k_l_s_exceed(l0)(i, j, s, k, l)     of number
         estimated_i_j_k_l_s_not_exceed(l0)(i, j, s, k, l) of number
-        estimated_i_j_k_l_s(l0)(1)         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s(l0)(1 from n)         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_exceed(l0)     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed(l0) of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
+                n  of         index # Индекс матрицы
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
@@ -268,7 +269,7 @@ estimated_i_j_k_l_s(l0)(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed(l0), e
                 l0 of R  from index # Индексы очереди
 
 # 1-я матрица предварительных расчетных объемов НП для первой очереди
-estimated_i_j_k_l_s.First(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed.First, estimated_i_j_k_l_s_exceed.First)
+estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed.First, estimated_i_j_k_l_s_exceed.First)
     where
         estimated_i_j_k_l_s.First(1)(i, j, s, k, l)         of number
         estimated_i_j_k_l_s_exceed.First(i, j, s, k, l)     of number
@@ -277,6 +278,7 @@ estimated_i_j_k_l_s.First(1) = assign_matrix(estimated_i_j_k_l_s_not_exceed.Firs
         estimated_i_j_k_l_s_exceed.First     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed.First of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
+                n  of         index # Индекс матрицы
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
