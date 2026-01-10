@@ -52,14 +52,14 @@ available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_TON
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
 
-estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_last(1), ..., estimated_i_j_k_l_last(x))
+estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(x))
     where
-        estimated_i_j_k_l_last(l0)(i, l, j, k) of number
+        estimated_i_j_k_l_s_last(l0)(i, l, j, k) of number
         estimated_i_j_k_l_final(i, l, j, k)    of number
-        estimated_i_j_k_l_last(l0)(i, l, j, k) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_s_last(l0)(i, l, j, k) of matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_k_l_final(i, l, j, k)    of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of         index = length(estimated_i_j_k_l_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
+                x  of         index = length(estimated_i_j_k_l_s_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
                 Product, Market_participant, Refinery, Region from axis
                 i  of I  from index # Индексы нефпродукта
                 l  of P  from index # Индексы субъекта рынка

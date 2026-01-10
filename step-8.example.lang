@@ -1,4 +1,4 @@
-estimated_i_j_k_l_last(l0) = (
+estimated_i_j_k_l_s_last(l0) = (
 
 )
     where
@@ -8,7 +8,7 @@ estimated_i_j_k_l_last(l0) = (
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-estimated_i_j_last(l0) = (
+estimated_i_j_s_last(l0) = (
 
 )
     where
