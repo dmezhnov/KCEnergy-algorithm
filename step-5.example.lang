@@ -21,18 +21,16 @@ requests_i_j_s_corrected_not_exceed(3 from R) = ()
 requests_i_j_s_corrected_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_corrected_exceed = (
-
-)
+requests_i_j_k_l_s_corrected_exceed = ()
     where
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
@@ -69,9 +67,9 @@ requests_i_j_k_l_s_corrected_not_exceed(3 from R) = ()
 requests_i_j_k_l_s_corrected_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
@@ -124,9 +122,9 @@ estimated_i_j_k_l_s_not_exceed(3 from R) = ()
 estimated_i_j_k_l_s_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
@@ -161,8 +159,8 @@ estimated_i_j_k_l_s(1 from R)(1 from n) = (
     where
         n  of   index # Индекс матрицы
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка

@@ -215,27 +215,29 @@ normalized_i_j_k_l_exw = ()
         P  from index # Индексы субъекта рынка
 
 normalized_i_j_k_l_s(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 65 # 001
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65 # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65 # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+                )
             ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 65 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 65 # 003
+                )
             ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 65 # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 65 # 004
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 65 # 004
+                )
             )
         )
     )
@@ -243,6 +245,7 @@ normalized_i_j_k_l_s(1 from R)(1 from n) = (
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
