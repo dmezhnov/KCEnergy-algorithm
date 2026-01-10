@@ -1,0 +1,52 @@
+requests_i_j_k_l_s_corrected(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        P  from index # Индексы субъекта рынка
+        K  from index # Индексы региона
+        R  from index # Индексы очереди
+
+requests_i_j_l_s_corrected(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        P  from index # Индексы субъекта рынка
+        K  from index # Индексы региона
+        R  from index # Индексы очереди
+
+requests_i_j_l_s_corrected.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        P  from index # Индексы субъекта рынка
+        K  from index # Индексы региона
+
+requests_i_j_s_corrected(l0) = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        P  from index # Индексы субъекта рынка
+        K  from index # Индексы региона
+        R  from index # Индексы очереди
+
+requests_i_j_s_corrected.First = (
+
+)
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
+        P  from index # Индексы субъекта рынка
+        K  from index # Индексы региона
