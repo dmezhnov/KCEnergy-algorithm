@@ -252,10 +252,10 @@ estimated_i_j_k_l_s_not_exceed.First = requests_i_j_k_l_s_corrected_not_exceed.F
 # 1-я матрица предварительных расчетных объемов НП для l0-й очереди
 estimated_i_j_k_l_s(l0)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(l0), estimated_i_j_k_l_s_exceed(l0))
     where
-        estimated_i_j_k_l_s(l0)(1 from n)(i, j, s, k, l)         of number
+        estimated_i_j_k_l_s(l0)(1 from n)(i, j, s, k, l)  of number
         estimated_i_j_k_l_s_exceed(l0)(i, j, s, k, l)     of number
         estimated_i_j_k_l_s_not_exceed(l0)(i, j, s, k, l) of number
-        estimated_i_j_k_l_s(l0)(1 from n)         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
+        estimated_i_j_k_l_s(l0)(1 from n)  of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_exceed(l0)     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed(l0) of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
