@@ -2,17 +2,7 @@ normalized_i_l(l0)(n) = (
 
 )
     where
-        n  of   index # Индекс матрицы
-        P  from index # Индексы субъекта рынка
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
         R  from index # Индексы очереди
-
-normalized_i_l.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         P  from index # Индексы субъекта рынка
         I  from index # Индексы нефпродукта
@@ -23,15 +13,7 @@ normalized_i(l0)(n) = (
 
 )
     where
-        n  of   index # Индекс матрицы
-        P  from index # Индексы субъекта рынка
-        I  from index # Индексы нефпродукта
         R  from index # Индексы очереди
-
-normalized_i.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         P  from index # Индексы субъекта рынка
         I  from index # Индексы нефпродукта
