@@ -1,232 +1,247 @@
-estimated_i_j_k_l_fca(l0)(n) = (
-
+estimated_i_j_k_l_fca(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
+            )
+        )
+    )
 )
     where
+        R  from index # Индексы очереди
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 90 / 65 = 1,384615384615 # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 90 / 65 = 1,384615384615 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 90 / 65 = 1,384615384615 # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 90 / 65 = 1,384615384615 # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 40 / 65 = 0,615384615384 # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 60 / 65 = 0,923076923076 # 004
+            )
+        )
+    )
+)
+    where
+        R  from index # Индексы очереди
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_fca_coeff_rounded(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = round(1,384615384615) = 1 # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = round(1,384615384615) = 1 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = round(1,384615384615) = 1 # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = round(1,384615384615) = 1 # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = round(0,615384615384) = 1 # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = round(0,923076923076) = 1 # 004
+            )
+        )
+    )
+)
+    where
+        R  from index # Индексы очереди
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_fca_rounded(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 1 * 65 = 65 # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 1 * 65 = 65 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 1 * 65 = 65 # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 1 * 65 = 65 # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 1 * 65 = 651 # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 1 * 65 = 65 # 004
+            )
+        )
+    )
+)
+    where
+        R  from index # Индексы очереди
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_fca(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = max(65, 65) = 65 # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = max(65, 65) = 65 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 65) = 65 # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 65) = 65 # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = max(65, 65) = 65 # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = max(65, 65) = 65 # 004
+            )
+        )
+    )
+)
+    where
+        R  from index # Индексы очереди
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+estimated_i_j_k_l_exw = ()
+    where
+        R  from index # Индексы очереди
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         C  from index # Индексы условия поставки
+
+estimated_i_j_k_l_exw_coeff = ()
+    where
         R  from index # Индексы очереди
-
-estimated_i_j_k_l_fca.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
-        C  from index # Индексы условия поставки
 
-estimated_i_j_k_l_fca_coeff(l0)(n) = (
-
-)
+estimated_i_j_k_l_exw_coeff_rounded = ()
     where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
-
-estimated_i_j_k_l_fca_coeff.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = (
-
-)
+estimated_i_j_k_l_exw_rounded = ()
     where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
-
-estimated_i_j_k_l_fca_coeff_rounded.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_fca_rounded(l0)(n) = (
-
-)
+normalized_i_j_k_l_exw = ()
     where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
-
-estimated_i_j_k_l_fca_rounded.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_fca(l0)(n) = (
-
+normalized_i_j_k_l(l0)(n)(1 from R)(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 1 from P) = 65 # 001
+            ),
+            (1 from I, 1 from J, 2 from K) = (
+                (1 from I, 1 from J, 2 from K, 1 from P) = 65 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+            )
+        ),
+        (1 from I, 2 from J) = (
+            (1 from I, 2 from J, 1 from K) = (
+                (1 from I, 2 from J, 1 from K, 1 from P) = 65 # 003
+            )
+        ),
+        (1 from I, 3 from J) = (
+            (1 from I, 3 from J, 1 from K) = (
+                (1 from I, 3 from J, 1 from K, 1 from P) = 65 # 004
+            )
+        )
+    )
 )
     where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
-
-normalized_i_j_k_l_fca.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-estimated_i_j_k_l_exw(l0)(n) = (
-
-)
-    where
-        n  of        index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        C  from index # Индексы условия поставки
-        R  from index # Индексы очереди
-
-estimated_i_j_k_l_exw.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        C  from index # Индексы условия поставки
-
-estimated_i_j_k_l_exw_coeff(l0)(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        R  from index # Индексы очереди
-
-estimated_i_j_k_l_exw_coeff.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        R  from index # Индексы очереди
-
-estimated_i_j_k_l_exw_coeff_rounded.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-estimated_i_j_k_l_exw_rounded(l0)(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        R  from index # Индексы очереди
-
-estimated_i_j_k_l_exw_rounded.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-normalized_i_j_k_l_exw(l0)(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        R  from index # Индексы очереди
-
-normalized_i_j_k_l_exw.First(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-normalized_i_j_k_l(l0)(n) = (
-
-)
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        R  from index # Индексы очереди
-
-normalized_i_j_k_l.First(n) = (
-
-)
-    where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
