@@ -75,27 +75,27 @@ estimated_i_j_s_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region,
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП l0-й очереди
 available_i_j_new(l0) = for_each_pair(available_i_j(l0), -, estimated_i_j_s_last(l0))
     where
-        available_i_j_new(l0)(i, j)  of number
-        available_i_j(l0)(i, j)      of number
-        estimated_i_j_s_last(l0)(i, j) of number
-        available_i_j_new(l0)  of matrix(Product, Refinery)
-        available_i_j(l0)      of matrix(Product, Refinery)
-        estimated_i_j_s_last(l0) of matrix(Product, Refinery)
+        available_i_j_new(l0)(i, j)       of number
+        available_i_j(l0)(i, j)           of number
+        estimated_i_j_s_last(l0)(i, j, s) of number
+        estimated_i_j_s_last(l0) of matrix(Product, Refinery, Ship_terms)
+        available_i_j_new(l0)    of matrix(Product, Refinery)
+        available_i_j(l0)        of matrix(Product, Refinery)
         - from operation
             where
-                Product, Refinery from axis
+                l0 of R  from index # Индексы очереди
+                Product, Refinery, Ship_terms from axis
                 i  of I  from index # Индексы нефпродукта
                 j  of J  from index # Индексы НПЗ
-                l0 of R  from index # Индексы очереди
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП первой очереди
 available_i_j_new.First = for_each_pair(available_i_j.First, -, estimated_i_j_s_last.First)
     where
-        available_i_j_new.First(i, j)  of number
-        available_i_j.First(i, j)      of number
+        available_i_j_new.First(i, j)    of number
+        available_i_j.First(i, j)        of number
         estimated_i_j_s_last.First(i, j) of number
-        available_i_j_new.First  of matrix(Product, Refinery)
-        available_i_j.First      of matrix(Product, Refinery)
+        available_i_j_new.First    of matrix(Product, Refinery)
+        available_i_j.First        of matrix(Product, Refinery)
         estimated_i_j_s_last.First of matrix(Product, Refinery)
         - from operation
             where
