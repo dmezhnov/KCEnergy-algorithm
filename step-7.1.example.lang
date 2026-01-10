@@ -1,20 +1,27 @@
 normalized_i_l_s(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
-        (1 from I, 3 from P) = 65, # 006
-        (1 from I, 2 from P) = 65  # 005
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
+            (1 from C, 1 from I, 3 from P) = 65, # 006
+            (1 from C, 1 from I, 2 from P) = 65  # 005
+        )
     )
 )
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 
 normalized_i_s(1 from R)(1 from n) = (
-    (1 from I, 1 from P) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
+    (1 from C) = (
+        (1 from C, 1 from I) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
+    )
+
 )
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта

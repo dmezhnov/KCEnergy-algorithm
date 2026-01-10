@@ -1,34 +1,48 @@
 normalized_i_s_threshold(1 from R)(1 from n) = (
-    (1 from I, 1 from P) = 390 * 50% = 195 # 001, 002, 003, 004, 006, 005
+    (1 from C) = (
+        (1 from C, 1 from I) = 390 * 50% = 195 # 001, 002, 003, 004, 006, 005
+    )
 )
     where
         R from index # Индексы очереди
         n of   index # Индекс матрицы
+        C from index # Индексы условия поставки
         I from index # Индексы нефпродукта
 
 normalized_i_l_s_increased(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from P) = 260 # 260 > 195 -> 001 + 002 + 003 + 004
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from P) = 260 # 260 > 195 -> 001 + 002 + 003 + 004
+        )
     )
 )
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 
 normalized_i_j_k_l_s_increased(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 65 # 001
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65 # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65 # 002
+                )
             ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 65 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 65 # 003
+                )
             ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 65 # 004
+                )
             )
         )
     )
@@ -36,23 +50,26 @@ normalized_i_j_k_l_s_increased(1 from R)(1 from n) = (
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
 normalized_i_j_k_l_s_limited(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 65 * 195 = 12675 # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 65 * 195 = 12675 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65 * 195 = 12675 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65 * 195 = 12675 # 005
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65 * 195 = 12675 # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65 * 195 = 12675 # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 * 195 = 12675 # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 * 195 = 12675 # 005
+                )
             )
         )
     )
@@ -60,23 +77,26 @@ normalized_i_j_k_l_s_limited(1 from R)(1 from n) = (
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
 normalized_i_j_k_l_s_corrected(1 from R)(1 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 12675 / 260 = 48.75 # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 12675 / 260 = 48.75 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 12675 / 65  = 195   # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 12675 / 65  = 195   # 005
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 12675 / 260 = 48.75 # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 12675 / 260 = 48.75 # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 12675 / 65  = 195   # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 12675 / 65  = 195   # 005
+                )
             )
         )
     )
@@ -84,33 +104,36 @@ normalized_i_j_k_l_s_corrected(1 from R)(1 from n) = (
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
 
 estimated_i_j_k_l_s(1 from R)(2 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = override(65, 48.75) = 48.75 # 001
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = override(65, 48.75) = 48.75 # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = override(65, 48.75) = 48.75 # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = override(65, 195  ) = 195   # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = override(65, 195  ) = 195   # 005
+                )
             ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = override(65, 48.75) = 48.75 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = override(65, 195  ) = 195   # 006
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = override(65       ) = 65    # 003
+                )
             ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = override(65, 195  ) = 195   # 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = override(65       ) = 65    # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = override(65       ) = 65    # 004
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(65       ) = 65    # 004
+                )
             )
         )
     )
@@ -118,6 +141,7 @@ estimated_i_j_k_l_s(1 from R)(2 from n) = (
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
