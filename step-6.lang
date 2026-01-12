@@ -84,6 +84,7 @@ estimated_i_j_k_l_fca_coeff.First(n) = for_each_element(estimated_i_j_k_l_fca.Fi
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП l0-й очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(l0)(n), round, 0)
     where
+        n = 1
         estimated_i_j_k_l_fca_coeff(l0)(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
@@ -97,16 +98,48 @@ estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_
                 k  of K  from index # Индексы региона
                 l  of P  from index # Индексы субъекта рынка
                 l0 of R  from index # Индексы очереди
+estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(l0)(n), floor, 0)
+    where
+        n != 1
+        estimated_i_j_k_l_fca_coeff(l0)(n)(i, j, k, l)         of number
+        estimated_i_j_k_l_fca_coeff_rounded(l0)(n)(i, j, k, l) of number
+        estimated_i_j_k_l_fca_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
+        floor from operation
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
+                l0 of R  from index # Индексы очереди
 
 # Округляем до целого числа по мат. правилам (количество знаков после запятой - 0)
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП первой очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_coeff.First(n), round, 0)
     where
+        n = 1
         estimated_i_j_k_l_fca_coeff.First(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded.First(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff.First(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  of I  from index # Индексы нефпродукта
+                j  of J  from index # Индексы НПЗ
+                k  of K  from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
+estimated_i_j_k_l_fca_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_coeff.First(n), floor, 0)
+    where
+        n != 1
+        estimated_i_j_k_l_fca_coeff.First(n)(i, j, k, l)         of number
+        estimated_i_j_k_l_fca_coeff_rounded.First(n)(i, j, k, l) of number
+        estimated_i_j_k_l_fca_coeff.First(n)         of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
+        floor from operation
             where
                 n  of         index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
