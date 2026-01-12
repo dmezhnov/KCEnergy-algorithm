@@ -148,24 +148,24 @@ estimated_i_j_k_l_fca_coeff_rounded(1 from R)(2 from n) = (
         (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = round(0,75) = 1 # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = floor(0,75) = 0 # 001
             ),
             (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = round(0,75) = 1 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = round(3   ) = 3 # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = floor(0,75) = 0 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = floor(3   ) = 3 # 006
             ),
             (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = round(3   ) = 3 # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = floor(3   ) = 3 # 005
             )
         ),
         (1 from I, 2 from J) = (
             (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = round(1   ) = 1 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = floor(1   ) = 1 # 003
             )
         ),
         (1 from I, 3 from J) = (
             (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = round(1   ) = 1 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = floor(1   ) = 1 # 004
             )
         )
     )
@@ -208,10 +208,10 @@ estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 1 * 65 = 65  # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = 0 * 65 = 0   # 001
             ),
             (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 1 * 65 = 65  # 002
+                (1 from I, 1 from J, 2 from K, 1 from P) = 0 * 65 = 0   # 002
                 (1 from I, 1 from J, 2 from K, 3 from P) = 3 * 65 = 195 # 006
             ),
             (1 from I, 1 from J, 3 from K) = (
@@ -268,14 +268,14 @@ normalized_i_j_k_l_fca(1 from R)(2 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = max(65, 65 ) = 65  # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = max(65, 0  ) = 65  # 001
             ),
             (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = max(65, 195) = 195 # 002
+                (1 from I, 1 from J, 2 from K, 1 from P) = max(65, 0  ) = 65  # 002
                 (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 195) = 195 # 006
             ),
             (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 65 ) = 65  # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 195) = 195 # 005
             )
         ),
         (1 from I, 2 from J) = (
@@ -380,11 +380,11 @@ normalized_i_j_k_l_s(1 from R)(2 from n) = (
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65  # 001
                 ),
                 (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 195 # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65  # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 195 # 006
                 ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 195 # 005
                 )
             ),
             (1 from C, 1 from I, 2 from J) = (
