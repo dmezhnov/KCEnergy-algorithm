@@ -103,7 +103,7 @@ requests_i_j_s_corrected(4 from R) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J) = 250 + 500 + 700 =  # 007 + 008 + 009
+                (1 from C, 1 from I, 1 from J) = 250 + 500 + 700 = 1450 # 007 + 008 + 009
             )
         )
     )
