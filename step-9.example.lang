@@ -1,10 +1,8 @@
-MIN_NEXT_AVAIL_TONNAGE(l0) = (
-
-)
+MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4 # 4 <= 65 AND l0 != 2
     where
         R  from index # Индексы очереди
 
-available_i_j(l0) = (
+available_i_j(1 from R) = (
 
 )
     where

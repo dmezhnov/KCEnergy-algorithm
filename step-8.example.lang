@@ -1,5 +1,30 @@
-estimated_i_j_k_l_s_last(l0) = (
-
+estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(3 from n)(
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
+                )
+            )
+        )
+    )
 )
     where
         R from index # Индексы очереди
@@ -8,8 +33,26 @@ estimated_i_j_k_l_s_last(l0) = (
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-estimated_i_j_s_last(l0) = (
-
+estimated_i_j_s_last(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J) = (
+                    (1 from C, 1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130 # 001 + 002 + 006 + 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J) = (
+                    (1 from C, 1 from I, 2 from J) = 0  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J) = (
+                    (1 from C, 1 from I, 3 from J) = 0  # 004
+                )
+            )
+        )
+    )
 )
     where
         R from index # Индексы очереди
@@ -18,8 +61,12 @@ estimated_i_j_s_last(l0) = (
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-available_i_j_new(l0) = (
-
+available_i_j_new(1 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 500 - 130 = 370,
+        (1 from I, 2 from J) = 200 - 0   = 200,
+        (1 from I, 3 from J) = 300 - 0   = 300
+    )
 )
     where
         R from index # Индексы очереди
