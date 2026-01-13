@@ -22,8 +22,8 @@ estimated_i_j_k_l_s_last(l0) = estimated_i_j_k_l_s(l0)(x)
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
-                s  for C index # Индексы условия поставки
+                k  for K  from index # Индексы региона
+                s  for C  from index # Индексы условия поставки
 
 # Последняя матрица предварительных расчетных объемов НП первой очереди
 estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(x)
@@ -39,8 +39,8 @@ estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(x)
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
-                s  for C index # Индексы условия поставки
+                k  for K  from index # Индексы региона
+                s  for C  from index # Индексы условия поставки
 
 estimated_i_j_s_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Market_participant)
     where
@@ -53,9 +53,9 @@ estimated_i_j_s_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Mar
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s  for C index # Индексы условия поставки
+                s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
-                k  of K  from index # Индексы региона
+                k  for K  from index # Индексы региона
 
 estimated_i_j_s_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region, Market_participant)
     where
@@ -68,9 +68,9 @@ estimated_i_j_s_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region,
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s  for C index # Индексы условия поставки
+                s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
-                k  of K  from index # Индексы региона
+                k  for K  from index # Индексы региона
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП l0-й очереди
 available_i_j_new(l0) = for_each_pair(available_i_j(l0), -, estimated_i_j_s_last(l0))
