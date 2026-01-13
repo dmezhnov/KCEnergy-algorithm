@@ -8,11 +8,6 @@ normalized_i_s_threshold(1 from R)(2 from n) = (
         (1 from C, 1 from I) = 130 * 0.5 = 65 # 001, 002, 003, 004, 006, 005
     )
 )
-normalized_i_s_threshold(1 from R)(3 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = 130 * 0.5 = 65 # 001, 002, 003, 004, 006, 005
-    )
-)
     where
         R from index # Индексы очереди
         n of   index # Индекс матрицы
@@ -165,7 +160,7 @@ estimated_i_j_k_l_s(1 from R)(2 from n) = (
         )
     )
 )
-estimated_i_j_k_l_s(1 from R)(3 from n) = (
+estimated_i_j_k_l_s(1 from R)(3 from n) = ( # !!!!!!!!!!!!
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
