@@ -20,12 +20,12 @@ volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_
         AI-92, Diesel from Product
             where
                 Market_participant, Region, Product, Month_and_year, District, Product_category from axis  # Оси
-                l  of P  from index # Индексы субъекта рынка
-                t  of Y  from index # Индексы месяца и года
-                i  of I  from index # Индексы нефпродукта
-                k  of k  from index # Индексы региона
-                k0 of K0 from index # Индексы района
-                i0 of I0 from index # Индексы категории нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                t  for Y  from index # Индексы месяца и года
+                i  for I  from index # Индексы нефпродукта
+                k  for k  from index # Индексы региона
+                k0 for K0 from index # Индексы района
+                i0 for I0 from index # Индексы категории нефпродукта
 
 
 volumes_l_t_i_k_k0(l) = (
@@ -46,12 +46,12 @@ volumes_l_t_i_k_k0(l) = (
         volumes_l_t_i_k_k0_i0_require_correct(l, t, i, k, k0, 1), ..., volumes_l_t_i_k_k0_i0_require_correct(l, t, i, k, k0, N0) => volumes_l_t_i_k_k0_i0_require_correct(i0)
             where
                 Market_participant, Region, Product, Month_and_year, District, Product_category from axis  # Оси
-                l  of P  from index # Индексы субъекта рынка
-                t  of Y  from index # Индексы месяца и года
-                i  of I  from index # Индексы нефпродукта
-                k  of k  from index # Индексы региона
-                k0 of K0 from index # Индексы района
-                i0 of I0 from index # Индексы категории нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                t  for Y  from index # Индексы месяца и года
+                i  for I  from index # Индексы нефпродукта
+                k  for k  from index # Индексы региона
+                k0 for K0 from index # Индексы района
+                i0 for I0 from index # Индексы категории нефпродукта
                 N0       from index # Количество категорий нефпродукта
 
 volumes_l_t_i_k_k0 = sum_by_axes(volumes_l_t_i_k_k0_i0_require_correct, Product_category)
@@ -69,12 +69,12 @@ volumes_l_t_i_k_k0 = volumes_l_t_i_k_k0(1),                     ...,  volumes_l_
                 volumes_l_t_i_k_k0(l)                     of   matrix(                  Region, Product, Month_and_year, District)
                     where
                         Market_participant, Region, Product, Month_and_year, District, Product_category from axis  # Оси
-                        l  of P  from index # Индексы субъекта рынка
-                        t  of Y  from index # Индексы месяца и года
-                        i  of I  from index # Индексы нефпродукта
-                        k  of k  from index # Индексы региона
-                        k0 of K0 from index # Индексы района
-                        i0 of I0 from index # Индексы категории нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        t  for Y  from index # Индексы месяца и года
+                        i  for I  from index # Индексы нефпродукта
+                        k  for k  from index # Индексы региона
+                        k0 for K0 from index # Индексы района
+                        i0 for I0 from index # Индексы категории нефпродукта
                         L        from index # Количество субъектов рынка
                         N0       from index # Количество категорий нефпродукта
 
@@ -94,11 +94,11 @@ volumes_l_t_i_k(l) = (
         volumes_l_t_i_k_k0(l, t, i, k, 1), ..., volumes_l_t_i_k_k0(l, t, i, k, Q0) => volumes_l_t_i_k_k0(k0)
             where
                 Market_participant, Region, Product, Month_and_year, District from axis  # Оси
-                l  of P  from index # Индексы субъекта рынка
-                t  of Y  from index # Индексы месяца и года
-                i  of I  from index # Индексы нефпродукта
-                k  of k  from index # Индексы региона
-                k0 of K0 from index # Индексы района
+                l  for P  from index # Индексы субъекта рынка
+                t  for Y  from index # Индексы месяца и года
+                i  for I  from index # Индексы нефпродукта
+                k  for k  from index # Индексы региона
+                k0 for K0 from index # Индексы района
                 Q0       from index # Количество районов
 
 # volumes_l_t_i_k — проливы по виду НП, региону, субъекту и месяцу.
@@ -121,11 +121,11 @@ volumes_l_t_i_k = volumes_l_t_i_k(1),                 ...,  volumes_l_t_i_k(L)
                 volumes_l_t_i_k(l)     of matrix(                    Region, Product, Month_and_year)
                     where
                         Market_participant, Region, Product, Month_and_year, District, Product_category from axis  # Оси
-                        l  of P  from index # Индексы субъекта рынка
-                        t  of Y  from index # Индексы месяца и года
-                        i  of I  from index # Индексы нефпродукта
-                        k  of k  from index # Индексы региона
-                        k0 of K0 from index # Индексы района
-                        i0 of I0 from index # Индексы категории нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        t  for Y  from index # Индексы месяца и года
+                        i  for I  from index # Индексы нефпродукта
+                        k  for k  from index # Индексы региона
+                        k0 for K0 from index # Индексы района
+                        i0 for I0 from index # Индексы категории нефпродукта
                         Q0       from index # Количество районов
                         L        from index # Количество субъектов рынка

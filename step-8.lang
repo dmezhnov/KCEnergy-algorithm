@@ -16,14 +16,14 @@ estimated_i_j_k_l_s_last(l0) = estimated_i_j_k_l_s(l0)(x)
         estimated_i_j_k_l_s(l0)      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
         estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
+                l0 for R  from index # Индексы очереди
                 x  of         index = length(estimated_i_j_k_l_s(l0)) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region, Ship_terms from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
-                s  of C  from index # Индексы условия поставки
+                s for C  from index # Индексы условия поставки
 
 # Последняя матрица предварительных расчетных объемов НП первой очереди
 estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(x)
@@ -33,14 +33,14 @@ estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(x)
         estimated_i_j_k_l_s.First      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
         estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
+                l0 for R  from index # Индексы очереди
                 x  of         index = length(estimated_i_j_k_l_s.First) # индекс последней матрицы предварительных расчетных объемов НП
                 Product, Market_participant, Refinery, Region, Ship_terms from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
-                s  of C  from index # Индексы условия поставки
+                s for C  from index # Индексы условия поставки
 
 estimated_i_j_s_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Market_participant)
     where
@@ -49,12 +49,12 @@ estimated_i_j_s_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Mar
         estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         estimated_i_j_s_last(l0)     of matrix(Product, Refinery, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
+                l0 for R  from index # Индексы очереди
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
-                s  of C  from index # Индексы условия поставки
-                l  of P  from index # Индексы субъекта рынка
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
 
 estimated_i_j_s_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region, Market_participant)
@@ -64,12 +64,12 @@ estimated_i_j_s_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region,
         estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         estimated_i_j_s_last.First     of matrix(Product, Refinery, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
+                l0 for R  from index # Индексы очереди
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
-                s  of C  from index # Индексы условия поставки
-                l  of P  from index # Индексы субъекта рынка
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП l0-й очереди
@@ -83,10 +83,10 @@ available_i_j_new(l0) = for_each_pair(available_i_j(l0), -, estimated_i_j_s_last
         available_i_j(l0)        of matrix(Product, Refinery)
         - from operation
             where
-                l0 of R  from index # Индексы очереди
+                l0 for R  from index # Индексы очереди
                 Product, Refinery, Ship_terms from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП первой очереди
 available_i_j_new.First = for_each_pair(available_i_j.First, -, estimated_i_j_s_last.First)
@@ -100,5 +100,5 @@ available_i_j_new.First = for_each_pair(available_i_j.First, -, estimated_i_j_s_
         - from operation
             where
                 Product, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ

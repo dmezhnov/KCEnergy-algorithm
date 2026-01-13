@@ -23,8 +23,8 @@ threshold_i_j(i) = (
         * from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 threshold_i_j = for_each_element(available_i_j.First, *, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
     where
@@ -35,8 +35,8 @@ threshold_i_j = for_each_element(available_i_j.First, *, OVERALL_REQUEST_CAPACIT
         * from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в дефицитных запросах (запросы поданные на дефицитные НПЗ) от всех субъектов ранка
 requests_i_j_deficit(i) = (
@@ -55,8 +55,8 @@ requests_i_j_deficit(i) = (
                         request_value >= threshold
                         deficit_value, threshold, request_value of  number
                         Product, Refinery from axis
-                        i  of I  from index # Индексы нефпродукта
-                        j  of J  from index # Индексы НПЗ
+                        i  for I  from index # Индексы нефпродукта
+                        j  for J  from index # Индексы НПЗ
 
 requests_i_j_deficit = filter_by_value(requests_i_j, >=, threshold_i_j)
     where
@@ -69,8 +69,8 @@ requests_i_j_deficit = filter_by_value(requests_i_j, >=, threshold_i_j)
         >= from condition
             where
                 Product, Refinery from axis # Оси
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в профицитных запросах (запросы поданные на профицитные НПЗ) от всех субъектов ранка
 requests_i_j_surplus(i) = (
@@ -89,8 +89,8 @@ requests_i_j_surplus(i) = (
                         request_value < threshold
                         surplus_value, threshold, request_value of number
                         Product, Refinery from axis
-                        i  of I  from index # Индексы нефпродукта
-                        j  of J  from index # Индексы НПЗ
+                        i  for I  from index # Индексы нефпродукта
+                        j  for J  from index # Индексы НПЗ
 
 requests_i_j_surplus = filter_by_value(requests_i_j, <, threshold_i_j)
     where
@@ -103,5 +103,5 @@ requests_i_j_surplus = filter_by_value(requests_i_j, <, threshold_i_j)
         < from condition
             where
                 Product, Refinery from axis # Оси
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
