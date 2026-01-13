@@ -32,11 +32,11 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
                             where
                                 >  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
+                i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
+                l  for P  from index # Индексы субъекта рынка
+                s for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
 requests_i_j_k_l_s_deficit_single_corrected(i) = (
     (i, k) = (
         (i, k, l) = (
@@ -60,11 +60,11 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
                             where
                                <=  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
+                i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
+                l  for P  from index # Индексы субъекта рынка
+                s for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
 
 
 requests_i_j_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_deficit_single, min, moving_average)
@@ -78,11 +78,11 @@ requests_i_j_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_d
         min from operation
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
+                i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
+                l  for P  from index # Индексы субъекта рынка
+                s for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_deficit_single, -, requests_i_j_k_l_s_deficit_single_corrected)
     where
@@ -95,8 +95,8 @@ requests_i_j_k_l_s_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_defici
         - from operation
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
+                i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
+                l  for P  from index # Индексы субъекта рынка
+                s for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
