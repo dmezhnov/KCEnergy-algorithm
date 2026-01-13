@@ -27,7 +27,6 @@ volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_
                 k0 for K0 from index # Индексы района
                 i0 for I0 from index # Индексы категории нефпродукта
 
-
 volumes_l_t_i_k_k0(l) = (
     (l, t) = (
         (l, t, i) = (
