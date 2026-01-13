@@ -1,4 +1,4 @@
-MIN_NEXT_TONNAGE(l0) = (
+MIN_NEXT_AVAIL_TONNAGE(l0) = (
 
 )
     where

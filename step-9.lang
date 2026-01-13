@@ -8,28 +8,28 @@ condition, matrix, index, axis                  from ("matrix_types.lang")
 # с учётом минимальной нормы и шага вывоза с нефтебазы.
 
 # Минимальная норма
-MIN_NEXT_TONNAGE(l0) = OIL_TERMINAL_MIN_TONNAGE
+MIN_NEXT_AVAIL_TONNAGE(l0) = OIL_TERMINAL_MIN_TONNAGE
     where
         OIL_TERMINAL_MIN_TONNAGE <= RAIL_ROAD_MIN_TONNAGE AND l0 != 2
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
-                MIN_NEXT_TONNAGE         of number
+                MIN_NEXT_AVAIL_TONNAGE   of number
                 l0 for R  from index # Индексы очереди
-MIN_NEXT_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
+MIN_NEXT_AVAIL_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
     where
         RAIL_ROAD_MIN_TONNAGE <= OIL_TERMINAL_MIN_TONNAGE OR  l0 =  2
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
-                MIN_NEXT_TONNAGE         of number
+                MIN_NEXT_AVAIL_TONNAGE   of number
                 l0 for R  from index # Индексы очереди
 
 # Доступные объемы для следующей очереди
-available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_NEXT_TONNAGE(l0))
+available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_NEXT_AVAIL_TONNAGE(l0))
     where
         available_i_j_new(l0)(i, j)   of number
-        MIN_NEXT_TONNAGE(l0)          of number
+        MIN_NEXT_AVAIL_TONNAGE(l0)    of number
         available_i_j(l0)(i, j)       of number
         available_i_j_new(l0) of matrix(Product, Refinery)
         available_i_j(l0)     of matrix(Product, Refinery)
@@ -41,10 +41,10 @@ available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_NEXT_TONN
                 j  for J  from index # Индексы НПЗ
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_TONNAGE(1))
+available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_AVAIL_TONNAGE(1))
     where
         available_i_j_new.First(i, j) of number
-        MIN_NEXT_TONNAGE.First        of number
+        MIN_NEXT_AVAIL_TONNAGE.First  of number
         available_i_j.Second(i, j)    of number
         available_i_j_new.First of matrix(Product, Refinery)
         available_i_j.Second    of matrix(Product, Refinery)
