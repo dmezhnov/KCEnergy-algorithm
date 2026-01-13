@@ -322,24 +322,24 @@ normalized_i_j_k_l_fca(1 from R)(2 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = max(65, 0  ) = 65  # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = max(0, 0  ) = 0   # 001
             ),
             (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = max(65, 0  ) = 65  # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 65 ) = 65  # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = max(0, 0  ) = 0   # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 0 ) = 65  # 006
             ),
             (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 65 ) = 65  # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 0 ) = 65  # 005
             )
         ),
         (1 from I, 2 from J) = (
             (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = max(65, 0  ) = 65  # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = max(0, 0  ) = 0   # 003
             )
         ),
         (1 from I, 3 from J) = (
             (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = max(65, 0  ) = 65  # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = max(0, 0  ) = 0   # 004
             )
         )
     )
@@ -431,24 +431,24 @@ normalized_i_j_k_l_s(1 from R)(2 from n) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
                 (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
                 ),
                 (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65  # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
                 ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
                 )
             ),
             (1 from C, 1 from I, 2 from J) = (
                 (1 from C, 1 from I, 2 from J, 1 from K) = (
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 65  # 003
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
                 )
             ),
             (1 from C, 1 from I, 3 from J) = (
                 (1 from C, 1 from I, 3 from J, 1 from K) = (
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 65  # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
                 )
             )
         )
