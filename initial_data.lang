@@ -14,7 +14,7 @@ requests_i_j_k_l_s_l0 of matrix(Product, Refinery, Region, Market_participant, Q
                 k  for k  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
-                s for C  from index # Индексы условий поставки
+                s  for C index # Индексы условий поставки
 
 # Проливы субъектов рынка за последние 12 месяцев
 volumes_l_t_i_k_k0_i0 of matrix(Market_participant, Region, Product, Month_and_year, District, Product_category)

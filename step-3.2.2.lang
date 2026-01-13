@@ -22,7 +22,7 @@ requests_i_k_l_s_deficit_multiple(i) = (
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 requests_i_k_l_s_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_deficit_multiple, Refinery)
@@ -36,7 +36,7 @@ requests_i_k_l_s_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_deficit_multi
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 # Матрица долей множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
@@ -62,7 +62,7 @@ requests_i_j_k_l_s_deficit_multiple_share(i) = (
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_deficit_multiple, /, requests_i_k_l_s_deficit_multiple)
@@ -79,7 +79,7 @@ requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_def
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 # Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
@@ -105,7 +105,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = (
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_deficit_multiple_share, *, moving_average)
@@ -122,7 +122,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 # Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
@@ -147,7 +147,7 @@ requests_i_j_k_l_s_deficit_multiple_pend(i) = (
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_deficit_multiple, -, requests_i_j_k_l_s_deficit_multiple_pend_aux)
@@ -164,7 +164,7 @@ requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_defi
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 # Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
@@ -199,7 +199,7 @@ requests_i_j_k_l_s_deficit_multiple_corrected(i) = (
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s_deficit_multiple, min, requests_i_j_k_l_s_deficit_multiple_pend_aux)
@@ -216,5 +216,5 @@ requests_i_j_k_l_s_deficit_multiple_corrected = for_each_pair(requests_i_j_k_l_s
                 i  for I  from index # Индексы нефпродукта
                 k  of K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
