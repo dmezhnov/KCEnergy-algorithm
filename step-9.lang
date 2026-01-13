@@ -59,7 +59,7 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estima
         estimated_i_j_k_l_s_last(l0)(i, l, j, k) of matrix(Product, Refinery, Market_participant, Region)
         estimated_i_j_k_l_final(i, l, j, k)    of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of         index = length(estimated_i_j_k_l_s_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
+                x  of          index = length(estimated_i_j_k_l_s_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
                 Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
