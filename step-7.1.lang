@@ -15,7 +15,7 @@ normalized_i_l_s(l0)(n) = sum_by_axes(normalized_i_j_k_l_s(l0)(n), Refinery, Reg
         normalized_i_l_s(l0)(n)     of matrix(Product, Market_participant, Ship_terms)
             where
                 l0 for R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
@@ -32,7 +32,7 @@ normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery,
         normalized_i_l_s.First(n)     of matrix(Product, Market_participant, Ship_terms)
             where
                 l0 for R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
@@ -49,7 +49,7 @@ normalized_i_s(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
         normalized_i_s(l0)(n)   of matrix(Product, Ship_terms)
             where
                 l0 for R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Ship_terms, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
@@ -64,7 +64,7 @@ normalized_i_s.First(n) = sum_by_axes(normalized_i_l_s.First(n), Market_particip
         normalized_i_s.First(n)   of matrix(Product, Ship_terms)
             where
                 l0 for R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Ship_terms, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка

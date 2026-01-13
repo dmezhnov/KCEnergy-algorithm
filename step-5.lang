@@ -259,7 +259,7 @@ estimated_i_j_k_l_s(l0)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed
         estimated_i_j_k_l_s_exceed(l0)     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed(l0) of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -278,7 +278,7 @@ estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exce
         estimated_i_j_k_l_s_exceed.First     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
         estimated_i_j_k_l_s_not_exceed.First of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
             where
-                n  of         index # Индекс матрицы
+                n  of          index # Индекс матрицы
                 Product, Refinery, Ship_terms, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
