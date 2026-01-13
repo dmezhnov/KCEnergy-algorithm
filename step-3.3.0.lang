@@ -61,8 +61,10 @@ requests_i_j_k_l_s_deficit_pend = assign_matrix(requests_i_j_k_l_s_deficit_singl
                 j  for J  from index # Индексы НПЗ
                 s  for C  from index # Индексы условия поставки
 
+requests_i_k_l_s_deficit_pend = sum_by_axix(requests_i_j_k_l_s_deficit_pend, Refinery)
+
 # Матрица дважды скорректированных на проливы объемы профицитных запросов (запросы на профицитный НПЗ) первой очереди
-requests_i_j_k_l_s_surplus_corrected = for_each_pair(requests_i_j_k_l_s_surplus, +, requests_i_j_k_l_s_deficit_pend)
+requests_i_j_k_l_s_surplus_corrected = for_each_pair(requests_i_j_k_l_s_surplus, +, requests_i_k_l_s_deficit_pend)
         requests_i_j_k_l_s_surplus_corrected(i, k, l, j, s) of number
         requests_i_j_k_l_s_surplus(i, k, l, j, s)           of number
         requests_i_j_k_l_s_deficit_pend(i, k, l, j, s)      of number
