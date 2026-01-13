@@ -104,39 +104,6 @@ estimated_i_j_k_l_fca(1 from R)(2 from n) = (
         )
     )
 )
-estimated_i_j_k_l_fca(1 from R)(3 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
-            )
-        )
-    )
-)
-    where
-        R  from index # Индексы очереди
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
 
 estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = (
     (1 from I) = (
@@ -186,32 +153,6 @@ estimated_i_j_k_l_fca_coeff(1 from R)(2 from n) = (
         (1 from I, 3 from J) = (
             (1 from I, 3 from J, 1 from K) = (
                 (1 from I, 3 from J, 1 from K, 1 from P) = 48.75 / 65 = 0,75 # 004
-            )
-        )
-    )
-)
-estimated_i_j_k_l_fca_coeff(1 from R)(3 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 0  / 65 = 0 # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 0  / 65 = 0 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65 / 65 = 1 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65 / 65 = 1# 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 0  / 65 = 0 # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 0  / 65 = 0 # 004
             )
         )
     )
@@ -276,32 +217,6 @@ estimated_i_j_k_l_fca_coeff_rounded(1 from R)(2 from n) = (
         )
     )
 )
-estimated_i_j_k_l_fca_coeff_rounded(1 from R)(3 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = floor(0) = 0 # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = floor(0) = 0 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = floor(1) = 1 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = floor(1) = 1# 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = floor(0) = 0 # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = floor(0) = 0 # 004
-            )
-        )
-    )
-)
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -362,32 +277,6 @@ estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = (
         )
     )
 )
-estimated_i_j_k_l_fca_rounded(1 from R)(3 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = 0 * 65 = 0  # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = 0 * 65 = 0  # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 1 * 65 = 65 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = 1 * 65 = 65 # 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = 0 * 65 = 0  # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = 0 * 65 = 0  # 004
-            )
-        )
-    )
-)
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -423,32 +312,6 @@ normalized_i_j_k_l_fca(1 from R)(1 from n) = (
     )
 )
 normalized_i_j_k_l_fca(1 from R)(2 from n) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = (
-            (1 from I, 1 from J, 1 from K) = (
-                (1 from I, 1 from J, 1 from K, 1 from P) = max(0,  0 ) = 0   # 001
-            ),
-            (1 from I, 1 from J, 2 from K) = (
-                (1 from I, 1 from J, 2 from K, 1 from P) = max(0,  0 ) = 0   # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 0 ) = 65  # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
-                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 0 ) = 65  # 005
-            )
-        ),
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
-                (1 from I, 2 from J, 1 from K, 1 from P) = max(0, 0  ) = 0   # 003
-            )
-        ),
-        (1 from I, 3 from J) = (
-            (1 from I, 3 from J, 1 from K) = (
-                (1 from I, 3 from J, 1 from K, 1 from P) = max(0, 0  ) = 0   # 004
-            )
-        )
-    )
-)
-normalized_i_j_k_l_fca(1 from R)(3 from n) = (
     (1 from I) = (
         (1 from I, 1 from J) = (
             (1 from I, 1 from J, 1 from K) = (
@@ -557,34 +420,6 @@ normalized_i_j_k_l_s(1 from R)(1 from n) = (
     )
 )
 normalized_i_j_k_l_s(1 from R)(2 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
-                )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
-                )
-            )
-        )
-    )
-)
-normalized_i_j_k_l_s(1 from R)(3 from n) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
