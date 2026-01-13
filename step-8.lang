@@ -87,7 +87,7 @@ available_i_j_new(l0) = for_each_pair(available_i_j(l0), -, estimated_i_j_s_last
                 Product, Refinery, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-
+G
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП первой очереди
 available_i_j_new.First = for_each_pair(available_i_j.First, -, estimated_i_j_s_last.First)
     where
