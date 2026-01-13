@@ -19,6 +19,7 @@ estimated_i_j_k_l_fca(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_fca(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         FCA: coordinate
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
@@ -26,7 +27,6 @@ estimated_i_j_k_l_fca(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
-                l0 for R  from index # Индексы очереди
 
 # n-я матрица предварительных расчетных объемов первой очереди НП, для поставки с НПЗ
 estimated_i_j_k_l_fca.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(n), FCA)
@@ -55,13 +55,13 @@ estimated_i_j_k_l_fca_coeff(l0)(n) = for_each_element(estimated_i_j_k_l_fca(l0)(
         estimated_i_j_k_l_fca(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 
 # n-я матрица коэффициентов, для расчета нормированных объемов первой очереди НП, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff.First(n) = for_each_element(estimated_i_j_k_l_fca.First(n), safe_divide, RAIL_ROAD_MIN_TONNAGE)
@@ -84,69 +84,65 @@ estimated_i_j_k_l_fca_coeff.First(n) = for_each_element(estimated_i_j_k_l_fca.Fi
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП l0-й очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(l0)(n), round, 0)
     where
-        n = 1
         estimated_i_j_k_l_fca_coeff(l0)(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of          index # Индекс матрицы
+                l0 for R  from index # Индексы очереди
+                n  of          index = 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(l0)(n), floor, 0)
     where
-        n != 1
         estimated_i_j_k_l_fca_coeff(l0)(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         floor from operation
             where
-                n  of          index # Индекс матрицы
+                l0 for R  from index      # Индексы очереди
+                n  of          index != 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
+                i  for I  from index      # Индексы нефпродукта
+                j  for J  from index      # Индексы НПЗ
+                k  for K  from index      # Индексы региона
+                l  for P  from index      # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП первой очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_coeff.First(n), round, 0)
     where
-        n = 1
         estimated_i_j_k_l_fca_coeff.First(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded.First(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff.First(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index = 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
+                i  for I  from index     # Индексы нефпродукта
+                j  for J  from index     # Индексы НПЗ
+                k  for K  from index     # Индексы региона
+                l  for P  from index     # Индексы субъекта рынка
 estimated_i_j_k_l_fca_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_coeff.First(n), floor, 0)
     where
-        n != 1
         estimated_i_j_k_l_fca_coeff.First(n)(i, j, k, l)         of number
         estimated_i_j_k_l_fca_coeff_rounded.First(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca_coeff.First(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         floor from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index != 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
+                i  for I  from index      # Индексы нефпродукта
+                j  for J  from index      # Индексы НПЗ
+                k  for K  from index      # Индексы региона
+                l  for P  from index      # Индексы субъекта рынка
 
 estimated_i_j_k_l_fca_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(l0)(n), *, RAIL_ROAD_MIN_TONNAGE)
     where
@@ -157,13 +153,13 @@ estimated_i_j_k_l_fca_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_co
         estimated_i_j_k_l_fca_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 
 estimated_i_j_k_l_fca_rounded.First(n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded.First(n), *, RAIL_ROAD_MIN_TONNAGE)
     where
@@ -191,13 +187,13 @@ normalized_i_j_k_l_fca(l0)(n) = for_each_element(estimated_i_j_k_l_fca_rounded(l
         estimated_i_j_k_l_fca_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         max from operation
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 
 # n-я матрица нормированных объемов НП первой очереди, для поставки с НПЗ
 normalized_i_j_k_l_fca.First(n) = for_each_element(estimated_i_j_k_l_fca_rounded.First(n), max, RAIL_ROAD_MIN_TONNAGE)
@@ -225,6 +221,7 @@ estimated_i_j_k_l_exw(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_exw(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         EXW: coordinate
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
@@ -232,7 +229,6 @@ estimated_i_j_k_l_exw(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
-                l0 for R  from index # Индексы очереди
 
 # n-я матрица предварительных расчетных объемов НП первой очереди, для поставки с нефтебаз
 estimated_i_j_k_l_exw.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(n), EXW)
@@ -260,13 +256,13 @@ estimated_i_j_k_l_exw_coeff(l0)(n) = for_each_element(estimated_i_j_k_l_exw(l0)(
         estimated_i_j_k_l_exw(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 
 estimated_i_j_k_l_exw_coeff.First(n) = for_each_element(estimated_i_j_k_l_exw.First(n), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
     where
@@ -287,37 +283,34 @@ estimated_i_j_k_l_exw_coeff.First(n) = for_each_element(estimated_i_j_k_l_exw.Fi
 # Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
 estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_coeff(l0)(n), round, 0)
     where
-        n = 1
         estimated_i_j_k_l_exw_coeff(l0)(n)(i, j, k, l)         of number
         estimated_i_j_k_l_exw_coeff_rounded(l0)(n)(i, j, k, l) of number
         estimated_i_j_k_l_exw_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of          index # Индекс матрицы
+                l0 for R  from index     # Индексы очереди
+                n  of          index = 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
+                i  for I  from index     # Индексы нефпродукта
+                j  for J  from index     # Индексы НПЗ
+                k  for K  from index     # Индексы региона
+                l  for P  from index     # Индексы субъекта рынка
 estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_coeff(l0)(n), floor, 0)
     where
-        n != 1
         estimated_i_j_k_l_exw_coeff(l0)(n)(i, j, k, l)         of number
         estimated_i_j_k_l_exw_coeff_rounded(l0)(n)(i, j, k, l) of number
         estimated_i_j_k_l_exw_coeff(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw_coeff_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
         floor from operation
             where
-                n  of          index # Индекс матрицы
+                l0 for R  from index      # Индексы очереди
+                n  of          index != 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-
+                i  for I  from index      # Индексы нефпродукта
+                j  for J  from index      # Индексы НПЗ
+                k  for K  from index      # Индексы региона
+                l  for P  from index      # Индексы субъекта рынка
 
 # Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
 estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_l_exw_coeff.First(n), round, 0)
@@ -358,13 +351,13 @@ estimated_i_j_k_l_exw_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_co
         estimated_i_j_k_l_exw_rounded(l0)(n)       of matrix(Product, Refinery, Region, Market_participant)
         * from operation
             where
+                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
 
 estimated_i_j_k_l_exw_rounded.First(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded.First(n), *, OIL_TERMINAL_STEP_TONNAGE)
     where
@@ -394,13 +387,13 @@ normalized_i_j_k_l_exw(l0)(n) = OIL_TERMINAL_MIN_TONNAGE
                 estimated_i_j_k_l_exw(l0)(n)(i, j, k, l)  of number
                 OIL_TERMINAL_MIN_TONNAGE                  of  number
                     where
+                        l0 for R  from index # Индексы очереди
                         n  of index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
-                        l0 for R  from index # Индексы очереди
 normalized_i_j_k_l_exw(l0)(n) = for_each_element(estimated_i_j_k_l_exw_rounded(l0)(n), max, OIL_TERMINAL_MIN_TONNAGE)
     where
         estimated_i_j_k_l_exw(l0)(n) >= OIL_TERMINAL_MIN_TONNAGE
@@ -412,13 +405,13 @@ normalized_i_j_k_l_exw(l0)(n) = for_each_element(estimated_i_j_k_l_exw_rounded(l
                 estimated_i_j_k_l_exw_rounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
                 max from operation
                     where
+                        l0 for R  from index # Индексы очереди
                         n  of          index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
-                        l0 for R  from index # Индексы очереди
 
 # n-я матрица нормированных объемов НП первой очереди, для поставки с нефтебаз
 normalized_i_j_k_l_exw.First(n) = OIL_TERMINAL_MIN_TONNAGE
