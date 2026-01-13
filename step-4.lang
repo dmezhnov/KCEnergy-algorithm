@@ -17,7 +17,7 @@ requests_i_j_k_l_s_corrected(l0) = requests_i_j_k_l_s(l0)
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
                 l0 for R  from index # Индексы очереди
@@ -34,7 +34,7 @@ requests_i_j_l_s_corrected(l0) = sum_by_axes(requests_i_j_k_l_s_corrected(l0), R
                         Product, Refinery, Ship_terms, Market_participant, Region from axis
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
-                        s for C  from index # Индексы условия поставки
+                        s  for C index # Индексы условия поставки
                         l  for P  from index # Индексы субъекта рынка
                         k  of K  from index # Индексы региона
                         l0 for R  from index # Индексы очереди
@@ -49,7 +49,7 @@ requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.Firs
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
 
@@ -67,7 +67,7 @@ requests_i_j_s_corrected(l0) = sum_by_axes(requests_i_j_l_s_corrected(l0),      
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона
                 l0 for R  from index # Индексы очереди
@@ -86,6 +86,6 @@ requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First,  
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  of K  from index # Индексы региона

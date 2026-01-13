@@ -121,7 +121,7 @@ normalized_i_j_k_l_s_limited(l0)(n) = for_each_pair(normalized_i_j_k_l_s_increas
                 n  of         index # Индекс матрицы
                 Product, Ship_terms, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
@@ -140,7 +140,7 @@ normalized_i_j_k_l_s_limited.First(n) = for_each_pair(normalized_i_j_k_l_s_incre
                 n  of         index # Индекс матрицы
                 Product, Ship_terms, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
@@ -160,7 +160,7 @@ normalized_i_j_k_l_s_corrected(l0)(n) = for_each_pair(normalized_i_j_k_l_s_limit
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
@@ -179,7 +179,7 @@ normalized_i_j_k_l_s_corrected.First(n) = for_each_pair(normalized_i_j_k_l_s_lim
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
@@ -200,7 +200,7 @@ estimated_i_j_k_l_s(l0)(m) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normaliz
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
 
 estimated_i_j_k_l_s.First(m) = assign_matrix(normalized_i_j_k_l_s.First(n), normalized_i_j_k_l_s_corrected.First(n))
     where
@@ -219,4 +219,4 @@ estimated_i_j_k_l_s.First(m) = assign_matrix(normalized_i_j_k_l_s.First(n), norm
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
-                s for C  from index # Индексы условия поставки
+                s  for C index # Индексы условия поставки
