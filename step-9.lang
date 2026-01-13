@@ -64,5 +64,5 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estima
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l0 for R  from index # Индексы очереди
