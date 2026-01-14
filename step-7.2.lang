@@ -183,6 +183,7 @@ normalized_i_j_k_l_s_corrected.First(n) = for_each_pair(normalized_i_j_k_l_s_lim
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
 
+<<<<<<< Updated upstream
 estimated_i_j_k_l_s(l0)(m) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normalized_i_j_k_l_s_corrected(l0)(n))
     where
         estimated_i_j_k_l_s(l0)(m)(i, l, j, k, s)            of number
@@ -201,13 +202,40 @@ estimated_i_j_k_l_s(l0)(m) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normaliz
                 j  of J  from index # Индексы НПЗ
                 k  of K  from index # Индексы региона
                 s  of C  from index # Индексы условия поставки
+=======
+# if ( is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) ) estimated_i_j_k_l_s(l0)(n + 1) = ()
+
+estimated_i_j_k_l_s(l0)(n + 1) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normalized_i_j_k_l_s_corrected(l0)(n))
+    where
+        is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = false
+            where
+                estimated_i_j_k_l_s(l0)(n + 1)(i, l, j, k, s)        of number
+                normalized_i_j_k_l_s(l0)(n)(i, l, j, k, s)           of number
+                normalized_i_j_k_l_s_corrected(l0)(n)(i, l, j, k, s) of number
+                estimated_i_j_k_l_s(l0)(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+                normalized_i_j_k_l_s(l0)(n)           of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+                normalized_i_j_k_l_s_corrected(l0)(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+                    where
+                        l0 for R  from index # Индексы очереди
+                        n  of          index # Индекс матрицы
+                        Product, Market_participant, Refinery, Region, Ship_terms from axis
+                        i  for I  from index # Индексы нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        j  for J  from index # Индексы НПЗ
+                        k  for K  from index # Индексы региона
+                        s  for C  from index # Индексы условия поставки
+>>>>>>> Stashed changes
 
 estimated_i_j_k_l_s.First(m) = assign_matrix(normalized_i_j_k_l_s.First(n), normalized_i_j_k_l_s_corrected.First(n))
     where
         estimated_i_j_k_l_s.First(m)(i, l, j, k, s)            of number
         normalized_i_j_k_l_s.First(n)(i, l, j, k, s)           of number
         normalized_i_j_k_l_s_corrected.First(n)(i, l, j, k, s) of number
+<<<<<<< Updated upstream
         estimated_i_j_k_l_s.First(m)            of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+=======
+        estimated_i_j_k_l_s.First(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+>>>>>>> Stashed changes
         normalized_i_j_k_l_s.First(n)           of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
         normalized_i_j_k_l_s_corrected.First(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
             where
