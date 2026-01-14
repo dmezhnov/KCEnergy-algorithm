@@ -43,8 +43,6 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
         )
     )
 )
-estimated_i_j_k_l_s_last(2 from R) = ()
-estimated_i_j_k_l_s_last(3 from R) = ()
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
