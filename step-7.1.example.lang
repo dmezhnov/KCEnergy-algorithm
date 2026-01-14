@@ -2,15 +2,8 @@ normalized_i_l_s(1 from R)(1 from n) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
-<<<<<<< HEAD
-<<<<<<< Updated upstream
             (1 from C, 1 from I, 3 from P) = 65, # 006
             (1 from C, 1 from I, 2 from P) = 65  # 005
-=======
-=======
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
-            (1 from C, 1 from I, 3 from P) = 65,                      # 006
-            (1 from C, 1 from I, 2 from P) = 65                       # 005
         )
     )
 )
@@ -34,9 +27,6 @@ normalized_i_l_s(4 from R)(1 from n) = (
         ),
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 6 from P) = 390 # 009
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
         )
     )
 )
@@ -48,7 +38,6 @@ normalized_i_l_s(4 from R)(2 from n) = (
         ),
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 6 from P) = 195 # 009
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
         )
     )
 )
@@ -63,12 +52,6 @@ normalized_i_s(1 from R)(1 from n) = (
     (1 from C) = (
         (1 from C, 1 from I) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
     )
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-
-=======
-=======
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
 )
 normalized_i_s(1 from R)(2 from n) = (
     (1 from C) = (
@@ -82,15 +65,11 @@ normalized_i_s(4 from R)(1 from n) = (
     (1 from C) = (
         (1 from C, 1 from I) = 130 + 260 + 390 = 780 # 007 + 008 + 009
     )
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
 )
 normalized_i_s(4 from R)(2 from n) = (
     (1 from C) = (
         (1 from C, 1 from I) = 65 + 130 + 195 = 390 # 007 + 008 + 009
     )
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
 )
     where
         R  from index # Индексы очереди

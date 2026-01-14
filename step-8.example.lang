@@ -1,4 +1,4 @@
-estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(3 from n)(
+estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(2 from n)(
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
@@ -26,9 +26,6 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1
         )
     )
 )
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 estimated_i_j_k_l_s_last(2 from R) = ()
 estimated_i_j_k_l_s_last(3 from R) = ()
 estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(1 from n)(
@@ -46,11 +43,8 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
         )
     )
 )
->>>>>>> Stashed changes
-=======
 estimated_i_j_k_l_s_last(2 from R) = ()
 estimated_i_j_k_l_s_last(3 from R) = ()
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
@@ -58,12 +52,6 @@ estimated_i_j_k_l_s_last(3 from R) = ()
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-estimated_i_j_s_last(l0) = (
-
-)
-=======
 estimated_i_j_s_last(1 from R) = (
     (1 from C) = (
         (1 from C, 1 from I) = (
@@ -84,65 +72,50 @@ estimated_i_j_s_last(4 from R) = (
         )
     )
 )
->>>>>>> Stashed changes
-=======
-estimated_i_j_s_last(1 from R) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J) = (
-                    (1 from C, 1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130 # 001 + 002 + 006 + 005
-                )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J) = (
-                    (1 from C, 1 from I, 2 from J) = 0  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J) = (
-                    (1 from C, 1 from I, 3 from J) = 0  # 004
-                )
-            )
-        )
-    )
-)
-estimated_i_j_s_last(2 from R) = ()
-estimated_i_j_s_last(3 from R) = ()
->>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
-    where
-        R from index # Индексы очереди
-        I from index # Индексы нефпродукта
-        P from index # Индексы субъекта рынка
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
 
-available_i_j_new(1 from R) = (
+available_i_j_new_only(1 from R) = (
     (1 from I) = (
         (1 from I, 1 from J) = 500 - 130 = 370,
         (1 from I, 2 from J) = 200 - 0   = 200,
         (1 from I, 3 from J) = 300 - 0   = 300
     )
 )
-available_i_j_new(2 from R) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = 370,
-        (1 from I, 2 from J) = 200,
-        (1 from I, 3 from J) = 300
-    )
-)
-available_i_j_new(3 from R) = (
-    (1 from I) = (
-        (1 from I, 1 from J) = 370,
-        (1 from I, 2 from J) = 200,
-        (1 from I, 3 from J) = 300
-    )
-)
-available_i_j_new(4 from R) = (
+available_i_j_new_only(2 from R) = ()
+available_i_j_new_only(3 from R) = ()
+available_i_j_new_only(4 from R) = (
     (1 from I) = (
         (1 from I, 1 from J) = 370 - 130 = 240,
         (1 from I, 2 from J) = 200 - 260 = -60,
         (1 from I, 3 from J) = 300 - 390 = -90
+    )
+)
+
+available_i_j_new(1 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = override(500, 370) = 370,
+        (1 from I, 2 from J) = override(200, 200) = 200,
+        (1 from I, 3 from J) = override(300, 300) = 300
+    )
+)
+available_i_j_new(2 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = override(370,    ) = 370,
+        (1 from I, 2 from J) = override(200,    ) = 200,
+        (1 from I, 3 from J) = override(300,    ) = 300
+    )
+)
+available_i_j_new(3 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = override(370,    ) = 370,
+        (1 from I, 2 from J) = override(200,    ) = 200,
+        (1 from I, 3 from J) = override(300,    ) = 300
+    )
+)
+available_i_j_new(4 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = override(370, 240) = 240
+        (1 from I, 2 from J) = override(200, -60) = -60
+        (1 from I, 3 from J) = override(300, -90) = -90
     )
 )
     where
