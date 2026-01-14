@@ -33,11 +33,7 @@ normalized_i_l_s_increased(1 from R)(2 from n) = () # 0 < 65 -> 001 + 002 + 003 
 normalized_i_l_s_increased(1 from R)(2 from n) = ()
 normalized_i_l_s_increased(2 from R)(1 from n) = ()
 normalized_i_l_s_increased(3 from R)(1 from n) = ()
-normalized_i_l_s_increased(4 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = 780 # 780 > 390 -> 007, 008, 009
-    )
-)
+normalized_i_l_s_increased(4 from R)(1 from n) = ()
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -73,21 +69,7 @@ normalized_i_j_k_l_s_increased(1 from R)(2 from n) = ()
 normalized_i_j_k_l_s_increased(1 from R)(3 from n) = ()
 normalized_i_j_k_l_s_increased(2 from R)(1 from n) = ()
 normalized_i_j_k_l_s_increased(3 from R)(1 from n) = ()
-normalized_i_j_k_l_s_increased(4 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130 # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260 # 008
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390 # 009
-                )
-            )
-        )
-    )
-)
+normalized_i_j_k_l_s_increased(4 from R)(1 from n) = ()
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -125,21 +107,7 @@ normalized_i_j_k_l_s_limited(1 from R)(2 from n) = ()
 normalized_i_j_k_l_s_limited(1 from R)(3 from n) = ()
 normalized_i_j_k_l_s_limited(2 from R)(1 from n) = ()
 normalized_i_j_k_l_s_limited(3 from R)(1 from n) = ()
-normalized_i_j_k_l_s_limited(4 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130 * 390 = 50700  # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260 * 390 = 101400 # 008
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390 * 390 = 152100 # 009
-                )
-            )
-        )
-    )
-)
+normalized_i_j_k_l_s_limited(4 from R)(1 from n) = ()
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -177,21 +145,7 @@ normalized_i_j_k_l_s_corrected(1 from R)(2 from n) = ()
 normalized_i_j_k_l_s_corrected(1 from R)(3 from n) = ()
 normalized_i_j_k_l_s_corrected(2 from R)(1 from n) = ()
 normalized_i_j_k_l_s_corrected(3 from R)(1 from n) = ()
-normalized_i_j_k_l_s_corrected(4 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 50700  / 780 = 65  # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 101400 / 780 = 130 # 008
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 152100 / 780 = 195 # 009
-                )
-            )
-        )
-    )
-)
+normalized_i_j_k_l_s_corrected(4 from R)(1 from n) = ()
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы

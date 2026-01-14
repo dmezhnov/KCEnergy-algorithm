@@ -120,6 +120,19 @@ estimated_i_j_k_l_fca(4 from R)(1 from n) = (
         )
     )
 )
+estimated_i_j_k_l_fca(4 from R)(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 4 from P) = 65  # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 130 # 008
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 6 from P) = 195 # 009
+            )
+        )
+    )
+)
 
 estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = (
     (1 from I) = (
@@ -185,6 +198,19 @@ estimated_i_j_k_l_fca_coeff(4 from R)(1 from n) = (
             ),
             (1 from I, 1 from J, 3 from K) = (
                 (1 from I, 1 from J, 3 from K, 6 from P) = 370                   / 65 = 5.6923076923076923077  # 009
+            )
+        )
+    )
+)
+estimated_i_j_k_l_fca_coeff(4 from R)(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 4 from P) = 65  / 65 = 1 # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 130 / 65 = 2 # 008
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 6 from P) = 195 / 65 = 3 # 009
             )
         )
     )
@@ -265,6 +291,19 @@ estimated_i_j_k_l_fca_coeff_rounded(4 from R)(1 from n) = (
         )
     )
 )
+estimated_i_j_k_l_fca_coeff_rounded(4 from R)(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 4 from P) = floor(1) = 1 # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = floor(2) = 2 # 008
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 6 from P) = floor(3) = 3 # 009
+            )
+        )
+    )
+)
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -341,6 +380,19 @@ estimated_i_j_k_l_fca_rounded(4 from R)(1 from n) = (
         )
     )
 )
+estimated_i_j_k_l_fca_rounded(4 from R)(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 4 from P) = 1 * 65 = 65  # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = 2 * 65 = 130 # 008
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 6 from P) = 3 * 65 = 195 # 009
+            )
+        )
+    )
+)
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -413,6 +465,19 @@ normalized_i_j_k_l_fca(4 from R)(1 from n) = (
             ),
             (1 from I, 1 from J, 3 from K) = (
                 (1 from I, 1 from J, 3 from K, 6 from P) = max(390, 65) = 390 # 009
+            )
+        )
+    )
+)
+normalized_i_j_k_l_fca(4 from R)(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = (
+            (1 from I, 1 from J, 1 from K) = (
+                (1 from I, 1 from J, 1 from K, 4 from P) = max(65,  0) = 65  # 007
+                (1 from I, 1 from J, 1 from K, 5 from P) = max(130, 0) = 130 # 008
+            ),
+            (1 from I, 1 from J, 3 from K) = (
+                (1 from I, 1 from J, 3 from K, 6 from P) = max(195, 0) = 195 # 009
             )
         )
     )
@@ -540,6 +605,21 @@ normalized_i_j_k_l_s(4 from R)(1 from n) = (
                 ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
                     (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390 # 009
+                )
+            )
+        )
+    )
+)
+normalized_i_j_k_l_s(4 from R)(2 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 65  # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 130 # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 195 # 009
                 )
             )
         )
