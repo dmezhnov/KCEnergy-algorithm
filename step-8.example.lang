@@ -1,6 +1,32 @@
-estimated_i_j_k_l_s_last(l0) = (
-
+estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(3 from n)(
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
+                )
+            )
+        )
+    )
 )
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 estimated_i_j_k_l_s_last(2 from R) = ()
@@ -21,6 +47,10 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
     )
 )
 >>>>>>> Stashed changes
+=======
+estimated_i_j_k_l_s_last(2 from R) = ()
+estimated_i_j_k_l_s_last(3 from R) = ()
+>>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
@@ -28,6 +58,7 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 estimated_i_j_s_last(l0) = (
 
@@ -54,6 +85,31 @@ estimated_i_j_s_last(4 from R) = (
     )
 )
 >>>>>>> Stashed changes
+=======
+estimated_i_j_s_last(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J) = (
+                    (1 from C, 1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130 # 001 + 002 + 006 + 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J) = (
+                    (1 from C, 1 from I, 2 from J) = 0  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J) = (
+                    (1 from C, 1 from I, 3 from J) = 0  # 004
+                )
+            )
+        )
+    )
+)
+estimated_i_j_s_last(2 from R) = ()
+estimated_i_j_s_last(3 from R) = ()
+>>>>>>> 36683883975ee4cf1794dab090318cfdfc84534c
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
@@ -61,8 +117,26 @@ estimated_i_j_s_last(4 from R) = (
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-available_i_j_new(l0) = (
-
+available_i_j_new(1 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 500 - 130 = 370,
+        (1 from I, 2 from J) = 200 - 0   = 200,
+        (1 from I, 3 from J) = 300 - 0   = 300
+    )
+)
+available_i_j_new(2 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 370,
+        (1 from I, 2 from J) = 200,
+        (1 from I, 3 from J) = 300
+    )
+)
+available_i_j_new(3 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 370,
+        (1 from I, 2 from J) = 200,
+        (1 from I, 3 from J) = 300
+    )
 )
 available_i_j_new(4 from R) = (
     (1 from I) = (

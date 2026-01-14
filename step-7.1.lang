@@ -14,14 +14,14 @@ normalized_i_l_s(l0)(n) = sum_by_axes(normalized_i_j_k_l_s(l0)(n), Refinery, Reg
         normalized_i_j_k_l_s(l0)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
         normalized_i_l_s(l0)(n)     of matrix(Product, Market_participant, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
 
 # n-я матрица суммарных нормированных объемов НП первой очереди
 normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery, Region)
@@ -31,14 +31,14 @@ normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery,
         normalized_i_j_k_l_s.First(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
         normalized_i_l_s.First(n)     of matrix(Product, Market_participant, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
-                j  of J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
 
 # n-я матрица суммарных нормированных объемов НП l0-й очереди
 normalized_i_s(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
@@ -48,12 +48,12 @@ normalized_i_s(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
         normalized_i_l_s(l0)(n) of matrix(Product, Ship_terms, Market_participant)
         normalized_i_s(l0)(n)   of matrix(Product, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
                 Product, Ship_terms, Market_participant from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
 
 # n-я матрица суммарных нормированных объемов НП первой очереди
 normalized_i_s.First(n) = sum_by_axes(normalized_i_l_s.First(n), Market_participant)
@@ -63,9 +63,9 @@ normalized_i_s.First(n) = sum_by_axes(normalized_i_l_s.First(n), Market_particip
         normalized_i_l_s.First(n) of matrix(Product, Ship_terms, Market_participant)
         normalized_i_s.First(n)   of matrix(Product, Ship_terms)
             where
-                l0 of R  from index # Индексы очереди
-                n  of         index # Индекс матрицы
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
                 Product, Ship_terms, Market_participant from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                s  of C  from index # Индексы условия поставки
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
