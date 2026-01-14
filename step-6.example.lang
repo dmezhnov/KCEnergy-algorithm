@@ -394,7 +394,29 @@ normalized_i_j_k_l_s(1 from R)(2 from n) = (
             ),
             (1 from C, 1 from I, 3 from J) = (
                 (1 from C, 1 from I, 3 from J, 1 from K) = (
+<<<<<<< Updated upstream
                     (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 65  # 004
+=======
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
+                )
+            )
+        )
+    )
+)
+normalized_i_j_k_l_s(1 from R)(3 from n) = ()
+normalized_i_j_k_l_s(2 from R)(1 from n) = ()
+normalized_i_j_k_l_s(3 from R)(1 from n) = ()
+normalized_i_j_k_l_s(4 from R)(1 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130 # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260 # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390 # 009
+>>>>>>> Stashed changes
                 )
             )
         )

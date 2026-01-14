@@ -1,6 +1,26 @@
 estimated_i_j_k_l_s_last(l0) = (
 
 )
+<<<<<<< Updated upstream
+=======
+estimated_i_j_k_l_s_last(2 from R) = ()
+estimated_i_j_k_l_s_last(3 from R) = ()
+estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(1 from n)(
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130 # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260 # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390 # 009
+                )
+            )
+        )
+    )
+)
+>>>>>>> Stashed changes
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
@@ -8,9 +28,32 @@ estimated_i_j_k_l_s_last(l0) = (
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
+<<<<<<< Updated upstream
 estimated_i_j_s_last(l0) = (
 
 )
+=======
+estimated_i_j_s_last(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130, # 001 + 002 + 006 + 005
+            (1 from C, 1 from I, 2 from J) = 0,                     # 003
+            (1 from C, 1 from I, 3 from J) = 0                      # 004
+        )
+    )
+)
+estimated_i_j_s_last(2 from R) = ()
+estimated_i_j_s_last(3 from R) = ()
+estimated_i_j_s_last(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 130, # 007
+            (1 from C, 1 from I, 1 from J) = 260, # 008
+            (1 from C, 1 from I, 1 from J) = 390  # 009
+        )
+    )
+)
+>>>>>>> Stashed changes
     where
         R from index # Индексы очереди
         I from index # Индексы нефпродукта
@@ -20,6 +63,13 @@ estimated_i_j_s_last(l0) = (
 
 available_i_j_new(l0) = (
 
+)
+available_i_j_new(4 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 370 - 130 = 240,
+        (1 from I, 2 from J) = 200 - 260 = -60,
+        (1 from I, 3 from J) = 300 - 390 = -90
+    )
 )
     where
         R from index # Индексы очереди
