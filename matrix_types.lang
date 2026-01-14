@@ -58,12 +58,12 @@ index of number = (
     S  of number = length(Ship_terms) # Количество условий поставки (последний индекс)
 )
 
-# i  of I  from index
-# i0 of I0 from index
-# j  of J  from index
-# k  of K  from index
-# k0 of K0 from index
-# l  of P  from index
-# t  of Y  from index
-# l0 of R  from index
-# s  of C  from index
+# i  for I  from index
+# i0 for I0 from index
+# j  for J  from index
+# k  for K  from index
+# k0 for K0 from index
+# l  for P  from index
+# t  for Y  from index
+# l0 for R  from index
+# s  for C  from index

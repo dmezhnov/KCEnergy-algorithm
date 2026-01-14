@@ -7,62 +7,64 @@ condition, matrix, index, axis                  from ("matrix_types.lang")
 # Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
 # с учётом минимальной нормы и шага вывоза с нефтебазы.
 
-# Минимальная норма
-MIN_NEXT_TONNAGE(l0) = OIL_TERMINAL_MIN_TONNAGE
+# Минимальная норма для доступных объемов следующей очереди
+MIN_NEXT_AVAIL_TONNAGE(l0) = OIL_TERMINAL_MIN_TONNAGE
     where
         OIL_TERMINAL_MIN_TONNAGE <= RAIL_ROAD_MIN_TONNAGE AND l0 != 2
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
-                MIN_NEXT_TONNAGE         of number
-MIN_NEXT_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
+                MIN_NEXT_AVAIL_TONNAGE   of number
+                l0 for R  from index # Индексы очереди
+MIN_NEXT_AVAIL_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
     where
         RAIL_ROAD_MIN_TONNAGE <= OIL_TERMINAL_MIN_TONNAGE OR  l0 =  2
             where
                 OIL_TERMINAL_MIN_TONNAGE of number
                 RAIL_ROAD_MIN_TONNAGE    of number
-                MIN_NEXT_TONNAGE         of number
+                MIN_NEXT_AVAIL_TONNAGE   of number
+                l0 for R  from index # Индексы очереди
 
 # Доступные объемы для следующей очереди
-available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_NEXT_TONNAGE(l0))
+available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), >=, MIN_NEXT_AVAIL_TONNAGE(l0))
     where
         available_i_j_new(l0)(i, j)   of number
-        MIN_NEXT_TONNAGE(l0)          of number
+        MIN_NEXT_AVAIL_TONNAGE(l0)    of number
         available_i_j(l0)(i, j)       of number
         available_i_j_new(l0) of matrix(Product, Refinery)
         available_i_j(l0)     of matrix(Product, Refinery)
         >= from condition
             where
+                l0 for R  from index # Индексы очереди
                 Product, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
-                l0 of R  from index # Индексы очереди
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_TONNAGE(1))
+available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_AVAIL_TONNAGE(1))
     where
         available_i_j_new.First(i, j) of number
-        MIN_NEXT_TONNAGE.First        of number
+        MIN_NEXT_AVAIL_TONNAGE.First  of number
         available_i_j.Second(i, j)    of number
         available_i_j_new.First of matrix(Product, Refinery)
         available_i_j.Second    of matrix(Product, Refinery)
         >= from condition
             where
                 Product, Refinery from axis
-                i  of I  from index # Индексы нефпродукта
-                j  of J  from index # Индексы НПЗ
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
 
 estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(x))
     where
         estimated_i_j_k_l_s_last(l0)(i, l, j, k) of number
-        estimated_i_j_k_l_final(i, l, j, k)    of number
+        estimated_i_j_k_l_final(i, l, j, k)      of number
         estimated_i_j_k_l_s_last(l0)(i, l, j, k) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l_final(i, l, j, k)    of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_final(i, l, j, k)      of matrix(Product, Refinery, Market_participant, Region)
             where
-                x  of         index = length(estimated_i_j_k_l_s_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
+                x  of          index = length(estimated_i_j_k_l_s_last(l0)) # индекс матрицы предварительных расчетных объемов НП последней очереди
+                l0 for R  from index # Индексы очереди
                 Product, Market_participant, Refinery, Region from axis
-                i  of I  from index # Индексы нефпродукта
-                l  of P  from index # Индексы субъекта рынка
-                j  of J  from index # Индексы НПЗ
-                k  of K  from index # Индексы региона
-                l0 of R  from index # Индексы очереди
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
