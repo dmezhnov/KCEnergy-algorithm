@@ -1,6 +1,3 @@
-OVERALL_REQUEST_CAPACITY_COEFFICIENT from ("initial_data.lang")
-requests_i_j                         from ("step-1.lang")
-
 threshold_i_j = (
     (1 from I) = (
         (1 from I, 1 from J) = 500 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 500 * 1.2 = 600,
@@ -11,13 +8,13 @@ threshold_i_j = (
 
 requests_i_j_deficit = (
     (1 from I) = (
-        (1 from I, 1 from J) = 2200 # requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J)
+        (1 from I, 1 from J) = 2200 # (001 + 007 + 008) + (002 + 006) + (005 + 009) requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J) -> 2200 >= 600
     )
 )
 
 requests_i_j_surplus = (
     (1 from I) = (
-        (1 from I, 2 from J) = 40, # 003
-        (1 from I, 3 from J) = 60  # 004
+        (1 from I, 2 from J) = 40, # 003 240 > 40
+        (1 from I, 3 from J) = 60  # 004 360 > 60
     )
 )
