@@ -3,14 +3,14 @@ requests_i_j_k_l_s_deficit_corrected = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
                 (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = override(90, ) = 90  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
                 ),
                 (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = override(90, ) = 90, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = override(90, ) = 90  # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
                 ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = override(90, ) = 90  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
                 )
             )
         )
@@ -41,32 +41,33 @@ requests_i_j_k_l_s_surplus = (
 )
     where
         I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        C  from index # Индексы условий поставки
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_deficit_pend = (
     (1 from C) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = (
                 (1 from C, 1 from I, 1 from J, 1 from K) = (
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = override(10,  ) = 10  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 10  # 001
                 ),
                 (1 from C, 1 from I, 1 from J, 2 from K) = (
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = override(60,  ) = 60, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = override(110, ) = 110 # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 60, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 110 # 006
                 ),
                 (1 from C, 1 from I, 1 from J, 3 from K) = (
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = override(210, ) = 210 # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 210 # 005
                 )
             )
         )
     )
 )
     where
+        I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
@@ -86,6 +87,12 @@ requests_i_k_l_deficit_pend = (
         )
     )
 )
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_surplus_only_corrected = ( # !!!!!!!
     (1 from C) = (
