@@ -108,3 +108,7 @@ filter_by_coordinate(matrix_source, coord) = matrix_without_axis
         matrix_source of       matrix     # Исходная матрица
         coord of               coordinate # Фиксируемая координата
         matrix_without_axis of matrix     # Результат фильтрации по координате
+
+is_empty(matrix_source)
+
+replace_coord(matrix_source, coord_source, coord_new)
