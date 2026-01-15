@@ -20,7 +20,7 @@ requests_i_j_k_l_s_corrected(1 from R) = (
             ),
             (1 from C, 1 from I, 3 from J) = (
                 (1 from C, 1 from I, 3 from J, 1 from K) = (
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 70  # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
                 )
             )
         )
@@ -63,7 +63,7 @@ requests_i_j_l_s_corrected(1 from R) = (
                 (1 from C, 1 from I, 2 from J, 1 from P) = 50             # 003
             ),
             (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from P) = 70             # 004
+                (1 from C, 1 from I, 3 from J, 1 from P) = 60             # 004
             )
         )
     )
@@ -93,7 +93,7 @@ requests_i_j_s_corrected(1 from R) = (
         (1 from C, 1 from I) = (
             (1 from C, 1 from I, 1 from J) = 180 + 90 + 90 = 360, # 001 + 002 + 006 + 005
             (1 from C, 1 from I, 2 from J) = 50,                  # 003
-            (1 from C, 1 from I, 3 from J) = 70                   # 004
+            (1 from C, 1 from I, 3 from J) = 60                   # 004
         )
     )
 )
