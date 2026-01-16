@@ -1,6 +1,6 @@
 MAX_SUBJECT_SHARE_COEFFICIENT                   from ("initial_data.lang")
 normalized_i_j_k_l_s                            from ("step-6.lang")
-normalized_i_l, normalized_i                  from ("step-7.1.lang")
+normalized_i_l, normalized_i                    from ("step-7.1.lang")
 for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
 condition, axis, index                          from ("matrix_types.lang")
 
@@ -181,7 +181,7 @@ normalized_i_j_k_l_s_corrected.First(n) = for_each_pair(normalized_i_j_k_l_s_lim
 
 estimated_i_j_k_l_s(l0)(n + 1) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normalized_i_j_k_l_s_corrected(l0)(n))
     where
-        is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = false
+        (is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = false) OR n = 1
             where
                 estimated_i_j_k_l_s(l0)(n + 1)(i, l, j, k, s)        of number
                 normalized_i_j_k_l_s(l0)(n)(i, l, j, k, s)           of number
@@ -200,7 +200,7 @@ estimated_i_j_k_l_s(l0)(n + 1) = assign_matrix(normalized_i_j_k_l_s(l0)(n), norm
                         s  for C  from index # Индексы условия поставки
 estimated_i_j_k_l_s(l0)(n + 1) = ()
     where
-        is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = true
+        (is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = true) AND n != 1
             where
                 estimated_i_j_k_l_s(l0)(n + 1)(i, l, j, k, s)        of number
                 normalized_i_j_k_l_s_corrected(l0)(n)(i, l, j, k, s) of number
