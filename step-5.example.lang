@@ -96,7 +96,7 @@ estimated_i_j_exceed_share(2 from R) = {}
 estimated_i_j_exceed_share(3 from R) = {}
 estimated_i_j_exceed_share(4 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 370 / 700 = 0.52857142857142857143,
+        (1 from I, 1 from J) = 370 / 1450 = 0.25517241379310344828,
     }
 }
     where
@@ -113,11 +113,11 @@ estimated_i_j_k_l_s_exceed(4 from R) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250 * 0.52857142857142857143 = 132.14285714285714286, # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500 * 0.52857142857142857143 = 264.28571428571428572  # 008
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250 * 0.25517241379310344828 = 63.79310344827586207, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500 * 0.25517241379310344828 = 127.58620689655172414 # 008
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700 * 0.52857142857142857143 = 370                    # 009
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700 * 0.25517241379310344828 = 178.6206896551724138  # 009
                 }
             }
         }
@@ -205,11 +205,11 @@ estimated_i_j_k_l_s(4 from R)(1 from n) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 132.14285714285714286, # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 264.28571428571428572  # 008
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 63.79310344827586207, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 127.58620689655172414 # 008
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 370                    # 009
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 178.6206896551724138  # 009
                 }
             }
         }
