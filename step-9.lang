@@ -1,4 +1,4 @@
-available_i_j_new                               from ("step-8.lang")
+available_i_j_new, estimated_i_j_k_l_s_last     from ("step-8.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
 filter_by_value                                 from ("matrix_operation.lang")
 condition, matrix, index, axis                  from ("matrix_types.lang")
@@ -54,14 +54,14 @@ available_i_j.Second = filter_by_value(available_i_j_new.First, >=, MIN_NEXT_AVA
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-available_i_j_final = available_i_j(x)
+available_i_j_final = available_i_j_new(x)
     where
-        available_i_j_final(i, j) of number
-        available_i_j(l0)(i, j)   of number
-        available_i_j_final of matrix(Product, Refinery)
-        available_i_j(l0)   of matrix(Product, Refinery)
+        available_i_j_final(i, j)   of number
+        available_i_j_new(l0)(i, j) of number
+        available_i_j_final   of matrix(Product, Refinery)
+        available_i_j_new(l0) of matrix(Product, Refinery)
             where
-                x  of          index = length(available_i_j) # Индекс матрицы доступных объемов последней очереди
+                x  of          index = length(available_i_j_new) # Индекс матрицы доступных объемов последней очереди
                 l0 for R  from index # Индексы очереди
                 Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
