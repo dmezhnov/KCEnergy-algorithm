@@ -8,7 +8,10 @@ normalized_i_threshold(1 from R)(3 from n) = {}
 normalized_i_threshold(2 from R)(1 from n) = {}
 normalized_i_threshold(3 from R)(1 from n) = {}
 normalized_i_threshold(4 from R)(1 from n) = {
-    (1 from I) = 780 * MAX_SUBJECT_SHARE_COEFFICIENT = 780 * 0.5 = 390 # 007, 008, 009
+    (1 from I) = 390 * MAX_SUBJECT_SHARE_COEFFICIENT = 390 * 0.5 = 195 # 007, 008, 009
+}
+normalized_i_threshold(4 from R)(2 from n) = {
+    (1 from I) = 390 * MAX_SUBJECT_SHARE_COEFFICIENT = 390 * 0.5 = 195 # 007, 008, 009
 }
     where
         R from index # Индексы очереди
@@ -24,8 +27,8 @@ normalized_i_l_increased(1 from R)(1 from n) = {
 normalized_i_l_increased(1 from R)(2 from n) = {} # 0 < 65 -> 001 + 002 + 003 + 004
 normalized_i_l_increased(2 from R)(1 from n) = {}
 normalized_i_l_increased(3 from R)(1 from n) = {}
-normalized_i_l_increased(4 from R)(1 from n) = {} # 130, 260, 390 <= 390
-normalized_i_l_increased(4 from R)(1 from n) = {}
+normalized_i_l_increased(4 from R)(1 from n) = {} # 65, 130, 195 <= 195
+normalized_i_l_increased(4 from R)(2 from n) = {} # 65, 130, 195 <= 195
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -61,6 +64,7 @@ normalized_i_j_k_l_s_increased(1 from R)(3 from n) = {}
 normalized_i_j_k_l_s_increased(2 from R)(1 from n) = {}
 normalized_i_j_k_l_s_increased(3 from R)(1 from n) = {}
 normalized_i_j_k_l_s_increased(4 from R)(1 from n) = {}
+normalized_i_j_k_l_s_increased(4 from R)(2 from n) = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -99,6 +103,7 @@ normalized_i_j_k_l_s_limited(1 from R)(3 from n) = {}
 normalized_i_j_k_l_s_limited(2 from R)(1 from n) = {}
 normalized_i_j_k_l_s_limited(3 from R)(1 from n) = {}
 normalized_i_j_k_l_s_limited(4 from R)(1 from n) = {}
+normalized_i_j_k_l_s_limited(4 from R)(2 from n) = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -137,6 +142,7 @@ normalized_i_j_k_l_s_corrected(1 from R)(3 from n) = {}
 normalized_i_j_k_l_s_corrected(2 from R)(1 from n) = {}
 normalized_i_j_k_l_s_corrected(3 from R)(1 from n) = {}
 normalized_i_j_k_l_s_corrected(4 from R)(1 from n) = {}
+normalized_i_j_k_l_s_corrected(4 from R)(2 from n) = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -178,29 +184,27 @@ estimated_i_j_k_l_s(1 from R)(2 from n) = {
 }
 estimated_i_j_k_l_s(1 from R)(3 from n) = {}
 estimated_i_j_k_l_s(1 from R)(4 from n) = {}
-estimated_i_j_k_l_s(2 from R)(1 from n) = {}
-estimated_i_j_k_l_s(3 from R)(1 from n) = {}
-estimated_i_j_k_l_s(4 from R)(1 from n) = {
+estimated_i_j_k_l_s(2 from R)(1 from n)
+estimated_i_j_k_l_s(2 from R)(2 from n) = {}
+estimated_i_j_k_l_s(3 from R)(1 from n)
+estimated_i_j_k_l_s(3 from R)(2 from n) = {}
+estimated_i_j_k_l_s(4 from R)(1 from n)
+estimated_i_j_k_l_s(4 from R)(2 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = override(130,    ) = 130 # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = override(260,    ) = 260 # 008
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = override(65,  ) = 65  # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = override(130, ) = 130 # 008
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = override(390,    ) = 390 # 009
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = override(130, 65 ) = 65  # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = override(260, 130) = 130 # 008
-                },
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = override(390, 195) = 195 # 009
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = override(195, ) = 195 # 009
                 }
             }
         }
     }
 }
-estimated_i_j_k_l_s(4 from R)(2 from n) = {}
+estimated_i_j_k_l_s(4 from R)(3 from n) = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индексы матрицы
