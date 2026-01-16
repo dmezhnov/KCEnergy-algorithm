@@ -1,20 +1,14 @@
-normalized_i_s_threshold(1 from R)(1 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = 390 * MAX_SUBJECT_SHARE_COEFFICIENT = 390 * 0.5 = 195 # 001, 002, 003, 004, 006, 005
-    )
-)
-normalized_i_s_threshold(1 from R)(2 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = 130 * MAX_SUBJECT_SHARE_COEFFICIENT = 130 * 0.5 = 65 # 001, 002, 003, 004, 006, 005
-    )
-)
-normalized_i_s_threshold(1 from R)(3 from n) = {}
-normalized_i_s_threshold(2 from R)(1 from n) = {}
-normalized_i_s_threshold(3 from R)(1 from n) = {}
-normalized_i_s_threshold(4 from R)(1 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = 780 * MAX_SUBJECT_SHARE_COEFFICIENT = 780 * 0.5 = 390 # 007, 008, 009
-    }
+normalized_i_threshold(1 from R)(1 from n) = {
+    (1 from I) = 390 * MAX_SUBJECT_SHARE_COEFFICIENT = 390 * 0.5 = 195 # 001, 002, 003, 004, 006, 005
+}
+normalized_i_threshold(1 from R)(2 from n) = {
+    (1 from I) = 130 * MAX_SUBJECT_SHARE_COEFFICIENT = 130 * 0.5 = 65 # 001, 002, 003, 004, 006, 005
+}
+normalized_i_threshold(1 from R)(3 from n) = {}
+normalized_i_threshold(2 from R)(1 from n) = {}
+normalized_i_threshold(3 from R)(1 from n) = {}
+normalized_i_threshold(4 from R)(1 from n) = {
+    (1 from I) = 780 * MAX_SUBJECT_SHARE_COEFFICIENT = 780 * 0.5 = 390 # 007, 008, 009
 }
     where
         R from index # Индексы очереди
@@ -22,21 +16,20 @@ normalized_i_s_threshold(4 from R)(1 from n) = {
         C from index # Индексы условия поставки
         I from index # Индексы нефпродукта
 
-normalized_i_l_s_increased(1 from R)(1 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = 260 # 260 > 195 -> 001 + 002 + 003 + 004
-    )
-)
-normalized_i_l_s_increased(1 from R)(2 from n) = {} # 0 < 65 -> 001 + 002 + 003 + 004
-normalized_i_l_s_increased(1 from R)(2 from n) = {}
-normalized_i_l_s_increased(2 from R)(1 from n) = {}
-normalized_i_l_s_increased(3 from R)(1 from n) = {}
-normalized_i_l_s_increased(4 from R)(1 from n) = {} # 130, 260, 390 <= 390
-normalized_i_l_s_increased(4 from R)(1 from n) = {}
+normalized_i_l_increased(1 from R)(1 from n) = {
+    (1 from I) = {
+        (1 from I, 1 from P) = 260 # 260 > 195 -> 001 + 002 + 003 + 004
+    }
+}
+normalized_i_l_increased(1 from R)(2 from n) = {} # 0 < 65 -> 001 + 002 + 003 + 004
+normalized_i_l_increased(1 from R)(2 from n) = {}
+normalized_i_l_increased(2 from R)(1 from n) = {}
+normalized_i_l_increased(3 from R)(1 from n) = {}
+normalized_i_l_increased(4 from R)(1 from n) = {} # 130, 260, 390 <= 390
+normalized_i_l_increased(4 from R)(1 from n) = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
-        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 

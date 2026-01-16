@@ -1,19 +1,11 @@
-requests_i_k_l_s_deficit_multiple = (}
+requests_i_k_l_s_deficit_multiple = {}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_deficit_multiple_share = (}
-    where
-        I  from index # Индексы нефпродукта
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-        C  from index # Индексы условия поставки
-        J  from index # Индексы НПЗ
-
-requests_i_j_k_l_s_deficit_multiple_pend_aux = (}
+requests_i_j_k_l_s_deficit_multiple_share = {}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -21,7 +13,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = (}
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend = (}
+requests_i_j_k_l_s_deficit_multiple_pend_aux = {}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -29,7 +21,15 @@ requests_i_j_k_l_s_deficit_multiple_pend = (}
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_corrected = (}
+requests_i_j_k_l_s_deficit_multiple_pend = {}
+    where
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+
+requests_i_j_k_l_s_deficit_multiple_corrected = {}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона

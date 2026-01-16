@@ -76,8 +76,8 @@ available_i_j_new_only(1 from R) = {
         (1 from I, 1 from J) = 500 - 130 = 370,
         (1 from I, 2 from J) = 200 - 0   = 200,
         (1 from I, 3 from J) = 300 - 0   = 300
-    )
-)
+    }
+}
 available_i_j_new_only(2 from R) = {}
 available_i_j_new_only(3 from R) = {}
 available_i_j_new_only(4 from R) = {
@@ -85,30 +85,30 @@ available_i_j_new_only(4 from R) = {
         (1 from I, 1 from J) = 370 - 130 = 240,
         (1 from I, 2 from J) = 200 - 260 = -60,
         (1 from I, 3 from J) = 300 - 390 = -90
-    )
-)
+    }
+}
 
 available_i_j_new(1 from R) = {
     (1 from I) = {
         (1 from I, 1 from J) = override(500, 370) = 370,
         (1 from I, 2 from J) = override(200, 200) = 200,
         (1 from I, 3 from J) = override(300, 300) = 300
-    )
-)
+    }
+}
 available_i_j_new(2 from R) = {
     (1 from I) = {
         (1 from I, 1 from J) = override(370,    ) = 370,
         (1 from I, 2 from J) = override(200,    ) = 200,
         (1 from I, 3 from J) = override(300,    ) = 300
-    )
-)
+    }
+}
 available_i_j_new(3 from R) = {
     (1 from I) = {
         (1 from I, 1 from J) = override(370,    ) = 370,
         (1 from I, 2 from J) = override(200,    ) = 200,
         (1 from I, 3 from J) = override(300,    ) = 300
-    )
-)
+    }
+}
 available_i_j_new(4 from R) = {
     (1 from I) = {
         (1 from I, 1 from J) = override(370, 240) = 240
