@@ -291,7 +291,7 @@ estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = {
                 (1 from I, 1 from J, 1 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = 0 * 65 = 0   # 002
+                (1 from I, 1 from J, 2 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 002
                 (1 from I, 1 from J, 2 from K, 3 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 006
             },
             (1 from I, 1 from J, 3 from K) = {

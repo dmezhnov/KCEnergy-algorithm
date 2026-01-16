@@ -1,4 +1,4 @@
-estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(2 from n)(
+estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1 from R)(2 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
@@ -28,7 +28,7 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1
 }
 estimated_i_j_k_l_s_last(2 from R) = {}
 estimated_i_j_k_l_s_last(3 from R) = {}
-estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(1 from n)(
+estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(1 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {

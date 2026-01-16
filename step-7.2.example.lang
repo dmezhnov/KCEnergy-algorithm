@@ -22,7 +22,6 @@ normalized_i_l_increased(1 from R)(1 from n) = {
     }
 }
 normalized_i_l_increased(1 from R)(2 from n) = {} # 0 < 65 -> 001 + 002 + 003 + 004
-normalized_i_l_increased(1 from R)(2 from n) = {}
 normalized_i_l_increased(2 from R)(1 from n) = {}
 normalized_i_l_increased(3 from R)(1 from n) = {}
 normalized_i_l_increased(4 from R)(1 from n) = {} # 130, 260, 390 <= 390
