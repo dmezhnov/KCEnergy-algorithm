@@ -50,24 +50,20 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
         J from index # Индексы НПЗ
         K from index # Индексы региона
 
-estimated_i_j_s_last(1 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130, # 001 + 002 + 006 + 005
-            (1 from C, 1 from I, 2 from J) = 0,                     # 003
-            (1 from C, 1 from I, 3 from J) = 0                      # 004
-        }
+estimated_i_j_last(1 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 0 + 0 + 65 + 65 = 130, # 001 + 002 + 006 + 005
+        (1 from I, 2 from J) = 0,                     # 003
+        (1 from I, 3 from J) = 0                      # 004
     }
 }
-estimated_i_j_s_last(2 from R) = {}
-estimated_i_j_s_last(3 from R) = {}
-estimated_i_j_s_last(4 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = 130, # 007
-            (1 from C, 1 from I, 1 from J) = 260, # 008
-            (1 from C, 1 from I, 1 from J) = 390  # 009
-        }
+estimated_i_j_last(2 from R) = {}
+estimated_i_j_last(3 from R) = {}
+estimated_i_j_last(4 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 130, # 007
+        (1 from I, 1 from J) = 260, # 008
+        (1 from I, 1 from J) = 390  # 009
     }
 }
 

@@ -126,9 +126,7 @@ requests_i_j_corrected(2 from R) = {}
 requests_i_j_corrected(3 from R) = {}
 requests_i_j_corrected(4 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J) = 1450 # 007 + 008 + 009
-        }
+         (1 from I, 1 from J) = 1450 # 007 + 008 + 009
     }
 }
     where
