@@ -440,7 +440,7 @@ normalized_i_j_k_l_fca(4 from R)(2 from n) = {
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_exw = (}
+estimated_i_j_k_l_exw = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -450,7 +450,7 @@ estimated_i_j_k_l_exw = (}
         P  from index # Индексы субъекта рынка
         C  from index # Индексы условия поставки
 
-estimated_i_j_k_l_exw_coeff = (}
+estimated_i_j_k_l_exw_coeff = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -459,7 +459,7 @@ estimated_i_j_k_l_exw_coeff = (}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_exw_coeff_rounded = (}
+estimated_i_j_k_l_exw_coeff_rounded = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -468,7 +468,7 @@ estimated_i_j_k_l_exw_coeff_rounded = (}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_exw_rounded = (}
+estimated_i_j_k_l_exw_rounded = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -477,7 +477,7 @@ estimated_i_j_k_l_exw_rounded = (}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_exw = (}
+normalized_i_j_k_l_exw = {}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
