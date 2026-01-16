@@ -1,46 +1,46 @@
-normalized_i_l_s(1 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
+normalized_i_l_s(1 from R)(1 from n) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from P) = 65 + 65 + 65 + 65 = 260, # 001 + 002 + 003 + 004
             (1 from C, 1 from I, 3 from P) = 65, # 006
             (1 from C, 1 from I, 2 from P) = 65  # 005
-        )
-    )
-)
-normalized_i_l_s(1 from R)(2 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
+        }
+    }
+}
+normalized_i_l_s(1 from R)(2 from n) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from P) = 0  + 0  + 0  + 0  = 0,   # 001 + 002 + 003 + 004
             (1 from C, 1 from I, 3 from P) = 65,                      # 006
             (1 from C, 1 from I, 2 from P) = 65                       # 005
-        )
-    )
-)
-normalized_i_l_s(1 from R)(3 from n) = ()
-normalized_i_l_s(2 from R)(1 from n) = ()
-normalized_i_l_s(3 from R)(1 from n) = ()
-normalized_i_l_s(4 from R)(1 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
+        }
+    }
+}
+normalized_i_l_s(1 from R)(3 from n) = {}
+normalized_i_l_s(2 from R)(1 from n) = {}
+normalized_i_l_s(3 from R)(1 from n) = {}
+normalized_i_l_s(4 from R)(1 from n) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 4 from P) = 130 # 007
             (1 from C, 1 from I, 5 from P) = 260 # 008
-        ),
-        (1 from C, 1 from I) = (
+        },
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 6 from P) = 390 # 009
-        )
-    )
-)
-normalized_i_l_s(4 from R)(2 from n) = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
+        }
+    }
+}
+normalized_i_l_s(4 from R)(2 from n) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 4 from P) = 65  # 007
             (1 from C, 1 from I, 5 from P) = 130 # 008
-        ),
-        (1 from C, 1 from I) = (
+        },
+        (1 from C, 1 from I) = {
             (1 from C, 1 from I, 6 from P) = 195 # 009
-        )
-    )
-)
+        }
+    }
+}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы
@@ -48,29 +48,29 @@ normalized_i_l_s(4 from R)(2 from n) = (
         I  from index # Индексы нефпродукта
         P  from index # Индексы субъекта рынка
 
-normalized_i_s(1 from R)(1 from n) = (
-    (1 from C) = (
+normalized_i_s(1 from R)(1 from n) = {
+    (1 from C) = {
         (1 from C, 1 from I) = 260 + 65 + 65 = 390 # 001 + 002 + 003 + 004 + 006 + 005
     )
 )
-normalized_i_s(1 from R)(2 from n) = (
-    (1 from C) = (
+normalized_i_s(1 from R)(2 from n) = {
+    (1 from C) = {
         (1 from C, 1 from I) = 0   + 65 + 65 = 130 # 001 + 002 + 003 + 004 + 006 + 005
     )
 )
-normalized_i_s(1 from R)(3 from n) = ()
-normalized_i_s(2 from R)(1 from n) = ()
-normalized_i_s(3 from R)(1 from n) = ()
-normalized_i_s(4 from R)(1 from n) = (
-    (1 from C) = (
+normalized_i_s(1 from R)(3 from n) = {}
+normalized_i_s(2 from R)(1 from n) = {}
+normalized_i_s(3 from R)(1 from n) = {}
+normalized_i_s(4 from R)(1 from n) = {
+    (1 from C) = {
         (1 from C, 1 from I) = 130 + 260 + 390 = 780 # 007 + 008 + 009
     )
 )
-normalized_i_s(4 from R)(2 from n) = (
-    (1 from C) = (
+normalized_i_s(4 from R)(2 from n) = {
+    (1 from C) = {
         (1 from C, 1 from I) = 65 + 130 + 195 = 390 # 007 + 008 + 009
-    )
-)
+    }
+}
     where
         R  from index # Индексы очереди
         n  of   index # Индекс матрицы

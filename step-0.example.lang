@@ -1,10 +1,10 @@
 volumes_l_t_i_k_k0_i0_require_correct = requests_i_j_k_l_s_l0
 
-volumes_l_t_i_k_k0 = (
-    (1 from I) = (
-        (1 from I, 1 from I0) = (
-            (1 from I, 1 from I0, 1 from K) = (
-                (1 from I, 1 from I0, 1 from K, 1 from P) = (
+volumes_l_t_i_k_k0 = {
+    (1 from I) = {
+        (1 from I, 1 from I0) = {
+            (1 from I, 1 from I0, 1 from K) = {
+                (1 from I, 1 from I0, 1 from K, 1 from P) = {
                     (1 from I, 1 from I0, 1 from K, 1 from P, 1  from Y) = 120, # 0001
                     (1 from I, 1 from I0, 1 from K, 1 from P, 2  from Y) = 120, # 0003
                     (1 from I, 1 from I0, 1 from K, 1 from P, 3  from Y) = 100, # 0005
@@ -17,8 +17,8 @@ volumes_l_t_i_k_k0 = (
                     (1 from I, 1 from I0, 1 from K, 1 from P, 10 from Y) = 80,  # 0019
                     (1 from I, 1 from I0, 1 from K, 1 from P, 11 from Y) = 60,  # 0021
                     (1 from I, 1 from I0, 1 from K, 1 from P, 12 from Y) = 60   # 0023
-                ),
-                (1 from I, 1 from I0, 1 from K, 3 from P) = (
+                },
+                (1 from I, 1 from I0, 1 from K, 3 from P) = {
                     (1 from I, 1 from I0, 1 from K, 3 from P, 1  from Y) = 120, # 0037
                     (1 from I, 1 from I0, 1 from K, 3 from P, 2  from Y) = 120, # 0038
                     (1 from I, 1 from I0, 1 from K, 3 from P, 3  from Y) = 100, # 0039
@@ -31,10 +31,10 @@ volumes_l_t_i_k_k0 = (
                     (1 from I, 1 from I0, 1 from K, 3 from P, 10 from Y) = 80,  # 0046
                     (1 from I, 1 from I0, 1 from K, 3 from P, 11 from Y) = 60,  # 0047
                     (1 from I, 1 from I0, 1 from K, 3 from P, 12 from Y) = 60   # 0048
-                )
-            ),
-            (1 from I, 1 from I0, 2 from K) = (
-                (1 from I, 1 from I0, 2 from K, 1 from P) = (
+                }
+            },
+            (1 from I, 1 from I0, 2 from K) = {
+                (1 from I, 1 from I0, 2 from K, 1 from P) = {
                     (1 from I, 1 from I0, 2 from K, 1 from P, 1  from Y) = 100, # 0002
                     (1 from I, 1 from I0, 2 from K, 1 from P, 2  from Y) = 100, # 0004
                     (1 from I, 1 from I0, 2 from K, 1 from P, 3  from Y) = 100, # 0006
@@ -47,10 +47,10 @@ volumes_l_t_i_k_k0 = (
                     (1 from I, 1 from I0, 2 from K, 1 from P, 10 from Y) = 0,   # 0020
                     (1 from I, 1 from I0, 2 from K, 1 from P, 11 from Y) = 0,   # 0022
                     (1 from I, 1 from I0, 2 from K, 1 from P, 12 from Y) = 0    # 0024
-                )
-            ),
-            (1 from I, 1 from I0, 3 from K) = (
-                (1 from I, 1 from I0, 3 from K, 2 from P) = (
+                }
+            },
+            (1 from I, 1 from I0, 3 from K) = {
+                (1 from I, 1 from I0, 3 from K, 2 from P) = {
                     (1 from I, 1 from I0, 3 from K, 2 from P, 1  from Y) = 100, # 0025
                     (1 from I, 1 from I0, 3 from K, 2 from P, 2  from Y) = 100, # 0026
                     (1 from I, 1 from I0, 3 from K, 2 from P, 3  from Y) = 100, # 0027
@@ -63,11 +63,11 @@ volumes_l_t_i_k_k0 = (
                     (1 from I, 1 from I0, 3 from K, 2 from P, 10 from Y) = 0,   # 0034
                     (1 from I, 1 from I0, 3 from K, 2 from P, 11 from Y) = 0,   # 0035
                     (1 from I, 1 from I0, 3 from K, 2 from P, 12 from Y) = 0    # 0036
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         P  from index # Индексы субъекта рынка
         Y  from index # Индексы месяца и года
@@ -75,10 +75,10 @@ volumes_l_t_i_k_k0 = (
         K  from index # Индексы региона
         K0 from index # Индексы района
 
-volumes_l_t_i_k = (
-    (1 from I) = (
-        (1 from I, 1 from K) = (
-            (1 from I, 1 from K, 1 from P) = (
+volumes_l_t_i_k = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 1 from P) = {
                 (1 from I, 1 from K, 1 from P, 1  from Y) = 120, # 0001
                 (1 from I, 1 from K, 1 from P, 2  from Y) = 120, # 0003
                 (1 from I, 1 from K, 1 from P, 3  from Y) = 100, # 0005
@@ -91,8 +91,8 @@ volumes_l_t_i_k = (
                 (1 from I, 1 from K, 1 from P, 10 from Y) = 80,  # 0019
                 (1 from I, 1 from K, 1 from P, 11 from Y) = 60,  # 0021
                 (1 from I, 1 from K, 1 from P, 12 from Y) = 60   # 0023
-            ),
-            (1 from I, 1 from K, 3 from P) = (
+            },
+            (1 from I, 1 from K, 3 from P) = {
                 (1 from I, 1 from K, 3 from P, 1  from Y) = 120, # 0037
                 (1 from I, 1 from K, 3 from P, 2  from Y) = 120, # 0038
                 (1 from I, 1 from K, 3 from P, 3  from Y) = 100, # 0039
@@ -105,10 +105,10 @@ volumes_l_t_i_k = (
                 (1 from I, 1 from K, 3 from P, 10 from Y) = 80,  # 0046
                 (1 from I, 1 from K, 3 from P, 11 from Y) = 60,  # 0047
                 (1 from I, 1 from K, 3 from P, 12 from Y) = 60   # 0048
-            )
-        ),
-        (1 from I, 2 from K) = (
-            (1 from I, 2 from K, 1 from P) = (
+            }
+        },
+        (1 from I, 2 from K) = {
+            (1 from I, 2 from K, 1 from P) = {
                 (1 from I, 2 from K, 1 from P, 1  from Y) = 100, # 0002
                 (1 from I, 2 from K, 1 from P, 2  from Y) = 100, # 0004
                 (1 from I, 2 from K, 1 from P, 3  from Y) = 100, # 0006
@@ -121,10 +121,10 @@ volumes_l_t_i_k = (
                 (1 from I, 2 from K, 1 from P, 10 from Y) = 0,   # 0020
                 (1 from I, 2 from K, 1 from P, 11 from Y) = 0,   # 0022
                 (1 from I, 2 from K, 1 from P, 12 from Y) = 0    # 0024
-            )
-        ),
-        (1 from I, 3 from K) = (
-            (1 from I, 3 from K, 2 from P) = (
+            }
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2 from P) = {
                 (1 from I, 3 from K, 2 from P, 1  from Y) = 100, # 0025
                 (1 from I, 3 from K, 2 from P, 2  from Y) = 100, # 0026
                 (1 from I, 3 from K, 2 from P, 3  from Y) = 100, # 0027
@@ -137,10 +137,10 @@ volumes_l_t_i_k = (
                 (1 from I, 3 from K, 2 from P, 10 from Y) = 0,   # 0034
                 (1 from I, 3 from K, 2 from P, 11 from Y) = 0,   # 0035
                 (1 from I, 3 from K, 2 from P, 12 from Y) = 0    # 0036
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         I from index # Индексы нефпродукта
         K from index # Индексы региона

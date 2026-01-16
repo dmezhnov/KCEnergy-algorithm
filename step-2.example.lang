@@ -1,19 +1,19 @@
-threshold_i_j = (
-    (1 from I) = (
+threshold_i_j = {
+    (1 from I) = {
         (1 from I, 1 from J) = 500 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 500 * 1.2 = 600,
         (1 from I, 2 from J) = 200 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 200 * 1.2 = 240,
         (1 from I, 3 from J) = 300 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 300 * 1.2 = 360
     )
 )
 
-requests_i_j_deficit = (
-    (1 from I) = (
+requests_i_j_deficit = {
+    (1 from I) = {
         (1 from I, 1 from J) = 2200 # (001 + 007 + 008) + (002 + 006) + (005 + 009) requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J) -> 2200 >= 600
     )
 )
 
-requests_i_j_surplus = (
-    (1 from I) = (
+requests_i_j_surplus = {
+    (1 from I) = {
         (1 from I, 2 from J) = 40, # 003 240 > 40
         (1 from I, 3 from J) = 60  # 004 360 > 60
     )
