@@ -31,9 +31,10 @@ available_i_j(4 from R) = {
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-available_i_j_final = available_i_j(4 from R) = {
+available_i_j_final = available_i_j_new(4 from R) = {
     (1 from I) = {
-        (1 from I, 2 from J) = 200,
+        (1 from I, 1 from J) = -20
+        (1 from I, 2 from J) = 200
         (1 from I, 3 from J) = 300
     }
 }
@@ -48,8 +49,8 @@ estimated_i_j_k_l_final = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0,   # 001
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130, # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260  # 008
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 65,  # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 130  # 008
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0    # 002
@@ -57,7 +58,7 @@ estimated_i_j_k_l_final = {
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65,  # 005
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390  # 009
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 195  # 009
                 }
             },
             (1 from C, 1 from I, 2 from J) = {
