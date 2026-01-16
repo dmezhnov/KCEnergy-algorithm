@@ -1,21 +1,21 @@
-requests_i_j_k_l_s_deficit_corrected = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
+requests_i_j_k_l_s_deficit_corrected = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -23,22 +23,22 @@ requests_i_j_k_l_s_deficit_corrected = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_surplus = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+requests_i_j_k_l_s_surplus = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 3 from J) = {
+                (1 from C, 1 from I, 3 from J, 1 from K) = {
                     (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -46,24 +46,24 @@ requests_i_j_k_l_s_surplus = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_deficit_pend = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
+requests_i_j_k_l_s_deficit_pend = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 10  # 001
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 60, # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 110 # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 210 # 005
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -71,24 +71,24 @@ requests_i_j_k_l_s_deficit_pend = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_deficit_pend_prime = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+requests_i_j_k_l_s_deficit_pend_prime = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 10 # 001
-                ),
-                (1 from C, 1 from I, 2 from J, 2 from K) = (
+                },
+                (1 from C, 1 from I, 2 from J, 2 from K) = {
                     (1 from C, 1 from I, 2 from J, 2 from K, 1 from P) = 60, # 002
                     (1 from C, 1 from I, 2 from J, 2 from K, 3 from P) = 110 # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 2 from J, 3 from K, 2 from P) = 210 # 005
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -96,39 +96,39 @@ requests_i_j_k_l_s_deficit_pend_prime = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_deficit_pend_prime = (
-    (1 from I) = (
-        (1 from I, 2 from J) = (
-            (1 from I, 2 from J, 1 from K) = (
+requests_i_j_k_l_deficit_pend_prime = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 1 from K) = {
                 (1 from I, 2 from J, 1 from K, 1 from P) = 10 # 001
-            ),
-            (1 from I, 2 from J, 2 from K) = (
+            },
+            (1 from I, 2 from J, 2 from K) = {
                 (1 from I, 2 from J, 2 from K, 1 from P) = 60, # 002
                 (1 from I, 2 from J, 2 from K, 3 from P) = 110 # 006
-            ),
-            (1 from I, 1 from J, 3 from K) = (
+            },
+            (1 from I, 1 from J, 3 from K) = {
                 (1 from I, 2 from J, 3 from K, 2 from P) = 210 # 005
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
         l  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_surplus_only_corrected = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+requests_i_j_k_l_s_surplus_only_corrected = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40 + 10 = 50 # 003
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -136,22 +136,22 @@ requests_i_j_k_l_s_surplus_only_corrected = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_surplus_corrected = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+requests_i_j_k_l_s_surplus_corrected = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = override(40, 50) = 50 # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 3 from J) = {
+                (1 from C, 1 from I, 3 from J, 1 from K) = {
                     (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60,   ) = 60 # 004
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -159,34 +159,34 @@ requests_i_j_k_l_s_surplus_corrected = (
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_corrected.First = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
+requests_i_j_k_l_s_corrected.First = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
-                )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 50  # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 3 from J) = {
+                (1 from C, 1 from I, 3 from J, 1 from K) = {
                     (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона

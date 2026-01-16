@@ -5,75 +5,75 @@ MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # 4 <= 65 AND l0 != 2
         R  from index # Индексы очереди
 
 available_i_j(1 from R)
-available_i_j(2 from R) = (
-    (1 from I) = (
+available_i_j(2 from R) = {
+    (1 from I) = {
         (1 from I, 1 from J) = 370, # 370 >= 4
         (1 from I, 2 from J) = 200, # 200 >= 4
         (1 from I, 3 from J) = 300  # 300 >= 4
     )
 )
-available_i_j(3 from R) = (
-    (1 from I) = (
+available_i_j(3 from R) = {
+    (1 from I) = {
         (1 from I, 1 from J) = 370, # 370 >= 65
         (1 from I, 2 from J) = 200, # 200 >= 65
         (1 from I, 3 from J) = 300  # 300 >= 65
     )
 )
-available_i_j(4 from R) = (
-    (1 from I) = (
+available_i_j(4 from R) = {
+    (1 from I) = {
         (1 from I, 1 from J) = 370, # 370 >= 4
         (1 from I, 2 from J) = 200, # 200 >= 4
         (1 from I, 3 from J) = 300  # 300 >= 4
-    )
-)
+    }
+}
     where
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-available_i_j_final = available_i_j(4 from R) = (
-    (1 from I) = (
+available_i_j_final = available_i_j(4 from R) = {
+    (1 from I) = {
         (1 from I, 1 from J) = 370,
         (1 from I, 2 from J) = 200,
         (1 from I, 3 from J) = 300
-    )
-)
+    }
+}
     where
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-estimated_i_j_k_l_final = (
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = (
-                (1 from C, 1 from I, 1 from J, 1 from K) = (
+estimated_i_j_k_l_final = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
                     (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0,   # 001
                     (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 130, # 007
                     (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 260  # 008
-                ),
-                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0    # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65   # 006
-                ),
-                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                },
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65,  # 005
                     (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 390  # 009
-                )
-            ),
-            (1 from C, 1 from I, 2 from J) = (
-                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0    # 003
-                )
-            ),
-            (1 from C, 1 from I, 3 from J) = (
-                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                }
+            },
+            (1 from C, 1 from I, 3 from J) = {
+                (1 from C, 1 from I, 3 from J, 1 from K) = {
                     (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0    # 004
-                )
-            )
-        )
-    )
-)
+                }
+            }
+        }
+    }
+}
     where
         C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
