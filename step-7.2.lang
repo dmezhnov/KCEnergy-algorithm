@@ -1,4 +1,4 @@
-MAX_SUBJECT_SHARE_COEFFICIENT                    from ("initial_data.lang")
+MAX_SUBJECT_SHARE_COEFFICIENT                   from ("initial_data.lang")
 normalized_i_j_k_l_s                            from ("step-6.lang")
 normalized_i_l_s, normalized_i_s                from ("step-7.1.lang")
 for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
