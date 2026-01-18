@@ -1,7 +1,7 @@
 number                                                    from core
 count_coordinates_by_axis, filter_by_pair filter_by_value from ("matrix_operation.lang")
 axis, condition, matrix, index                            from ("matrix_types.lang")
-requests_i_j_deficit:                                     from ("step-2.lang")
+requests_i_j_deficit                                      from ("step-2.lang")
 requests_i_j_k_l_s                                        from ("step-1.lang")
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС / которые обслуживаются в 1-ю очередь)
@@ -13,10 +13,10 @@ requests_i_j_k_l_s_deficit(i) = {
         (i, j, s) = {
             (i, j, s, k) = {
                 (i, j, s, k, l) = requests_i_j_k_l_s.First(i, j, s, k, l)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s.First(i, j, s, k, l)   of number # Запрашиваемый объем НП
         requests_i_j_k_l_s_deficit(i, j, s, k, l) of number
@@ -70,8 +70,8 @@ requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_k_l_s_deficit, Ship_terms)
 refinery_count_by_deficit_requests(i) = {
     (i, k) = {
         (i, k, l) = M
-    )
-)
+    }
+}
     where
         refinery_count_by_deficit_requests(i, k, l) of number
         requests_i_j_k_l_deficit(i, k, l, s, j)     of number
@@ -105,8 +105,8 @@ refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_
 refinery_count_by_deficit_requests_single(i) = {
     (i, k) = {
         (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
-    )
-)
+    }
+}
     where
         refinery_count_by_deficit_requests_single(i, k, l) of  number = M
         refinery_count_by_deficit_requests(i, k, l)        of  number = M
@@ -121,13 +121,13 @@ refinery_count_by_deficit_requests_single(i) = {
                         l  for P  from index # Индексы субъекта рынка
                         M         from index # Количество НПЗ
 
-refinery_count_by_deficit_requests_single = filter_by_value(refinery_count_by_deficit_requests, =, 1)
+refinery_count_by_deficit_requests_single = filter_by_value(refinery_count_by_deficit_requests, "=", 1)
     where
         refinery_count_by_deficit_requests_single(i, k, l) of  number
         refinery_count_by_deficit_requests(i, k, l)        of  number
         refinery_count_by_deficit_requests_single of matrix(Product, Region, Market_participant)
         refinery_count_by_deficit_requests        of matrix(Product, Region, Market_participant)
-        = from condition
+        "=" from condition
                     where
                         Product, Region, Market_participant from axis # Оси заявок
                         i  for I  from index # Индексы нефпродукта
@@ -139,9 +139,9 @@ refinery_count_by_deficit_requests_multiple(i) = {
     (i, k) = {
         (i, k, l) = {
             (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
-        )
-    )
-)
+        }
+    }
+}
     where
         refinery_count_by_deficit_requests_multiple(i, k, l) of number = M
         refinery_count_by_deficit_requests(i, k, l)          of number = M
@@ -156,13 +156,13 @@ refinery_count_by_deficit_requests_multiple(i) = {
                         l  for P  from index  # Индексы субъекта рынка
                         M         from index  # Количество НПЗ
 
-refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_deficit_requests, !=, 1)
+refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_deficit_requests, "!=", 1)
     where
         refinery_count_by_deficit_requests_multiple(i, k, l) of number
         refinery_count_by_deficit_requests(i, k, l)          of number
         refinery_count_by_deficit_requests_multiple of matrix(Product, Region, Market_participant)
         refinery_count_by_deficit_requests          of matrix(Product, Region, Market_participant)
-        != from condition
+        "!=" from condition
             where
                 Product, Region, Market_participant from axis # Оси заявок
                 i  for I  from index  # Индексы нефпродукта
@@ -175,10 +175,10 @@ requests_i_j_k_l_s_deficit_single(i) = {
         (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s.First(i, k, l, s, j)               of number
         requests_i_j_k_l_s_deficit_single(i, k, l, s, j)      of number
@@ -218,10 +218,10 @@ requests_i_j_k_l_s_deficit_multiple(i) = {
         (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s.First(i, k, l, s, j)                 of number
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j)      of number

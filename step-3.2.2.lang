@@ -9,9 +9,9 @@ requests_i_k_l_s_deficit_multiple(i) = {
     (i, k) = {
         (i, k, l) = {
             (i, k, l, s) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, 1) + ... + requests_i_j_k_l_s_deficit_multiple(i, k, l, s, J)
-        )
-    )
-)
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) of number
         requests_i_k_l_s_deficit_multiple(i, k, l, s)      of number
@@ -45,10 +45,10 @@ requests_i_j_k_l_s_deficit_multiple_share(i) = {
         (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) / requests_i_k_l_s_deficit_multiple(i, k, l, s)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j)       of number
@@ -57,7 +57,7 @@ requests_i_j_k_l_s_deficit_multiple_share(i) = {
         requests_i_j_k_l_s_deficit_multiple       of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_deficit_multiple         of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                / from operation
+                "/" from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
@@ -65,7 +65,7 @@ requests_i_j_k_l_s_deficit_multiple_share(i) = {
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_deficit_multiple, /, requests_i_k_l_s_deficit_multiple)
+requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_deficit_multiple, "/", requests_i_k_l_s_deficit_multiple)
     where
         requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j)       of number
@@ -74,7 +74,7 @@ requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_def
         requests_i_j_k_l_s_deficit_multiple       of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_k_l_s_deficit_multiple         of matrix(Product, Region, Market_participant, Ship_terms)
             where
-                / from operation
+                "/" from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
@@ -88,10 +88,10 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
         (i, k, s) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) * moving_average(i, k, l)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j)    of number
@@ -100,7 +100,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
         requests_i_j_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average                               of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                * from operation
+                "*" from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
@@ -108,7 +108,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_deficit_multiple_share, *, moving_average)
+requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_deficit_multiple_share, "*", moving_average)
     where
         requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j)    of number
@@ -117,7 +117,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_
         requests_i_j_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         moving_average                               of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
-                * from operation
+                "*" from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
@@ -131,10 +131,10 @@ requests_i_j_k_l_s_deficit_multiple_pend(i) = {
         (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) - requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_multiple_pend(i, k, l, s, j)     of number
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j)          of number
@@ -150,7 +150,7 @@ requests_i_j_k_l_s_deficit_multiple_pend(i) = {
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_deficit_multiple, -, requests_i_j_k_l_s_deficit_multiple_pend_aux)
+requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_deficit_multiple, "-", requests_i_j_k_l_s_deficit_multiple_pend_aux)
     where
         requests_i_j_k_l_s_deficit_multiple_pend(i, k, l, s, j)     of number
         requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j)          of number
@@ -159,7 +159,7 @@ requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_defi
         requests_i_j_k_l_s_deficit_multiple          of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
             where
-                - from operation
+                "-" from operation
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
@@ -173,10 +173,10 @@ requests_i_j_k_l_s_deficit_multiple_corrected(i) = {
         (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_multiple_corrected(i, k, l, s, j) of number = corrected_value
         requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j)  of number = pend_aux_value
@@ -188,13 +188,9 @@ requests_i_j_k_l_s_deficit_multiple_corrected(i) = {
                 corrected_value = request_value
                     where
                         request_value <= pend_aux_value
-                            where
-                                <=  from condition
                 corrected_value = pend_aux_value
                     where
                         request_value > pend_aux_value
-                            where
-                                >  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
