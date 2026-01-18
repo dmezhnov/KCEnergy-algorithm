@@ -5,9 +5,9 @@ requests_i_j_k_l_s_deficit_multiple from ("step-3.2.0.lang")
 moving_average                      from ("step-3.1.0.lang")
 
 # Матрица множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_k_l_s_deficit_multiple(i) = (
-    (i, k) = (
-        (i, k, l) = (
+requests_i_k_l_s_deficit_multiple(i) = {
+    (i, k) = {
+        (i, k, l) = {
             (i, k, l, s) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, 1) + ... + requests_i_j_k_l_s_deficit_multiple(i, k, l, s, J)
         )
     )
@@ -40,10 +40,10 @@ requests_i_k_l_s_deficit_multiple = sum_by_axes(requests_i_j_k_l_s_deficit_multi
                 j  for J  from index # Индексы НПЗ
 
 # Матрица долей множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple_share(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_multiple_share(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) / requests_i_k_l_s_deficit_multiple(i, k, l, s)
             )
         )
@@ -83,10 +83,10 @@ requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_def
                 j  for J  from index # Индексы НПЗ
 
 # Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = (
-    (i, k) = (
-        (i, k, s) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
+    (i, k) = {
+        (i, k, s) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) * moving_average(i, k, l)
             )
         )
@@ -126,10 +126,10 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_
                 j  for J  from index # Индексы НПЗ
 
 # Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple_pend(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_multiple_pend(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple(i, k, l, s, j) - requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j)
             )
         )
@@ -168,10 +168,10 @@ requests_i_j_k_l_s_deficit_multiple_pend = for_each_pair(requests_i_j_k_l_s_defi
                 j  for J  from index # Индексы НПЗ
 
 # Матрица скорректированных на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple_corrected(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_multiple_corrected(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j)
             )
         )

@@ -8,10 +8,10 @@ requests_i_j_k_l_s                                        from ("step-1.lang")
 
 
 # Матрица дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit(i) = (
-    (i, j) = (
-        (i, j, s) = (
-            (i, j, s, k) = (
+requests_i_j_k_l_s_deficit(i) = {
+    (i, j) = {
+        (i, j, s) = {
+            (i, j, s, k) = {
                 (i, j, s, k, l) = requests_i_j_k_l_s.First(i, j, s, k, l)
             )
         )
@@ -67,8 +67,8 @@ requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_k_l_s_deficit, Ship_terms)
                 s  for C  from index # Индексы условий поставки
 
 # Матрица количества НПЗ в дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
-refinery_count_by_deficit_requests(i) = (
-    (i, k) = (
+refinery_count_by_deficit_requests(i) = {
+    (i, k) = {
         (i, k, l) = M
     )
 )
@@ -102,8 +102,8 @@ refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_
                 M         from index # Количество НПЗ
 
 # Матрица количества НПЗ в единичных (запросы на один НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
-refinery_count_by_deficit_requests_single(i) = (
-    (i, k) = (
+refinery_count_by_deficit_requests_single(i) = {
+    (i, k) = {
         (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
     )
 )
@@ -135,9 +135,9 @@ refinery_count_by_deficit_requests_single = filter_by_value(refinery_count_by_de
                         l  for P  from index # Индексы субъекта рынка
 
 # Матрица количества НПЗ в множественных (запросы на несколько НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
-refinery_count_by_deficit_requests_multiple(i) = (
-    (i, k) = (
-        (i, k, l) = (
+refinery_count_by_deficit_requests_multiple(i) = {
+    (i, k) = {
+        (i, k, l) = {
             (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
         )
     )
@@ -170,10 +170,10 @@ refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_
                 l  for P  from index  # Индексы субъекта рынка
 
 # Матрица единичных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_single(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_single(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
             )
         )
@@ -213,10 +213,10 @@ requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_k_l_s.First, con
                 j  for J  from index # Индексы НПЗ
 
 # Матрица множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_multiple(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s.First(i, k, l, s, j)
             )
         )

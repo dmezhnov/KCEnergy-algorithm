@@ -11,7 +11,7 @@ requests_i_j                                        from ("step-1.lang")
 
 # Матрица порогов превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
-threshold_i_j(i) = (
+threshold_i_j(i) = {
     (i, j) = available_i_j.First(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
 )
     where
@@ -39,7 +39,7 @@ threshold_i_j = for_each_element(available_i_j.First, *, OVERALL_REQUEST_CAPACIT
                 j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в дефицитных запросах (запросы поданные на дефицитные НПЗ) от всех субъектов ранка
-requests_i_j_deficit(i) = (
+requests_i_j_deficit(i) = {
     (i, j) = requests_i_j(i, j)
 )
     where
@@ -73,7 +73,7 @@ requests_i_j_deficit = filter_by_value(requests_i_j, >=, threshold_i_j)
                 j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в профицитных запросах (запросы поданные на профицитные НПЗ) от всех субъектов ранка
-requests_i_j_surplus(i) = (
+requests_i_j_surplus(i) = {
     (i, j) = requests_i_j(i, j)
 )
     where

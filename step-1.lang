@@ -10,10 +10,10 @@ requests_i_j_k_l_s_l0             from ("initial_data.lang")
 # проверки на дефицит/профицит.
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в l0-ю очередь
-requests_i_j_k_l_s(l0)(i) = (
-    (i, j) = (
-        (i, j, k) = (
-            (i, j, k, l) = (
+requests_i_j_k_l_s(l0)(i) = {
+    (i, j) = {
+        (i, j, k) = {
+            (i, j, k, l) = {
                 (i, j, k, l, s) = requests_i_j_k_l_s_l0(i, j, k, l, l0, s)
             )
         )
@@ -52,10 +52,10 @@ requests_i_j_k_l_s(l0) = filter_by_coordinate(requests_i_j_k_l_s_l0, l0)
                         s  for C  from index # Индексы условий поставки
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
-requests_i_j_k_l_s.First(i) = (
-    (i, j) = (
-        (i, j, k) = (
-            (i, j, k, l) = (
+requests_i_j_k_l_s.First(i) = {
+    (i, j) = {
+        (i, j, k) = {
+            (i, j, k, l) = {
                 (i, j, k, l, s) = requests_i_j_k_l_s_l0(i, j, k, l, l0, s)
             )
         )
@@ -97,10 +97,10 @@ requests_i_j_k_l_s.First = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
                         l0 for R  from index # Индексы очереди
                         s  for C  from index # Индексы условий поставки
 
-requests_i_j_k_l_l0(i) = (
-    (i, j) = (
-        (i, j, k) = (
-            (i, j, k, l) = (
+requests_i_j_k_l_l0(i) = {
+    (i, j) = {
+        (i, j, k) = {
+            (i, j, k, l) = {
                 (i, j, k, l, l0) = requests_i_j_k_l_s_l0(i, j, k, l, l0, 1) + ... + requests_i_j_k_l_s_l0(i, j, k, l, l0, S)
             )
         )
@@ -136,9 +136,9 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
 
-requests_i_j_k_l(i) = (
-    (i, j) = (
-        (i, j, k) = (
+requests_i_j_k_l(i) = {
+    (i, j) = {
+        (i, j, k) = {
             (i, j, k, l) = requests_i_j_k_l_l0(i, j, k, l, 1) + ... + requests_i_j_k_l_l0(i, j, k, l, L0)
         )
     )
@@ -176,8 +176,8 @@ requests_i_j_k_l = sum_by_axes(requests_i_j_k_l_l0, Queue)
                 l0 for R  from index  # Индексы очереди
                 L0        from index  # Количество очередей
 
-requests_i_j_k(i) = (
-    (i, j) = (
+requests_i_j_k(i) = {
+    (i, j) = {
         (i, j, k) = requests_i_j_k_l(i, j, k, 1) + ... + requests_i_j_k_l(i, j, k, L)
     )
 )
@@ -218,7 +218,7 @@ requests_i_j_k = requests_i_j_k(1),             ...,  requests_i_j_k(N)
                         L         from index # Количество субъектов рынка
                         N         from index # Количество нефпродуктов
 
-requests_i_j(i) = (
+requests_i_j(i) = {
     (i, j) = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
 )
     where
