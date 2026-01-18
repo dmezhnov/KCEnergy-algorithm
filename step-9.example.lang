@@ -1,7 +1,7 @@
-MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4  # 4 <= 65 AND l0 != 2
+MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4  # 4 <= 65 and l0 != 2
 MIN_NEXT_AVAIL_TONNAGE(2 from R) = 65 # l0 = 2
-MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # 4 <= 65 AND l0 != 2
-MIN_NEXT_AVAIL_TONNAGE(4 from R) = 4  # 4 <= 65 AND l0 != 2
+MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # 4 <= 65 and l0 != 2
+MIN_NEXT_AVAIL_TONNAGE(4 from R) = 4  # 4 <= 65 and l0 != 2
     where
         R  from index # Индексы очереди
 

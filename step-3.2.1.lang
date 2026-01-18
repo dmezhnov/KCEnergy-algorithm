@@ -9,10 +9,10 @@ moving_average                    from ("step-3.1.0.lang")
 # При нескольких НПЗ рассчитываем доли по НПЗ в общем объёме субъекта.
 
 # Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_single_corrected(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_single_corrected(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = moving_average(i, k, l, s, j)
             )
         )
@@ -37,10 +37,10 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
-requests_i_j_k_l_s_deficit_single_corrected(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_single_corrected(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_single(i, k, l, s, j)
             )
         )

@@ -2,9 +2,9 @@ number, length from core
 
 # Системные данные
 
-operation = *, /, safe_divide, round, floor, +, -, min, max
+operation = "*", "/", safe_divide, round, floor, "+", "-", min, max
 
-condition = =, <, <=, >, >=, contains, not_contains
+condition = "=", "<", "<=", ">", ">=", contains, not_contains
 
 Queue = First, Second, Third, Fourth
 
@@ -14,22 +14,22 @@ Product = AI-92, Diesel
 
 axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms, Request
 
-matrix(Tcoords(1), ..., Tcoords(C)) = (
+matrix(Tcoords(1), ..., Tcoords(C)) = {
     coords = Tcoords(1), ..., Tcoords(C)
-    value of number OR matrix(TcoordsNext)
+    value of number or matrix(TcoordsNext)
         where
             TcoordsNext = Tcoords(1), ..., Tcoords(C-1) of coordinate
                 where
                     C of index = length(coords) # Количество координат
-)
+}
 
-matrix(Index(1), ..., Index(C)) = (
+matrix(Index(1), ..., Index(C)) = {
 
 )
 
 coordinate = axis, index
 
-index of number = (
+index of number = {
     I  of number = 1, ..., N                  # Индексы нефпродукта
     N  of number = length(Product)            # Количество нефтепродуктов (последний индекс)
 
@@ -56,7 +56,7 @@ index of number = (
 
     C  of number = 1, ..., S                  # Индексы условий поставки
     S  of number = length(Ship_terms)         # Количество условий поставки (последний индекс)
-)
+}
 
 # i  for I  from index
 # i0 for I0 from index
