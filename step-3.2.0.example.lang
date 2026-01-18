@@ -39,10 +39,11 @@ requests_i_j_k_l_deficit = {
         }
     }
 }
-    I from index # Индексы нефпродукта
-    J from index # Индексы НПЗ
-    K from index # Индексы региона
-    P from index # Индексы субъекта рынка
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
 
 refinery_count_by_deficit_requests = {
     (1 from I) = {
