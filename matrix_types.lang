@@ -56,6 +56,9 @@ index of number = {
 
     C  of number = 1, ..., S                  # Индексы условий поставки
     S  of number = length(Ship_terms)         # Количество условий поставки (последний индекс)
+
+    Z of number = 1, ..., D                   # Индексы запросов
+    D of number = length(Request)             # Количество запросов
 }
 
 # i  for I  from index
@@ -67,3 +70,4 @@ index of number = {
 # t  for Y  from index
 # l0 for R  from index
 # s  for C  from index
+# q  for Z  from index
