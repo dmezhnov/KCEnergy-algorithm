@@ -1,4 +1,4 @@
-requests_i_j_k_l_s = 
+requests_i_j_k_l_s_q = ()
     where
         Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
         i  for I  from index # Индексы нефпродукта
@@ -7,3 +7,4 @@ requests_i_j_k_l_s =
         l  for P  from index # Индексы субъекта рынка
         l0 for R  from index # Индексы очереди
         s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
