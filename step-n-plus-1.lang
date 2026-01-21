@@ -1,4 +1,20 @@
-requests_i_j_k_l_s_q from ("initial_data.lang")
+requests_i_j_k_l_s_l0_q from ("initial_data.lang")
+estimated_i_j_k_l_final from ("step-9.lang")
 
-estimated_i_j_k_l_q_final = (estimated_i_j_k_l_final, contains, requests_i_j_k_l_s_q)
-
+estimated_i_j_k_l_final_requests = (estimated_i_j_k_l_final, contains, requests_i_j_k_l_s_l0_q)
+    where
+        estimated_i_j_k_l_final(i, j, k, l, l0, s)           of number
+        estimated_i_j_k_l_final_requests(i, j, k, l, l0, s)  of number
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)        of number # Запрашиваемый объем НП
+        estimated_i_j_k_l_final          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        estimated_i_j_k_l_final_requests of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_l0_q          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for k  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
