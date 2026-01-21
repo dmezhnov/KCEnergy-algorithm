@@ -1,10 +1,19 @@
-requests_i_j_k_l_s = sum_by_axes(requests_i_j_k_l_s_q, Request)
+requests_i_j_k_l_s_l0_q from ("initial_data.lang")
+axis, index, matrix     from ("matrix_types.lang")
+sum_by_axes             from  ("matrix_operation.lang")
+
+requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_k_l_s_l0_q, Request)
     where
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси заявок
-        i  for I  from index # Индексы нефпродукта
-        j  for J  from index # Индексы НПЗ
-        k  for k  from index # Индексы региона
-        l  for P  from index # Индексы субъекта рынка
-        l0 for R  from index # Индексы очереди
-        s  for C  from index # Индексы условий поставки
-        q  for Z  from index # Индексы запросов
+        requests_i_j_k_l_s_l0(i, j, k, l, l0, s)      of number
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q) of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_l0   of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_l0_q of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for k  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
