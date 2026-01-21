@@ -2,7 +2,7 @@ requests_i_j_k_l_s_l0_q from ("initial_data.lang")
 estimated_i_j_k_l_final from ("step-9.lang")
 assign_matrix           from ("matrix_operation.lang")
 
-requests_i_j_k_l_s_l0_q_final = assign_matrix(requests_i_j_k_l_s_l0_q, estimated_i_j_k_l_final)
+requests_i_j_k_l_s_l0_q_final(1) = assign_matrix(requests_i_j_k_l_s_l0_q, estimated_i_j_k_l_final)
     where
         estimated_i_j_k_l_final(i, j, k, l, l0, s)       of number
         requests_i_j_k_l_s_l0_q_final(i, j, k, l, l0, s) of number
@@ -19,3 +19,11 @@ requests_i_j_k_l_s_l0_q_final = assign_matrix(requests_i_j_k_l_s_l0_q, estimated
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), ">", requests_i_j_k_l_s_l0_q)
+
+requests_i_j_k_l_s_l0_q_final_not_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), "<=", requests_i_j_k_l_s_l0_q)
+
+requests_i_j_k_l_s_l0_q_final(n) = for_each_pair(requests_i_j_k_l_s_l0_q_final_exceed(n - 1), "-", requests_i_j_k_l_s_l0_q)
+
+requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_l0_q_final_not_exceed(1), ..., requests_i_j_k_l_s_l0_q_final_not_exceed(x))
