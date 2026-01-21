@@ -1,17 +1,18 @@
 requests_i_j_k_l_s_l0_q from ("initial_data.lang")
 estimated_i_j_k_l_final from ("step-9.lang")
 assign_matrix           from ("matrix_operation.lang")
+condition, axis, index  from ("matrix_types.lang")
 
 requests_i_j_k_l_s_l0_q_final(1) = assign_matrix(requests_i_j_k_l_s_l0_q, estimated_i_j_k_l_final)
     where
-        estimated_i_j_k_l_final(i, j, k, l, l0, s)       of number
-        requests_i_j_k_l_s_l0_q_final(i, j, k, l, l0, s) of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)    of number # Запрашиваемый объем НП
-        estimated_i_j_k_l_final       of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s_l0_q_final of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q       of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        estimated_i_j_k_l_final(i, j, k, l, l0, s)          of number
+        requests_i_j_k_l_s_l0_q_final(1)(i, j, k, l, l0, s) of number
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)       of number # Запрашиваемый объем НП
+        estimated_i_j_k_l_final          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_l0_q_final(1) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
             where
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 k  for k  from index # Индексы региона
@@ -21,6 +22,23 @@ requests_i_j_k_l_s_l0_q_final(1) = assign_matrix(requests_i_j_k_l_s_l0_q, estima
                 q  for Z  from index # Индексы запросов
 
 requests_i_j_k_l_s_l0_q_final_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), ">", requests_i_j_k_l_s_l0_q)
+    where
+        requests_i_j_k_l_s_l0_q_final_exceed(n)(i, j, k, l, l0, s) of number
+        requests_i_j_k_l_s_l0_q_final(n)(i, j, k, l, l0, s)        of number
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)              of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_l0_q_final_exceed(n) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_l0_q_final(n)        of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q                 of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        ">" from condition
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for k  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
 
 requests_i_j_k_l_s_l0_q_final_not_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), "<=", requests_i_j_k_l_s_l0_q)
 
