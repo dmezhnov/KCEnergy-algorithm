@@ -1,14 +1,15 @@
 requests_i_j_k_l_s_l0_q from ("initial_data.lang")
 estimated_i_j_k_l_final from ("step-9.lang")
+assign_matrix           from ("matrix_operation.lang")
 
-estimated_i_j_k_l_final_requests = (estimated_i_j_k_l_final, contains, requests_i_j_k_l_s_l0_q)
+requests_i_j_k_l_s_l0_q_final = assign_matrix(requests_i_j_k_l_s_l0_q, estimated_i_j_k_l_final)
     where
-        estimated_i_j_k_l_final(i, j, k, l, l0, s)           of number
-        estimated_i_j_k_l_final_requests(i, j, k, l, l0, s)  of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)        of number # Запрашиваемый объем НП
-        estimated_i_j_k_l_final          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        estimated_i_j_k_l_final_requests of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s_l0_q          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_k_l_final(i, j, k, l, l0, s)       of number
+        requests_i_j_k_l_s_l0_q_final(i, j, k, l, l0, s) of number
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)    of number # Запрашиваемый объем НП
+        estimated_i_j_k_l_final       of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_s_l0_q_final of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q       of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
         Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
             where
                 i  for I  from index # Индексы нефпродукта
