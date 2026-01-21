@@ -83,3 +83,19 @@ requests_i_j_k_l_s_l0_q_final(n) = for_each_pair(requests_i_j_k_l_s_l0_q_final_e
                 q  for Z  from index # Индексы запросов
 
 requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_l0_q_final_not_exceed(1), ..., requests_i_j_k_l_s_l0_q_final_not_exceed(x))
+    where
+        requests_i_j_k_l_s_l0_q_final_not_exceed_all(i, j, k, l, l0, s, q) of number
+        requests_i_j_k_l_s_l0_q_final_not_exceed(n)(i, j, k, l, l0, s, q)  of number
+        requests_i_j_k_l_s_l0_q_final_not_exceed_all(n) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q_final_not_exceed(n)     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                n  of          index # Индек матрицы
+                x  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for k  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
