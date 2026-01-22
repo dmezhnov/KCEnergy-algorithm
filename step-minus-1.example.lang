@@ -1,0 +1,54 @@
+requests_i_j_k_l_s_l0 = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 1 from K) = {
+                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100 # 001
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250 # 007
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 2 from K) = {
+                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = 150 # 002
+                },
+                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = 200 # 006
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300 # 005
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 1 from K) = {
+                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = 40 # 003
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 1 from K) = {
+                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = 60 # 004
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
