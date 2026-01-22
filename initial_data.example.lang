@@ -49,295 +49,61 @@ requests_i_j_k_l_s_l0 = {
         (1 from I, 1 from C, 1 from J) = {
             (1 from I, 1 from C, 1 from J, 1 from K) = {
                 (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100, # 001
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 1 from K, 2 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 1 from K, 3 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 3 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R, 1 from Z) = 100
+                    )
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250, # 007
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 250
+                    )
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
-                },
-                (1 from I, 1 from C, 1 from J, 1 from K, 6 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 6 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 500
+                    )
                 }
             },
             (1 from I, 1 from C, 1 from J, 2 from K) = {
                 (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = 150, # 002
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 2 from K, 2 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 2 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R, 2 from Z) = 150
+                    )
                 },
                 (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = 200, # 006
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 2 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 2 from K, 5 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 2 from K, 6 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 6 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R, 6 from Z) = 200
+                    )
                 }
             },
             (1 from I, 1 from C, 1 from J, 3 from K) = {
-                (1 from I, 1 from C, 1 from J, 3 from K, 1 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 1 from P, 4 from R)
-                },
                 (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300, # 005
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 3 from K, 3 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 3 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 1 from J, 3 from K, 5 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 5 from P, 4 from R)
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 300
+                    )
                 },
                 (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 700
+                    )
                 }
             }
         },
         (1 from I, 1 from C, 2 from J) = {
             (1 from I, 1 from C, 2 from J, 1 from K) = {
                 (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = 40, # 003
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 1 from K, 2 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 1 from K, 3 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 1 from K, 5 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 1 from K, 6 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 6 from P, 4 from R)
-                }
-            },
-            (1 from I, 1 from C, 2 from J, 2 from K) = {
-                (1 from I, 1 from C, 2 from J, 2 from K, 1 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 2 from K, 2 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 2 from K, 3 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 2 from K, 4 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 2 from K, 5 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 2 from K, 6 from P) = {
-                    (1 from I, 1 from C, 2 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 6 from P, 4 from R)
-                }
-            },
-            (1 from I, 1 from C, 2 from J, 3 from K) = {
-                (1 from I, 1 from C, 2 from J, 3 from K, 1 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 3 from K, 2 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 3 from K, 3 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 3 from K, 4 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 3 from K, 5 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 2 from J, 3 from K, 6 from P) = {
-                    (1 from I, 1 from C, 2 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 6 from P, 4 from R)
+                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R, 3 from Z) = 40
+                    )
                 }
             }
         },
         (1 from I, 1 from C, 3 from J) = {
             (1 from I, 1 from C, 3 from J, 1 from K) = {
                 (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = 60, # 004
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 1 from K, 2 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 1 from K, 3 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 1 from K, 5 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 1 from K, 6 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 6 from P, 4 from R)
-                }
-            },
-            (1 from I, 1 from C, 3 from J, 2 from K) = {
-                (1 from I, 1 from C, 3 from J, 2 from K, 1 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 2 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 3 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 4 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 5 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 6 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 6 from P, 4 from R)
-                }
-            },
-            (1 from I, 1 from C, 3 from J, 3 from K) = {
-                (1 from I, 1 from C, 3 from J, 3 from K, 1 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 1 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 3 from K, 2 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 2 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 3 from K, 3 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 3 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 3 from K, 4 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 4 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 3 from K, 5 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 5 from P, 4 from R)
-                },
-                (1 from I, 1 from C, 3 from J, 3 from K, 6 from P) = {
-                    (1 from I, 1 from C, 3 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 6 from P, 4 from R)
-                }
-            }
-        }
-    }
-}
-    where
-        I from index # Индексы нефпродукта
-        C from index # Индексы условия поставки
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-        R from index # Индексы очереди
-
-requests_i_j_k_l_s_l0 = {
-    (1 from I, 1 from C) = {
-        (1 from I, 1 from C, 1 from J) = {
-            (1 from I, 1 from C, 1 from J, 1 from K) = {
-                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100 # 001
-                },
-                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250 # 007
-                },
-                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
-                }
-            },
-            (1 from I, 1 from C, 1 from J, 2 from K) = {
-                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = 150 # 002
-                },
-                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = 200 # 006
-                }
-            },
-            (1 from I, 1 from C, 1 from J, 3 from K) = {
-                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300 # 005
-                },
-                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
-                }
-            }
-        },
-        (1 from I, 1 from C, 2 from J) = {
-            (1 from I, 1 from C, 2 from J, 1 from K) = {
-                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = 40 # 003
-                }
-            }
-        },
-        (1 from I, 1 from C, 3 from J) = {
-            (1 from I, 1 from C, 3 from J, 1 from K) = {
-                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = 60 # 004
+                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R, 4 from Z) = 60
+                    )
                 }
             }
         }
@@ -350,6 +116,7 @@ requests_i_j_k_l_s_l0 = {
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # 1  from Y - август   2025
 # 2  from Y - июль     2025

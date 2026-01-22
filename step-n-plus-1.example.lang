@@ -1,0 +1,62 @@
+
+
+requests_i_j_k_l_s_l0_q_final(1 from n) = ()
+    where
+        n  of          index # Индек матрицы
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final_exceed(n) = ()
+    where
+        n  of          index # Индек матрицы
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final_not_exceed(n) = ()
+    where
+        n  of          index # Индек матрицы
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final(n) = ()
+    where
+        n  of          index # Индек матрицы
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final_not_exceed_all = ()
+    where
+        n  of          index # Индек матрицы
+        x  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
+        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
