@@ -1,9 +1,167 @@
+requests_i_j_k_l_s_l0_q_final(1 from n) = (
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 1 from K) = {
+                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R, 1 from Z) = override(100,   0) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = override(250,  65) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = override(500, 130) = 130
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 2 from K) = {
+                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R, 2 from Z) = override(150,   0) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R, 6 from Z) = override(200,  65) = 65
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = override(300,  65) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = override(700, 195) = 195
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 1 from K) = {
+                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R, 3 from Z) = override(40,   0) = 0
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 1 from K) = {
+                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R, 4 from Z) = override(60,   0) = 0
+                    )
+                }
+            }
+        }
+    }
+)
+    where
+        n  of   index # Индек матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        k  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условий поставки
+        Z  from index # Индексы запросов
 
+requests_i_j_k_l_s_l0_q_final_exceed(1 from n) = ()
+    where
+        n  of          index # Индек матрицы
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
+
+requests_i_j_k_l_s_l0_q_final_not_exceed(1 from n) = (
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 1 from K) = {
+                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R, 1 from Z) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 130
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 2 from K) = {
+                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R, 2 from Z) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R, 6 from Z) = 65
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 195
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 1 from K) = {
+                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R, 3 from Z) = 0
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 1 from K) = {
+                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R, 4 from Z) = 0
+                    )
+                }
+            }
+        }
+    }
+)
+    where
+        n  of          index # Индек матрицы
+        i  for I  from index # Индексы нефпродукта
+        j  for J  from index # Индексы НПЗ
+        k  for k  from index # Индексы региона
+        l  for P  from index # Индексы субъекта рынка
+        l0 for R  from index # Индексы очереди
+        s  for C  from index # Индексы условий поставки
+        q  for Z  from index # Индексы запросов
 
 requests_i_j_k_l_s_l0_q_final(1 from n) = ()
     where
         n  of          index # Индек матрицы
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
         i  for I  from index # Индексы нефпродукта
         j  for J  from index # Индексы НПЗ
         k  for k  from index # Индексы региона
@@ -12,47 +170,73 @@ requests_i_j_k_l_s_l0_q_final(1 from n) = ()
         s  for C  from index # Индексы условий поставки
         q  for Z  from index # Индексы запросов
 
-requests_i_j_k_l_s_l0_q_final_exceed(n) = ()
+requests_i_j_k_l_s_l0_q_final_not_exceed_all = (
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 1 from K) = {
+                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R, 1 from Z) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 130
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 2 from K) = {
+                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R, 2 from Z) = 0
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = {
+                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R, 6 from Z) = 65
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 65
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 195
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 1 from K) = {
+                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R, 3 from Z) = 0
+                    )
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 1 from K) = {
+                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = {
+                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R, 4 from Z) = 0
+                    )
+                }
+            }
+        }
+    }
+)
     where
         n  of          index # Индек матрицы
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-        i  for I  from index # Индексы нефпродукта
-        j  for J  from index # Индексы НПЗ
-        k  for k  from index # Индексы региона
-        l  for P  from index # Индексы субъекта рынка
-        l0 for R  from index # Индексы очереди
-        s  for C  from index # Индексы условий поставки
-        q  for Z  from index # Индексы запросов
-
-requests_i_j_k_l_s_l0_q_final_not_exceed(n) = ()
-    where
-        n  of          index # Индек матрицы
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-        i  for I  from index # Индексы нефпродукта
-        j  for J  from index # Индексы НПЗ
-        k  for k  from index # Индексы региона
-        l  for P  from index # Индексы субъекта рынка
-        l0 for R  from index # Индексы очереди
-        s  for C  from index # Индексы условий поставки
-        q  for Z  from index # Индексы запросов
-
-requests_i_j_k_l_s_l0_q_final(n) = ()
-    where
-        n  of          index # Индек матрицы
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-        i  for I  from index # Индексы нефпродукта
-        j  for J  from index # Индексы НПЗ
-        k  for k  from index # Индексы региона
-        l  for P  from index # Индексы субъекта рынка
-        l0 for R  from index # Индексы очереди
-        s  for C  from index # Индексы условий поставки
-        q  for Z  from index # Индексы запросов
-
-requests_i_j_k_l_s_l0_q_final_not_exceed_all = ()
-    where
-        n  of          index # Индек матрицы
-        x  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
         i  for I  from index # Индексы нефпродукта
         j  for J  from index # Индексы НПЗ
         k  for k  from index # Индексы региона

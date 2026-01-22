@@ -44,7 +44,7 @@ Region = Almaty, Astana, Shimkent
 # 009   1 from I,     1 from J,   3 from K,    6 from P,   4 from R - 700
 # 009   (AI_92,       PKOP,       Shimkent,     Paricipant_F,       Fourth)
 
-requests_i_j_k_l_s_l0 = {
+requests_i_j_k_l_s_l0_q = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
             (1 from I, 1 from C, 1 from J, 1 from K) = {
