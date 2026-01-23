@@ -87,13 +87,13 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
         matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
 
 ### - Количество координат по оси
-
-count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
+# Заменяет значение элеиента матрицы на количество координат по оси
+count_coordinates_by_axis(matrix_source, coord_to_count) = counted_matrix
     where
-        matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
-        counted_matrix of matrix(Tcoords(1), ..., Tcoords(C)) # Результирующая матрица численностей
+        matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), coord_to_count) # Исходная матрица
+        counted_matrix of  matrix(Tcoords(1), ..., Tcoords(C))                 # Результирующая матрица численностей
             where
-                axis_to_count of  axis # Ось, по которой считаем количество координат
+                coord_to_count          of coordinate # Ось, по которой считаем количество координат
                 Tcoords = (1), ..., (C) of coordinate # Оставшиеся оси
 
 ### - Фильтровать по координате
