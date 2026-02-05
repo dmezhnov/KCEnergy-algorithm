@@ -35,7 +35,7 @@ Region = Almaty, Astana, Shimkent
 # 006   1 from I,     1 from J,   2 from K,    3 from P,   1 from R - 200
 # 006   (AI_92,       PKOP,       Astana,     Paricipant_C,       First)
 
-# 007   1 from I,     1 from J,   1 from K,    4 from P,   4 from R - 250
+# 007   1 from I,     1 from J,   1 from K,    4 from P,   4 from R - 260
 # 007   (AI_92,       PKOP,       Almaty,     Paricipant_D,       Fourth)
 
 # 008   1 from I,     1 from J,   1 from K,    5 from P,   4 from R - 500
@@ -55,7 +55,7 @@ requests_i_j_k_l_s_l0_q = {
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
                     (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
-                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 250
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 260
                     )
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
@@ -79,7 +79,7 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 1 from C, 1 from J, 3 from K) = {
                 (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
                     (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
-                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 300
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 325
                     )
                 },
                 (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
