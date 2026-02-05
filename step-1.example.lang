@@ -137,9 +137,9 @@ requests_i_j_k_l = {
 requests_i_j_k = {
     (1 from I) = {
         (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = 100 + 250 + 500 = 850,  # 001 + 007 + 008
+            (1 from I, 1 from J, 1 from K) = 100 + 260 + 500 = 860,  # 001 + 007 + 008
             (1 from I, 1 from J, 2 from K) = 150 + 200       = 350,  # 002 + 006
-            (1 from I, 1 from J, 3 from K) = 300 + 700       = 1000  # 005 + 009
+            (1 from I, 1 from J, 3 from K) = 325 + 700       = 1025  # 005 + 009
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = 40                      # 003
@@ -157,7 +157,7 @@ requests_i_j_k = {
 
 requests_i_j = {
     (1 from I) = {
-        (1 from I, 1 from J) = 850 + 350 + 1000 = 2200, # (001 + 007 + 008) + (002 + 006) + (005 + 009)
+        (1 from I, 1 from J) = 860 + 350 + 1025 = 2235, # (001 + 007 + 008) + (002 + 006) + (005 + 009)
         (1 from I, 2 from J) = 40,                      # 003
         (1 from I, 3 from J) = 60                       # 004
     }
