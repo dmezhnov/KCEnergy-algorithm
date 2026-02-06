@@ -8,7 +8,7 @@ threshold_i_j = {
 
 requests_i_j_deficit = {
     (1 from I) = {
-        (1 from I, 1 from J) = 2235 # (001 + 007 + 008) + (002 + 006) + (005 + 009) requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J) -> 2235 >= 600
+        (1 from I, 1 from J) = 2270 # (001 + 007 + 008) + (002 + 006) + (005 + 009) requests_i_j(1 from I, 1 from J) >= threshold_i_j(1 from I, 1 from J) -> 2270 >= 600
     }
 }
 
