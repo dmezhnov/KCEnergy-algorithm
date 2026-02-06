@@ -10,7 +10,7 @@ requests_i_j_k_l_s_deficit = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
                 }
             }
         }
@@ -34,7 +34,7 @@ requests_i_j_k_l_deficit = {
                 (1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = 300  # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
             }
         }
     }
@@ -101,7 +101,7 @@ requests_i_j_k_l_s_deficit_single = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
                 }
             }
         }
