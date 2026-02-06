@@ -38,10 +38,10 @@ Region = Almaty, Astana, Shimkent
 # 007   1 from I,     1 from J,   1 from K,    4 from P,   4 from R - 260
 # 007   (AI_92,       PKOP,       Almaty,     Paricipant_D,       Fourth)
 
-# 008   1 from I,     1 from J,   1 from K,    5 from P,   4 from R - 500
+# 008   1 from I,     1 from J,   1 from K,    5 from P,   4 from R - 520
 # 008   (AI_92,       PKOP,       Almaty,     Paricipant_E,       Fourth)
 
-# 009   1 from I,     1 from J,   3 from K,    6 from P,   4 from R - 700
+# 009   1 from I,     1 from J,   3 from K,    6 from P,   4 from R - 715
 # 009   (AI_92,       PKOP,       Shimkent,     Paricipant_F,       Fourth)
 
 requests_i_j_k_l_s_l0_q = {
@@ -60,7 +60,7 @@ requests_i_j_k_l_s_l0_q = {
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
                     (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
-                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 500
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 520
                     )
                 }
             },
@@ -84,7 +84,7 @@ requests_i_j_k_l_s_l0_q = {
                 },
                 (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
                     (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
-                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 700
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 715
                     )
                 }
             }
@@ -203,13 +203,13 @@ requests_i_j_k_l_s_l0_q = {
 # 0024 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   12 from Y          - 0
 # 0024 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       сентябрь 2024)
 
-# 0025 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   1 from Y           - 400
+# 0025 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   1 from Y           - 420
 # 0025 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       август   2025)
 
-# 0026 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   2 from Y           - 0
+# 0026 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   2 from Y           - 400
 # 0026 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       июль     2025)
 
-# 0027 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   3 from Y           - 0
+# 0027 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   3 from Y           - 380
 # 0027 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       июнь     2025)
 
 # 0028 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   4 from Y           - 0
@@ -331,9 +331,9 @@ volumes_l_t_i_k_k0_i0 = {
             (1 from I, 1 from I0, 3 from K) = {
                 (1 from I, 1 from I0, 3 from K, 3 from K0) = {
                     (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P) = {
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 1  from Y) = 400, # 0025
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 2  from Y) = 0,   # 0026
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 3  from Y) = 0,   # 0027
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 1  from Y) = 420, # 0025
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 2  from Y) = 400, # 0026
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 3  from Y) = 380, # 0027
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 4  from Y) = 0,   # 0028
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 5  from Y) = 0,   # 0029
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 6  from Y) = 0,   # 0030
