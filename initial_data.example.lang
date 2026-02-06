@@ -30,7 +30,7 @@ Region = Almaty, Astana, Shimkent
 # 004   (AI_92,       PNHZ,       Almaty,     Paricipant_A,       First)
 
 # 005   1 from I,     1 from J,   3 from K,    2 from P,   1 from R - 300
-# 005   (AI_92,       PKOP,       Shimkent,     Paricipant_B,       First)
+# 005   (AI_92,       PKOP,       Shimkent,     Paricipant_B,     First)
 
 # 006   1 from I,     1 from J,   2 from K,    3 from P,   1 from R - 200
 # 006   (AI_92,       PKOP,       Astana,     Paricipant_C,       First)
