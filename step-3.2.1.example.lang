@@ -12,6 +12,11 @@ requests_i_j_k_l_s_deficit_single_corrected = {
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = min(325, 400) = 325 # 005
                 }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = min(40,  90)  = 40  # 003
+                }
             }
         }
     }
@@ -36,6 +41,11 @@ requests_i_j_k_l_s_deficit_single_pend = {
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 - 400 = -75 # 005
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  - 90  = -50 # 003
                 }
             }
         }
