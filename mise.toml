@@ -1,11 +1,11 @@
-["algorithm:test"]
+[tasks.test]
 description = "Test algorithm files (no-op)"
-run = "echo 'algorithm:test — no tests configured'"
+run = "echo 'No tests configured'"
 
-["algorithm:lint"]
+[tasks.lint]
 description = "Lint algorithm files (no-op)"
-run = "echo 'algorithm:lint — no linter configured'"
+run = "echo 'No linter configured'"
 
-["algorithm:list"]
+[tasks.list]
 description = "List all algorithm steps"
-run = "ls -1 algorithm/*.lang | sort"
+run = "ls -1 *.lang | sort"
