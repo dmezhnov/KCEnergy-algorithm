@@ -18,6 +18,26 @@ done
 wait
 '''
 
+[tasks.save]
+description = "Save uncommitted changes"
+run = '''
+for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
+  (cd "$sm" && mise run save)
+done
+if [ -n "$(git status --porcelain)" ]; then
+  git add -A && git commit -m "draft-$(date +%Y-%m-%d-%H-%M-%S)"
+fi
+'''
+
+[tasks.install]
+description = "Install dependencies"
+run = '''
+git submodule update --init --recursive
+for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
+  (cd "$sm" && mise run install)
+done
+'''
+
 [tasks.list]
 description = "List all algorithm steps"
 run = "ls -1 *.lang | sort"
