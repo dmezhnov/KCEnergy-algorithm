@@ -27,6 +27,15 @@ done
 if [ -n "$(git status --porcelain)" ]; then
   git add -A && git commit -m "draft-$(date +%Y-%m-%d-%H-%M-%S)"
 fi
+if [ -z "${_MISE_SAVE_FROM_ROOT}" ]; then
+  DIR="$PWD"
+  while true; do
+    PARENT=$(cd "$DIR" && git rev-parse --show-superproject-working-tree 2>/dev/null || true)
+    [ -z "$PARENT" ] && break
+    (cd "$PARENT" && if [ -n "$(git status --porcelain)" ]; then git add -A && git commit -m "draft-$(date +%Y-%m-%d-%H-%M-%S)"; fi)
+    DIR="$PARENT"
+  done
+fi
 '''
 
 [tasks.install]
