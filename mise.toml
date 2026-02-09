@@ -1,10 +1,22 @@
 [tasks.test]
 description = "Test algorithm files (no-op)"
-run = "echo 'No tests configured'"
+run = '''
+echo 'No tests configured'
+for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
+  (cd "$sm" && mise run test) &
+done
+wait
+'''
 
 [tasks.lint]
 description = "Lint algorithm files (no-op)"
-run = "echo 'No linter configured'"
+run = '''
+echo 'No linter configured'
+for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
+  (cd "$sm" && mise run lint) &
+done
+wait
+'''
 
 [tasks.list]
 description = "List all algorithm steps"
