@@ -360,7 +360,7 @@ volumes_l_t_i_k_k0_i0 = {
 available_i_j.First = {
     (1 from I) = {
         (1 from I, 1 from J) = 500,
-        (1 from I, 2 from J) = 200,
+        (1 from I, 2 from J) = 33.333,
         (1 from I, 3 from J) = 300
     }
 }
