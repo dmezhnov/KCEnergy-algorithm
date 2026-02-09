@@ -1,51 +1,18 @@
 [tasks.test]
 description = "Test algorithm files (no-op)"
-run = '''
-echo 'No tests configured'
-for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
-  (cd "$sm" && mise run test) &
-done
-wait
-'''
+run = "echo No tests configured"
 
 [tasks.lint]
 description = "Lint algorithm files (no-op)"
-run = '''
-echo 'No linter configured'
-for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
-  (cd "$sm" && mise run lint) &
-done
-wait
-'''
+run = "echo No linter configured"
 
 [tasks.save]
 description = "Save uncommitted changes"
-run = '''
-for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
-  (cd "$sm" && mise run save)
-done
-if [ -n "$(git status --porcelain)" ]; then
-  git add -A && git commit -m "draft-$(date +%Y-%m-%d-%H-%M-%S)"
-fi
-if [ -z "${_MISE_SAVE_FROM_ROOT}" ]; then
-  DIR="$PWD"
-  while true; do
-    PARENT=$(cd "$DIR" && git rev-parse --show-superproject-working-tree 2>/dev/null || true)
-    [ -z "$PARENT" ] && break
-    (cd "$PARENT" && if [ -n "$(git status --porcelain)" ]; then git add -A && git commit -m "draft-$(date +%Y-%m-%d-%H-%M-%S)"; fi)
-    DIR="$PARENT"
-  done
-fi
-'''
+run = "bun run ../scripts/save-from-child.bun.ts"
 
 [tasks.install]
 description = "Install dependencies"
-run = '''
-git submodule update --init --recursive
-for sm in $(git submodule foreach --quiet 'echo $sm_path'); do
-  (cd "$sm" && mise run install)
-done
-'''
+run = "git submodule update --init --recursive"
 
 [tasks.list]
 description = "List all algorithm steps"
