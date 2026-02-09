@@ -1,0 +1,3 @@
+["algorithm:list"]
+description = "List all algorithm steps"
+run = "ls -1 algorithm/*.lang | sort"
