@@ -28,14 +28,14 @@ requests_i_j_k_l_s_deficit_single_pend = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100 - 90 = 10   # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100 - 90  = 10  # 001
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90 = 60,  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 90 = 110  # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 300 - 90 = 210  # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 - 400 = -75 # 005
                 }
             }
         }
