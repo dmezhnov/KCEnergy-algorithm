@@ -1,3 +1,11 @@
+["algorithm:test"]
+description = "Test algorithm files (no-op)"
+run = "echo 'algorithm:test — no tests configured'"
+
+["algorithm:lint"]
+description = "Lint algorithm files (no-op)"
+run = "echo 'algorithm:lint — no linter configured'"
+
 ["algorithm:list"]
 description = "List all algorithm steps"
 run = "ls -1 algorithm/*.lang | sort"
