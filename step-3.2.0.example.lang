@@ -76,9 +76,6 @@ refinery_count_by_deficit_requests = {
 
 refinery_count_by_deficit_requests_single = {
     (1 from I) = {
-        (1 from I, 1 from K) = {
-            (1 from I, 1 from K, 1 from P) = 2  # 001, 003
-        },
         (1 from I, 2 from K) = {
             (1 from I, 2 from K, 1 from P) = 1, # 002
             (1 from I, 2 from K, 3 from P) = 1  # 006
@@ -93,7 +90,11 @@ refinery_count_by_deficit_requests_single = {
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-refinery_count_by_deficit_requests_multiple = {}
+refinery_count_by_deficit_requests_multiple = {
+    (1 from I, 1 from K) = {
+        (1 from I, 1 from K, 1 from P) = 2  # 001, 003
+    }
+}
     where
         I from index # Индексы нефпродукта
         K from index # Индексы региона

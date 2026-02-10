@@ -150,7 +150,7 @@ requests_i_j_k_l_s_surplus_corrected = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60,   ) = 60 # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60, 70) = 70 # 004
                 }
             }
         }
