@@ -28,7 +28,7 @@ requests_i_j_k_l_s_deficit_single_corrected = {
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_deficit_single_pend = {
+requests_i_j_k_l_s_deficit_single_pend_temp = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
@@ -46,6 +46,28 @@ requests_i_j_k_l_s_deficit_single_pend = {
             (1 from C, 1 from I, 2 from J) = {
                 (1 from C, 1 from I, 2 from J, 1 from K) = {
                     (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  - 90  = -50 # 003
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_j_k_l_s_deficit_single_pend = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100 - 90  = 10  # 001
+                },
+                (1 from C, 1 from I, 1 from J, 2 from K) = {
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
                 }
             }
         }
