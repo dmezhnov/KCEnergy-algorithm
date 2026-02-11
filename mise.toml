@@ -12,7 +12,7 @@ run = "bun run ../scripts/save-from-child.bun.ts"
 
 [tasks.install]
 description = "Install dependencies"
-run = "git submodule update --init --recursive"
+run = "echo No local dependencies"
 
 [tasks.list]
 description = "List all algorithm steps"
