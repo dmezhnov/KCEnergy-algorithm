@@ -1,6 +1,6 @@
 number                            from core
 axis, index, matrix               from ("matrix_types.lang")
-sum_by_axes, filter_by_coordinate from ("operations.lang")
+sum_by_axes, filter_by_coordinate from ("matrix_operation.lang")
 volumes_l_t_i_k_k0_i0             from ("initial_data.lang")
 
 ### Вычисляем суммарные объемы проливов по всем категориям НП в каждом регионе деятельности
