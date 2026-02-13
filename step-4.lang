@@ -88,19 +88,20 @@ requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First,  
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
-requests_i_j_corrected(l0) = sum_by_axes(requests_i_j_s_corrected, Ship_terms)
+requests_i_j_corrected(l0) = sum_by_axes(requests_i_j_s_corrected(l0), Ship_terms)
     where
         requests_i_j_s_corrected(l0)(i, j, s) of number
         requests_i_j_corrected(l0)(i, j)      of number
         requests_i_j_s_corrected(l0)  of matrix(Product, Refinery, Ship_terms)
         requests_i_j_corrected(l0)    of matrix(Product, Refinery)
             where
+                l0 for R  from index # Индексы очереди
                 Product, Refinery, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 s  for C  from index # Индексы условия поставки
 
-requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected, Ship_terms)
+requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_terms)
     where
         requests_i_j_s_corrected.First(i, j, s) of number
         requests_i_j_corrected.First(i, j)      of number
