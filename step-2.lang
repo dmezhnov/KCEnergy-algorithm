@@ -1,5 +1,5 @@
 number                                              from core
-for_each_element, filter_by_value                   from ("operations.lang")
+for_each_element, filter_by_value                   from ("matrix_operation.lang")
 matrix, axis, index, operation                      from ("matrix_types.lang")
 OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j from ("initial_data.lang")
 requests_i_j                                        from ("step-1.lang")
