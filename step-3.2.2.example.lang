@@ -69,7 +69,22 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = {
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend = {}
+requests_i_j_k_l_s_deficit_multiple_pend = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 1 from K) = {
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100 - 64.285714285714285714 = 35.714285714285714286 # 001
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40 - 25.714285714285714286 = 14.285714285714285714 # 003
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
