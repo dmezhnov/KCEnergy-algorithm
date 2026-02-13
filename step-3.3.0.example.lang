@@ -115,13 +115,13 @@ requests_i_j_k_l_s_deficit_pend_prime = {
 
 requests_i_j_k_l_deficit_pend_prime = {
     (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = 10  # 001
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 1 from K) = {
+                (1 from I, 3 from J, 1 from K, 1 from P) = 50  # 001 + 003
             },
-            (1 from I, 2 from J, 2 from K) = {
-                (1 from I, 2 from J, 2 from K, 1 from P) = 60, # 002
-                (1 from I, 2 from J, 2 from K, 3 from P) = 110 # 006
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 1 from P) = 60, # 002
+                (1 from I, 3 from J, 2 from K, 3 from P) = 110 # 006
             }
         }
     }
@@ -137,7 +137,7 @@ requests_i_j_k_l_s_surplus_only_corrected = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60 + 10 = 70  # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60 + 50 = 110  # 004
                 }
             }
         }
@@ -155,7 +155,7 @@ requests_i_j_k_l_s_surplus_corrected = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60, 70) = 70 # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60, 110) = 110 # 004
                 }
             }
         }
@@ -173,7 +173,7 @@ requests_i_j_k_l_s_corrected.First = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
@@ -185,12 +185,12 @@ requests_i_j_k_l_s_corrected.First = {
             },
             (1 from C, 1 from I, 2 from J) = {
                 (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 50  # 003
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
                 }
             },
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
                 }
             }
         }
