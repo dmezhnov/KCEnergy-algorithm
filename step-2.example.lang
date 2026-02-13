@@ -1,7 +1,7 @@
 threshold_i_j = {
     (1 from I) = {
         (1 from I, 1 from J) = 500 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 500    * 1.2 = 600,
-        (1 from I, 2 from J) = 200 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 33.333 * 1.2 = 40,
+        (1 from I, 2 from J) = 33.333 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 33.333 * 1.2 = 40,
         (1 from I, 3 from J) = 300 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 300    * 1.2 = 360
     }
 }
