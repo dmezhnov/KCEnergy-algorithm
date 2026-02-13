@@ -1,4 +1,4 @@
-volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_i0, AI_92, Diesel, AI_95, AI_98)
+volumes_l_t_i_k_k0_i0_require_correct = volumes_l_t_i_k_k0_i0
 
 volumes_l_t_i_k_k0 = {
     (1 from I) = {
