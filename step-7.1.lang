@@ -80,7 +80,7 @@ normalized_i(l0)(n) = sum_by_axes(normalized_i_l(l0)(n), Market_participant)
             where
                 l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
-                Product, Ship_terms from axis
+                Product, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
 
@@ -94,6 +94,6 @@ normalized_i.First(n) = sum_by_axes(normalized_i_l.First(n), Market_participant)
             where
                 l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
-                Product, Ship_terms from axis
+                Product, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
