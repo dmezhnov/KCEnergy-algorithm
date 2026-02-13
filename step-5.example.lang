@@ -17,9 +17,8 @@ requests_i_j_corrected_exceed(4 from R) = {
 
 requests_i_j_corrected_not_exceed(1 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 360, # 500 > 360 -> 001 + 002 + 006 + 005
-        (1 from I, 2 from J) = 50,  # 200 > 50  -> 003
-        (1 from I, 3 from J) = 60   # 300 > 60  -> 004
+        (1 from I, 2 from J) = 25.714285714285714286, # 33.333 > 25.714285714285714286 -> 003
+        (1 from I, 3 from J) = 110                    # 300 > 110 -> 004
     }
 }
 requests_i_j_corrected_not_exceed(2 from R) = {}
