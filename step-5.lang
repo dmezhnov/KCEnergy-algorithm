@@ -171,7 +171,7 @@ estimated_i_j_exceed_share.First = for_each_pair(available_i_j.First, safe_divid
         available_i_j.First                 of matrix(Product, Refinery)
         safe_divide from operation
             where
-                Product, Refinery, Ship_terms from axis
+                Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
