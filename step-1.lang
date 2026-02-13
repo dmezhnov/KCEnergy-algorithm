@@ -225,8 +225,8 @@ requests_i_j(i) = {
         requests_i_j_k(i, j, k) of  number
         requests_i_j(i, j)      of   number
         requests_i_j_k  of matrix(Product, Refinery, Region)
-        requests_i_j    of matrix(Product, Refinery, Region)
-        requests_i_j(i) of matrix(         Refinery, Region)
+        requests_i_j    of matrix(Product, Refinery)
+        requests_i_j(i) of matrix(         Refinery)
         requests_i_j_k(i, j, 1), ..., requests_i_j_k(i, j, Q) => requests_i_j_k(k)
             where
                 Product, Refinery, Region from axis # Оси
