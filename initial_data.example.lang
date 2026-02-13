@@ -54,8 +54,8 @@ requests_i_j_k_l_s_l0_q = {
                     )
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = (
-                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R, 7 from Z) = 260
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R, 7 from Z) = 260
                     )
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
