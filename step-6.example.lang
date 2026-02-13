@@ -84,24 +84,24 @@ estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = 90 / RAIL_ROAD_MIN_TONNAGE = 90 / 65 = 1.3846153846153846154 # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = 55.487053020961775585 / RAIL_ROAD_MIN_TONNAGE = 55.487053020961775585 / 65 = 0.853493123399411931   # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = 90 / RAIL_ROAD_MIN_TONNAGE = 90 / 65 = 1.3846153846153846154 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 90 / RAIL_ROAD_MIN_TONNAGE = 90 / 65 = 1.3846153846153846154 # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = 77.681874229346485881 / RAIL_ROAD_MIN_TONNAGE = 77.681874229346485881 / 65 = 1.194951911220715167,  # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 86.313193588162762    / RAIL_ROAD_MIN_TONNAGE = 86.313193588162762    / 65 = 1.327895285971734800   # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = 90 / RAIL_ROAD_MIN_TONNAGE = 90 / 65 = 1.3846153846153846154 # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = 280.517879161528976557 / RAIL_ROAD_MIN_TONNAGE = 280.517879161528976557 / 65 = 4.315659679408137947  # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = 50 / RAIL_ROAD_MIN_TONNAGE = 50 / 65  = 0.76923076923076923077 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286 / RAIL_ROAD_MIN_TONNAGE = 25.714285714285714286 / 65 = 0.395604395604395604  # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = 60 / RAIL_ROAD_MIN_TONNAGE = 60 / 65 = 0.92307692307692307692 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 110 / RAIL_ROAD_MIN_TONNAGE = 110 / 65 = 1.692307692307692307  # 004
             }
         }
     }
