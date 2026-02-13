@@ -15,7 +15,22 @@ requests_i_k_l_s_deficit_multiple = {
         P  from index # Индексы субъекта рынка
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_deficit_multiple_share = {}
+requests_i_j_k_l_s_deficit_multiple_share = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I) = {
+                (1 from C, 1 from I, 1 from K) = {
+                    (1 from C, 1 from I, 1 from K, 1 from P) = 100 / 140 = 0.71428571428571428571 # 001
+                }
+            },
+            (1 from C, 1 from I) = {
+                (1 from C, 1 from I, 1 from K) = {
+                    (1 from C, 1 from I, 1 from K, 1 from P) = 40 / 140 = 0.28571428571428571429 # 003
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
