@@ -1,4 +1,8 @@
-requests_i_j_corrected_exceed(1 from R) = {}
+requests_i_j_corrected_exceed(1 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 579.285714285714285714 # 500 < 579.285714285714285714 -> 001 + 002 + 006 + 005
+    }
+}
 requests_i_j_corrected_exceed(2 from R) = {}
 requests_i_j_corrected_exceed(3 from R) = {}
 requests_i_j_corrected_exceed(4 from R) = {
