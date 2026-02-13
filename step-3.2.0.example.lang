@@ -57,6 +57,9 @@ requests_i_j_k_l_deficit = {
 
 refinery_count_by_deficit_requests = {
     (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 1 from P) = 2  # 001, 003
+        },
         (1 from I, 2 from K) = {
             (1 from I, 2 from K, 1 from P) = 1, # 002
             (1 from I, 2 from K, 3 from P) = 1  # 006
