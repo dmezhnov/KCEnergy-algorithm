@@ -56,11 +56,11 @@ requests_i_j_k_l_s_deficit_pend = assign_matrix(requests_i_j_k_l_s_deficit_singl
         requests_i_j_k_l_s_deficit_multiple_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
-                i  of I  from index # Индексы нефпродукта
-                k  of K  from index # Индексы региона
-                l  of P  from index # Индексы субъекта рынка
-                j  of J  from index # Индексы НПЗ
-                s  of C  from index # Индексы условия поставки
+                i  for I  from index # Индексы нефпродукта
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
 
 # !!!!
 
