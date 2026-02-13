@@ -3,7 +3,7 @@ requests_i_j_k_l_s_deficit_corrected = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
@@ -15,7 +15,7 @@ requests_i_j_k_l_s_deficit_corrected = {
             },
             (1 from C, 1 from I, 2 from J) = {
                 (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40  # 003
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
                 }
             }
         }
@@ -51,11 +51,16 @@ requests_i_j_k_l_s_deficit_pend = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 10  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 35.714285714285714286  # 001
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 60, # 002
                     (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 110 # 006
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 1 from K) = {
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 14.285714285714285714 # 003
                 }
             }
         }
