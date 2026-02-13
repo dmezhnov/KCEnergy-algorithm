@@ -243,7 +243,7 @@ requests_i_j = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
 requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
     where
         requests_i_j_k_l(i, k, j, l) of  number # Запрашиваемый объем НП
-        requests_i_j_k(i, k, j, l)   of  number
+        requests_i_j_k(i, j, k)      of  number
         requests_i_j(i, j)           of  number
         requests_i_j_k_l of matrix(Product, Refinery, Region, Market_participant)
         requests_i_j_k   of matrix(Product, Refinery, Region)
