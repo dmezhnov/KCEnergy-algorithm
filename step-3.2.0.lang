@@ -74,7 +74,7 @@ refinery_count_by_deficit_requests(i) = {
 }
     where
         refinery_count_by_deficit_requests(i, k, l) of number
-        requests_i_j_k_l_deficit(i, k, l, s, j)     of number
+        requests_i_j_k_l_deficit(i, j, k, l)         of number
         requests_i_j_k_l_deficit           of matrix(Product, Region, Market_participant, Refinery)
         refinery_count_by_deficit_requests of matrix(Product, Region, Market_participant)
         requests_i_j_k_l_deficit(i, k, l, 1), ..., requests_i_j_k_l_s_deficit(i, k, l, J) => requests_i_j_k_l_s_deficit(j)
