@@ -137,9 +137,7 @@ refinery_count_by_deficit_requests_single = filter_by_value(refinery_count_by_de
 # Матрица количества НПЗ в множественных (запросы на несколько НПЗ) дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 refinery_count_by_deficit_requests_multiple(i) = {
     (i, k) = {
-        (i, k, l) = {
-            (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
-        }
+        (i, k, l) = refinery_count_by_deficit_requests(i, k, l)
     }
 }
     where
