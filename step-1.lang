@@ -237,9 +237,8 @@ requests_i_j(i) = {
                 Q         from index # Количество регионов
 
 # Матрица объемов в запросах от всех субъектов ранка, размерами N x M
-requests_i_j = sum_by_axes(requests_i_j_k_l, Ship_terms, Region, Market_participant)
-requests_i_j = sum_by_axes(requests_i_j_k,   Ship_terms, Region)
-requests_i_j = sum_by_axes(requests_i_j_s,   Ship_terms)
+requests_i_j = sum_by_axes(requests_i_j_k_l, Region, Market_participant)
+requests_i_j = sum_by_axes(requests_i_j_k,   Region)
 requests_i_j = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
 requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
     where
@@ -252,10 +251,9 @@ requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
         requests_i_j_k(i, j, 1),  ..., requests_i_j_k(i, j, Q)  => requests_i_j_k(k)
         requests_i_j(1),          ..., requests_i_j(I)          => requests_i_j(i)
             where
-                Product, Region, Ship_terms, Refinery, Market_participant from axis # Оси агрегатов
+                Product, Region, Refinery, Market_participant from axis # Оси агрегатов
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
-                s  for C  from index # Индексы условий поставки
                 j  for J  from index # Индексы НПЗ
                 l  for P  from index # Индексы субъекта рынка
                 Q         from index # Количество регионов
