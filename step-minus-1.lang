@@ -12,7 +12,7 @@ requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_k_l_s_l0_q, Request)
             where
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки

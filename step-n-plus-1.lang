@@ -16,7 +16,7 @@ requests_i_j_k_l_s_l0_q_final(1 from n) = assign_matrix(requests_i_j_k_l_s_l0_q,
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
@@ -36,7 +36,7 @@ requests_i_j_k_l_s_l0_q_final_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
@@ -56,7 +56,7 @@ requests_i_j_k_l_s_l0_q_final_not_exceed(n) = filter_by_pair(requests_i_j_k_l_s_
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
@@ -76,7 +76,7 @@ requests_i_j_k_l_s_l0_q_final(n) = for_each_pair(requests_i_j_k_l_s_l0_q_final_e
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
@@ -94,7 +94,7 @@ requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки

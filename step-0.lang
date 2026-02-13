@@ -24,7 +24,7 @@ volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_
                 l  for P  from index # Индексы субъекта рынка
                 t  for Y  from index # Индексы месяца и года
                 i  for I  from index # Индексы нефпродукта
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 k0 for K0 from index # Индексы района
                 i0 for I0 from index # Индексы категории нефпродукта
 
@@ -49,7 +49,7 @@ volumes_l_t_i_k_k0(l) = {
                 l  for P  from index # Индексы субъекта рынка
                 t  for Y  from index # Индексы месяца и года
                 i  for I  from index # Индексы нефпродукта
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 k0 for K0 from index # Индексы района
                 i0 for I0 from index # Индексы категории нефпродукта
                 N0        from index # Количество категорий нефпродукта
@@ -72,7 +72,7 @@ volumes_l_t_i_k_k0 = volumes_l_t_i_k_k0(1),                     ...,  volumes_l_
                         l  for P  from index # Индексы субъекта рынка
                         t  for Y  from index # Индексы месяца и года
                         i  for I  from index # Индексы нефпродукта
-                        k  for k  from index # Индексы региона
+                        k  for K  from index # Индексы региона
                         k0 for K0 from index # Индексы района
                         i0 for I0 from index # Индексы категории нефпродукта
                         L         from index # Количество субъектов рынка
@@ -97,7 +97,7 @@ volumes_l_t_i_k(l) = {
                 l  for P  from index # Индексы субъекта рынка
                 t  for Y  from index # Индексы месяца и года
                 i  for I  from index # Индексы нефпродукта
-                k  for k  from index # Индексы региона
+                k  for K  from index # Индексы региона
                 k0 for K0 from index # Индексы района
                 Q0        from index # Количество районов
 
@@ -124,7 +124,7 @@ volumes_l_t_i_k = volumes_l_t_i_k(1),                 ...,  volumes_l_t_i_k(L)
                         l  for P  from index # Индексы субъекта рынка
                         t  for Y  from index # Индексы месяца и года
                         i  for I  from index # Индексы нефпродукта
-                        k  for k  from index # Индексы региона
+                        k  for K  from index # Индексы региона
                         k0 for K0 from index # Индексы района
                         i0 for I0 from index # Индексы категории нефпродукта
                         Q0        from index # Количество районов
