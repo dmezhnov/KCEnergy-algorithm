@@ -41,7 +41,7 @@ normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery,
                 k  for K  from index # Индексы региона
 
 # n-я матрица суммарных нормированных объемов НП l0-й очереди
-normalized_i_l(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
+normalized_i_l(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Ship_terms)
     where
         normalized_i_l_s(l0)(n)(i, l, s) of number
         normalized_i_l(l0)(n)(i, l)      of number
@@ -56,7 +56,7 @@ normalized_i_l(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
                 s  for C  from index # Индексы условия поставки
 
 # n-я матрица суммарных нормированных объемов НП первой очереди
-normalized_i_l.First(n) = sum_by_axes(normalized_i_l_s.First(n), Market_participant)
+normalized_i_l.First(n) = sum_by_axes(normalized_i_l_s.First(n), Ship_terms)
     where
         normalized_i_l_s.First(n)(i, l, s) of number
         normalized_i_l.First(n)(i, l)      of number
