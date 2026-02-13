@@ -20,12 +20,16 @@ requests_i_j_k_l_s_deficit_multiple_share = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I) = {
                 (1 from C, 1 from I, 1 from K) = {
-                    (1 from C, 1 from I, 1 from K, 1 from P) = 100 / 140 = 0.71428571428571428571 # 001
+                    (1 from C, 1 from I, 1 from K, 1 from P) = {
+                        (1 from C, 1 from I, 1 from K, 1 from P, 1 from J) = 100 / 140 = 0.71428571428571428571 # 001
+                    }
                 }
             },
             (1 from C, 1 from I) = {
                 (1 from C, 1 from I, 1 from K) = {
-                    (1 from C, 1 from I, 1 from K, 1 from P) = 40 / 140 = 0.28571428571428571429 # 003
+                    (1 from C, 1 from I, 1 from K, 1 from P) = {
+                        (1 from C, 1 from I, 1 from K, 1 from P, 2 from J) = 40 / 140 = 0.28571428571428571429 # 003
+                    }
                 }
             }
         }
@@ -38,7 +42,26 @@ requests_i_j_k_l_s_deficit_multiple_share = {
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend_aux = {}
+requests_i_j_k_l_s_deficit_multiple_pend_aux = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I) = {
+                (1 from C, 1 from I, 1 from K) = {
+                    (1 from C, 1 from I, 1 from K, 1 from P) = {
+                        (1 from C, 1 from I, 1 from K, 1 from P, 1 from J) = 0.71428571428571428571 * 90 = 64.285714285714285714 # 001
+                    }
+                }
+            },
+            (1 from C, 1 from I) = {
+                (1 from C, 1 from I, 1 from K) = {
+                    (1 from C, 1 from I, 1 from K, 1 from P) = {
+                        (1 from C, 1 from I, 1 from K, 1 from P, 2 from J) = 0.28571428571428571429 * 90 = 25.714285714285714286 # 003
+                    }
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
