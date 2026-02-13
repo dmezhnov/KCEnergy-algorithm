@@ -98,11 +98,11 @@ count_coordinates_by_axis(matrix_source, coord_to_count) = counted_matrix
 
 ### - Фильтровать по координате
 
-filter_by_coordinate(matrix_source, coord) = matrix_without_axis
+filter_by_coordinate(matrix_source, Tcoord(1), ..., Tcoord(N)) = matrix_without_axis
     where
-        matrix_source of       matrix     # Исходная матрица
-        coord of               coordinate # Фиксируемая координата
-        matrix_without_axis of matrix     # Результат фильтрации по координате
+        matrix_source of       matrix                  # Исходная матрица
+        Tcoord = (1), ..., (N) of coordinate           # Фиксируемые координаты
+        matrix_without_axis of matrix                  # Результат фильтрации по координатам
 
 is_empty(matrix_source)
 

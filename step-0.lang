@@ -12,13 +12,13 @@ volumes_l_t_i_k_k0_i0             from ("initial_data.lang")
 # скользящего среднего по продажам в дальнейшем.
 
 # !!!!!
-volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_i0, AI_92, Diesel, AI_95, , AI_98)
+volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_i0, AI_92, Diesel, AI_95, AI_98)
     where
         volumes_l_t_i_k_k0_i0_require_correct(l, t, i, k, k0, i0) of  number
         volumes_l_t_i_k_k0_i0(l, t, i, k, k0, i0)                 of  number # Объем пролива
         volumes_l_t_i_k_k0_i0_require_correct of matrix(Market_participant, Region, Product, Month_and_year, District, Product_category)
         volumes_l_t_i_k_k0_i0                 of matrix(Market_participant, Region, Product, Month_and_year, District, Product_category)
-        AI_92, Diesel from Product
+        AI_92, Diesel, AI_95, AI_98 from Product
             where
                 Market_participant, Region, Product, Month_and_year, District, Product_category from axis  # Оси
                 l  for P  from index # Индексы субъекта рынка
