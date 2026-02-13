@@ -333,7 +333,7 @@ estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_exw_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index = 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -347,12 +347,12 @@ estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_exw_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         floor from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index != 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
+                i  for I  from index      # Индексы нефпродукта
+                j  for J  from index      # Индексы НПЗ
+                k  for K  from index      # Индексы региона
+                l  for P  from index      # Индексы субъекта рынка
 
 estimated_i_j_k_l_exw_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(l0)(n), "*", OIL_TERMINAL_STEP_TONNAGE)
     where
