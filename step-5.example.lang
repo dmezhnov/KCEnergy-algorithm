@@ -99,7 +99,11 @@ requests_i_j_k_l_s_corrected_not_exceed(4 from R) = {}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_exceed_share(1 from R) = {}
+estimated_i_j_exceed_share(1 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 500 / 579.285714285714285714 = 0.863131935881627620,
+    }
+}
 estimated_i_j_exceed_share(2 from R) = {}
 estimated_i_j_exceed_share(3 from R) = {}
 estimated_i_j_exceed_share(4 from R) = {
@@ -111,7 +115,6 @@ estimated_i_j_exceed_share(4 from R) = {
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-        C  from index # Индексы условия поставки
 
 estimated_i_j_k_l_s_exceed(1 from R) = {}
 estimated_i_j_k_l_s_exceed(2 from R) = {}
