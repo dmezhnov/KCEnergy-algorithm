@@ -109,7 +109,7 @@ requests_i_j_k_l_s_deficit_pend_prime = {
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
@@ -129,7 +129,7 @@ requests_i_j_k_l_deficit_pend_prime = {
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_surplus_only_corrected = {
@@ -146,7 +146,7 @@ requests_i_j_k_l_s_surplus_only_corrected = {
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
@@ -164,7 +164,7 @@ requests_i_j_k_l_s_surplus_corrected = {
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
 
@@ -199,6 +199,6 @@ requests_i_j_k_l_s_corrected.First = {
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
-        l  from index # Индексы субъекта рынка
+        P  from index # Индексы субъекта рынка
         J  from index # Индексы НПЗ
         C  from index # Индексы условия поставки
