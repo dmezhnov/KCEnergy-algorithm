@@ -310,7 +310,7 @@ estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = {
         }
     }
 }
-estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = {}
+estimated_i_j_k_l_fca_rounded(1 from R)(3 from n) = {}
 estimated_i_j_k_l_fca_rounded(2 from R)(1 from n) = {}
 estimated_i_j_k_l_fca_rounded(3 from R)(1 from n) = {}
 estimated_i_j_k_l_fca_rounded(4 from R)(1 from n) = {
