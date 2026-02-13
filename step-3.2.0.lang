@@ -1,5 +1,5 @@
 number                                                    from core
-count_coordinates_by_axis, filter_by_pair filter_by_value from ("matrix_operation.lang")
+count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
 axis, condition, matrix, index                            from ("matrix_types.lang")
 requests_i_j_deficit                                      from ("step-2.lang")
 requests_i_j_k_l_s                                        from ("step-1.lang")
