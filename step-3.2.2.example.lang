@@ -1,4 +1,14 @@
-requests_i_k_l_s_deficit_multiple = {}
+requests_i_k_l_s_deficit_multiple = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I) = {
+                (1 from C, 1 from I, 1 from K) = {
+                    (1 from C, 1 from I, 1 from K, 1 from P) = 100 + 40 = 140 # 001 + 003
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
