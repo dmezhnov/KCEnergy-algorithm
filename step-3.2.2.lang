@@ -85,7 +85,7 @@ requests_i_j_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_k_l_s_def
 # Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
     (i, k) = {
-        (i, k, s) = {
+        (i, k, l) = {
             (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) * moving_average(i, k, l)
             }
