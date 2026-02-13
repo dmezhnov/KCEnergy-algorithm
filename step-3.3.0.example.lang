@@ -177,7 +177,7 @@ requests_i_j_k_l_s_corrected.First = {
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
                     (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
