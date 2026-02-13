@@ -6,10 +6,10 @@ requests_i_j_k_l_s_l0 = {
                     (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100 # 001
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250 # 007
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R) = 260 # 007
                 },
                 (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 520 # 008
                 }
             },
             (1 from I, 1 from C, 1 from J, 2 from K) = {
@@ -22,10 +22,10 @@ requests_i_j_k_l_s_l0 = {
             },
             (1 from I, 1 from C, 1 from J, 3 from K) = {
                 (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300 # 005
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 325 # 005
                 },
                 (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 715 # 009
                 }
             }
         },
