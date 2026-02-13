@@ -96,7 +96,7 @@ requests_i_j_k_l_s_deficit_pend_prime = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 10 # 001
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 35.714285714285714286 + 14.285714285714285714 = 50 # 001 + 003
                 },
                 (1 from C, 1 from I, 3 from J, 2 from K) = {
                     (1 from C, 1 from I, 3 from J, 2 from K, 1 from P) = 60, # 002
