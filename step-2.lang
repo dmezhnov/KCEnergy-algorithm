@@ -1,5 +1,5 @@
 number                                              from core
-for_each_element, filter_by_value                   from ("matrix_operation.lang")
+for_each_element, filter_by_pair                     from ("matrix_operation.lang")
 matrix, axis, index, operation                      from ("matrix_types.lang")
 OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j from ("initial_data.lang")
 requests_i_j                                        from ("step-1.lang")
@@ -58,7 +58,7 @@ requests_i_j_deficit(i) = {
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_deficit = filter_by_value(requests_i_j, ">=", threshold_i_j)
+requests_i_j_deficit = filter_by_pair(requests_i_j, ">=", threshold_i_j)
     where
         requests_i_j_deficit(i, j) of  number
         requests_i_j(i, j)         of  number
@@ -92,7 +92,7 @@ requests_i_j_surplus(i) = {
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_surplus = filter_by_value(requests_i_j, "<", threshold_i_j)
+requests_i_j_surplus = filter_by_pair(requests_i_j, "<", threshold_i_j)
     where
         requests_i_j_surplus(i, j) of number
         requests_i_j(i, j)         of number
