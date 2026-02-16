@@ -28,24 +28,24 @@ estimated_i_j_k_l_fca(1 from R)(2 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = 48.75 # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = 65  # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = 48.75 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65    # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = 65  # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 65  # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65    # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = 260 # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = 48.75 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 65  # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = 48.75 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 130 # 004
             }
         }
     }
@@ -110,24 +110,24 @@ estimated_i_j_k_l_fca_coeff(1 from R)(2 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = 48.75 / RAIL_ROAD_MIN_TONNAGE = 48.75 / 65 = 0,75 # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = 65  / RAIL_ROAD_MIN_TONNAGE = 65  / 65 = 1 # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = 48.75 / RAIL_ROAD_MIN_TONNAGE = 48.75 / 65 = 0,75 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = 65    / RAIL_ROAD_MIN_TONNAGE = 65    / 65 = 1    # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = 65  / RAIL_ROAD_MIN_TONNAGE = 65  / 65 = 1 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = 65  / RAIL_ROAD_MIN_TONNAGE = 65  / 65 = 1 # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = 65    / RAIL_ROAD_MIN_TONNAGE = 65    / 65 = 1    # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = 260 / RAIL_ROAD_MIN_TONNAGE = 260 / 65 = 4 # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = 48.75 / RAIL_ROAD_MIN_TONNAGE = 48.75 / 65 = 0,75 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 65  / RAIL_ROAD_MIN_TONNAGE = 65  / 65 = 1 # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = 48.75 / RAIL_ROAD_MIN_TONNAGE = 48.75 / 65 = 0,75 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 130 / RAIL_ROAD_MIN_TONNAGE = 130 / 65 = 2 # 004
             }
         }
     }
@@ -199,24 +199,24 @@ estimated_i_j_k_l_fca_coeff_rounded(1 from R)(2 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = floor(0,75) = 0 # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = floor(1) = 1 # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = floor(0,75) = 0 # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = floor(1   ) = 1 # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = floor(1) = 1 # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = floor(1) = 1 # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = floor(1   ) = 1 # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = floor(4) = 4 # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = floor(0,75) = 0 # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = floor(1) = 1 # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = floor(0,75) = 0 # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = floor(2) = 2 # 004
             }
         }
     }
@@ -288,24 +288,24 @@ estimated_i_j_k_l_fca_rounded(1 from R)(2 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 002
+                (1 from I, 1 from J, 2 from K, 1 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 002
                 (1 from I, 1 from J, 2 from K, 3 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = 4 * RAIL_ROAD_MIN_TONNAGE = 4 * 65 = 260 # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65  # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = 0 * RAIL_ROAD_MIN_TONNAGE = 0 * 65 = 0   # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = 2 * RAIL_ROAD_MIN_TONNAGE = 2 * 65 = 130 # 004
             }
         }
     }
@@ -381,24 +381,24 @@ normalized_i_j_k_l_fca(1 from R)(2 from n) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 1 from P) = max(0,  0) = 0   # 001
+                (1 from I, 1 from J, 1 from K, 1 from P) = max(65,  0) = 65  # 001
             },
             (1 from I, 1 from J, 2 from K) = {
-                (1 from I, 1 from J, 2 from K, 1 from P) = max(0,  0) = 0   # 002
-                (1 from I, 1 from J, 2 from K, 3 from P) = max(65, 0) = 65  # 006
+                (1 from I, 1 from J, 2 from K, 1 from P) = max(65,  0) = 65  # 002
+                (1 from I, 1 from J, 2 from K, 3 from P) = max(65,  0) = 65  # 006
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2 from P) = max(65, 0) = 65  # 005
+                (1 from I, 1 from J, 3 from K, 2 from P) = max(260, 0) = 260 # 005
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 1 from K) = {
-                (1 from I, 2 from J, 1 from K, 1 from P) = max(0,  0) = 0   # 003
+                (1 from I, 2 from J, 1 from K, 1 from P) = max(65,  0) = 65  # 003
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 1 from K) = {
-                (1 from I, 3 from J, 1 from K, 1 from P) = max(0,  0) = 0   # 004
+                (1 from I, 3 from J, 1 from K, 1 from P) = max(130, 0) = 130 # 004
             }
         }
     }
@@ -519,24 +519,24 @@ normalized_i_j_k_l_s(1 from R)(2 from n) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
                 (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 0  # 001
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65  # 001
                 },
                 (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 0  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65 # 006
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65  # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65  # 006
                 },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 65 # 005
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 260 # 005
                 }
             },
             (1 from C, 1 from I, 2 from J) = {
                 (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 0  # 003
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 65  # 003
                 }
             },
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 0  # 004
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 130 # 004
                 }
             }
         }
