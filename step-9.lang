@@ -30,7 +30,7 @@ available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), ">=", MIN_NEXT_AV
     where
         available_i_j_new(l0)(i, j)   of number
         MIN_NEXT_AVAIL_TONNAGE(l0)    of number
-        available_i_j(l0)(i, j)       of number
+        available_i_j(l0 + 1)(i, j)   of number
         available_i_j_new(l0) of matrix(Product, Refinery)
         available_i_j(l0)     of matrix(Product, Refinery)
         ">=" from condition
@@ -69,14 +69,14 @@ available_i_j_final = available_i_j_new(x)
 
 estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(x))
     where
-        estimated_i_j_k_l_s_last(l0)(i, l, j, k) of number
-        estimated_i_j_k_l_final(i, l, j, k)      of number
-        estimated_i_j_k_l_s_last(l0)(i, l, j, k) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l_final(i, l, j, k)      of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_s_last(l0)(i, l, j, k, s) of number
+        estimated_i_j_k_l_final(i, l, j, k, s)       of number
+        estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
+        estimated_i_j_k_l_final      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
             where
                 x  of          index = length(estimated_i_j_k_l_s_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
                 l0 for R  from index # Индексы очереди
-                Product, Market_participant, Refinery, Region from axis
+                Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
