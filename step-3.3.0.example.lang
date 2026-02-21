@@ -2,20 +2,26 @@ requests_i_j_k_l_s_deficit_corrected = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 # 005
                 }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
+                }
             },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
                 }
             }
         }
@@ -29,11 +35,11 @@ requests_i_j_k_l_s_deficit_corrected = {
         C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_surplus = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60  # 004
                 }
             }
         }
@@ -47,20 +53,20 @@ requests_i_j_k_l_s_surplus = {
         C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_deficit_pend = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 35.714285714285714286  # 001
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 35.714285714285714286  # 001
                 },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 60, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 60, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
                 }
             },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 14.285714285714285714 # 003
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 14.285714285714285714 # 003
                 }
             }
         }
@@ -92,15 +98,15 @@ surplus_refinery(n) = (3)
                     j  for J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_deficit_pend_prime = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 35.714285714285714286 + 14.285714285714285714 = 50 # 001 + 003
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 35.714285714285714286 + 14.285714285714285714 = 50 # 001 + 003
                 },
-                (1 from C, 1 from I, 3 from J, 2 from K) = {
-                    (1 from C, 1 from I, 3 from J, 2 from K, 1 from P) = 60, # 002
-                    (1 from C, 1 from I, 3 from J, 2 from K, 3 from P) = 100 # 006
+                (2 from C, 1 from I, 3 from J, 2 from K) = {
+                    (2 from C, 1 from I, 3 from J, 2 from K, 1 from P) = 60, # 002
+                    (2 from C, 1 from I, 3 from J, 2 from K, 3 from P) = 100 # 006
                 }
             }
         }
@@ -133,11 +139,11 @@ requests_i_j_k_l_deficit_pend_prime = {
         J  from index # Индексы НПЗ
 
 requests_i_j_k_l_s_surplus_only_corrected = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60 + 50 = 110  # 004
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60 + 50 = 110  # 004
                 }
             }
         }
@@ -151,11 +157,11 @@ requests_i_j_k_l_s_surplus_only_corrected = {
         C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_surplus_corrected = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60, 110) = 110 # 004
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(60, 110) = 110 # 004
                 }
             }
         }
@@ -172,25 +178,31 @@ requests_i_j_k_l_s_corrected.First = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 # 005
                 }
-            },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 # 006
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
                 }
             }
         }

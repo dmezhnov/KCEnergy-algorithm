@@ -33,15 +33,21 @@ requests_i_j_k_l_s_corrected_exceed(1 from R) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90,  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100  # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90,  # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100  # 006
                 }
             }
         }
@@ -73,16 +79,16 @@ requests_i_j_k_l_s_corrected_exceed(4 from R) = {
         P  from index # Индексы субъекта рынка
 
 requests_i_j_k_l_s_corrected_not_exceed(1 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
                 }
             }
         }
@@ -120,15 +126,21 @@ estimated_i_j_k_l_s_exceed(1 from R) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714 * 0.863131935881627620 = 55.487053020961775585  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90 * 0.863131935881627620 = 77.681874229346485881,  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 * 0.863131935881627620 = 86.313193588162762     # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 * 0.863131935881627620 = 280.517879161528976557  # 005
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714 * 0.863131935881627620 = 55.487053020961775585  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90 * 0.863131935881627620 = 77.681874229346485881,  # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 * 0.863131935881627620 = 86.313193588162762     # 006
                 }
             }
         }
@@ -160,16 +172,16 @@ estimated_i_j_k_l_s_exceed(4 from R) = {
         P  from index # Индексы субъекта рынка
 
 estimated_i_j_k_l_s_not_exceed(1 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
                 }
             }
         }
@@ -190,25 +202,31 @@ estimated_i_j_k_l_s(1 from R)(1 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 55.487053020961775585  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 77.681874229346485881,  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 86.313193588162762      # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 280.517879161528976557  # 005
                 }
-            },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 55.487053020961775585  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 77.681874229346485881,  # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 86.313193588162762      # 006
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
                 }
             }
         }
