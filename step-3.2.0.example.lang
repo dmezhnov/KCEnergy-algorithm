@@ -156,3 +156,31 @@ requests_i_j_k_l_s_deficit_multiple = {
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+
+requests_i_j_k_l_s_all_multiple = {
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
+                }
+            },
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40   # 003
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 60   # 004 (PNHZ, proficit)
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
