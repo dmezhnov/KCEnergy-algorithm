@@ -1,18 +1,26 @@
 normalized_i_l_s(1 from R)(1 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from P) = 65 + 65 + 65 + 130 = 325, # 001 + 002 + 003 + 004
-            (1 from C, 1 from I, 3 from P) = 65,  # 006
             (1 from C, 1 from I, 2 from P) = 260  # 005
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from P) = 55 + 80 + 25 + 110 = 270, # 001 + 002 + 003 + 004
+            (2 from C, 1 from I, 3 from P) = 85                        # 006
         }
     }
 }
 normalized_i_l_s(1 from R)(2 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from P) = 65 + 65 + 65 + 130 = 325, # 001 + 002 + 003 + 004
-            (1 from C, 1 from I, 3 from P) = 65,                       # 006
-            (1 from C, 1 from I, 2 from P) = 260                       # 005
+            (1 from C, 1 from I, 2 from P) = 260  # 005
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from P) = 55 + 80 + 25 + 110 = 270, # 001 + 002 + 003 + 004
+            (2 from C, 1 from I, 3 from P) = 85                        # 006
         }
     }
 }
@@ -46,16 +54,16 @@ normalized_i_l_s(4 from R)(2 from n) = {
 
 normalized_i_l(1 from R)(1 from n) = {
     (1 from I) = {
-        (1 from I, 1 from P) = 65 + 65 + 65 + 130 = 325, # 001 + 002 + 003 + 004
-        (1 from I, 3 from P) = 65,  # 006
-        (1 from I, 2 from P) = 260  # 005
+        (1 from I, 1 from P) = 270,  # 001 + 002 + 003 + 004
+        (1 from I, 2 from P) = 260,  # 005
+        (1 from I, 3 from P) = 85    # 006
     }
 }
 normalized_i_l(1 from R)(2 from n) = {
     (1 from I) = {
-        (1 from I, 1 from P) = 65 + 65 + 65 + 130 = 325, # 001 + 002 + 003 + 004
-        (1 from I, 3 from P) = 65,                        # 006
-        (1 from I, 2 from P) = 260                        # 005
+        (1 from I, 1 from P) = 270,  # 001 + 002 + 003 + 004
+        (1 from I, 2 from P) = 260,  # 005
+        (1 from I, 3 from P) = 85    # 006
     }
 }
 normalized_i_l(1 from R)(3 from n) = {}
@@ -82,10 +90,10 @@ normalized_i_l(4 from R)(2 from n) = {
         P  from index # Индексы субъекта рынка
 
 normalized_i(1 from R)(1 from n) = {
-    (1 from I) = 325 + 65 + 260 = 650 # 001 + 002 + 003 + 004 + 006 + 005
+    (1 from I) = 270 + 260 + 85 = 615 # 001 + 002 + 003 + 004 + 005 + 006
 }
 normalized_i(1 from R)(2 from n) = {
-    (1 from I) = 325 + 65 + 260 = 650 # 001 + 002 + 003 + 004 + 006 + 005
+    (1 from I) = 270 + 260 + 85 = 615 # 001 + 002 + 003 + 004 + 005 + 006
 }
 normalized_i(1 from R)(3 from n) = {}
 normalized_i(2 from R)(1 from n) = {}

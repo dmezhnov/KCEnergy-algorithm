@@ -2,12 +2,18 @@ requests_i_j_k_l_s_deficit_single_corrected = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = min(150, 90)  = 90, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = min(200, 100) = 100 # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = min(325, 400) = 325 # 005
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = min(150, 90)  = 90, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = min(200, 100) = 100 # 006
                 }
             }
         }
@@ -24,12 +30,18 @@ requests_i_j_k_l_s_deficit_single_pend_temp = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 - 325 = 0 # 005
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
                 }
             }
         }
@@ -43,12 +55,12 @@ requests_i_j_k_l_s_deficit_single_pend_temp = {
         P from index # Индексы субъекта рынка
 
 requests_i_j_k_l_s_deficit_single_pend = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150 - 90  = 60, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200 - 100 = 100 # 006
                 }
             }
         }

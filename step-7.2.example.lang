@@ -1,8 +1,8 @@
 normalized_i_threshold(1 from R)(1 from n) = {
-    (1 from I) = 650 * MAX_SUBJECT_SHARE_COEFFICIENT = 650 * 0.5 = 325 # 001, 002, 003, 004, 006, 005
+    (1 from I) = 615 * MAX_SUBJECT_SHARE_COEFFICIENT = 615 * 0.5 = 307.5 # 001, 002, 003, 004, 005, 006
 }
 normalized_i_threshold(1 from R)(2 from n) = {
-    (1 from I) = 650 * MAX_SUBJECT_SHARE_COEFFICIENT = 650 * 0.5 = 325 # 001, 002, 003, 004, 006, 005
+    (1 from I) = 615 * MAX_SUBJECT_SHARE_COEFFICIENT = 615 * 0.5 = 307.5 # 001, 002, 003, 004, 005, 006
 }
 normalized_i_threshold(1 from R)(3 from n) = {}
 normalized_i_threshold(2 from R)(1 from n) = {}
@@ -19,8 +19,8 @@ normalized_i_threshold(4 from R)(2 from n) = {
         C from index # Индексы условия поставки
         I from index # Индексы нефпродукта
 
-normalized_i_l_increased(1 from R)(1 from n) = {} # 325, 260, 65 <= 325
-normalized_i_l_increased(1 from R)(2 from n) = {} # 325, 260, 65 <= 325
+normalized_i_l_increased(1 from R)(1 from n) = {} # 270, 260, 85 <= 307.5
+normalized_i_l_increased(1 from R)(2 from n) = {} # 270, 260, 85 <= 307.5
 normalized_i_l_increased(2 from R)(1 from n) = {}
 normalized_i_l_increased(3 from R)(1 from n) = {}
 normalized_i_l_increased(4 from R)(1 from n) = {} # 65, 130, 195 <= 195
@@ -84,25 +84,31 @@ estimated_i_j_k_l_s(1 from R)(2 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = override(65,  ) = 65  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = override(65,  ) = 65  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = override(65,  ) = 65  # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = override(260, ) = 260 # 005
                 }
-            },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = override(65,  ) = 65  # 003
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = override(55,  ) = 55  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = override(80,  ) = 80  # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = override(85,  ) = 85  # 006
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(130, ) = 130 # 004
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = override(25,  ) = 25  # 003
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = override(110, ) = 110 # 004
                 }
             }
         }

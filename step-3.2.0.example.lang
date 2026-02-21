@@ -2,20 +2,26 @@ requests_i_j_k_l_s_deficit = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
                 }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
+                }
             },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40   # 003
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40   # 003
                 }
             }
         }
@@ -104,12 +110,18 @@ requests_i_j_k_l_s_deficit_single = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 150, # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 200  # 006
                 }
             }
         }
@@ -123,16 +135,16 @@ requests_i_j_k_l_s_deficit_single = {
         P from index # Индексы субъекта рынка
 
 requests_i_j_k_l_s_deficit_multiple = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100  # 001
                 }
             },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40   # 003
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40   # 003
                 }
             }
         }
