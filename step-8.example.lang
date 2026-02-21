@@ -2,25 +2,31 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 65  # 001
-                },
-                (1 from C, 1 from I, 1 from J, 2 from K) = {
-                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 65  # 002
-                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 65  # 006
-                },
                 (1 from C, 1 from I, 1 from J, 3 from K) = {
                     (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 260 # 005
                 }
-            },
-            (1 from C, 1 from I, 2 from J) = {
-                (1 from C, 1 from I, 2 from J, 1 from K) = {
-                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 65  # 003
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 55  # 001
+                },
+                (2 from C, 1 from I, 1 from J, 2 from K) = {
+                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 80  # 002
+                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 85  # 006
                 }
             },
-            (1 from C, 1 from I, 3 from J) = {
-                (1 from C, 1 from I, 3 from J, 1 from K) = {
-                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 130 # 004
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 1 from K) = {
+                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25  # 003
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 1 from K) = {
+                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110 # 004
                 }
             }
         }
@@ -28,7 +34,7 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(1
 }
 estimated_i_j_k_l_s_last(2 from R) = {}
 estimated_i_j_k_l_s_last(3 from R) = {}
-estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(1 from n) = {
+estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4 from R)(2 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
@@ -52,9 +58,9 @@ estimated_i_j_k_l_s_last(4 from R) = estimated_i_j_k_l_s = estimated_i_j_k_l_s(4
 
 estimated_i_j_last(1 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 65 + 65 + 65 + 260 = 455, # 001 + 002 + 006 + 005
-        (1 from I, 2 from J) = 65,                        # 003
-        (1 from I, 3 from J) = 130                        # 004
+        (1 from I, 1 from J) = 260 + 55 + 80 + 85 = 480, # 005 + 001 + 002 + 006
+        (1 from I, 2 from J) = 25,                        # 003
+        (1 from I, 3 from J) = 110                        # 004
     }
 }
 estimated_i_j_last(2 from R) = {}
@@ -67,45 +73,37 @@ estimated_i_j_last(4 from R) = {
 
 available_i_j_new_only(1 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 500    - 455 = 45,
-        (1 from I, 2 from J) = 33.333 - 65  = -31.667,
-        (1 from I, 3 from J) = 300    - 130 = 170
+        (1 from I, 1 from J) = 500    - 480 = 20,
+        (1 from I, 2 from J) = 33.333 - 25  = 8.333,
+        (1 from I, 3 from J) = 300    - 110 = 190
     }
 }
 available_i_j_new_only(2 from R) = {}
 available_i_j_new_only(3 from R) = {}
-available_i_j_new_only(4 from R) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = 45 - 390 = -345
-    }
-}
+available_i_j_new_only(4 from R) = {}
 
 available_i_j_new(1 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = override(500,    45)      = 45,
-        (1 from I, 2 from J) = override(33.333, -31.667) = -31.667,
-        (1 from I, 3 from J) = override(300,    170)     = 170
+        (1 from I, 1 from J) = override(500,    20)    = 20,
+        (1 from I, 2 from J) = override(33.333, 8.333) = 8.333,
+        (1 from I, 3 from J) = override(300,    190)   = 190
     }
 }
 available_i_j_new(2 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = override(45,      ) = 45,
-        (1 from I, 2 from J) = override(-31.667, ) = -31.667,
-        (1 from I, 3 from J) = override(170,     ) = 170
+        (1 from I, 1 from J) = override(20,    ) = 20,
+        (1 from I, 2 from J) = override(8.333, ) = 8.333,
+        (1 from I, 3 from J) = override(190,   ) = 190
     }
 }
 available_i_j_new(3 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = override(45,      ) = 45,
-        (1 from I, 2 from J) = override(-31.667, ) = -31.667,
-        (1 from I, 3 from J) = override(170,     ) = 170
+        (1 from I, 3 from J) = override(190, ) = 190
     }
 }
 available_i_j_new(4 from R) = {
     (1 from I) = {
-        (1 from I, 1 from J) = override(45,      -345)    = -345
-        (1 from I, 2 from J) = override(-31.667,      )   = -31.667
-        (1 from I, 3 from J) = override(170,          )   = 170
+        (1 from I, 3 from J) = override(190, ) = 190
     }
 }
     where
