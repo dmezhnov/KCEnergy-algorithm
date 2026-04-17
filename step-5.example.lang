@@ -1,75 +1,57 @@
-requests_i_j_corrected_exceed(1 from R) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = 579.285714285714285714 # 500 < 579.285714285714285714 -> 001 + 002 + 006 + 005
-    }
-}
-requests_i_j_corrected_exceed(2 from R) = {}
-requests_i_j_corrected_exceed(3 from R) = {}
-requests_i_j_corrected_exceed(4 from R) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = 1450 # 370 < 1450 -> 007 + 008 + 009
-    }
-}
+requests_i_j_s_corrected_exceed(1 from R) = ()
+requests_i_j_s_corrected_exceed(2 from R) = ()
+requests_i_j_s_corrected_exceed(3 from R) = ()
+requests_i_j_s_corrected_exceed(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J) = 1450 # 370 < 1450 -> 007 + 008 + 009
+            )
+        )
+    )
+)
     where
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 
-requests_i_j_corrected_not_exceed(1 from R) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = 25.714285714285714286, # 33.333 > 25.714285714285714286 -> 003
-        (1 from I, 3 from J) = 110                    # 300 > 110 -> 004
-    }
-}
-requests_i_j_corrected_not_exceed(2 from R) = {}
-requests_i_j_corrected_not_exceed(3 from R) = {}
-requests_i_j_corrected_not_exceed(4 from R) = {}
+requests_i_j_s_corrected_not_exceed(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 360, # 500 > 360 -> 001 + 002 + 006 + 005
+            (1 from C, 1 from I, 2 from J) = 50,  # 200 > 50  -> 003
+            (1 from C, 1 from I, 3 from J) = 70   # 300 > 70  -> 004
+        )
+    )
+)
+requests_i_j_s_corrected_not_exceed(2 from R) = ()
+requests_i_j_s_corrected_not_exceed(3 from R) = ()
+requests_i_j_s_corrected_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_corrected_exceed(1 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325  # 005
-                }
-            }
-        }
-    },
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from J) = {
-                (2 from C, 1 from I, 1 from J, 1 from K) = {
-                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714  # 001
-                },
-                (2 from C, 1 from I, 1 from J, 2 from K) = {
-                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90,  # 002
-                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100  # 006
-                }
-            }
-        }
-    }
-}
-requests_i_j_k_l_s_corrected_exceed(2 from R) = {}
-requests_i_j_k_l_s_corrected_exceed(3 from R) = {}
-requests_i_j_k_l_s_corrected_exceed(4 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
+requests_i_j_k_l_s_corrected_exceed(1 from R) = ()
+requests_i_j_k_l_s_corrected_exceed(2 from R) = ()
+requests_i_j_k_l_s_corrected_exceed(3 from R) = ()
+requests_i_j_k_l_s_corrected_exceed(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
                     (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250, # 007
                     (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500  # 008
-                },
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
                     (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700  # 009
-                }
-            }
-        }
-    }
-}
+                )
+            )
+        )
+    )
+)
     where
         R  from index # Индексы очереди
         C  from index # Индексы условия поставки
@@ -78,25 +60,37 @@ requests_i_j_k_l_s_corrected_exceed(4 from R) = {
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_corrected_not_exceed(1 from R) = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 2 from J) = {
-                (2 from C, 1 from I, 2 from J, 1 from K) = {
-                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
-                }
-            },
-            (2 from C, 1 from I, 3 from J) = {
-                (2 from C, 1 from I, 3 from J, 1 from K) = {
-                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
-                }
-            }
-        }
-    }
-}
-requests_i_j_k_l_s_corrected_not_exceed(2 from R) = {}
-requests_i_j_k_l_s_corrected_not_exceed(3 from R) = {}
-requests_i_j_k_l_s_corrected_not_exceed(4 from R) = {}
+requests_i_j_k_l_s_corrected_not_exceed(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 50  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 70  # 004
+                )
+            )
+        )
+    )
+)
+requests_i_j_k_l_s_corrected_not_exceed(2 from R) = ()
+requests_i_j_k_l_s_corrected_not_exceed(3 from R) = ()
+requests_i_j_k_l_s_corrected_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
         C  from index # Индексы условия поставки
@@ -105,64 +99,38 @@ requests_i_j_k_l_s_corrected_not_exceed(4 from R) = {}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_exceed_share(1 from R) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = 500 / 579.285714285714285714 = 0.863131935881627620,
-    }
-}
-estimated_i_j_exceed_share(2 from R) = {}
-estimated_i_j_exceed_share(3 from R) = {}
-estimated_i_j_exceed_share(4 from R) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = 370 / 1450 = 0.25517241379310344828,
-    }
-}
+estimated_i_j_exceed_share(1 from R) = ()
+estimated_i_j_exceed_share(2 from R) = ()
+estimated_i_j_exceed_share(3 from R) = ()
+estimated_i_j_exceed_share(4 from R) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 370 / 700 = 0.52857142857142857143,
+    )
+)
     where
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
+        C  from index # Индексы условия поставки
 
-estimated_i_j_k_l_s_exceed(1 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 325 * 0.863131935881627620 = 280.517879161528976557  # 005
-                }
-            }
-        }
-    },
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from J) = {
-                (2 from C, 1 from I, 1 from J, 1 from K) = {
-                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 64.285714285714285714 * 0.863131935881627620 = 55.487053020961775585  # 001
-                },
-                (2 from C, 1 from I, 1 from J, 2 from K) = {
-                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90 * 0.863131935881627620 = 77.681874229346485881,  # 002
-                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 100 * 0.863131935881627620 = 86.313193588162762     # 006
-                }
-            }
-        }
-    }
-}
-estimated_i_j_k_l_s_exceed(2 from R) = {}
-estimated_i_j_k_l_s_exceed(3 from R) = {}
-estimated_i_j_k_l_s_exceed(4 from R) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250 * 0.25517241379310344828 = 63.79310344827586207, # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500 * 0.25517241379310344828 = 127.58620689655172414 # 008
-                },
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700 * 0.25517241379310344828 = 178.6206896551724138  # 009
-                }
-            }
-        }
-    }
-}
+estimated_i_j_k_l_s_exceed(1 from R) = ()
+estimated_i_j_k_l_s_exceed(2 from R) = ()
+estimated_i_j_k_l_s_exceed(3 from R) = ()
+estimated_i_j_k_l_s_exceed(4 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 250 * 0.52857142857142857143 = 132.14285714285714286, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 500 * 0.52857142857142857143 = 264.28571428571428572  # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 700 * 0.52857142857142857143 = 370                    # 009
+                )
+            )
+        )
+    )
+)
     where
         R  from index # Индексы очереди
         I  from index # Индексы нефпродукта
@@ -171,25 +139,37 @@ estimated_i_j_k_l_s_exceed(4 from R) = {
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_s_not_exceed(1 from R) = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 2 from J) = {
-                (2 from C, 1 from I, 2 from J, 1 from K) = {
-                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
-                }
-            },
-            (2 from C, 1 from I, 3 from J) = {
-                (2 from C, 1 from I, 3 from J, 1 from K) = {
-                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
-                }
-            }
-        }
-    }
-}
-estimated_i_j_k_l_s_not_exceed(2 from R) = {}
-estimated_i_j_k_l_s_not_exceed(3 from R) = {}
-estimated_i_j_k_l_s_not_exceed(4 from R) = {}
+estimated_i_j_k_l_s_not_exceed(1 from R) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 50  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 70  # 004
+                )
+            )
+        )
+    )
+)
+estimated_i_j_k_l_s_not_exceed(2 from R) = ()
+estimated_i_j_k_l_s_not_exceed(3 from R) = ()
+estimated_i_j_k_l_s_not_exceed(4 from R) = ()
     where
         R  from index # Индексы очереди
         C  from index # Индексы условия поставки
@@ -198,57 +178,51 @@ estimated_i_j_k_l_s_not_exceed(4 from R) = {}
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-estimated_i_j_k_l_s(1 from R)(1 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 280.517879161528976557  # 005
-                }
-            }
-        }
-    },
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from J) = {
-                (2 from C, 1 from I, 1 from J, 1 from K) = {
-                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 55.487053020961775585  # 001
-                },
-                (2 from C, 1 from I, 1 from J, 2 from K) = {
-                    (2 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 77.681874229346485881,  # 002
-                    (2 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 86.313193588162762      # 006
-                }
-            },
-            (2 from C, 1 from I, 2 from J) = {
-                (2 from C, 1 from I, 2 from J, 1 from K) = {
-                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 25.714285714285714286  # 003
-                }
-            },
-            (2 from C, 1 from I, 3 from J) = {
-                (2 from C, 1 from I, 3 from J, 1 from K) = {
-                    (2 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 110  # 004
-                }
-            }
-        }
-    }
-}
-estimated_i_j_k_l_s(2 from R)(1 from n) = {}
-estimated_i_j_k_l_s(3 from R)(1 from n) = {}
-estimated_i_j_k_l_s(4 from R)(1 from n) = {
-    (1 from C) = {
-        (1 from C, 1 from I) = {
-            (1 from C, 1 from I, 1 from J) = {
-                (1 from C, 1 from I, 1 from J, 1 from K) = {
-                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 63.79310344827586207, # 007
-                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 127.58620689655172414 # 008
-                },
-                (1 from C, 1 from I, 1 from J, 3 from K) = {
-                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 178.6206896551724138  # 009
-                }
-            }
-        }
-    }
-}
+estimated_i_j_k_l_s(1 from R)(1 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 90  # 001
+                ),
+                (1 from C, 1 from I, 1 from J, 2 from K) = (
+                    (1 from C, 1 from I, 1 from J, 2 from K, 1 from P) = 90, # 002
+                    (1 from C, 1 from I, 1 from J, 2 from K, 3 from P) = 90  # 006
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2 from P) = 90  # 005
+                )
+            ),
+            (1 from C, 1 from I, 2 from J) = (
+                (1 from C, 1 from I, 2 from J, 1 from K) = (
+                    (1 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 50  # 003
+                )
+            ),
+            (1 from C, 1 from I, 3 from J) = (
+                (1 from C, 1 from I, 3 from J, 1 from K) = (
+                    (1 from C, 1 from I, 3 from J, 1 from K, 1 from P) = 70  # 004
+                )
+            )
+        )
+    )
+)
+estimated_i_j_k_l_s(2 from R)(1 from n) = ()
+estimated_i_j_k_l_s(3 from R)(1 from n) = ()
+estimated_i_j_k_l_s(4 from R)(1 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = (
+                (1 from C, 1 from I, 1 from J, 1 from K) = (
+                    (1 from C, 1 from I, 1 from J, 1 from K, 4 from P) = 132.14285714285714286, # 007
+                    (1 from C, 1 from I, 1 from J, 1 from K, 5 from P) = 264.28571428571428572  # 008
+                ),
+                (1 from C, 1 from I, 1 from J, 3 from K) = (
+                    (1 from C, 1 from I, 1 from J, 3 from K, 6 from P) = 370                    # 009
+                )
+            )
+        )
+    )
+)
     where
         n  of   index # Индекс матрицы
         R  from index # Индексы очереди
