@@ -9,13 +9,13 @@ volumes_l_t_i_k                                                        from ("st
 # Это среднее ограничивает объём Запроса в дефиците.
 
 # Проливы субъектов рынка за последние 12 месяцев, где объем пролива > 0
-volumes_l_t_i_k_positive(l) = {
-    (l, i) = {
-        (l, i, k) = {
+volumes_l_t_i_k_positive(l) = (
+    (l, i) = (
+        (l, i, k) = (
             (l, i, k, t) = volumes_l_t_i_k(l, i, k, t)
-        }
-    }
-}
+        )
+    )
+)
     where
         volumes_l_t_i_k(l, i, k, t)          of  number = value        # Объем пролива за все месяцы
         volumes_l_t_i_k_positive(l, i, k, t) of  number = value_active # Объем пролива за активные месяцы
@@ -32,13 +32,13 @@ volumes_l_t_i_k_positive(l) = {
                         k  for K  from index # Индексы региона
                         t  for Y  from index # Индексы месяца и года
 
-volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, ">", 0)
+volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, >, 0)
     where
         volumes_l_t_i_k(l, i, k, t)          of  number # Объем пролива за все месяцы
         volumes_l_t_i_k_positive(l, i, k, t) of  number # Объем пролива за активные месяцы
         volumes_l_t_i_k          of matrix(Market_participant, Product, Region, Month_and_year) # Проливы за все месяцы
         volumes_l_t_i_k_positive of matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
-        ">" from condition # Условие >
+        > from condition # Условие >
             where
                 Market_participant, Product, Region, Month_and_year from axis
                 l  for P  from index # Индексы субъекта рынка
@@ -48,11 +48,11 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, ">", 0)
 
 # Матрица числа месяцев с продажами у субъекта в регионе по виду НП.
 # Используется как знаменатель при расчёте скользящего среднего.
-matrix_of_activity(l) = {
-    (l, i) = {
+matrix_of_activity(l) = (
+    (l, i) = (
         (l, i, k) = T
-    }
-}
+    )
+)
     where
         volumes_l_t_i_k_positive(l, i, k, t) of  number     # Объем пролива за активные месяцы
         matrix_of_activity(l, i, k)          of  number = T # Число активных месяцев
@@ -84,11 +84,11 @@ matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_a
 
 # Матрица сумм проливов за период по региону/виду/субъекту.
 # Числитель для вычисления скользящего среднего.
-volumes_l_i_k(l) = {
-    (l, i) = {
+volumes_l_i_k(l) = (
+    (l, i) = (
         (l, i, k) = volumes_l_t_i_k(l, i, k, 1) + ... + volumes_l_t_i_k(l, i, k, T)
-    }
-}
+    )
+)
     where
         volumes_l_t_i_k(l, i, k, t) of  number # Объем пролива за все месяцы
         volumes_l_i_k(l, i, k)      of  number # Сумма проливов за период фактической деятельности
@@ -121,11 +121,11 @@ volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year)
                 T         from index # Количество месяцев
 
 # Матрица скользящих средних, где число активных месяцев = 0
-moving_average(l) = {
-    (l, i) = {
+moving_average(l) = (
+    (l, i) = (
         (l, i, k) = 0
-    }
-}
+    )
+)
     where
         matrix_of_activity(l, i, k) of number # Число активных месяцев
         moving_average(l, i, k)    of  number # Скользящее среднее
@@ -139,11 +139,11 @@ moving_average(l) = {
                 k  for K  from index # Индексы региона
 
 # Матрица скользящих средних, где число активных месяцев > 0
-moving_average(l) = {
-    (l, i) = {
+moving_average(l) = (
+    (l, i) = (
         (l, i, k) = volumes_l_i_k(l, i, k) / matrix_of_activity(l, i, k)
-    }
-}
+    )
+)
     where
         volumes_l_i_k(l, i, k)      of number # Сумма проливов за период
         matrix_of_activity(l, i, k) of number # Число активных месяцев

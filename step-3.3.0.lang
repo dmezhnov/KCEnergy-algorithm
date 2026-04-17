@@ -1,10 +1,10 @@
 number                                                                                  from core
 requests_i_j_k_l_s_deficit_single_pend, requests_i_j_k_l_s_deficit_single_corrected     from ("step-3.2.1.lang")
 requests_i_j_k_l_s_deficit_multiple_pend, requests_i_j_k_l_s_deficit_multiple_corrected from ("step-3.2.2.lang")
-requests_i_j_surplus, requests_i_j_deficit                                               from ("step-2.lang")
+requests_i_j_surplus                                                                    from ("step-2.lang")
 requests_i_j_k_l_s                                                                      from ("step-1.lang")
-for_each_pair, assign_matrix, filter_by_pair, sum_by_axes, replace_coord                 from ("matrix_operation.lang")
-operation, condition, matrix, axis, index                                                from ("matrix_types.lang")
+for_each_pair, assign_matrix                                                            from ("matrix_operation.lang")
+operation, matrix, axis, index                                                          from ("matrix_types.lang")
 
 #### Перераспределение выпадающего объема НП по НПЗ с излишком пропорционально заявкам
 # Если среди НПЗ субъекта есть профицитные, перераспределяем выпадающий объём
@@ -13,7 +13,6 @@ operation, condition, matrix, axis, index                                       
 
 # Матрица скорректированных на проливы объемы дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_deficit_corrected = assign_matrix(requests_i_j_k_l_s_deficit_single_corrected, requests_i_j_k_l_s_deficit_multiple_corrected)
-    where
         requests_i_j_k_l_s_deficit_corrected(i, k, l, j, s)          of number
         requests_i_j_k_l_s_deficit_single_corrected(i, k, l, j, s)   of number
         requests_i_j_k_l_s_deficit_multiple_corrected(i, k, l, j, s) of number
@@ -56,59 +55,17 @@ requests_i_j_k_l_s_deficit_pend = assign_matrix(requests_i_j_k_l_s_deficit_singl
         requests_i_j_k_l_s_deficit_multiple_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
+                i  of I  from index # Индексы нефпродукта
+                k  of K  from index # Индексы региона
+                l  of P  from index # Индексы субъекта рынка
+                j  of J  from index # Индексы НПЗ
+                s  of C  from index # Индексы условия поставки
 
-# !!!!
-
-deficit_refinery(n) = j in requests_i_j_deficit(i, j)
-        where
-            deficit_refinery(n) of coordinate
-            requests_i_j_deficit(i, j) of number
-            requests_i_j_deficit of matrix(Product, Refinery)
-                where
-                    n  of          index # Индексы кординаты (завода) в массиве
-                    Product, Refinery from axis
-                    i  for I  from index # Индексы нефпродукта
-                    j  for J  from index # Индексы НПЗ
-
-surplus_refinery(n) = j in requests_i_j_surplus(i, j)
-        where
-            surplus_refinery(n) of coordinate
-            requests_i_j_surplus(i, j) of number
-            requests_i_j_surplus of matrix(Product, Refinery)
-                where
-                    n  of          index # Индексы кординаты (завода) в массиве
-                    Product, Refinery from axis
-                    i  for I  from index # Индексы нефпродукта
-                    j  for J  from index # Индексы НПЗ
-
-requests_i_j_k_l_s_deficit_pend_prime = replace_coord(requests_i_j_k_l_s_deficit_pend, deficit_refinery(n), surplus_refinery(n))
-    where
-        requests_i_j_k_l_s_deficit_pend_prime(i, k, l, j, s) of number
-        requests_i_j_k_l_s_deficit_pend(i, k, l, j, s)       of number
-        deficit_refinery(n) of coordinate
-        surplus_refinery(n) of coordinate
-        requests_i_j_k_l_s_deficit_pend_prime of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_deficit_pend       of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-            where
-                n  of          index # Индексы кординаты (завода) в массиве
-                Product, Region, Market_participant, Refinery, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-
-requests_i_j_k_l_deficit_pend_prime = sum_by_axes(requests_i_j_k_l_s_deficit_pend_prime, Ship_terms)
-    where
-        requests_i_j_k_l_s_deficit_pend_prime(i, k, l, j, s)  of number
-        requests_i_j_k_l_deficit_pend_prime(i, k, l, j)       of number
-        requests_i_j_k_l_s_deficit_pend_prime  of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_deficit_pend_prime    of matrix(Product, Region, Market_participant, Refinery)
+requests_i_k_l_deficit_pend = sum_by_axix(requests_i_j_k_l_s_deficit_pend, Refinery, Ship_terms)
+        requests_i_j_k_l_s_deficit_pend(i, k, l, j, s) of number
+        requests_i_k_l_deficit_pend(i, k, l)           of number
+        requests_i_j_k_l_s_deficit_pend of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_k_l_deficit_pend     of matrix(Product, Region, Market_participant)
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
@@ -118,15 +75,14 @@ requests_i_j_k_l_deficit_pend_prime = sum_by_axes(requests_i_j_k_l_s_deficit_pen
                 s  for C  from index # Индексы условия поставки
 
 # Матрица дважды скорректированных на проливы объемы профицитных запросов (запросы на профицитный НПЗ) первой очереди
-requests_i_j_k_l_s_surplus_only_corrected = for_each_pair(requests_i_j_k_l_s_surplus, "+", requests_i_j_k_l_deficit_pend_prime)
-    where
-        requests_i_j_k_l_s_surplus_only_corrected(i, k, l, j, s)  of number
-        requests_i_j_k_l_s_surplus(i, k, l, j, s)                 of number
-        requests_i_j_k_l_deficit_pend_prime(i, k, l, j)           of number
-        requests_i_j_k_l_s_surplus_only_corrected  of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_s_surplus                 of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
-        requests_i_j_k_l_deficit_pend_prime        of matrix(Product, Region, Market_participant, Refinery)
-        "+" from operation
+requests_i_j_k_l_s_surplus_only_corrected = for_each_pair(requests_i_j_k_l_s_surplus, +, requests_i_k_l_deficit_pend)
+        requests_i_j_k_l_s_surplus_corrected(i, k, l, j, s) of number
+        requests_i_j_k_l_s_surplus(i, k, l, j, s)           of number
+        requests_i_k_l_deficit_pend(i, k, l)                of number
+        requests_i_j_k_l_s_surplus_corrected of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_j_k_l_s_surplus           of matrix(Product, Region, Market_participant, Refinery, Ship_terms)
+        requests_i_k_l_deficit_pend          of matrix(Product, Region, Market_participant)
+        + from operation
             where
                 Product, Region, Market_participant, Refinery, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
@@ -136,7 +92,6 @@ requests_i_j_k_l_s_surplus_only_corrected = for_each_pair(requests_i_j_k_l_s_sur
                 s  for C  from index # Индексы условия поставки
 
 requests_i_j_k_l_s_surplus_corrected = assign_matrix(requests_i_j_k_l_s_surplus, requests_i_j_k_l_s_surplus_only_corrected)
-    where
         requests_i_j_k_l_s_surplus_corrected(i, k, l, j, s)      of number
         requests_i_j_k_l_s_surplus(i, k, l, j, s)                of number
         requests_i_j_k_l_s_surplus_only_corrected(i, k, l, j, s) of number

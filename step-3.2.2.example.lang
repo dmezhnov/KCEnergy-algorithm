@@ -1,30 +1,11 @@
-requests_i_k_l_s_all_multiple = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from K) = {
-                (2 from C, 1 from I, 1 from K, 1 from P) = 100 + 40 + 60 = 200 # 001 + 003 + 004
-            }
-        }
-    }
-}
+requests_i_k_l_s_deficit_multiple = ()
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         C  from index # Индексы условия поставки
 
-requests_i_j_k_l_s_deficit_multiple_share = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from K) = {
-                (2 from C, 1 from I, 1 from K, 1 from P) = {
-                    (2 from C, 1 from I, 1 from K, 1 from P, 1 from J) = 100 / 200 = 0.5, # 001
-                    (2 from C, 1 from I, 1 from K, 1 from P, 2 from J) = 40 / 200 = 0.2   # 003
-                }
-            }
-        }
-    }
-}
+requests_i_j_k_l_s_deficit_multiple_share = ()
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -32,18 +13,7 @@ requests_i_j_k_l_s_deficit_multiple_share = {
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend_aux = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from K) = {
-                (2 from C, 1 from I, 1 from K, 1 from P) = {
-                    (2 from C, 1 from I, 1 from K, 1 from P, 1 from J) = 0.5 * 90 = 45, # 001
-                    (2 from C, 1 from I, 1 from K, 1 from P, 2 from J) = 0.2 * 90 = 18  # 003
-                }
-            }
-        }
-    }
-}
+requests_i_j_k_l_s_deficit_multiple_pend_aux = ()
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -51,22 +21,7 @@ requests_i_j_k_l_s_deficit_multiple_pend_aux = {
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_pend = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from J) = {
-                (2 from C, 1 from I, 1 from J, 1 from K) = {
-                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = 100 - 45 = 55 # 001
-                }
-            },
-            (2 from C, 1 from I, 2 from J) = {
-                (2 from C, 1 from I, 2 from J, 1 from K) = {
-                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = 40 - 18 = 22 # 003
-                }
-            }
-        }
-    }
-}
+requests_i_j_k_l_s_deficit_multiple_pend = ()
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
@@ -74,22 +29,7 @@ requests_i_j_k_l_s_deficit_multiple_pend = {
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_multiple_corrected = {
-    (2 from C) = {
-        (2 from C, 1 from I) = {
-            (2 from C, 1 from I, 1 from J) = {
-                (2 from C, 1 from I, 1 from J, 1 from K) = {
-                    (2 from C, 1 from I, 1 from J, 1 from K, 1 from P) = min(100, 45) = 45 # 001
-                }
-            },
-            (2 from C, 1 from I, 2 from J) = {
-                (2 from C, 1 from I, 2 from J, 1 from K) = {
-                    (2 from C, 1 from I, 2 from J, 1 from K, 1 from P) = min(40, 18) = 18  # 003
-                }
-            }
-        }
-    }
-}
+requests_i_j_k_l_s_deficit_multiple_corrected = ()
     where
         I  from index # Индексы нефпродукта
         K  from index # Индексы региона
