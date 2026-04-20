@@ -95,7 +95,7 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
 
 count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
     where
-        matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
+        matrix_source  of matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
         counted_matrix of matrix(Tcoords(1), ..., Tcoords(C)) # Результирующая матрица численностей
             where
                 axis_to_count of  axis # Ось, по которой считаем количество координат
@@ -108,7 +108,3 @@ filter_by_coordinate(matrix_source, coord) = matrix_without_axis
         matrix_source of       matrix     # Исходная матрица
         coord of               coordinate # Фиксируемая координата
         matrix_without_axis of matrix     # Результат фильтрации по координате
-
-### - Сортировка по оси
-
-sort_by_axis(matrix_source, axis_to_sort)
