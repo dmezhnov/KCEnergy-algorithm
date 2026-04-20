@@ -2,9 +2,9 @@ number, length from core
 
 # Системные данные
 
-operation = *, /, safe_divide, round, +, -, min, max
+operation = "*", "/", safe_divide, round, "+", "-", min, max
 
-condition = =, <, <=, >, >=, contains, not_contains
+condition = "=", "<", "<=", ">", ">=", contains, not_contains
 
 Queue = First, Second, Third, Fourth
 

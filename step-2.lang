@@ -20,19 +20,19 @@ threshold_i_j(i) = (
         OVERALL_REQUEST_CAPACITY_COEFFICIENT of  number # Коэффициент порога
         threshold_i_j       of matrix(Product, Refinery) # Порог по НПЗ/виду НП
         available_i_j.First of matrix(Product, Refinery) # Доступные объёмы
-        * from operation # Операция умножения
+        "*" from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-threshold_i_j = for_each_element(available_i_j.First, *, OVERALL_REQUEST_CAPACITY_COEFFICIENT)
+threshold_i_j = for_each_element(available_i_j.First, "*", OVERALL_REQUEST_CAPACITY_COEFFICIENT)
     where
         threshold_i_j(i, j)       of  number
         available_i_j.First(i, j) of  number # Доступные объёмы
         threshold_i_j       of matrix(Product, Refinery) # Порог по НПЗ/виду НП
         available_i_j.First of matrix(Product, Refinery) # Доступные объёмы
-        * from operation # Операция умножения
+        "*" from operation # Операция умножения
             where
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта
@@ -58,7 +58,7 @@ requests_i_j_deficit(i) = (
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_deficit = filter_by_value(requests_i_j, >=, threshold_i_j)
+requests_i_j_deficit = filter_by_value(requests_i_j, ">=", threshold_i_j)
     where
         requests_i_j_deficit(i, j) of  number
         requests_i_j(i, j)         of  number
@@ -66,7 +66,7 @@ requests_i_j_deficit = filter_by_value(requests_i_j, >=, threshold_i_j)
         requests_i_j_deficit of matrix(Product, Refinery)
         requests_i_j         of matrix(Product, Refinery)
         threshold_i_j        of matrix(Product, Refinery)
-        >= from condition
+        ">=" from condition
             where
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта
@@ -92,7 +92,7 @@ requests_i_j_surplus(i) = (
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_surplus = filter_by_value(requests_i_j, <, threshold_i_j)
+requests_i_j_surplus = filter_by_value(requests_i_j, "<", threshold_i_j)
     where
         requests_i_j_surplus(i, j) of number
         requests_i_j(i, j)         of number
@@ -100,7 +100,7 @@ requests_i_j_surplus = filter_by_value(requests_i_j, <, threshold_i_j)
         requests_i_j_surplus of matrix(Product, Refinery)
         requests_i_j         of matrix(Product, Refinery)
         threshold_i_j        of matrix(Product, Refinery)
-        < from condition
+        "<" from condition
             where
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта

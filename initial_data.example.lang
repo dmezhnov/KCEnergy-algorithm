@@ -1,7 +1,7 @@
-Product = АИ-92
-Refinery = ПКОП, АНПЗ, ПНХЗ
-Market_participant = «А.», «Б.», «В.», «Г.», «Д.», «Е.»
-Region = Алматы, Астана, Шымкент
+Product = "АИ-92"
+Refinery = "ПКОП", "АНПЗ", "ПНХЗ"
+Market_participant = "А.", "Б.", "В.", "Г.", "Д.", "Е."
+Region = "Алматы", "Астана", "Шымкент"
 
 # 1 from I - АИ-92
 # 1 from J - ПКОП
