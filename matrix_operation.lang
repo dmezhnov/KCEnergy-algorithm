@@ -21,11 +21,11 @@ new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without
                 Taxis = (1), ..., (n) of axis # Оставшиеся оси
 
 ### - Копировать значения матрицы
-copy_values(matrix_source, copied_matrix) = copied_matrix*
+copy_values(matrix_source, copied_matrix) = copied_matrix
     where
-        matrix_source  of matrix # Источник значений
-        copied_matrix  of matrix # Приёмник (форма/координаты)
-        copied_matrix* of matrix # Результат копирования значений
+        matrix_source of matrix # Источник значений
+        copied_matrix of matrix # Приёмник (форма/координаты)
+        copied_matrix of matrix # Результат копирования значений
 
 ### - Объединить матрицы
 assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
@@ -42,7 +42,7 @@ assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
 sum_by_axes(matrix_source, TaxesSum(1), ..., TaxesSum(M)) = summed_matrix
     where
         matrix_source of matrix(Taxes(1), ..., Taxes(N), TaxesSum(1), ..., TaxesSum(M)) # Матрица, содержащая ось суммирования
-        summed_matrix of matrix(...Taxes) # Матрица после свёртки по оси
+        summed_matrix of matrix(Taxes(1), ..., Taxes(N)) # Матрица после свёртки по оси
             where
                 Taxes    = (1), ..., (N) of axis # Оставшиеся оси
                 TaxesSum = (1), ..., (M) of axis # Оси по которым суммируем (ось суммирования)
@@ -81,10 +81,10 @@ filter_by_pair(matrix_source, condit, matrix_condition) = filtered_matrix_by_pai
 
 for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
     where
-        matrix_source_1:  matrix(...Taxis) # Левая матрица
-        matrix_source_2:  matrix           # Правая матрица
-        operat:           operation        # Операция поэлементно
-        matrix_result:    matrix(...Taxis) # Результат
+        matrix_source_1 of matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
+        matrix_source_2 of matrix           # Правая матрица
+        operat          of operation        # Операция поэлементно
+        matrix_result   of matrix(Taxis(1), ..., Taxis(A)) # Результат
             where
                 matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
                 matrix_source_2 of  matrix                          # Правая матрица
@@ -108,3 +108,7 @@ filter_by_coordinate(matrix_source, coord) = matrix_without_axis
         matrix_source of       matrix     # Исходная матрица
         coord of               coordinate # Фиксируемая координата
         matrix_without_axis of matrix     # Результат фильтрации по координате
+
+### - Сортировка по оси
+
+sort_by_axis(matrix_source, axis_to_sort)
