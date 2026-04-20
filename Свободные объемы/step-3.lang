@@ -1,4 +1,4 @@
-requests_free_i_j               from ("initial_data.lang")
+requests_free_i_j_s             from ("initial_data.lang")
 current_free_volumes_i_j        from ("step-2.lang")
 for_each_pair, for_each_element from ("../matrix_operation.lang")
 operation, axis, index, matrix  from ("../matrix_types.lang")
@@ -10,31 +10,35 @@ number                          from core
 #   - Case 2 (0 < v~ < r): min(r, v~) = v~ — request partially satisfied
 # Outer max(0, ...) clamps to zero when v~ ≤ 0 (algorithm already terminated by spec,
 # but in declarative form all iterations are evaluated — zero contribution is safe).
+# Free volume (v~) is broadcast across the Ship_terms axis: FCA and EXW requests
+# draw from the same pool per spec section 3.5.7.1.
 
-satisfied_pre_norm_i_j_clipped(n) = for_each_pair(requests_free_i_j(n), min, current_free_volumes_i_j(n))
+satisfied_pre_norm_i_j_s_clipped(n) = for_each_pair(requests_free_i_j_s(n), min, current_free_volumes_i_j(n))
     where
-        satisfied_pre_norm_i_j_clipped(n)(i, j) of number
-        requests_free_i_j(n)(i, j)              of number
-        current_free_volumes_i_j(n)(i, j)       of number
-        satisfied_pre_norm_i_j_clipped(n) of matrix(Product, Refinery)
-        requests_free_i_j(n)              of matrix(Product, Refinery)
-        current_free_volumes_i_j(n)       of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_s_clipped(n)(i, j, s) of number
+        requests_free_i_j_s(n)(i, j, s)              of number
+        current_free_volumes_i_j(n)(i, j)            of number
+        satisfied_pre_norm_i_j_s_clipped(n) of matrix(Product, Refinery, Ship_terms)
+        requests_free_i_j_s(n)              of matrix(Product, Refinery, Ship_terms)
+        current_free_volumes_i_j(n)         of matrix(Product, Refinery)
         min from operation # Минимум поэлементно
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Ship_terms from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                s for C from index # Индексы условия поставки
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j(n) = for_each_element(satisfied_pre_norm_i_j_clipped(n), max, 0)
+satisfied_pre_norm_i_j_s(n) = for_each_element(satisfied_pre_norm_i_j_s_clipped(n), max, 0)
     where
-        satisfied_pre_norm_i_j(n)(i, j)         of number
-        satisfied_pre_norm_i_j_clipped(n)(i, j) of number
-        satisfied_pre_norm_i_j(n)         of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_clipped(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_s(n)(i, j, s)         of number
+        satisfied_pre_norm_i_j_s_clipped(n)(i, j, s) of number
+        satisfied_pre_norm_i_j_s(n)         of matrix(Product, Refinery, Ship_terms)
+        satisfied_pre_norm_i_j_s_clipped(n) of matrix(Product, Refinery, Ship_terms)
         max from operation # Максимум с константой
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Ship_terms from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                s for C from index # Индексы условия поставки
                 n of         index # Индекс матрицы (порядковый номер запроса)
