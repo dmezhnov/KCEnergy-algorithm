@@ -2,12 +2,20 @@ number, percentage  from core
 axis, index, matrix from ("../matrix_types.lang")
 
 # Заявки субъектов рынка за рассматриваемый период (Свободные объемы)
-requests_free_i_j_t of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+requests_free_i_j_t of matrix(Product, Refinery, Month_and_year)
     where
         requests_free_i_j_t(i, j, t) of number # Запрашиваемый объем НП
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси
+        Product, Refinery, Month_and_year from axis # Оси
             where
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 t  for Y  from index # Индексы месяца и года
 
+# Свободные объемы
+free_volumes_i_j of matrix(Product, Refinery)
+    where
+        free_volumes_i_j(i, j) of number
+        Product, Refinery from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ

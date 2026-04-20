@@ -4,10 +4,10 @@ axis, index, matrix from ("../matrix_types.lang")
 Month_and_year      from ("../matrix_types.lang")
 number              from core
 
-requests_free_sorted_i_j_t = sort_by_axis(requests_free_i_j_t, Month_and_year)
+requests_free_sorted_i_j = sort_by_axis(requests_free_i_j_t, Month_and_year)
     where
-        requests_free_i_j_t(i, j, t)        of number # Запрашиваемый объем НП
-        requests_free_sorted_i_j_t(i, j, t) of number # Запрашиваемый объем НП отсортированный по дате
+        requests_free_i_j_t(i, j, t)   of number # Запрашиваемый объем НП
+        requests_free_sorted_i_j(i, j) of number # Запрашиваемый объем НП отсортированный по дате
         Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси
             where
                 i  for I  from index # Индексы нефпродукта
