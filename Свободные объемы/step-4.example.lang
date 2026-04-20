@@ -1,0 +1,448 @@
+requests_free_i_j_s, RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
+current_free_volumes_i_j                                              from ("step-2.lang")
+satisfied_pre_norm_i_j_s                                              from ("step-3.lang")
+
+# Шаг 4 спецификации — нормировка s_pre_norm → s̈ и обновление v~.
+# Прогон примера из таблицы 14 (АИ-92, ПКОП, v~₀ = 2000):
+#
+#   φ_ij | v~ before | Запрос         | s   | s̈  | v~ after (after_step)
+#   -----+-----------+----------------+-----+----+----------------------
+#     1  |   2000    | 101: 200 EXW   | 200 | 200|  1800
+#     2  |   1800    | 102: 250 EXW   | 250 | 250|  1550
+#     3  |   1550    | 103: 520 FCA   | 520 | 520|  1030
+#     4  |   1030    | 104: 400 EXW   | 400 | 400|   630
+#     5  |    630    | 105: 585 FCA   | 585 | 585|    45
+#     6  |     45    | 106: 520 FCA   |  45 |  65|   -20  ← Case 2 + v~ ≤ 0
+#     7  |    n/a    | 107: 650 FCA   | не рассматривается
+#
+# v~_after(6) = -20 совпадает с колонкой "Остаточный свободный объем" таблицы 14.
+# current_free_volumes_i_j(7) = () представляет "не рассматривается" — пара отсеяна
+# фильтрами Case 2 + v~ ≤ 0, применяемыми через free_volumes_after_step_case_1.
+
+# --- FCA branch -------------------------------------------------------------
+
+# pre_norm_fca = filter_by_coordinate(pre_norm_s, FCA): только cells с FCA-запросом
+satisfied_pre_norm_i_j_fca(1 from n) = ()
+satisfied_pre_norm_i_j_fca(2 from n) = ()
+satisfied_pre_norm_i_j_fca(3 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 520
+    )
+)
+satisfied_pre_norm_i_j_fca(4 from n) = ()
+satisfied_pre_norm_i_j_fca(5 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 585
+    )
+)
+satisfied_pre_norm_i_j_fca(6 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 45
+    )
+)
+satisfied_pre_norm_i_j_fca(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# coeff = pre_norm_fca / L_r (L_r = 65)
+satisfied_pre_norm_i_j_fca_coeff(3 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 520 / 65 = 8
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff(5 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 585 / 65 = 9
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff(6 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 45 / 65 = 0.6923
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff(1 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff(2 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff(4 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# coeff_rounded = round(coeff)
+satisfied_pre_norm_i_j_fca_coeff_rounded(3 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(8)      = 8
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff_rounded(5 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(9)      = 9
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff_rounded(6 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(0.6923) = 1 # 0.69 ≥ 0.5 → вверх (case 1б)
+    )
+)
+satisfied_pre_norm_i_j_fca_coeff_rounded(1 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff_rounded(2 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff_rounded(4 from n) = ()
+satisfied_pre_norm_i_j_fca_coeff_rounded(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# rounded = coeff_rounded * L_r
+satisfied_pre_norm_i_j_fca_rounded(3 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 8 * 65 = 520
+    )
+)
+satisfied_pre_norm_i_j_fca_rounded(5 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 9 * 65 = 585
+    )
+)
+satisfied_pre_norm_i_j_fca_rounded(6 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 1 * 65 = 65
+    )
+)
+satisfied_pre_norm_i_j_fca_rounded(1 from n) = ()
+satisfied_pre_norm_i_j_fca_rounded(2 from n) = ()
+satisfied_pre_norm_i_j_fca_rounded(4 from n) = ()
+satisfied_pre_norm_i_j_fca_rounded(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# satisfied_fca = max(L_r, rounded) where pre_norm > 0; else 0 where pre_norm = 0
+satisfied_i_j_fca(3 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(65, 520) = 520
+    )
+)
+satisfied_i_j_fca(5 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(65, 585) = 585
+    )
+)
+satisfied_i_j_fca(6 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(65,  65) = 65
+    )
+)
+satisfied_i_j_fca(1 from n) = () # pre_norm_fca отсутствует
+satisfied_i_j_fca(2 from n) = ()
+satisfied_i_j_fca(4 from n) = ()
+satisfied_i_j_fca(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# --- EXW branch -------------------------------------------------------------
+
+satisfied_pre_norm_i_j_exw(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 200
+    )
+)
+satisfied_pre_norm_i_j_exw(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 250
+    )
+)
+satisfied_pre_norm_i_j_exw(3 from n) = ()
+satisfied_pre_norm_i_j_exw(4 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 400
+    )
+)
+satisfied_pre_norm_i_j_exw(5 from n) = ()
+satisfied_pre_norm_i_j_exw(6 from n) = ()
+satisfied_pre_norm_i_j_exw(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# coeff = pre_norm_exw / ΔL_t (ΔL_t = 5)
+satisfied_pre_norm_i_j_exw_coeff(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 200 / 5 = 40
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 250 / 5 = 50
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff(4 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 400 / 5 = 80
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff(3 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff(5 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff(6 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# coeff_rounded = round(coeff)
+satisfied_pre_norm_i_j_exw_coeff_rounded(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(40) = 40
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff_rounded(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(50) = 50
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff_rounded(4 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = round(80) = 80
+    )
+)
+satisfied_pre_norm_i_j_exw_coeff_rounded(3 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff_rounded(5 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff_rounded(6 from n) = ()
+satisfied_pre_norm_i_j_exw_coeff_rounded(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# rounded = coeff_rounded * ΔL_t
+satisfied_pre_norm_i_j_exw_rounded(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 40 * 5 = 200
+    )
+)
+satisfied_pre_norm_i_j_exw_rounded(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 50 * 5 = 250
+    )
+)
+satisfied_pre_norm_i_j_exw_rounded(4 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 80 * 5 = 400
+    )
+)
+satisfied_pre_norm_i_j_exw_rounded(3 from n) = ()
+satisfied_pre_norm_i_j_exw_rounded(5 from n) = ()
+satisfied_pre_norm_i_j_exw_rounded(6 from n) = ()
+satisfied_pre_norm_i_j_exw_rounded(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# satisfied_exw = max(ΔL_t, rounded) where pre_norm > 0
+satisfied_i_j_exw(1 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(5, 200) = 200
+    )
+)
+satisfied_i_j_exw(2 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(5, 250) = 250
+    )
+)
+satisfied_i_j_exw(4 from n) = (
+    (1 from I) = (
+        (1 from I, 1 from J) = max(5, 400) = 400
+    )
+)
+satisfied_i_j_exw(3 from n) = ()
+satisfied_i_j_exw(5 from n) = ()
+satisfied_i_j_exw(6 from n) = ()
+satisfied_i_j_exw(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# --- Reassemble FCA + EXW ---------------------------------------------------
+
+satisfied_i_j_s(1 from n) = (
+    (2 from C) = (
+        (2 from C, 1 from I) = (
+            (2 from C, 1 from I, 1 from J) = 200
+        )
+    )
+)
+satisfied_i_j_s(2 from n) = (
+    (2 from C) = (
+        (2 from C, 1 from I) = (
+            (2 from C, 1 from I, 1 from J) = 250
+        )
+    )
+)
+satisfied_i_j_s(3 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 520
+        )
+    )
+)
+satisfied_i_j_s(4 from n) = (
+    (2 from C) = (
+        (2 from C, 1 from I) = (
+            (2 from C, 1 from I, 1 from J) = 400
+        )
+    )
+)
+satisfied_i_j_s(5 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 585
+        )
+    )
+)
+satisfied_i_j_s(6 from n) = (
+    (1 from C) = (
+        (1 from C, 1 from I) = (
+            (1 from C, 1 from I, 1 from J) = 65
+        )
+    )
+)
+satisfied_i_j_s(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        C from index # Индексы условия поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# --- Free-volume update -----------------------------------------------------
+
+# consumed = sum по Ship_terms (FCA + EXW черпают из общего пула)
+satisfied_consumed_i_j(1 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 200 ) )
+satisfied_consumed_i_j(2 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 250 ) )
+satisfied_consumed_i_j(3 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 520 ) )
+satisfied_consumed_i_j(4 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 400 ) )
+satisfied_consumed_i_j(5 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 585 ) )
+satisfied_consumed_i_j(6 from n) = ( (1 from I) = ( (1 from I, 1 from J) =  65 ) )
+satisfied_consumed_i_j(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# r_total = sum запросов по Ship_terms — нужен для обнаружения Case 2 (v~ < r_total)
+request_total_i_j(1 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 200 ) )
+request_total_i_j(2 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 250 ) )
+request_total_i_j(3 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 520 ) )
+request_total_i_j(4 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 400 ) )
+request_total_i_j(5 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 585 ) )
+request_total_i_j(6 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 520 ) )
+request_total_i_j(7 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 650 ) )
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# v~_after = v~(n) − consumed (формула v~ ← v~ − (s̈ − s) свернута). Считаем без
+# Case 2-фильтра, чтобы трасса соответствовала колонке "Остаточный свободный объем"
+# из таблицы 14 — на n=6 даёт −20 (а не пусто).
+free_volumes_after_step_i_j(1 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 2000 - 200 = 1800 ) )
+free_volumes_after_step_i_j(2 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1800 - 250 = 1550 ) )
+free_volumes_after_step_i_j(3 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1550 - 520 = 1030 ) )
+free_volumes_after_step_i_j(4 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1030 - 400 =  630 ) )
+free_volumes_after_step_i_j(5 from n) = ( (1 from I) = ( (1 from I, 1 from J) =  630 - 585 =   45 ) )
+free_volumes_after_step_i_j(6 from n) = ( (1 from I) = ( (1 from I, 1 from J) =   45 -  65 =  -20 ) ) # Case 2 + v~ ≤ 0
+free_volumes_after_step_i_j(7 from n) = () # current_free_volumes_i_j(7) уже пуст
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# case_1_only = filter v~(n) where v~ ≥ r_total — отсев пар, попавших в Case 2.
+# Нужно для корректной терминации в крайнем случае Case 2 round-down (когда s̈ < s
+# и v~_after мог бы остаться положительным).
+free_volumes_case_1_only_i_j(1 from n) = ( # 2000 ≥ 200
+    (1 from I) = (
+        (1 from I, 1 from J) = 2000
+    )
+)
+free_volumes_case_1_only_i_j(2 from n) = ( # 1800 ≥ 250
+    (1 from I) = (
+        (1 from I, 1 from J) = 1800
+    )
+)
+free_volumes_case_1_only_i_j(3 from n) = ( # 1550 ≥ 520
+    (1 from I) = (
+        (1 from I, 1 from J) = 1550
+    )
+)
+free_volumes_case_1_only_i_j(4 from n) = ( # 1030 ≥ 400
+    (1 from I) = (
+        (1 from I, 1 from J) = 1030
+    )
+)
+free_volumes_case_1_only_i_j(5 from n) = ( # 630 ≥ 585
+    (1 from I) = (
+        (1 from I, 1 from J) = 630
+    )
+)
+free_volumes_case_1_only_i_j(6 from n) = () # 45 < 520 → Case 2 → пара отсеяна
+free_volumes_case_1_only_i_j(7 from n) = () # current_free_volumes_i_j(7) уже пуст
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# v~_after_case_1 = case_1_only − consumed: пересечение отсеивает Case 2-ячейки
+free_volumes_after_step_case_1_i_j(1 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 2000 - 200 = 1800 ) )
+free_volumes_after_step_case_1_i_j(2 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1800 - 250 = 1550 ) )
+free_volumes_after_step_case_1_i_j(3 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1550 - 520 = 1030 ) )
+free_volumes_after_step_case_1_i_j(4 from n) = ( (1 from I) = ( (1 from I, 1 from J) = 1030 - 400 =  630 ) )
+free_volumes_after_step_case_1_i_j(5 from n) = ( (1 from I) = ( (1 from I, 1 from J) =  630 - 585 =   45 ) )
+free_volumes_after_step_case_1_i_j(6 from n) = () # case_1_only(6) пуст → пересечение пусто
+free_volumes_after_step_case_1_i_j(7 from n) = ()
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+# v~(n+1) = filter v~_after_case_1 > 0 (при is_empty(requests(n+1)) = false), иначе ()
+current_free_volumes_i_j(2 from n) = ( # 1800 > 0
+    (1 from I) = (
+        (1 from I, 1 from J) = 1800
+    )
+)
+current_free_volumes_i_j(3 from n) = ( # 1550 > 0
+    (1 from I) = (
+        (1 from I, 1 from J) = 1550
+    )
+)
+current_free_volumes_i_j(4 from n) = ( # 1030 > 0
+    (1 from I) = (
+        (1 from I, 1 from J) = 1030
+    )
+)
+current_free_volumes_i_j(5 from n) = ( # 630 > 0
+    (1 from I) = (
+        (1 from I, 1 from J) = 630
+    )
+)
+current_free_volumes_i_j(6 from n) = ( # 45 > 0
+    (1 from I) = (
+        (1 from I, 1 from J) = 45
+    )
+)
+current_free_volumes_i_j(7 from n) = () # после Case 2 (n=6) v~_after пуст → filter тоже пуст
+current_free_volumes_i_j(8 from n) = () # is_empty(requests_free_i_j_s(8)) = true → глобальный стоп
+    where
+        n of   index # Индекс матрицы
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
