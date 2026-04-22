@@ -2,15 +2,16 @@ number, percentage  from core
 axis, index, matrix from ("../matrix_types.lang")
 
 # Заявки субъектов рынка за рассматриваемый период (Свободные объемы)
-requests_free_i_j_s(n) of matrix(Product, Refinery, Ship_terms)
+requests_free_i_j_s_q(n) of matrix(Product, Refinery, Ship_terms, Request)
     where
-        requests_free_i_j_s(n)(i, j, s) of number # n-й по хронологии запрашиваемый объем НП
-        Product, Refinery, Ship_terms from axis # Оси
+        requests_free_i_j_s_q(n)(i, j, s, q) of number # n-й по хронологии запрашиваемый объем НП
+        Product, Refinery, Ship_terms, Request from axis # Оси
             where
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
                 s for C from index # Индексы условия поставки
-                n      of    index # Индекс итерации (порядковый номер запроса)
+                q for Z from index # Индексы запросов
+                n      of    index # Индексы матрицы (порядковый номер запроса)
 
 # Свободные объемы
 free_volumes_i_j of matrix(Product, Refinery)
@@ -21,11 +22,11 @@ free_volumes_i_j of matrix(Product, Refinery)
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
 
-# Норма объема Запроса на покупку с НПЗ (вагонная норма, МТ)
-RAIL_ROAD_MIN_TONNAGE of number
+# Вагонная норма для НПЗ, МТ
+RAIL_ROAD_MIN_TONNAGE                of number     = 65
 
-# Минимальная норма объема Запроса на покупку с нефтебазы (МТ)
-OIL_TERMINAL_MIN_TONNAGE of number
+# Минимальная норма для нефтебазы, МТ
+OIL_TERMINAL_MIN_TONNAGE             of number     = 4
 
-# Норма объема Запроса на покупку с нефтебазы (шаг вывоза, МТ)
-OIL_TERMINAL_STEP_TONNAGE of number
+# Шаг нормы для нефтебазы, МТ
+OIL_TERMINAL_STEP_TONNAGE            of number     = 5

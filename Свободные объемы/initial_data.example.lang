@@ -30,57 +30,72 @@ free_volumes_i_j = (
 # 106  «Д.»  АИ-92            ПКОП  520 МТ  FCA
 # 107  «Е.»  АИ-92            ПКОП  650 МТ  FCA
 
-requests_free_i_j_s(1 from n) = ( # 101: 200 EXW
-    (2 from C) = (
-        (2 from C, 1 from I) = (
-            (2 from C, 1 from I, 1 from J) = 200
+requests_free_i_j_s_q(1 from n) = ( # 101: 200 EXW
+    (1 from Z) = (
+        (1 from Z, 2 from C) = (
+            (1 from Z, 2 from C, 1 from I) = (
+                (1 from Z, 2 from C, 1 from I, 1 from J) = 200
+            )
         )
     )
 )
-requests_free_i_j_s(2 from n) = ( # 102: 250 EXW
-    (2 from C) = (
-        (2 from C, 1 from I) = (
-            (2 from C, 1 from I, 1 from J) = 250
+requests_free_i_j_s_q(2 from n) = ( # 102: 250 EXW
+    (2 from Z) = (
+        (2 from Z, 2 from C) = (
+            (2 from Z, 2 from C, 1 from I) = (
+                (2 from Z, 2 from C, 1 from I, 1 from J) = 250
+            )
         )
     )
 )
-requests_free_i_j_s(3 from n) = ( # 103: 520 FCA
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = 520
+requests_free_i_j_s_q(3 from n) = ( # 103: 520 FCA
+    (3 from Z) = (
+        (3 from Z, 1 from C) = (
+            (3 from Z, 1 from C, 1 from I) = (
+                (3 from Z, 1 from C, 1 from I, 1 from J) = 520
+            )
         )
     )
 )
-requests_free_i_j_s(4 from n) = ( # 104: 400 EXW
-    (2 from C) = (
-        (2 from C, 1 from I) = (
-            (2 from C, 1 from I, 1 from J) = 400
+requests_free_i_j_s_q(4 from n) = ( # 104: 400 EXW
+    (4 from Z) = (
+        (4 from Z, 2 from C) = (
+            (4 from Z, 2 from C, 1 from I) = (
+                (4 from Z, 2 from C, 1 from I, 1 from J) = 400
+            )
         )
     )
 )
-requests_free_i_j_s(5 from n) = ( # 105: 585 FCA
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = 585
+requests_free_i_j_s_q(5 from n) = ( # 105: 585 FCA
+    (5 from Z) = (
+        (5 from Z, 1 from C) = (
+            (5 from Z, 1 from C, 1 from I) = (
+                (5 from Z, 1 from C, 1 from I, 1 from J) = 585
+            )
         )
     )
 )
-requests_free_i_j_s(6 from n) = ( # 106: 520 FCA
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = 520
+requests_free_i_j_s_q(6 from n) = ( # 106: 520 FCA
+    (6 from Z) = (
+        (6 from Z, 1 from C) = (
+            (6 from Z, 1 from C, 1 from I) = (
+                (6 from Z, 1 from C, 1 from I, 1 from J) = 520
+            )
         )
     )
 )
-requests_free_i_j_s(7 from n) = ( # 107: 650 FCA — спрос есть, но пара уже терминирована
-    (1 from C) = (
-        (1 from C, 1 from I) = (
-            (1 from C, 1 from I, 1 from J) = 650
+requests_free_i_j_s_q(7 from n) = ( # 107: 650 FCA — спрос есть, но пара уже терминирована
+    (7 from Z) = (
+        (7 from Z, 1 from C) = (
+            (7 from Z, 1 from C, 1 from I) = (
+                (7 from Z, 1 from C, 1 from I, 1 from J) = 650
+            )
         )
     )
 )
     where
         n of   index # Индекс матрицы (порядковый номер запроса)
+        Z from index # Индексы запросов
         C from index # Индексы условия поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
