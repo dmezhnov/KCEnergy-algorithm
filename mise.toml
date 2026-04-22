@@ -8,7 +8,7 @@ run = "echo No linter configured"
 
 [tasks.save]
 description = "Save uncommitted changes"
-run = "bun run ../scripts/save-from-child.bun.ts"
+run = "bun run ../scripts/save.bun.ts"
 
 [tasks.install]
 description = "Install dependencies"

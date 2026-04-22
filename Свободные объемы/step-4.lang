@@ -1,9 +1,9 @@
-requests_free_i_j_s, RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
-current_free_volumes_i_j                                              from ("step-2.lang")
-satisfied_pre_norm_i_j_s                                              from ("step-3.lang")
+requests_free_i_j_s_q, RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
+current_free_volumes_i_j                                                from ("step-2.lang")
+satisfied_pre_norm_i_j_s_q                                              from ("step-3.lang")
 filter_by_coordinate, filter_by_pair, filter_by_value, for_each_element, for_each_pair, sum_by_axes from ("../matrix_operation.lang")
-condition, operation, axis, index, matrix, coordinate                 from ("../matrix_types.lang")
-number                                                                from core
+condition, operation, axis, index, matrix, coordinate                   from ("../matrix_types.lang")
+number                                                                  from core
 
 # Step 4 — normalize the n-th satisfied volume to the wagon norm (FCA) or
 # terminal step (EXW) and update the free-volume pool for the next request.
@@ -23,8 +23,13 @@ number                                                                from core
 # request, or pair already terminated). Without this branch the floor-by-min
 # would inject spurious 65 МТ (FCA) / 5 МТ (EXW) on every iteration.
 #
+# Request axis (q) is carried through the normalization branches so the per-q
+# satisfied volumes remain traceable. Pool accounting (satisfied_consumed,
+# request_total) collapses Ship_terms and Request together because v~ is a
+# shared pool across both conditions and across all q at iteration n.
+#
 # Termination — drop pair 〈i, j〉 from current_free_volumes_i_j when any of:
-#   (1) is_empty(requests_free_i_j_s(n + 1))    — no more requests, global stop
+#   (1) is_empty(requests_free_i_j_s_q(n + 1))  — no more requests, global stop
 #   (2) v~(n) < r_total(n)                      — Step-3 case 2 (partial)
 #   (3) v~(n) − consumed(n) ≤ 0                 — pool exhausted after Step 4
 # Once a pair leaves current_free_volumes_i_j, every downstream for_each_pair
@@ -32,222 +37,238 @@ number                                                                from core
 
 # --- FCA branch -------------------------------------------------------------
 
-satisfied_pre_norm_i_j_fca(n) = filter_by_coordinate(satisfied_pre_norm_i_j_s(n), FCA)
+satisfied_pre_norm_i_j_fca_q(n) = filter_by_coordinate(satisfied_pre_norm_i_j_s_q(n), FCA)
     where
-        satisfied_pre_norm_i_j_s(n)(i, j, s) of number
-        satisfied_pre_norm_i_j_fca(n)(i, j)  of number
-        satisfied_pre_norm_i_j_s(n)   of matrix(Product, Refinery, Ship_terms)
-        satisfied_pre_norm_i_j_fca(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_s_q(n)(i, j, s, q) of number
+        satisfied_pre_norm_i_j_fca_q(n)(i, j, q)  of number
+        satisfied_pre_norm_i_j_s_q(n)   of matrix(Product, Refinery, Ship_terms, Request)
+        satisfied_pre_norm_i_j_fca_q(n) of matrix(Product, Refinery, Request)
         FCA of coordinate
             where
-                Product, Refinery, Ship_terms from axis # Оси
+                Product, Refinery, Ship_terms, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
                 s for C from index # Индексы условия поставки
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_fca_coeff(n) = for_each_element(satisfied_pre_norm_i_j_fca(n), safe_divide, RAIL_ROAD_MIN_TONNAGE)
+satisfied_pre_norm_i_j_fca_coeff_q(n) = for_each_element(satisfied_pre_norm_i_j_fca_q(n), safe_divide, RAIL_ROAD_MIN_TONNAGE)
     where
-        satisfied_pre_norm_i_j_fca(n)(i, j)       of number
-        satisfied_pre_norm_i_j_fca_coeff(n)(i, j) of number
-        RAIL_ROAD_MIN_TONNAGE                     of number
-        satisfied_pre_norm_i_j_fca(n)       of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_fca_coeff(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_fca_q(n)(i, j, q)       of number
+        satisfied_pre_norm_i_j_fca_coeff_q(n)(i, j, q) of number
+        RAIL_ROAD_MIN_TONNAGE                          of number
+        satisfied_pre_norm_i_j_fca_q(n)       of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_fca_coeff_q(n) of matrix(Product, Refinery, Request)
         safe_divide from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_fca_coeff_rounded(n) = for_each_element(satisfied_pre_norm_i_j_fca_coeff(n), round, 0)
+satisfied_pre_norm_i_j_fca_coeff_rounded_q(n) = for_each_element(satisfied_pre_norm_i_j_fca_coeff_q(n), round, 0)
     where
-        satisfied_pre_norm_i_j_fca_coeff(n)(i, j)         of number
-        satisfied_pre_norm_i_j_fca_coeff_rounded(n)(i, j) of number
-        satisfied_pre_norm_i_j_fca_coeff(n)         of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_fca_coeff_rounded(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_fca_coeff_q(n)(i, j, q)         of number
+        satisfied_pre_norm_i_j_fca_coeff_rounded_q(n)(i, j, q) of number
+        satisfied_pre_norm_i_j_fca_coeff_q(n)         of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_fca_coeff_rounded_q(n) of matrix(Product, Refinery, Request)
         round from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_fca_rounded(n) = for_each_element(satisfied_pre_norm_i_j_fca_coeff_rounded(n), "*", RAIL_ROAD_MIN_TONNAGE)
+satisfied_pre_norm_i_j_fca_rounded_q(n) = for_each_element(satisfied_pre_norm_i_j_fca_coeff_rounded_q(n), "*", RAIL_ROAD_MIN_TONNAGE)
     where
-        satisfied_pre_norm_i_j_fca_coeff_rounded(n)(i, j) of number
-        satisfied_pre_norm_i_j_fca_rounded(n)(i, j)       of number
-        RAIL_ROAD_MIN_TONNAGE                             of number
-        satisfied_pre_norm_i_j_fca_coeff_rounded(n) of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_fca_rounded(n)       of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_fca_coeff_rounded_q(n)(i, j, q) of number
+        satisfied_pre_norm_i_j_fca_rounded_q(n)(i, j, q)       of number
+        RAIL_ROAD_MIN_TONNAGE                                  of number
+        satisfied_pre_norm_i_j_fca_coeff_rounded_q(n) of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_fca_rounded_q(n)       of matrix(Product, Refinery, Request)
         "*" from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_i_j_fca(n) = for_each_element(satisfied_pre_norm_i_j_fca_rounded(n), max, RAIL_ROAD_MIN_TONNAGE)
+satisfied_i_j_fca_q(n) = for_each_element(satisfied_pre_norm_i_j_fca_rounded_q(n), max, RAIL_ROAD_MIN_TONNAGE)
     where
-        satisfied_pre_norm_i_j_fca(n) > 0
+        satisfied_pre_norm_i_j_fca_q(n) > 0
             where
-                satisfied_pre_norm_i_j_fca_rounded(n)(i, j) of number
-                satisfied_i_j_fca(n)(i, j)                  of number
-                RAIL_ROAD_MIN_TONNAGE                       of number
-                satisfied_pre_norm_i_j_fca_rounded(n) of matrix(Product, Refinery)
-                satisfied_i_j_fca(n)                  of matrix(Product, Refinery)
+                satisfied_pre_norm_i_j_fca_rounded_q(n)(i, j, q) of number
+                satisfied_i_j_fca_q(n)(i, j, q)                  of number
+                RAIL_ROAD_MIN_TONNAGE                            of number
+                satisfied_pre_norm_i_j_fca_rounded_q(n) of matrix(Product, Refinery, Request)
+                satisfied_i_j_fca_q(n)                  of matrix(Product, Refinery, Request)
                 max from operation
                     where
-                        Product, Refinery from axis # Оси
+                        Product, Refinery, Request from axis # Оси
                         i for I from index # Индексы нефпродукта
                         j for J from index # Индексы НПЗ
+                        q for Z from index # Индексы запросов
                         n of         index # Индекс матрицы (порядковый номер запроса)
-satisfied_i_j_fca(n) = 0
+satisfied_i_j_fca_q(n) = 0
     where
-        satisfied_pre_norm_i_j_fca(n) = 0
+        satisfied_pre_norm_i_j_fca_q(n) = 0
             where
-                satisfied_pre_norm_i_j_fca(n)(i, j) of number
-                satisfied_i_j_fca(n)(i, j)          of number
-                satisfied_pre_norm_i_j_fca(n) of matrix(Product, Refinery)
-                satisfied_i_j_fca(n)          of matrix(Product, Refinery)
+                satisfied_pre_norm_i_j_fca_q(n)(i, j, q) of number
+                satisfied_i_j_fca_q(n)(i, j, q)          of number
+                satisfied_pre_norm_i_j_fca_q(n) of matrix(Product, Refinery, Request)
+                satisfied_i_j_fca_q(n)          of matrix(Product, Refinery, Request)
                     where
-                        Product, Refinery from axis # Оси
+                        Product, Refinery, Request from axis # Оси
                         i for I from index # Индексы нефпродукта
                         j for J from index # Индексы НПЗ
+                        q for Z from index # Индексы запросов
                         n of         index # Индекс матрицы (порядковый номер запроса)
 
 # --- EXW branch -------------------------------------------------------------
 
-satisfied_pre_norm_i_j_exw(n) = filter_by_coordinate(satisfied_pre_norm_i_j_s(n), EXW)
+satisfied_pre_norm_i_j_exw_q(n) = filter_by_coordinate(satisfied_pre_norm_i_j_s_q(n), EXW)
     where
-        satisfied_pre_norm_i_j_s(n)(i, j, s) of number
-        satisfied_pre_norm_i_j_exw(n)(i, j)  of number
-        satisfied_pre_norm_i_j_s(n)   of matrix(Product, Refinery, Ship_terms)
-        satisfied_pre_norm_i_j_exw(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_s_q(n)(i, j, s, q) of number
+        satisfied_pre_norm_i_j_exw_q(n)(i, j, q)  of number
+        satisfied_pre_norm_i_j_s_q(n)   of matrix(Product, Refinery, Ship_terms, Request)
+        satisfied_pre_norm_i_j_exw_q(n) of matrix(Product, Refinery, Request)
         EXW of coordinate
             where
-                Product, Refinery, Ship_terms from axis # Оси
+                Product, Refinery, Ship_terms, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
                 s for C from index # Индексы условия поставки
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_exw_coeff(n) = for_each_element(satisfied_pre_norm_i_j_exw(n), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
+satisfied_pre_norm_i_j_exw_coeff_q(n) = for_each_element(satisfied_pre_norm_i_j_exw_q(n), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
     where
-        satisfied_pre_norm_i_j_exw(n)(i, j)       of number
-        satisfied_pre_norm_i_j_exw_coeff(n)(i, j) of number
-        OIL_TERMINAL_STEP_TONNAGE                 of number
-        satisfied_pre_norm_i_j_exw(n)       of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_exw_coeff(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_exw_q(n)(i, j, q)       of number
+        satisfied_pre_norm_i_j_exw_coeff_q(n)(i, j, q) of number
+        OIL_TERMINAL_STEP_TONNAGE                      of number
+        satisfied_pre_norm_i_j_exw_q(n)       of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_exw_coeff_q(n) of matrix(Product, Refinery, Request)
         safe_divide from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_exw_coeff_rounded(n) = for_each_element(satisfied_pre_norm_i_j_exw_coeff(n), round, 0)
+satisfied_pre_norm_i_j_exw_coeff_rounded_q(n) = for_each_element(satisfied_pre_norm_i_j_exw_coeff_q(n), round, 0)
     where
-        satisfied_pre_norm_i_j_exw_coeff(n)(i, j)         of number
-        satisfied_pre_norm_i_j_exw_coeff_rounded(n)(i, j) of number
-        satisfied_pre_norm_i_j_exw_coeff(n)         of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_exw_coeff_rounded(n) of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_exw_coeff_q(n)(i, j, q)         of number
+        satisfied_pre_norm_i_j_exw_coeff_rounded_q(n)(i, j, q) of number
+        satisfied_pre_norm_i_j_exw_coeff_q(n)         of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_exw_coeff_rounded_q(n) of matrix(Product, Refinery, Request)
         round from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_pre_norm_i_j_exw_rounded(n) = for_each_element(satisfied_pre_norm_i_j_exw_coeff_rounded(n), "*", OIL_TERMINAL_STEP_TONNAGE)
+satisfied_pre_norm_i_j_exw_rounded_q(n) = for_each_element(satisfied_pre_norm_i_j_exw_coeff_rounded_q(n), "*", OIL_TERMINAL_STEP_TONNAGE)
     where
-        satisfied_pre_norm_i_j_exw_coeff_rounded(n)(i, j) of number
-        satisfied_pre_norm_i_j_exw_rounded(n)(i, j)       of number
-        OIL_TERMINAL_STEP_TONNAGE                         of number
-        satisfied_pre_norm_i_j_exw_coeff_rounded(n) of matrix(Product, Refinery)
-        satisfied_pre_norm_i_j_exw_rounded(n)       of matrix(Product, Refinery)
+        satisfied_pre_norm_i_j_exw_coeff_rounded_q(n)(i, j, q) of number
+        satisfied_pre_norm_i_j_exw_rounded_q(n)(i, j, q)       of number
+        OIL_TERMINAL_STEP_TONNAGE                              of number
+        satisfied_pre_norm_i_j_exw_coeff_rounded_q(n) of matrix(Product, Refinery, Request)
+        satisfied_pre_norm_i_j_exw_rounded_q(n)       of matrix(Product, Refinery, Request)
         "*" from operation
             where
-                Product, Refinery from axis # Оси
+                Product, Refinery, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
-satisfied_i_j_exw(n) = for_each_element(satisfied_pre_norm_i_j_exw_rounded(n), max, OIL_TERMINAL_STEP_TONNAGE)
+satisfied_i_j_exw_q(n) = for_each_element(satisfied_pre_norm_i_j_exw_rounded_q(n), max, OIL_TERMINAL_STEP_TONNAGE)
     where
-        satisfied_pre_norm_i_j_exw(n) > 0
+        satisfied_pre_norm_i_j_exw_q(n) > 0
             where
-                satisfied_pre_norm_i_j_exw_rounded(n)(i, j) of number
-                satisfied_i_j_exw(n)(i, j)                  of number
-                OIL_TERMINAL_STEP_TONNAGE                   of number
-                satisfied_pre_norm_i_j_exw_rounded(n) of matrix(Product, Refinery)
-                satisfied_i_j_exw(n)                  of matrix(Product, Refinery)
+                satisfied_pre_norm_i_j_exw_rounded_q(n)(i, j, q) of number
+                satisfied_i_j_exw_q(n)(i, j, q)                  of number
+                OIL_TERMINAL_STEP_TONNAGE                        of number
+                satisfied_pre_norm_i_j_exw_rounded_q(n) of matrix(Product, Refinery, Request)
+                satisfied_i_j_exw_q(n)                  of matrix(Product, Refinery, Request)
                 max from operation
                     where
-                        Product, Refinery from axis # Оси
+                        Product, Refinery, Request from axis # Оси
                         i for I from index # Индексы нефпродукта
                         j for J from index # Индексы НПЗ
+                        q for Z from index # Индексы запросов
                         n of         index # Индекс матрицы (порядковый номер запроса)
-satisfied_i_j_exw(n) = 0
+satisfied_i_j_exw_q(n) = 0
     where
-        satisfied_pre_norm_i_j_exw(n) = 0
+        satisfied_pre_norm_i_j_exw_q(n) = 0
             where
-                satisfied_pre_norm_i_j_exw(n)(i, j) of number
-                satisfied_i_j_exw(n)(i, j)          of number
-                satisfied_pre_norm_i_j_exw(n) of matrix(Product, Refinery)
-                satisfied_i_j_exw(n)          of matrix(Product, Refinery)
+                satisfied_pre_norm_i_j_exw_q(n)(i, j, q) of number
+                satisfied_i_j_exw_q(n)(i, j, q)          of number
+                satisfied_pre_norm_i_j_exw_q(n) of matrix(Product, Refinery, Request)
+                satisfied_i_j_exw_q(n)          of matrix(Product, Refinery, Request)
                     where
-                        Product, Refinery from axis # Оси
+                        Product, Refinery, Request from axis # Оси
                         i for I from index # Индексы нефпродукта
                         j for J from index # Индексы НПЗ
+                        q for Z from index # Индексы запросов
                         n of         index # Индекс матрицы (порядковый номер запроса)
 
 # --- Reassemble FCA + EXW into Ship_terms axis ------------------------------
 
-satisfied_i_j_s(n)(1 from C) = satisfied_i_j_fca(n)
-satisfied_i_j_s(n)(2 from C) = satisfied_i_j_exw(n)
+satisfied_i_j_s_q(n)(1 from C) = satisfied_i_j_fca_q(n)
+satisfied_i_j_s_q(n)(2 from C) = satisfied_i_j_exw_q(n)
     where
-        satisfied_i_j_s(n)(i, j, s) of number
-        satisfied_i_j_fca(n)(i, j)  of number
-        satisfied_i_j_exw(n)(i, j)  of number
-        satisfied_i_j_s(n)   of matrix(Product, Refinery, Ship_terms)
-        satisfied_i_j_fca(n) of matrix(Product, Refinery)
-        satisfied_i_j_exw(n) of matrix(Product, Refinery)
+        satisfied_i_j_s_q(n)(i, j, s, q) of number
+        satisfied_i_j_fca_q(n)(i, j, q)  of number
+        satisfied_i_j_exw_q(n)(i, j, q)  of number
+        satisfied_i_j_s_q(n)   of matrix(Product, Refinery, Ship_terms, Request)
+        satisfied_i_j_fca_q(n) of matrix(Product, Refinery, Request)
+        satisfied_i_j_exw_q(n) of matrix(Product, Refinery, Request)
             where
                 C         from index # Индексы условия поставки
-                Product, Refinery, Ship_terms from axis # Оси
+                Product, Refinery, Ship_terms, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
 # --- Free-volume update -----------------------------------------------------
 
-# FCA and EXW share the same per-(i, j) pool — collapse Ship_terms first.
-satisfied_consumed_i_j(n) = sum_by_axes(satisfied_i_j_s(n), Ship_terms)
+# FCA and EXW share the same per-(i, j) pool and all iteration-n requests draw
+# from it — collapse Ship_terms and Request together before pool accounting.
+satisfied_consumed_i_j(n) = sum_by_axes(satisfied_i_j_s_q(n), Ship_terms, Request)
     where
-        satisfied_i_j_s(n)(i, j, s)     of number
-        satisfied_consumed_i_j(n)(i, j) of number
-        satisfied_i_j_s(n)        of matrix(Product, Refinery, Ship_terms)
+        satisfied_i_j_s_q(n)(i, j, s, q) of number
+        satisfied_consumed_i_j(n)(i, j)  of number
+        satisfied_i_j_s_q(n)      of matrix(Product, Refinery, Ship_terms, Request)
         satisfied_consumed_i_j(n) of matrix(Product, Refinery)
             where
-                Product, Refinery, Ship_terms from axis # Оси
+                Product, Refinery, Ship_terms, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
                 s for C from index # Индексы условия поставки
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
 # Total request volume per (i, j) — used to detect Step-3 case 2.
-request_total_i_j(n) = sum_by_axes(requests_free_i_j_s(n), Ship_terms)
+request_total_i_j(n) = sum_by_axes(requests_free_i_j_s_q(n), Ship_terms, Request)
     where
-        requests_free_i_j_s(n)(i, j, s) of number
-        request_total_i_j(n)(i, j)      of number
-        requests_free_i_j_s(n) of matrix(Product, Refinery, Ship_terms)
-        request_total_i_j(n)   of matrix(Product, Refinery)
+        requests_free_i_j_s_q(n)(i, j, s, q) of number
+        request_total_i_j(n)(i, j)           of number
+        requests_free_i_j_s_q(n) of matrix(Product, Refinery, Ship_terms, Request)
+        request_total_i_j(n)     of matrix(Product, Refinery)
             where
-                Product, Refinery, Ship_terms from axis # Оси
+                Product, Refinery, Ship_terms, Request from axis # Оси
                 i for I from index # Индексы нефпродукта
                 j for J from index # Индексы НПЗ
                 s for C from index # Индексы условия поставки
+                q for Z from index # Индексы запросов
                 n of         index # Индекс матрицы (порядковый номер запроса)
 
 # Spec recurrence v~ ← v~ − (s̈ − s_pre_norm) collapses to v~ − s̈ once Step 3
@@ -309,7 +330,7 @@ free_volumes_after_step_case_1_i_j(n) = for_each_pair(free_volumes_case_1_only_i
 # Termination (1): empty next-iteration request matrix → no further state.
 current_free_volumes_i_j(n + 1) = filter_by_value(free_volumes_after_step_case_1_i_j(n), ">", 0)
     where
-        is_empty( requests_free_i_j_s(n + 1) ) = false
+        is_empty( requests_free_i_j_s_q(n + 1) ) = false
             where
                 free_volumes_after_step_case_1_i_j(n)(i, j) of number
                 current_free_volumes_i_j(n + 1)(i, j)       of number
@@ -323,15 +344,16 @@ current_free_volumes_i_j(n + 1) = filter_by_value(free_volumes_after_step_case_1
                         n of         index # Индекс матрицы (порядковый номер запроса)
 current_free_volumes_i_j(n + 1) = ()
     where
-        is_empty( requests_free_i_j_s(n + 1) ) = true
+        is_empty( requests_free_i_j_s_q(n + 1) ) = true
             where
-                current_free_volumes_i_j(n + 1)(i, j) of number
-                requests_free_i_j_s(n + 1)(i, j, s)   of number
+                current_free_volumes_i_j(n + 1)(i, j)   of number
+                requests_free_i_j_s_q(n + 1)(i, j, s, q) of number
                 current_free_volumes_i_j(n + 1) of matrix(Product, Refinery)
-                requests_free_i_j_s(n + 1)      of matrix(Product, Refinery, Ship_terms)
+                requests_free_i_j_s_q(n + 1)    of matrix(Product, Refinery, Ship_terms, Request)
                     where
-                        Product, Refinery, Ship_terms from axis # Оси
+                        Product, Refinery, Ship_terms, Request from axis # Оси
                         i for I from index # Индексы нефпродукта
                         j for J from index # Индексы НПЗ
                         s for C from index # Индексы условия поставки
+                        q for Z from index # Индексы запросов
                         n of         index # Индекс матрицы (порядковый номер запроса)
