@@ -1,0 +1,979 @@
+{
+    "request": [
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "pMWed5V0qcrvQORX"
+            },
+            "amount": 50,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-@bMPtDs@mpWpY9@V"
+                    },
+                    "key": "Request",
+                    "value": "000-227"
+                }
+            ]
+        }
+    ],
+    "volumes": [
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "KRj@BMlF8Z0Nhdws"
+            },
+            "amount": 200,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-3yI@s76fA~y9@k7N"
+                    },
+                    "key": "District",
+                    "value": "195"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "L~ZSFcvmFXpGQypu"
+            },
+            "amount": 80,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-usvJVqTUm@NE40qC"
+                    },
+                    "key": "Product",
+                    "value": "Diesel"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-3yI@s76fA~y9@k7N"
+                    },
+                    "key": "District",
+                    "value": "195"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "NFzNVrU14mBCKvLw"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-KhF9@k~BbgYclb1y"
+                    },
+                    "key": "Product",
+                    "value": "AI-95"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-3yI@s76fA~y9@k7N"
+                    },
+                    "key": "District",
+                    "value": "195"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "KQgIKDCcshqs2C9z-u2M@pSzoKse4smXK"
+                    },
+                    "key": "Product_category",
+                    "value": "1003.0"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "e4OkgVQE2lXKKozZ"
+            },
+            "amount": 90,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-7IL35kNzXTMtt@Il"
+                    },
+                    "key": "Region",
+                    "value": "6"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-mcSvmymJBMNghdAW"
+                    },
+                    "key": "District",
+                    "value": "255"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "IiQ4OnT61L7ageEP"
+            },
+            "amount": 80,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-usvJVqTUm@NE40qC"
+                    },
+                    "key": "Product",
+                    "value": "Diesel"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-7IL35kNzXTMtt@Il"
+                    },
+                    "key": "Region",
+                    "value": "6"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-mcSvmymJBMNghdAW"
+                    },
+                    "key": "District",
+                    "value": "255"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "K@OvH8kOm0mdiKJC"
+            },
+            "amount": 20,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-L9Sn50XyjHPDG8RT"
+                    },
+                    "key": "Product",
+                    "value": "AI-98"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-s5rLt69exVYRQ0nd"
+                    },
+                    "key": "Region",
+                    "value": "2"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-KP7PAOa04W1mSNCp"
+                    },
+                    "key": "District",
+                    "value": "22"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "KQgIKDCcshqs2C9z-c@v0fs1E~1Iyvs9I"
+                    },
+                    "key": "Product_category",
+                    "value": "1007.0"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "KsVacqMkrnMmssqL"
+            },
+            "amount": 40,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-s5rLt69exVYRQ0nd"
+                    },
+                    "key": "Region",
+                    "value": "2"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-KP7PAOa04W1mSNCp"
+                    },
+                    "key": "District",
+                    "value": "22"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "d~f35TlZoaiFCod@"
+            },
+            "amount": 200,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-Ylk9hKro4ojO9rkX"
+                    },
+                    "key": "Month_and_year",
+                    "value": "03.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "036WfJYpQi2@u1Ba"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-E2kYOhCfIxgbFvQb"
+                    },
+                    "key": "Month_and_year",
+                    "value": "04.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "RRqlpAli5ZMpAzfw"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-RLPF7vjq8WyyQ7JZ"
+                    },
+                    "key": "Month_and_year",
+                    "value": "02.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "SAYVKIs1kIiZch8x"
+            },
+            "amount": 300,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-xRScAkB5S8DfRjRw"
+                    },
+                    "key": "Month_and_year",
+                    "value": "01.2026"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "WuA~So9Pr~JnzMm9"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-td6gBhyHvzQ2ILU~"
+                    },
+                    "key": "Month_and_year",
+                    "value": "12.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "MnrZ~iZXxfxh~Lic"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-kKIcChT9ZB8zzLzM"
+                    },
+                    "key": "Month_and_year",
+                    "value": "11.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "VN@BOLTmABQB0huz"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-lijIef2rcgwmQj6l"
+                    },
+                    "key": "Month_and_year",
+                    "value": "10.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "4MHpWx4KUMH8hqRy"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-GHoLxtsDJT2AJFXo"
+                    },
+                    "key": "Month_and_year",
+                    "value": "09.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "hHQ6lFZwmJjXZJeo"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-gySLXY~vVG8pAeLO"
+                    },
+                    "key": "Month_and_year",
+                    "value": "08.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "lk2lXtF~km@w@UGX"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-jmQDEREGDMzR~WvV"
+                    },
+                    "key": "Month_and_year",
+                    "value": "07.2025"
+                }
+            ]
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "0weSuI6TRsJsMYFD"
+            },
+            "amount": 100,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GlwW3MaTSVzSUyOe"
+                    },
+                    "key": "Region",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "MFvmjOa6XdrE7Uil-O3n4COKr1xJnfCk8"
+                    },
+                    "key": "District",
+                    "value": "205"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-H@WZVQzmCTVgwNMK"
+                    },
+                    "key": "Market_participant",
+                    "value": "931223455478"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "p7TjLo6G7tLwfyoK-cygNGv7D~pt@@HYM"
+                    },
+                    "key": "Month_and_year",
+                    "value": "06.2025"
+                }
+            ]
+        }
+    ],
+    "available": [
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "U6J~Qn1JRysk4pzA"
+            },
+            "amount": 0,
+            "coordinates": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI-92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                }
+            ]
+        }
+    ],
+    "OVERALL_REQUEST_CAPACITY_PERCENTAGE": 120,
+    "RAIL_ROAD_MIN_TONNAGE": 65,
+    "OIL_TERMINAL_MIN_TONNAGE": 4,
+    "OIL_TERMINAL_STEP_TONNAGE": 4,
+    "MAX_SUBJECT_SHARE_PERCENTAGE": 50,
+    "OVERALL_REQUEST_CAPACITY_COEFFICIENT": 1.200000000000000000000000000000,
+    "MAX_SUBJECT_SHARE_COEFFICIENT": 0.500000000000000000000000000000
+}
