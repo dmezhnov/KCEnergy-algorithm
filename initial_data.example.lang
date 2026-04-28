@@ -1,348 +1,122 @@
-Product = "АИ-92"
-Refinery = "ПКОП", "АНПЗ", "ПНХЗ"
-Market_participant = "А.", "Б.", "В.", "Г.", "Д.", "Е."
-Region = "Алматы", "Астана", "Шымкент"
+Product = AI_92
+Refinery = PKOP, ANPZ, PNHZ
+Market_participant = Paricipant_A, Paricipant_B, Paricipant_C, Paricipant_D, Paricipant_E, Paricipant_F
+Region = Almaty, Astana, Shimkent
 
-# 1 from I - АИ-92
-# 1 from J - ПКОП
-# 2 from J - АНПЗ
-# 3 from J - ПНХЗ
-# 1 from K - Алматы
-# 2 from K - Астана
-# 3 from K - Шымкент
-# 1 from P - «А.»
-# 2 from P - «Б.»
-# 3 from P - «В.»
-# 4 from P - «Г.»
-# 5 from P - «Д.»
-# 6 from P - «Е.»
+# 1 from I - AI_92
+# 1 from C - FCA
+# 2 from C - EXW
+# 1 from J - PKOP
+# 2 from J - ANPZ
+# 3 from J - PNHZ
+# 1 from K - Almaty
+# 2 from K - Astana
+# 3 from K - Shimkent
+# 1 from P - Paricipant_A
+# 2 from P - Paricipant_B
+# 3 from P - Paricipant_C
+# 4 from P - Paricipant_D
+# 5 from P - Paricipant_E
+# 6 from P - Paricipant_F
 
-# 001   1 from I,     1 from J,   1 from K,    1 from P,   1 from R - 100
-# 001   (АИ-92,       ПКОП,       Алматы,      «А.»,       First)
+# 001   1 from I,  2 from C,  1 from J,   1 from K,    1 from P,   1 from R - 100
+# 001   (AI_92,    EXW,       PKOP,       Almaty,      Paricipant_A,       First)
 
-# 002   1 from I,     1 from J,   2 from K,    1 from P,   1 from R - 150
-# 002   (АИ-92,       ПКОП,       Астана,      «А.»,       First)
+# 002   1 from I,  2 from C,  1 from J,   2 from K,    1 from P,   1 from R - 150
+# 002   (AI_92,    EXW,       PKOP,       Astana,      Paricipant_A,       First)
 
-# 003   1 from I,     2 from J,   1 from K,    1 from P,   1 from R - 40
-# 003   (АИ-92,       АНПЗ,       Алматы,      «А.»,       First)
+# 003   1 from I,  2 from C,  2 from J,   1 from K,    1 from P,   1 from R - 40
+# 003   (AI_92,    EXW,       ANPZ,       Almaty,      Paricipant_A,       First)
 
-# 004   1 from I,     3 from J,   1 from K,    1 from P,   1 from R - 60
-# 004   (АИ-92,       ПНХЗ,       Алматы,     «А.»,       First)
+# 004   1 from I,  2 from C,  3 from J,   1 from K,    1 from P,   1 from R - 60
+# 004   (AI_92,    EXW,       PNHZ,       Almaty,      Paricipant_A,       First)
 
-# 005   1 from I,     1 from J,   3 from K,    2 from P,   1 from R - 300
-# 005   (АИ-92,       ПКОП,       Шымкент,     «Б.»,       First)
+# 005   1 from I,  1 from C,  1 from J,   3 from K,    2 from P,   1 from R - 325
+# 005   (AI_92,    FCA,       PKOP,       Shimkent,    Paricipant_B,       First)
 
-# 006   1 from I,     1 from J,   2 from K,    3 from P,   1 from R - 200
-# 006   (АИ-92,       ПКОП,       Астана,     «В.»,       First)
+# 006   1 from I,  2 from C,  1 from J,   2 from K,    3 from P,   1 from R - 200
+# 006   (AI_92,    EXW,       PKOP,       Astana,      Paricipant_C,       First)
 
-# 007   1 from I,     1 from J,   1 from K,    4 from P,   4 from R - 250
-# 007   (АИ-92,       ПКОП,       Алматы,     «Г.»,       Fourth)
+# 007   1 from I,  1 from C,  1 from J,   1 from K,    4 from P,   4 from R - 260
+# 007   (AI_92,    FCA,       PKOP,       Almaty,      Paricipant_D,       Fourth)
 
-# 008   1 from I,     1 from J,   1 from K,    5 from P,   4 from R - 500
-# 008   (АИ-92,       ПКОП,       Алматы,     «Д.»,       Fourth)
+# 008   1 from I,  1 from C,  1 from J,   1 from K,    5 from P,   4 from R - 520
+# 008   (AI_92,    FCA,       PKOP,       Almaty,      Paricipant_E,       Fourth)
 
-# 009   1 from I,     1 from J,   3 from K,    6 from P,   4 from R - 700
-# 009   (АИ-92,       ПКОП,       Шымкент,     «Е.»,       Fourth)
+# 009   1 from I,  1 from C,  1 from J,   3 from K,    6 from P,   4 from R - 715
+# 009   (AI_92,    FCA,       PKOP,       Shimkent,    Paricipant_F,       Fourth)
 
-requests_i_j_k_l_s_l0 = (
-    (1 from I, 1 from C) = (
-        (1 from I, 1 from C, 1 from J) = (
-            (1 from I, 1 from C, 1 from J, 1 from K) = (
-                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100, # 001
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 2 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 3 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250, # 007
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 6 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 1 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 1 from J, 2 from K) = (
-                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = 150, # 002
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 2 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = 200, # 006
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 4 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 5 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 6 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 2 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 1 from J, 3 from K) = (
-                (1 from I, 1 from C, 1 from J, 3 from K, 1 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300, # 005
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 3 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 4 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 5 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
-                )
-            )
-        ),
-        (1 from I, 1 from C, 2 from J) = (
-            (1 from I, 1 from C, 2 from J, 1 from K) = (
-                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = 40, # 003
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 1 from K, 2 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 1 from K, 3 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 1 from K, 4 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 1 from K, 5 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 1 from K, 6 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 1 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 2 from J, 2 from K) = (
-                (1 from I, 1 from C, 2 from J, 2 from K, 1 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 2 from K, 2 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 2 from K, 3 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 2 from K, 4 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 2 from K, 5 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 2 from K, 6 from P) = (
-                    (1 from I, 1 from C, 2 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 2 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 2 from J, 3 from K) = (
-                (1 from I, 1 from C, 2 from J, 3 from K, 1 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 3 from K, 2 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 3 from K, 3 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 3 from K, 4 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 3 from K, 5 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 2 from J, 3 from K, 6 from P) = (
-                    (1 from I, 1 from C, 2 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 2 from J, 3 from K, 6 from P, 4 from R)
-                )
-            )
-        ),
-        (1 from I, 1 from C, 3 from J) = (
-            (1 from I, 1 from C, 3 from J, 1 from K) = (
-                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = 60, # 004
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 1 from K, 2 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 1 from K, 3 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 1 from K, 4 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 1 from K, 5 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 1 from K, 6 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 1 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 3 from J, 2 from K) = (
-                (1 from I, 1 from C, 3 from J, 2 from K, 1 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 2 from K, 2 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 2 from K, 3 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 2 from K, 4 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 2 from K, 5 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 2 from K, 6 from P) = (
-                    (1 from I, 1 from C, 3 from J, 2 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 2 from K, 6 from P, 4 from R)
-                )
-            ),
-            (1 from I, 1 from C, 3 from J, 3 from K) = (
-                (1 from I, 1 from C, 3 from J, 3 from K, 1 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 1 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 1 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 3 from K, 2 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 2 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 2 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 3 from K, 3 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 3 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 3 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 3 from K, 4 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 4 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 4 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 3 from K, 5 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 5 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 5 from P, 4 from R)
-                ),
-                (1 from I, 1 from C, 3 from J, 3 from K, 6 from P) = (
-                    (1 from I, 1 from C, 3 from J, 3 from K, 6 from P, 1 from R),
-                    (1 from I, 1 from C, 3 from J, 3 from K, 6 from P, 4 from R)
-                )
-            )
-        )
-    )
-)
-    where
-        I from index # Индексы нефпродукта
-        C from index # Индексы условия поставки
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-        R from index # Индексы очереди
-
-requests_i_j_k_l_s_l0 = (
-    (1 from I, 1 from C) = (
-        (1 from I, 1 from C, 1 from J) = (
-            (1 from I, 1 from C, 1 from J, 1 from K) = (
-                (1 from I, 1 from C, 1 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 1 from P, 1 from R) = 100 # 001
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 1 from R) = 250 # 007
-                ),
-                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = (
-                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = 500 # 008
-                )
-            ),
-            (1 from I, 1 from C, 1 from J, 2 from K) = (
-                (1 from I, 1 from C, 1 from J, 2 from K, 1 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 1 from P, 1 from R) = 150 # 002
-                ),
-                (1 from I, 1 from C, 1 from J, 2 from K, 3 from P) = (
-                    (1 from I, 1 from C, 1 from J, 2 from K, 3 from P, 1 from R) = 200 # 006
-                )
-            ),
-            (1 from I, 1 from C, 1 from J, 3 from K) = (
-                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = 300 # 005
-                ),
-                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = (
-                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = 700 # 009
-                )
-            )
-        ),
-        (1 from I, 1 from C, 2 from J) = (
-            (1 from I, 1 from C, 2 from J, 1 from K) = (
-                (1 from I, 1 from C, 2 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 2 from J, 1 from K, 1 from P, 1 from R) = 40 # 003
-                )
-            )
-        ),
-        (1 from I, 1 from C, 3 from J) = (
-            (1 from I, 1 from C, 3 from J, 1 from K) = (
-                (1 from I, 1 from C, 3 from J, 1 from K, 1 from P) = (
-                    (1 from I, 1 from C, 3 from J, 1 from K, 1 from P, 1 from R) = 60 # 004
-                )
-            )
-        )
-    )
-)
+requests_i_j_k_l_s_l0_q = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 1 from K) = {
+                (1 from I, 1 from C, 1 from J, 1 from K, 4 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 4 from P, 4 from R, 7 from Z) = 260
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 1 from K, 5 from P) = {
+                    (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 1 from K, 5 from P, 4 from R, 8 from Z) = 520
+                    )
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2 from P, 1 from R, 5 from Z) = 325
+                    )
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 6 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R) = (
+                        (1 from I, 1 from C, 1 from J, 3 from K, 6 from P, 4 from R, 9 from Z) = 715
+                    )
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 1 from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 2 from C, 1 from J, 1 from K, 1 from P, 1 from R, 1 from Z) = 100
+                    )
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 2 from K) = {
+                (1 from I, 2 from C, 1 from J, 2 from K, 1 from P) = {
+                    (1 from I, 2 from C, 1 from J, 2 from K, 1 from P, 1 from R) = (
+                        (1 from I, 2 from C, 1 from J, 2 from K, 1 from P, 1 from R, 2 from Z) = 150
+                    )
+                },
+                (1 from I, 2 from C, 1 from J, 2 from K, 3 from P) = {
+                    (1 from I, 2 from C, 1 from J, 2 from K, 3 from P, 1 from R) = (
+                        (1 from I, 2 from C, 1 from J, 2 from K, 3 from P, 1 from R, 6 from Z) = 200
+                    )
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from K) = {
+                (1 from I, 2 from C, 2 from J, 1 from K, 1 from P) = {
+                    (1 from I, 2 from C, 2 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 2 from C, 2 from J, 1 from K, 1 from P, 1 from R, 3 from Z) = 40
+                    )
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 1 from K) = {
+                (1 from I, 2 from C, 3 from J, 1 from K, 1 from P) = {
+                    (1 from I, 2 from C, 3 from J, 1 from K, 1 from P, 1 from R) = (
+                        (1 from I, 2 from C, 3 from J, 1 from K, 1 from P, 1 from R, 4 from Z) = 60
+                    )
+                }
+            }
+        }
+    }
+}
     where
         I  from index # Индексы нефпродукта
         C  from index # Индексы условия поставки
@@ -350,6 +124,7 @@ requests_i_j_k_l_s_l0 = (
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # 1  from Y - август   2025
 # 2  from Y - июль     2025
@@ -365,433 +140,155 @@ requests_i_j_k_l_s_l0 = (
 # 12 from Y - сентябрь 2024
 
 # 0001 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   1 from Y           - 120
-# 0001 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       август   2025)
+# 0001 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       август   2025)
 
 # 0002 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   1 from Y           - 100
-# 0002 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       август   2025)
+# 0002 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       август   2025)
 
 # 0003 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   2 from Y           - 120
-# 0003 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       июль     2025)
+# 0003 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       июль     2025)
 
 # 0004 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   2 from Y           - 100
-# 0004 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       июль     2025)
+# 0004 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       июль     2025)
 
 # 0005 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   3 from Y           - 100
-# 0005 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       июнь     2025)
+# 0005 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       июнь     2025)
 
 # 0006 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   3 from Y           - 100
-# 0006 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       июнь     2025)
+# 0006 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       июнь     2025)
 
 # 0007 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   4 from Y           - 100
-# 0007 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       май      2025)
+# 0007 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       май      2025)
 
 # 0008 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   4 from Y           - 100
-# 0008 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       май      2025)
+# 0008 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       май      2025)
 
 # 0009 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   5 from Y           - 120
-# 0009 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       апрель   2025)
+# 0009 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       апрель   2025)
 
 # 0010 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   5 from Y           - 90
-# 0010 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       апрель   2025)
+# 0010 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       апрель   2025)
 
 # 0011 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   6 from Y           - 80
-# 0011 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       март     2025)
+# 0011 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       март     2025)
 
 # 0012 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   6 from Y           - 90
-# 0012 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       март     2025)
+# 0012 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       март     2025)
 
 # 0013 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   7 from Y           - 80
-# 0013 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       февраль  2025)
+# 0013 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       февраль  2025)
 
 # 0014 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   7 from Y           - 80
-# 0014 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       февраль  2025)
+# 0014 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       февраль  2025)
 
 # 0015 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   8 from Y           - 80
-# 0015 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       январь   2025)
+# 0015 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       январь   2025)
 
 # 0016 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   8 from Y           - 60
-# 0016 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       январь   2025)
+# 0016 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       январь   2025)
 
 # 0017 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   9 from Y           - 80
-# 0017 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       декабрь  2024)
+# 0017 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       декабрь  2024)
 
 # 0018 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   9 from Y           - 0
-# 0018 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       декабрь  2024)
+# 0018 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       декабрь  2024)
 
 # 0019 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   10 from Y          - 80
-# 0019 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       ноябрь   2024)
+# 0019 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       ноябрь   2024)
 
 # 0020 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   10 from Y          - 0
-# 0020 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       ноябрь   2024)
+# 0020 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       ноябрь   2024)
 
 # 0021 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   11 from Y          - 60
-# 0021 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       октябрь  2024)
+# 0021 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       октябрь  2024)
 
 # 0022 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   11 from Y          - 0
-# 0022 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       октябрь  2024)
+# 0022 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       октябрь  2024)
 
 # 0023 1 from I,   1 from I0, 1 from K,    1 from K0,   1 from P,   12 from Y          - 60
-# 0023 (АИ-92,     АИ-92,     Астана,      Астана,      «А.»,       сентябрь 2024)
+# 0023 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_A,       сентябрь 2024)
 
 # 0024 1 from I,   1 from I0, 2 from K,    2 from K0,   1 from P,   12 from Y          - 0
-# 0024 (АИ-92,     АИ-92,     Алматы,      Алматы,      «А.»,       сентябрь 2024)
+# 0024 (AI_92,     AI_92,     Almaty,      Almaty,      Paricipant_A,       сентябрь 2024)
 
-# 0025 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   1 from Y           - 100
-# 0025 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       август   2025)
+# 0025 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   1 from Y           - 420
+# 0025 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       август   2025)
 
-# 0026 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   2 from Y           - 100
-# 0026 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       июль     2025)
+# 0026 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   2 from Y           - 400
+# 0026 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       июль     2025)
 
-# 0027 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   3 from Y           - 100
-# 0027 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       июнь     2025)
+# 0027 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   3 from Y           - 380
+# 0027 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       июнь     2025)
 
-# 0028 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   4 from Y           - 100
-# 0028 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       май      2025)
+# 0028 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   4 from Y           - 0
+# 0028 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       май      2025)
 
-# 0029 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   5 from Y           - 90
-# 0029 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       апрель   2025)
+# 0029 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   5 from Y           - 0
+# 0029 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       апрель   2025)
 
-# 0030 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   6 from Y           - 90
-# 0030 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       март     2025)
+# 0030 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   6 from Y           - 0
+# 0030 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       март     2025)
 
-# 0031 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   7 from Y           - 80
-# 0031 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       февраль  2025)
+# 0031 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   7 from Y           - 0
+# 0031 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       февраль  2025)
 
-# 0032 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   8 from Y           - 60
-# 0032 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       январь   2025)
+# 0032 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   8 from Y           - 0
+# 0032 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       январь   2025)
 
 # 0033 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   9 from Y           - 0
-# 0033 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       декабрь  2024)
+# 0033 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       декабрь  2024)
 
 # 0034 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   10 from Y          - 0
-# 0034 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       ноябрь   2024)
+# 0034 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       ноябрь   2024)
 
 # 0035 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   11 from Y          - 0
-# 0035 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       октябрь  2024)
+# 0035 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       октябрь  2024)
 
 # 0036 1 from I,   1 from I0, 3 from K,    3 from K0,   2 from P,   12 from Y          - 0
-# 0036 (АИ-92,     АИ-92,     Шымкент,     Шымкент,     «Б.»,       сентябрь 2024)
+# 0036 (AI_92,     AI_92,     Shimkent,     Shimkent,     Paricipant_B,       сентябрь 2024)
 
-# 0037 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   1 from Y           - 120
-# 0037 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       август   2025)
+# 0037 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   1 from Y           - 100
+# 0037 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       август   2025)
 
-# 0038 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   2 from Y           - 120
-# 0038 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       июль     2025)
+# 0038 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   2 from Y           - 100
+# 0038 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       июль     2025)
 
 # 0039 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   3 from Y           - 100
-# 0039 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       июнь     2025)
+# 0039 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       июнь     2025)
 
 # 0040 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   4 from Y           - 100
-# 0040 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       май      2025)
+# 0040 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       май      2025)
 
-# 0041 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   5 from Y           - 120
-# 0041 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       апрель   2025)
+# 0041 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   5 from Y           - 100
+# 0041 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       апрель   2025)
 
-# 0042 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   6 from Y           - 80
-# 0042 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       март     2025)
+# 0042 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   6 from Y           - 100
+# 0042 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       март     2025)
 
-# 0043 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   7 from Y           - 80
-# 0043 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       февраль  2025)
+# 0043 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   7 from Y           - 100
+# 0043 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       февраль  2025)
 
-# 0044 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   8 from Y           - 80
-# 0044 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,       январь   2025)
+# 0044 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   8 from Y           - 100
+# 0044 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,       январь   2025)
 
-# 0045 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   9 from Y           - 80
-# 0045 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,      декабрь  2024)
+# 0045 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   9 from Y           - 100
+# 0045 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,      декабрь  2024)
 
-# 0046 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   10 from Y          - 80
-# 0046 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,      ноябрь   2024)
+# 0046 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   10 from Y          - 100
+# 0046 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,      ноябрь   2024)
 
-# 0047 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   11 from Y          - 60
-# 0047 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,      октябрь  2024)
+# 0047 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   11 from Y          - 100
+# 0047 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,      октябрь  2024)
 
-# 0048 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   12 from Y          - 60
-# 0048 (АИ-92,     АИ-92,     Астана,      Астана,      «В.»,      сентябрь 2024)
+# 0048 1 from I,   1 from I0, 1 from K,    1 from K0,   3 from P,   12 from Y          - 100
+# 0048 (AI_92,     AI_92,     Astana,      Astana,      Paricipant_C,      сентябрь 2024)
 
-volumes_l_t_i_k_k0_i0 = (
-    (1 from I) = (
-        (1 from I, 1 from I0) = (
-            (1 from I, 1 from I0, 1 from K) = (
-                (1 from I, 1 from I0, 1 from K, 1 from K0) = (
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 1  from Y)  = 120, # 0001
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 2  from Y)  = 120, # 0003
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 3  from Y)  = 100, # 0005
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 4  from Y)  = 100, # 0007
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 5  from Y)  = 120, # 0009
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 6  from Y)  = 80,  # 0011
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 7  from Y)  = 80,  # 0013
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 8  from Y)  = 80,  # 0015
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 9  from Y)  = 80,  # 0017
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 10 from Y)  = 80,  # 0019
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 11 from Y)  = 60,  # 0021
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 12 from Y)  = 60   # 0023
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 1  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 2  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 3  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 4  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 5  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 6  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 7  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 8  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 9  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 10 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 11 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 2 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 1  from Y) = 120, # 0037
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 2  from Y) = 120, # 0038
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 3  from Y) = 100, # 0039
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 4  from Y) = 100, # 0040
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 5  from Y) = 120, # 0041
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 6  from Y) = 80,  # 0042
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 7  from Y) = 80,  # 0043
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 8  from Y) = 80,  # 0044
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 9  from Y) = 80,  # 0045
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 10 from Y) = 80,  # 0046
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 11 from Y) = 60,  # 0047
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 12 from Y) = 60   # 0048
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 1  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 2  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 3  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 4  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 5  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 6  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 7  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 8  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 9  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 10 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 11 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 4 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 1  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 2  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 3  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 4  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 5  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 6  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 7  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 8  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 9  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 10 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 11 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 5 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 1  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 2  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 3  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 4  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 5  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 6  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 7  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 8  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 9  from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 10 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 11 from Y),
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 6 from P, 12 from Y)
-                    )
-                )
-            ),
-            (1 from I, 1 from I0, 2 from K) = (
-                (1 from I, 1 from I0, 2 from K, 2 from K0) = (
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 1  from Y) = 100, # 0002
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 2  from Y) = 100, # 0004
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 3  from Y) = 100, # 0006
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 4  from Y) = 100, # 0008
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 5  from Y) = 90,  # 0010
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 6  from Y) = 90,  # 0012
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 7  from Y) = 80,  # 0014
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 8  from Y) = 60,  # 0016
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 9  from Y) = 0,   # 0018
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 10 from Y) = 0,   # 0020
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 11 from Y) = 0,   # 0022
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 12 from Y) = 0    # 0024
-                    ),
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 1  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 2  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 3  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 4  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 5  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 6  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 7  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 8  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 9  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 10 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 11 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 2 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 1  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 2  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 3  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 4  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 5  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 6  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 7  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 8  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 9  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 10 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 11 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 3 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 1  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 2  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 3  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 4  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 5  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 6  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 7  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 8  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 9  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 10 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 11 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 4 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 1  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 2  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 3  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 4  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 5  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 6  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 7  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 8  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 9  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 10 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 11 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 5 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P) = (
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 1  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 2  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 3  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 4  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 5  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 6  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 7  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 8  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 9  from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 10 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 11 from Y),
-                        (1 from I, 1 from I0, 2 from K, 2 from K0, 6 from P, 12 from Y)
-                    )
-                )
-            ),
-            (1 from I, 1 from I0, 3 from K) = (
-                (1 from I, 1 from I0, 3 from K, 3 from K0) = (
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 1  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 2  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 3  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 4  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 5  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 6  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 7  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 8  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 9  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 10 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 11 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 1 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 1  from Y) = 100, # 0025
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 2  from Y) = 100, # 0026
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 3  from Y) = 100, # 0027
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 4  from Y) = 100, # 0028
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 5  from Y) = 90,  # 0029
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 6  from Y) = 90,  # 0030
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 7  from Y) = 80,  # 0031
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 8  from Y) = 60,  # 0032
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 9  from Y) = 0,   # 0033
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 10 from Y) = 0,   # 0034
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 11 from Y) = 0,   # 0035
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 12 from Y) = 0    # 0036
-                    ),
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 1  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 2  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 3  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 4  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 5  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 6  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 7  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 8  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 9  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 10 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 11 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 3 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 1  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 2  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 3  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 4  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 5  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 6  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 7  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 8  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 9  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 10 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 11 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 4 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 1  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 2  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 3  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 4  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 5  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 6  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 7  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 8  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 9  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 10 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 11 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 5 from P, 12 from Y)
-                    ),
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 1  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 2  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 3  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 4  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 5  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 6  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 7  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 8  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 9  from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 10 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 11 from Y),
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 6 from P, 12 from Y)
-                    )
-                )
-            )
-        )
-    )
-)
-    where
-        P  from index # Индексы субъекта рынка
-        Y  from index # Индексы месяца и года
-        I  from index # Индексы нефпродукта
-        K  from index # Индексы региона
-        K0 from index # Индексы района
-        I0 from index # Индексы категории нефпродукта
-
-volumes_l_t_i_k_k0_i0 = (
-    (1 from I) = (
-        (1 from I, 1 from I0) = (
-            (1 from I, 1 from I0, 1 from K) = (
-                (1 from I, 1 from I0, 1 from K, 1 from K0) = (
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P) = (
+volumes_l_t_i_k_k0_i0 = {
+    (1 from I) = {
+        (1 from I, 1 from I0) = {
+            (1 from I, 1 from I0, 1 from K) = {
+                (1 from I, 1 from I0, 1 from K, 1 from K0) = {
+                    (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P) = {
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 1  from Y) = 120, # 0001
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 2  from Y) = 120, # 0003
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 3  from Y) = 100, # 0005
@@ -804,26 +301,26 @@ volumes_l_t_i_k_k0_i0 = (
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 10 from Y) = 80,  # 0019
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 11 from Y) = 60,  # 0021
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 1 from P, 12 from Y) = 60   # 0023
-                    ),
-                    (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P) = (
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 1  from Y) = 120, # 0037
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 2  from Y) = 120, # 0038
+                    },
+                    (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P) = {
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 1  from Y) = 100, # 0037
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 2  from Y) = 100, # 0038
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 3  from Y) = 100, # 0039
                         (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 4  from Y) = 100, # 0040
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 5  from Y) = 120, # 0041
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 6  from Y) = 80,  # 0042
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 7  from Y) = 80,  # 0043
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 8  from Y) = 80,  # 0044
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 9  from Y) = 80,  # 0045
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 10 from Y) = 80,  # 0046
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 11 from Y) = 60,  # 0047
-                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 12 from Y) = 60   # 0048
-                    )
-                )
-            ),
-            (1 from I, 1 from I0, 2 from K) = (
-                (1 from I, 1 from I0, 2 from K, 2 from K0) = (
-                    (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P) = (
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 5  from Y) = 100, # 0041
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 6  from Y) = 100, # 0042
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 7  from Y) = 100, # 0043
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 8  from Y) = 100, # 0044
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 9  from Y) = 100, # 0045
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 10 from Y) = 100, # 0046
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 11 from Y) = 100, # 0047
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 3 from P, 12 from Y) = 100, # 0048
+                    }
+                }
+            },
+            (1 from I, 1 from I0, 2 from K) = {
+                (1 from I, 1 from I0, 2 from K, 2 from K0) = {
+                    (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P) = {
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 1  from Y) = 100, # 0002
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 2  from Y) = 100, # 0004
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 3  from Y) = 100, # 0006
@@ -836,30 +333,30 @@ volumes_l_t_i_k_k0_i0 = (
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 10 from Y) = 0,   # 0020
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 11 from Y) = 0,   # 0022
                         (1 from I, 1 from I0, 2 from K, 2 from K0, 1 from P, 12 from Y) = 0    # 0024
-                    )
-                )
-            ),
-            (1 from I, 1 from I0, 3 from K) = (
-                (1 from I, 1 from I0, 3 from K, 3 from K0) = (
-                    (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P) = (
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 1  from Y) = 100, # 0025
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 2  from Y) = 100, # 0026
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 3  from Y) = 100, # 0027
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 4  from Y) = 100, # 0028
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 5  from Y) = 90,  # 0029
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 6  from Y) = 90,  # 0030
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 7  from Y) = 80,  # 0031
-                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 8  from Y) = 60,  # 0032
+                    }
+                }
+            },
+            (1 from I, 1 from I0, 3 from K) = {
+                (1 from I, 1 from I0, 3 from K, 3 from K0) = {
+                    (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P) = {
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 1  from Y) = 420, # 0025
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 2  from Y) = 400, # 0026
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 3  from Y) = 380, # 0027
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 4  from Y) = 0,   # 0028
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 5  from Y) = 0,   # 0029
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 6  from Y) = 0,   # 0030
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 7  from Y) = 0,   # 0031
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 8  from Y) = 0,   # 0032
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 9  from Y) = 0,   # 0033
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 10 from Y) = 0,   # 0034
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 11 from Y) = 0,   # 0035
                         (1 from I, 1 from I0, 3 from K, 3 from K0, 2 from P, 12 from Y) = 0    # 0036
-                    )
-                )
-            )
-        )
-    )
-)
+                    }
+                }
+            }
+        }
+    }
+}
     where
         P  from index # Индексы субъекта рынка
         Y  from index # Индексы месяца и года
@@ -868,13 +365,13 @@ volumes_l_t_i_k_k0_i0 = (
         K0 from index # Индексы района
         I0 from index # Индексы категории нефпродукта
 
-available_i_j.First = (
-    (1 from I) = (
+available_i_j.First = {
+    (1 from I) = {
         (1 from I, 1 from J) = 500,
-        (1 from I, 2 from J) = 200,
+        (1 from I, 2 from J) = 33.333,
         (1 from I, 3 from J) = 300
-    )
-)
+    }
+}
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ

@@ -1,7 +1,7 @@
-filter_by_pair, for_each_pair     from ("matrix_operation.lang")
-condition, operation              from ("matrix_types.lang")
-requests_i_j_k_l_s_deficit_single from ("step-3.2.0.lang")
-moving_average                    from ("step-3.1.0.lang")
+filter_by_pair, for_each_pair, for_each_element from ("matrix_operation.lang")
+condition, operation                            from ("matrix_types.lang")
+requests_i_j_k_l_s_deficit_single               from ("step-3.2.0.lang")
+moving_average                                  from ("step-3.1.0.lang")
 
 ##### Скорректированный на проливы объем НП
 # Для случая одного дефицитного НПЗ: если объём запроса превышает скользящее
@@ -9,15 +9,15 @@ moving_average                    from ("step-3.1.0.lang")
 # При нескольких НПЗ рассчитываем доли по НПЗ в общем объёме субъекта.
 
 # Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_single_corrected(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
-                (i, k, l, s, j) = moving_average(i, k, l, s, j)
-            )
-        )
-    )
-)
+requests_i_j_k_l_s_deficit_single_corrected(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
+                (i, k, l, s, j) = moving_average(i, k, l)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_single_corrected(i, k, l, s, j) of number = corrected_value
         requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number = request_value
@@ -37,15 +37,15 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
-requests_i_j_k_l_s_deficit_single_corrected(i) = (
-    (i, k) = (
-        (i, k, l) = (
-            (i, k, l, s) = (
+requests_i_j_k_l_s_deficit_single_corrected(i) = {
+    (i, k) = {
+        (i, k, l) = {
+            (i, k, l, s) = {
                 (i, k, l, s, j) = requests_i_j_k_l_s_deficit_single(i, k, l, s, j)
-            )
-        )
-    )
-)
+            }
+        }
+    }
+}
     where
         requests_i_j_k_l_s_deficit_single_corrected(i, k, l, s, j) of number = corrected_value
         requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number = request_value
@@ -56,7 +56,7 @@ requests_i_j_k_l_s_deficit_single_corrected(i) = (
             where
                 corrected_value = request_value
                     where
-                        request_value "<=" average_value
+                        request_value <= average_value
                             where
                                "<="  from condition
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
@@ -83,15 +83,30 @@ requests_i_j_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_d
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
 
-requests_i_j_k_l_s_deficit_single_pend = for_each_pair(requests_i_j_k_l_s_deficit_single, "-", requests_i_j_k_l_s_deficit_single_corrected)
+requests_i_j_k_l_s_deficit_single_pend_temp = for_each_pair(requests_i_j_k_l_s_deficit_single, "-", requests_i_j_k_l_s_deficit_single_corrected)
     where
-        requests_i_j_k_l_s_deficit_single_pend(i, k, l, s, j)      of number
+        requests_i_j_k_l_s_deficit_single_pend_temp(i, k, l, s, j) of number
         requests_i_j_k_l_s_deficit_single(i, k, l, s, j)           of number
         requests_i_j_k_l_s_deficit_single_corrected(i, k, l, s, j) of number
-        requests_i_j_k_l_s_deficit_single_pend      of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single_pend_temp of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_deficit_single           of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         requests_i_j_k_l_s_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
         "-" from operation
+            where
+                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                i  for I  from index # Индексы нефпродукта
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
+
+requests_i_j_k_l_s_deficit_single_pend = for_each_element(requests_i_j_k_l_s_deficit_single_pend_temp, "max", 0)
+    where
+        requests_i_j_k_l_s_deficit_single_pend_temp(i, k, l, s, j) of number
+        requests_i_j_k_l_s_deficit_single_pend(i, k, l, s, j)      of number
+        requests_i_j_k_l_s_deficit_single_pend_temp of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        requests_i_j_k_l_s_deficit_single_pend      of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
+        "max" from operation
             where
                 Product, Region, Market_participant, Ship_terms, Refinery from axis
                 i  for I  from index # Индексы нефпродукта

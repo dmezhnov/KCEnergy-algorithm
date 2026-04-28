@@ -17,7 +17,7 @@ estimated_i_j_k_l_fca(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_fca(l0)(n)(i, j, k, l)  of number
         estimated_i_j_k_l_s(l0)(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_fca(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
-        FCA of coordinate
+        FCA from coordinate
             where
                 l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
@@ -35,7 +35,7 @@ estimated_i_j_k_l_fca.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(
         estimated_i_j_k_l_fca.First(n)(i, j, k, l)  of number
         estimated_i_j_k_l_s.First(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_fca.First(n) of matrix(Product, Refinery, Region, Market_participant)
-        FCA of coordinate
+        FCA from coordinate
             where
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
@@ -231,7 +231,7 @@ estimated_i_j_k_l_exw(l0)(n) = filter_by_coordinate(estimated_i_j_k_l_s(l0)(n), 
         estimated_i_j_k_l_exw(l0)(n)(i, j, k, l)  of number
         estimated_i_j_k_l_s(l0)(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_exw(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
-        EXW of coordinate
+        EXW from coordinate
             where
                 l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
@@ -249,7 +249,7 @@ estimated_i_j_k_l_exw.First(n) = filter_by_coordinate(estimated_i_j_k_l_s.First(
         estimated_i_j_k_l_exw.First(n)(i, j, k, l)  of number
         estimated_i_j_k_l_s.First(n)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_exw.First(n) of matrix(Product, Refinery, Region, Market_participant)
-        EXW of coordinate
+        EXW from coordinate
             where
                 n  of          index # Индекс матрицы
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
@@ -333,7 +333,7 @@ estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_exw_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         round from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index = 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -347,12 +347,12 @@ estimated_i_j_k_l_exw_coeff_rounded.First(n) = for_each_element(estimated_i_j_k_
         estimated_i_j_k_l_exw_coeff_rounded.First(n) of matrix(Product, Refinery, Region, Market_participant)
         floor from operation
             where
-                n  of          index # Индекс матрицы
+                n  of          index != 1 # Индекс матрицы
                 Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
+                i  for I  from index      # Индексы нефпродукта
+                j  for J  from index      # Индексы НПЗ
+                k  for K  from index      # Индексы региона
+                l  for P  from index      # Индексы субъекта рынка
 
 estimated_i_j_k_l_exw_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(l0)(n), "*", OIL_TERMINAL_STEP_TONNAGE)
     where
