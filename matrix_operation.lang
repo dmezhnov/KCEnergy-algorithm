@@ -21,11 +21,11 @@ new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without
                 Taxis = (1), ..., (n) of axis # Оставшиеся оси
 
 ### - Копировать значения матрицы
-copy_values(matrix_source, copied_matrix) = copied_matrix
+copy_values(matrix_source, copied_matrix) = copied_matrix2
     where
-        matrix_source of matrix # Источник значений
-        copied_matrix of matrix # Приёмник (форма/координаты)
-        copied_matrix of matrix # Результат копирования значений
+        matrix_source  of matrix # Источник значений
+        copied_matrix  of matrix # Приёмник (форма/координаты)
+        copied_matrix2 of matrix # Результат копирования значений
 
 ### - Объединить матрицы
 assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
@@ -81,30 +81,29 @@ filter_by_pair(matrix_source, condit, matrix_condition) = filtered_matrix_by_pai
 
 for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
     where
-        matrix_source_1 of matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
-        matrix_source_2 of matrix           # Правая матрица
-        operat          of operation        # Операция поэлементно
-        matrix_result   of matrix(Taxis(1), ..., Taxis(A)) # Результат
-            where
-                matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
-                matrix_source_2 of  matrix                          # Правая матрица
-                operat          of  operation                       # Операция поэлементно
-                matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
+        matrix_source_1 of  matrix(Taxis(1), ..., Taxis(A)) # Левая матрица
+        matrix_source_2 of  matrix                          # Правая матрица
+        operat          of  operation                       # Операция поэлементно
+        matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
 
 ### - Количество координат по оси
-
-count_coordinates_by_axis(matrix_source, axis_to_count) = counted_matrix
+# Заменяет значение элеиента матрицы на количество координат по оси
+count_coordinates_by_axis(matrix_source, coord_to_count) = counted_matrix
     where
-        matrix_source  of matrix(Tcoords(1), ..., Tcoords(C), axis_to_count) # Исходная матрица
-        counted_matrix of matrix(Tcoords(1), ..., Tcoords(C)) # Результирующая матрица численностей
+        matrix_source  of  matrix(Tcoords(1), ..., Tcoords(C), coord_to_count) # Исходная матрица
+        counted_matrix of  matrix(Tcoords(1), ..., Tcoords(C))                 # Результирующая матрица численностей
             where
-                axis_to_count of  axis # Ось, по которой считаем количество координат
+                coord_to_count          of coordinate # Ось, по которой считаем количество координат
                 Tcoords = (1), ..., (C) of coordinate # Оставшиеся оси
 
 ### - Фильтровать по координате
 
-filter_by_coordinate(matrix_source, coord) = matrix_without_axis
+filter_by_coordinate(matrix_source, Tcoord(1), ..., Tcoord(N)) = matrix_without_axis
     where
-        matrix_source of       matrix     # Исходная матрица
-        coord of               coordinate # Фиксируемая координата
-        matrix_without_axis of matrix     # Результат фильтрации по координате
+        matrix_source of       matrix                  # Исходная матрица
+        Tcoord = (1), ..., (N) of coordinate           # Фиксируемые координаты
+        matrix_without_axis of matrix                  # Результат фильтрации по координатам
+
+is_empty(matrix_source)
+
+replace_coord(matrix_source, coord_source, coord_new)

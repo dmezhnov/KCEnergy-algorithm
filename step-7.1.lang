@@ -14,7 +14,6 @@ normalized_i_l_s(l0)(n) = sum_by_axes(normalized_i_j_k_l_s(l0)(n), Refinery, Reg
         normalized_i_j_k_l_s(l0)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
         normalized_i_l_s(l0)(n)     of matrix(Product, Market_participant, Ship_terms)
             where
-                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
@@ -31,7 +30,6 @@ normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery,
         normalized_i_j_k_l_s.First(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
         normalized_i_l_s.First(n)     of matrix(Product, Market_participant, Ship_terms)
             where
-                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
@@ -41,31 +39,55 @@ normalized_i_l_s.First(n) = sum_by_axes(normalized_i_j_k_l_s.First(n), Refinery,
                 k  for K  from index # Индексы региона
 
 # n-я матрица суммарных нормированных объемов НП l0-й очереди
-normalized_i_s(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Market_participant)
+normalized_i_l(l0)(n) = sum_by_axes(normalized_i_l_s(l0)(n), Ship_terms)
     where
         normalized_i_l_s(l0)(n)(i, l, s) of number
-        normalized_i_s(l0)(n)(i, s)      of number
-        normalized_i_l_s(l0)(n) of matrix(Product, Ship_terms, Market_participant)
-        normalized_i_s(l0)(n)   of matrix(Product, Ship_terms)
+        normalized_i_l(l0)(n)(i, l)      of number
+        normalized_i_l_s(l0)(n) of matrix(Product, Market_participant, Ship_terms)
+        normalized_i_l(l0)(n)   of matrix(Product, Market_participant)
             where
-                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
-                Product, Ship_terms, Market_participant from axis
+                Product, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
 
 # n-я матрица суммарных нормированных объемов НП первой очереди
-normalized_i_s.First(n) = sum_by_axes(normalized_i_l_s.First(n), Market_participant)
+normalized_i_l.First(n) = sum_by_axes(normalized_i_l_s.First(n), Ship_terms)
     where
         normalized_i_l_s.First(n)(i, l, s) of number
-        normalized_i_s.First(n)(i, s)      of number
-        normalized_i_l_s.First(n) of matrix(Product, Ship_terms, Market_participant)
-        normalized_i_s.First(n)   of matrix(Product, Ship_terms)
+        normalized_i_l.First(n)(i, l)      of number
+        normalized_i_l_s.First(n) of matrix(Product, Market_participant, Ship_terms)
+        normalized_i_l.First(n)   of matrix(Product, Market_participant)
             where
-                l0 for R  from index # Индексы очереди
                 n  of          index # Индекс матрицы
-                Product, Ship_terms, Market_participant from axis
+                Product, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
+
+# n-я матрица суммарных нормированных объемов НП l0-й очереди
+normalized_i(l0)(n) = sum_by_axes(normalized_i_l(l0)(n), Market_participant)
+    where
+        normalized_i_l(l0)(n)(i, l) of number
+        normalized_i(l0)(n)(i)      of number
+        normalized_i_l(l0)(n) of matrix(Product, Market_participant)
+        normalized_i(l0)(n)   of matrix(Product)
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+
+# n-я матрица суммарных нормированных объемов НП первой очереди
+normalized_i.First(n) = sum_by_axes(normalized_i_l.First(n), Market_participant)
+    where
+        normalized_i_l.First(n)(i, l) of number
+        normalized_i.First(n)(i)      of number
+        normalized_i_l.First(n) of matrix(Product, Market_participant)
+        normalized_i.First(n)   of matrix(Product)
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка

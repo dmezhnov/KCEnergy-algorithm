@@ -2,7 +2,7 @@ number, length from core
 
 # Системные данные
 
-operation = "*", "/", safe_divide, round, "+", "-", min, max
+operation = "*", "/", safe_divide, round, floor, "+", "-", min, max
 
 condition = "=", "<", "<=", ">", ">=", contains, not_contains
 
@@ -10,18 +10,18 @@ Queue = First, Second, Third, Fourth
 
 Ship_terms = FCA, EXW
 
-Product = AI-92, Diesel
+Product = AI_92, Diesel
 
 axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms, Request
 
-matrix(Tcoords(1), ..., Tcoords(C)) = (
+matrix(Tcoords(1), ..., Tcoords(C)) = {
     coords = Tcoords(1), ..., Tcoords(C)
-    value of number OR matrix(TcoordsNext)
+    value of number or matrix(TcoordsNext)
         where
             TcoordsNext = Tcoords(1), ..., Tcoords(C-1) of coordinate
                 where
                     C of index = length(coords) # Количество координат
-)
+}
 
 matrix(Index(1), ..., Index(C)) = (
 
@@ -29,34 +29,37 @@ matrix(Index(1), ..., Index(C)) = (
 
 coordinate = axis, index
 
-index of number = (
-    I  of number = 1, ..., N       # Индексы нефпродукта
-    N  of number = length(Product) # Количество нефтепродуктов (последний индекс)
+index of number = {
+    I  of number = 1, ..., N                  # Индексы нефпродукта
+    N  of number = length(Product)            # Количество нефтепродуктов (последний индекс)
 
-    I0 of number = 1, ..., N0               # Индексы категории нефпродукта
-    N0 of number = length(Product_category) # Количество категорий нефтепродуктов (последний индекс)
+    I0 of number = 1, ..., N0                 # Индексы категории нефпродукта
+    N0 of number = length(Product_category)   # Количество категорий нефтепродуктов (последний индекс)
 
-    J  of number = 1, ..., M        # Индексы завода (НПЗ)
-    M  of number = length(Refinery) # Количество заводов (последний индекс)
+    J  of number = 1, ..., M                  # Индексы завода (НПЗ)
+    M  of number = length(Refinery)           # Количество заводов (последний индекс)
 
-    K  of number = 1, ..., Q      # Индексы региона
-    Q  of number = length(Region) # Количество регионов (последний индекс)
+    K  of number = 1, ..., Q                  # Индексы региона
+    Q  of number = length(Region)             # Количество регионов (последний индекс)
 
-    K0 of number = 1, ..., Q0       # Индексы района
-    Q0 of number = length(District) # Количество регионов (последний индекс)
+    K0 of number = 1, ..., Q0                 # Индексы района
+    Q0 of number = length(District)           # Количество регионов (последний индекс)
 
     P  of number = 1, ..., L                  # Индексы субъекта рынка
     L  of number = length(Market_participant) # Количество субъектов рынка (последний индекс)
 
-    Y  of number = 1, ..., T              # Индексы месяца и года
-    T  of number = length(Month_and_year) # Количество - месяц и год (последний индекс)
+    Y  of number = 1, ..., T                  # Индексы месяца и года
+    T  of number = length(Month_and_year)     # Количество - месяц и год (последний индекс)
 
-    R  of number = 1, ..., L0    # Индексы очереди
-    L0 of number = length(Queue) # Количество очередей (последний индекс)
+    R  of number = 1, ..., L0                 # Индексы очереди
+    L0 of number = length(Queue)              # Количество очередей (последний индекс)
 
-    C  of number = 1, ..., S          # Индексы условий поставки
-    S  of number = length(Ship_terms) # Количество условий поставки (последний индекс)
-)
+    C  of number = 1, ..., S                  # Индексы условий поставки
+    S  of number = length(Ship_terms)         # Количество условий поставки (последний индекс)
+
+    Z  of number = 1, ..., D                  # Индексы запросов
+    D  of number = length(Request)            # Количество запросов
+}
 
 # i  for I  from index
 # i0 for I0 from index
@@ -67,3 +70,4 @@ index of number = (
 # t  for Y  from index
 # l0 for R  from index
 # s  for C  from index
+# q  for Z  from index

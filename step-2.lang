@@ -1,5 +1,5 @@
 number                                              from core
-for_each_element, filter_by_value                   from ("operations.lang")
+for_each_element, filter_by_pair                     from ("matrix_operation.lang")
 matrix, axis, index, operation                      from ("matrix_types.lang")
 OVERALL_REQUEST_CAPACITY_COEFFICIENT, available_i_j from ("initial_data.lang")
 requests_i_j                                        from ("step-1.lang")
@@ -11,9 +11,9 @@ requests_i_j                                        from ("step-1.lang")
 
 # Матрица порогов превышения доступных объёмов.
 # Рассчитывается как произведение доступного объёма на коэффициент порога.
-threshold_i_j(i) = (
+threshold_i_j(i) = {
     (i, j) = available_i_j.First(i, j) * OVERALL_REQUEST_CAPACITY_COEFFICIENT
-)
+}
     where
         threshold_i_j(i, j)                  of  number
         available_i_j.First(i, j)            of  number # Доступные объёмы
@@ -39,9 +39,9 @@ threshold_i_j = for_each_element(available_i_j.First, "*", OVERALL_REQUEST_CAPAC
                 j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в дефицитных запросах (запросы поданные на дефицитные НПЗ) от всех субъектов ранка
-requests_i_j_deficit(i) = (
+requests_i_j_deficit(i) = {
     (i, j) = requests_i_j(i, j)
-)
+}
     where
         requests_i_j_deficit(i, j) of  number = deficit_value
         requests_i_j(i, j)         of  number = request_value
@@ -58,7 +58,7 @@ requests_i_j_deficit(i) = (
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_deficit = filter_by_value(requests_i_j, ">=", threshold_i_j)
+requests_i_j_deficit = filter_by_pair(requests_i_j, ">=", threshold_i_j)
     where
         requests_i_j_deficit(i, j) of  number
         requests_i_j(i, j)         of  number
@@ -73,9 +73,9 @@ requests_i_j_deficit = filter_by_value(requests_i_j, ">=", threshold_i_j)
                 j  for J  from index # Индексы НПЗ
 
 # Матрица объемов в профицитных запросах (запросы поданные на профицитные НПЗ) от всех субъектов ранка
-requests_i_j_surplus(i) = (
+requests_i_j_surplus(i) = {
     (i, j) = requests_i_j(i, j)
-)
+}
     where
         requests_i_j_surplus(i, j) of number = surplus_value
         requests_i_j(i, j)         of number = request_value
@@ -92,7 +92,7 @@ requests_i_j_surplus(i) = (
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
 
-requests_i_j_surplus = filter_by_value(requests_i_j, "<", threshold_i_j)
+requests_i_j_surplus = filter_by_pair(requests_i_j, "<", threshold_i_j)
     where
         requests_i_j_surplus(i, j) of number
         requests_i_j(i, j)         of number
