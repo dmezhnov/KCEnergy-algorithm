@@ -1,0 +1,130 @@
+requests_free_i_j_s_q       from ("initial_data.lang")
+current_free_volumes_i_j    from ("step-2.lang")
+current_free_volumes_i_j(2), current_free_volumes_i_j(3), current_free_volumes_i_j(4), current_free_volumes_i_j(5), current_free_volumes_i_j(6), current_free_volumes_i_j(7) from ("step-4.lang")
+
+# Шаг 3 спецификации: предварительный удовлетворенный объем s(φ_ij).
+# Свободный объем v~ единый на пару (i, j) — broadcast по осям Ship_terms и Request.
+
+satisfied_pre_norm_i_j_s_q_clipped(1 from n) = ( # min(r=200 EXW, v~=2000) = 200
+    (1 from Z) = (
+        (1 from Z, 2 from C) = (
+            (1 from Z, 2 from C, 1 from I) = (
+                (1 from Z, 2 from C, 1 from I, 1 from J) = min(200, 2000) = 200
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(2 from n) = ( # min(r=250 EXW, v~=1800) = 250
+    (2 from Z) = (
+        (2 from Z, 2 from C) = (
+            (2 from Z, 2 from C, 1 from I) = (
+                (2 from Z, 2 from C, 1 from I, 1 from J) = min(250, 1800) = 250
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(3 from n) = ( # min(r=520 FCA, v~=1550) = 520
+    (3 from Z) = (
+        (3 from Z, 1 from C) = (
+            (3 from Z, 1 from C, 1 from I) = (
+                (3 from Z, 1 from C, 1 from I, 1 from J) = min(520, 1550) = 520
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(4 from n) = ( # min(r=400 EXW, v~=1030) = 400
+    (4 from Z) = (
+        (4 from Z, 2 from C) = (
+            (4 from Z, 2 from C, 1 from I) = (
+                (4 from Z, 2 from C, 1 from I, 1 from J) = min(400, 1030) = 400
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(5 from n) = ( # min(r=585 FCA, v~=630) = 585
+    (5 from Z) = (
+        (5 from Z, 1 from C) = (
+            (5 from Z, 1 from C, 1 from I) = (
+                (5 from Z, 1 from C, 1 from I, 1 from J) = min(585, 630) = 585
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(6 from n) = ( # min(r=520 FCA, v~=45) = 45 — Case 2
+    (6 from Z) = (
+        (6 from Z, 1 from C) = (
+            (6 from Z, 1 from C, 1 from I) = (
+                (6 from Z, 1 from C, 1 from I, 1 from J) = min(520, 45) = 45
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q_clipped(7 from n) = () # current_free_volumes_i_j(7) = () → пересечение пусто
+    where
+        n of   index # Индекс матрицы (порядковый номер запроса)
+        Z from index # Индексы запросов
+        C from index # Индексы условия поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+satisfied_pre_norm_i_j_s_q(1 from n) = ( # max(200, 0) = 200
+    (1 from Z) = (
+        (1 from Z, 2 from C) = (
+            (1 from Z, 2 from C, 1 from I) = (
+                (1 from Z, 2 from C, 1 from I, 1 from J) = 200
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(2 from n) = (
+    (2 from Z) = (
+        (2 from Z, 2 from C) = (
+            (2 from Z, 2 from C, 1 from I) = (
+                (2 from Z, 2 from C, 1 from I, 1 from J) = 250
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(3 from n) = (
+    (3 from Z) = (
+        (3 from Z, 1 from C) = (
+            (3 from Z, 1 from C, 1 from I) = (
+                (3 from Z, 1 from C, 1 from I, 1 from J) = 520
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(4 from n) = (
+    (4 from Z) = (
+        (4 from Z, 2 from C) = (
+            (4 from Z, 2 from C, 1 from I) = (
+                (4 from Z, 2 from C, 1 from I, 1 from J) = 400
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(5 from n) = (
+    (5 from Z) = (
+        (5 from Z, 1 from C) = (
+            (5 from Z, 1 from C, 1 from I) = (
+                (5 from Z, 1 from C, 1 from I, 1 from J) = 585
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(6 from n) = (
+    (6 from Z) = (
+        (6 from Z, 1 from C) = (
+            (6 from Z, 1 from C, 1 from I) = (
+                (6 from Z, 1 from C, 1 from I, 1 from J) = 45
+            )
+        )
+    )
+)
+satisfied_pre_norm_i_j_s_q(7 from n) = ()
+    where
+        n of   index # Индекс матрицы (порядковый номер запроса)
+        Z from index # Индексы запросов
+        C from index # Индексы условия поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ

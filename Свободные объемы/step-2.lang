@@ -1,0 +1,17 @@
+free_volumes_i_j    from ("initial_data.lang")
+axis, index, matrix from ("../matrix_types.lang")
+number              from core
+
+# Initial free volume of i-th product at j-th refinery — base of the recurrence.
+# Subsequent iterations are computed in step-4 (after Step 4 normalization).
+current_free_volumes_i_j(1 from n) = free_volumes_i_j
+    where
+        current_free_volumes_i_j(1)(i, j) of number
+        free_volumes_i_j(i, j)            of number
+        current_free_volumes_i_j(1) of matrix(Product, Refinery)
+        free_volumes_i_j            of matrix(Product, Refinery)
+            where
+                Product, Refinery from axis # Оси
+                i for I from index # Индексы нефпродукта
+                j for J from index # Индексы НПЗ
+                n      of    index # Индекс матрицы (порядковый номер запроса)

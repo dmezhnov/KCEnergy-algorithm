@@ -1,0 +1,12 @@
+free_volumes_i_j from ("initial_data.lang")
+
+# Базовое значение рекуррентности — Шаг 2 спецификации (v~_ij ← v0_ij).
+current_free_volumes_i_j(1 from n) = free_volumes_i_j = (
+    (1 from I) = (
+        (1 from I, 1 from J) = 2000
+    )
+)
+    where
+        n of   index # Индекс матрицы (порядковый номер запроса)
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
