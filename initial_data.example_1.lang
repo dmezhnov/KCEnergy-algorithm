@@ -15,29 +15,29 @@ Market_participant = ( # P
     Paricipant_D, # Г. - 4 from P
     Paricipant_E, # Д. - 5 from P
     Paricipant_F, # Е. - 6 from P
-    Paricipant_G, # З. - 7 from P
-    Paricipant_H, # И. - 8 from P
-    Paricipant_I, # К. - 9 from P
-    Paricipant_J, # Л. - 10 from P
-    Paricipant_K, # М. - 11 from P
-    Paricipant_L, # Н. - 12 from P
-    Paricipant_M, # П. - 13 from P
-    Paricipant_N, # Р. - 14 from P
-    Paricipant_O, # С. - 15 from P
-    Paricipant_P, # Т. - 16 from P
-    Paricipant_Q, # У. - 17 from P
-    Paricipant_R, # Ф. - 18 from P
-    Paricipant_S, # Х. - 19 from P
-    Paricipant_T, # Ш. - 20 from P
-    Paricipant_U  # Щ. - 21 from P
+    Paricipant_H, # З. - 7 from P
+    Paricipant_I, # И. - 8 from P
+    Paricipant_K, # К. - 9 from P
+    Paricipant_L, # Л. - 10 from P
+    Paricipant_M, # М. - 11 from P
+    Paricipant_N, # Н. - 12 from P
+    Paricipant_P, # П. - 13 from P
+    Paricipant_Q, # Р. - 14 from P
+    Paricipant_R, # С. - 15 from P
+    Paricipant_S, # Т. - 16 from P
+    Paricipant_T, # У. - 17 from P
+    Paricipant_U, # Ф. - 18 from P
+    Paricipant_V, # Х. - 19 from P
+    Paricipant_Y, # Ш. - 20 from P
+    Paricipant_Z  # Щ. - 21 from P
 )
 
 Region = ( # K
     Almaty,  # Алматы               - 1 from K
     Astana,  # Астана               - 2 from K
     Shimkent,# Шымкент              - 3 from K
-    Ulytau,  # Улытауская область   - 4 from K
-    Zhambyl, # Жамбылская область   - 5 from K
+    Ulytau,  # Улытауская   область - 4 from K
+    Zhambyl, # Жамбылская   область - 5 from K
     Pavlodar # Павлодарская область - 6 from K
 )
 
@@ -47,15 +47,15 @@ Ship_terms = ( # C
 )
 
 Request = ( # Z
-    001, # 1 from Z
-    002, # 2 from Z
-    003, # 3 from Z
-    004, # 4 from Z
-    005, # 5 from Z
-    006, # 6 from Z
-    007, # 7 from Z
-    008, # 8 from Z
-    009, # 9 from Z
+    001, # 1  from Z
+    002, # 2  from Z
+    003, # 3  from Z
+    004, # 4  from Z
+    005, # 5  from Z
+    006, # 6  from Z
+    007, # 7  from Z
+    008, # 8  from Z
+    009, # 9  from Z
     010, # 10 from Z
     011, # 11 from Z
     012, # 12 from Z
