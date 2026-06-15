@@ -21,7 +21,7 @@ requests_i_j_k_l_s_l0 = {
                 },
                 (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
                     (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 011-015
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 011 + 012 + 013 + 014 + 015
                     }
                 }
             }
@@ -92,19 +92,19 @@ requests_i_j_k_l_s_l0 = {
             (1 from I, 2 from C, 1 from J, 4 from K) = {
                 (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
                     (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 25 + 35 + 40 = 100            # 002-004
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 25 + 35 + 40 = 100            # 002 + 003 + 004
                     }
                 },
                 (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
                     (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 016-020
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 016 + 017 + 018 + 019 + 020
                     }
                 }
             },
             (1 from I, 2 from C, 1 from J, 5 from K) = {
                 (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
                     (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = 75 + 75 = 150                 # 005-006
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = 75 + 75 = 150                 # 005 + 006
                     }
                 },
                 (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
