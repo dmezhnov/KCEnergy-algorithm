@@ -15,21 +15,21 @@ Market_participant = ( # P
     Paricipant_D, # Г. - 4 from P
     Paricipant_E, # Д. - 5 from P
     Paricipant_F, # Е. - 6 from P
-    Paricipant_G, # Н. - 7 from P
-    Paricipant_H, # П. - 8 from P
-    Paricipant_I, # З. - 9 from P
-    Paricipant_J, # И. - 10 from P
-    Paricipant_K, # К. - 11 from P
-    Paricipant_L, # Р. - 12 from P
-    Paricipant_M, # С. - 13 from P
-    Paricipant_N, # Т. - 14 from P
-    Paricipant_O, # У. - 15 from P
-    Paricipant_P, # Ф. - 16 from P
-    Paricipant_Q, # Х. - 17 from P
-    Paricipant_R, # Ш. - 18 from P
-    Paricipant_S, # Щ. - 19 from P
-    Paricipant_T, # Л. - 20 from P
-    Paricipant_U  # М. - 21 from P
+    Paricipant_G, # З. - 7 from P
+    Paricipant_H, # И. - 8 from P
+    Paricipant_I, # К. - 9 from P
+    Paricipant_J, # Л. - 10 from P
+    Paricipant_K, # М. - 11 from P
+    Paricipant_L, # Н. - 12 from P
+    Paricipant_M, # П. - 13 from P
+    Paricipant_N, # Р. - 14 from P
+    Paricipant_O, # С. - 15 from P
+    Paricipant_P, # Т. - 16 from P
+    Paricipant_Q, # У. - 17 from P
+    Paricipant_R, # Ф. - 18 from P
+    Paricipant_S, # Х. - 19 from P
+    Paricipant_T, # Ш. - 20 from P
+    Paricipant_U  # Щ. - 21 from P
 )
 
 Region = ( # K
