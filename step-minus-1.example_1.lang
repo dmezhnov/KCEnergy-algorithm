@@ -74,160 +74,162 @@
 # 404  (AI_92,      FCA,        ANPZ,       Ulytau,     Paricipant_F,  Fourth)
 
 requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_k_l_s_l0_q, Request) = {
-    (1 from I, 1 from C) = {
-        (1 from I, 1 from C, 1 from J) = {
-            (1 from I, 1 from C, 1 from J, 3 from K) = {
-                (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = 715                           # 009 = 106
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = 715                           # 009 = 106
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = 195                           # 025 = 203
+                        }
                     }
                 },
-                (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
-                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = 195                           # 025 = 203
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 130                           # 001 = 101
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 011 + 012 + 013 + 014 + 015 = 108
+                        }
                     }
                 }
             },
-            (1 from I, 1 from C, 1 from J, 4 from K) = {
-                (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 130                           # 001 = 101
-                    }
-                },
-                (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 011 + 012 + 013 + 014 + 015 = 108
-                    }
-                }
-            }
-        },
-        (1 from I, 1 from C, 2 from J) = {
-            (1 from I, 1 from C, 2 from J, 4 from K) = {
-                (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = {
-                    (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = {
-                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = 520                           # 037 = 404
-                    }
-                },
-                (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
-                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
-                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = 130                           # 027 = 205
-                    }
-                }
-            }
-        },
-        (1 from I, 1 from C, 3 from J) = {
-            (1 from I, 1 from C, 3 from J, 2 from K) = {
-                (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = 260                           # 034 = 401
-                    }
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = 520                           # 035 = 402
-                    }
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = 715                           # 036 = 403
-                    }
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = 65                            # 023 = 201
-                    }
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = 130                           # 024 = 202
-                    }
-                },
-                (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
-                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = 195                           # 032 = 301
-                    }
-                }
-            }
-        }
-    },
-    (1 from I, 2 from C) = {
-        (1 from I, 2 from C, 1 from J) = {
-            (1 from I, 2 from C, 1 from J, 1 from K) = {
-                (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = 70                            # 021 = 110
-                    }
-                },
-                (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
-                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = 50                            # 026 = 204
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = 520                           # 037 = 404
+                        }
+                    },
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = 130                           # 027 = 205
+                        }
                     }
                 }
             },
-            (1 from I, 2 from C, 1 from J, 4 from K) = {
-                (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 25 + 35 + 40 = 100            # 002 + 003 + 004 = 102
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = 260                           # 034 = 401
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = 520                           # 035 = 402
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = 715                           # 036 = 403
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = 65                            # 023 = 201
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = 130                           # 024 = 202
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                            (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = 195                           # 032 = 301
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = 70                            # 021 = 110
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = 50                            # 026 = 204
+                        }
                     }
                 },
-                (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 016 + 017 + 018 + 019 + 020 = 109
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = 25 + 35 + 40 = 100            # 002 + 003 + 004 = 102
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = 65 + 65 + 65 + 65 + 65 = 325  # 016 + 017 + 018 + 019 + 020 = 109
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = 75 + 75 = 150                 # 005 + 006 = 103
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = 200                           # 010 = 107
+                        }
                     }
                 }
             },
-            (1 from I, 2 from C, 1 from J, 5 from K) = {
-                (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = 75 + 75 = 150                 # 005 + 006 = 103
-                    }
-                },
-                (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = 200                           # 010 = 107
-                    }
-                }
-            }
-        },
-        (1 from I, 2 from C, 2 from J) = {
-            (1 from I, 2 from C, 2 from J, 4 from K) = {
-                (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = 100                           # 022 = 111
-                    }
-                },
-                (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = 70                            # 028 = 206
-                    }
-                },
-                (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = 100                           # 029 = 112
-                    }
-                },
-                (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = 50                            # 030 = 113
-                    }
-                },
-                (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = 15                            # 038 = 208
-                    }
-                },
-                (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = 35                            # 039 = 209
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = 100                           # 022 = 111
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = 70                            # 028 = 206
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = 100                           # 029 = 112
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = 50                            # 030 = 113
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = 15                            # 038 = 208
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = 35                            # 039 = 209
+                        }
                     }
                 }
-            }
-        },
-        (1 from I, 2 from C, 3 from J) = {
-            (1 from I, 2 from C, 3 from J, 6 from K) = {
-                (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
-                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
-                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = 250                           # 033 = 302
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
+                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                            (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = 250                           # 033 = 302
+                        }
                     }
                 }
             }
