@@ -33,8 +33,8 @@ Market_participant = ( # P
     Paricipant_U, # Ф. - 18 from P
     Paricipant_V, # Х. - 19 from P
     Paricipant_W, # Ц. - 20 from P
-    Paricipant_Y, # Ш. - 21 from P //20
-    Paricipant_Z  # Щ. - 22 from P //21
+    Paricipant_Y, # Ш. - 21 from P
+    Paricipant_Z  # Щ. - 22 from P
 )
 
 Region = ( # K
