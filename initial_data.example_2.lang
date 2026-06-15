@@ -596,7 +596,7 @@ Month_and_year = ( # Y
 # 0058 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     10 from Y       - 190
 # 0058 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  ноябрь   2024)
 
-# 0059 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     11 from Y       - 185
+# 0059 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     11 from Y       - 190
 # 0059 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  октябрь  2024)
 
 # 0060 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     12 from Y       - 185
@@ -626,13 +626,13 @@ Month_and_year = ( # Y
 # 0068 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     8 from Y        - 190
 # 0068 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  январь   2025)
 
-# 0069 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     9 from Y        - 170
+# 0069 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     9 from Y        - 180
 # 0069 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  декабрь  2024)
 
-# 0070 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     10 from Y       - 160
+# 0070 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     10 from Y       - 170
 # 0070 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  ноябрь   2024)
 
-# 0071 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     11 from Y       - 150
+# 0071 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     11 from Y       - 160
 # 0071 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  октябрь  2024)
 
 # 0072 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     12 from Y       - 150
@@ -791,7 +791,7 @@ Month_and_year = ( # Y
 # 0123 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      3 from Y        - 80
 # 0123 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  июнь     2025)
 
-# 0124 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      4 from Y        - 75
+# 0124 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      4 from Y        - 80
 # 0124 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  май      2025)
 
 # 0125 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      5 from Y        - 75
@@ -803,16 +803,16 @@ Month_and_year = ( # Y
 # 0127 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      7 from Y        - 90
 # 0127 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  февраль  2025)
 
-# 0128 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      8 from Y        - 80
+# 0128 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      8 from Y        - 90
 # 0128 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  январь   2025)
 
 # 0129 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      9 from Y        - 70
 # 0129 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  декабрь  2024)
 
-# 0130 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      10 from Y       - 80
+# 0130 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      10 from Y       - 70
 # 0130 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  ноябрь   2024)
 
-# 0131 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      11 from Y       - 85
+# 0131 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      11 from Y       - 80
 # 0131 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  октябрь  2024)
 
 # 0132 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      12 from Y       - 85
