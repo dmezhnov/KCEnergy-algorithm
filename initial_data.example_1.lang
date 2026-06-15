@@ -3,21 +3,21 @@ Product = ( # I
 )
 
 Refinery = ( # J
-    PKOP, # 1 from J
-    ANPZ, # 2 from J
-    PNHZ  # 3 from J
+    PKOP, # ПКОП - 1 from J
+    ANPZ, # АНПЗ - 2 from J
+    PNHZ  # ПНХЗ - 3 from J
 )
 
 Market_participant = ( # P
-    Paricipant_A, # А. - 1 from P
-    Paricipant_B, # Б. - 2 from P
-    Paricipant_C, # В. - 3 from P
-    Paricipant_D, # Г. - 4 from P
-    Paricipant_E, # Д. - 5 from P
-    Paricipant_F, # Е. - 6 from P
-    Paricipant_H, # З. - 7 from P
-    Paricipant_I, # И. - 8 from P
-    Paricipant_K, # К. - 9 from P
+    Paricipant_A, # А. - 1  from P
+    Paricipant_B, # Б. - 2  from P
+    Paricipant_C, # В. - 3  from P
+    Paricipant_D, # Г. - 4  from P
+    Paricipant_E, # Д. - 5  from P
+    Paricipant_F, # Е. - 6  from P
+    Paricipant_H, # З. - 7  from P
+    Paricipant_I, # И. - 8  from P
+    Paricipant_K, # К. - 9  from P
     Paricipant_L, # Л. - 10 from P
     Paricipant_M, # М. - 11 from P
     Paricipant_N, # Н. - 12 from P
@@ -86,32 +86,122 @@ Request = ( # Z
     037  # 37 from Z
 )
 
-# 001   1 from I,  1 from C,  1 from J,   4 from K,    1 from P,      1 from R - 100
-# 001   (AI_92,    FCA,       PKOP,       Ulytau,      Paricipant_A,  First)
+Queue = ( # R
+    First,  # 1 from R
+    Second, # 3 from R
+    Third,  # 3 from R
+    Fourth  # 4 from R
+)
 
-# 002   1 from I,  2 from C,  1 from J,   2 from K,    1 from P,     1 from R - 150
-# 002   (AI_92,    EXW,       PKOP,       Astana,      Paricipant_A, First)
+# 001   1 from I,  1 from C,  1 from J,   4 from K,     1 from P,   1 from R - 130
+# 001   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_A,  First)
 
-# 003   1 from I,  2 from C,  2 from J,   1 from K,    1 from P,   1 from R - 40
-# 003   (AI_92,    EXW,       ANPZ,       Almaty,      Paricipant_A,       First)
+# 002   1 from I,  2 from C,  1 from J,   4 from K,     1 from P,   1 from R - 25
+# 002   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_A,  First)
 
-# 004   1 from I,  2 from C,  3 from J,   1 from K,    1 from P,   1 from R - 60
-# 004   (AI_92,    EXW,       PNHZ,       Almaty,      Paricipant_A,       First)
+# 003   1 from I,  2 from C,  1 from J,   4 from K,     1 from P,   1 from R - 35
+# 003   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_A,  First)
 
-# 005   1 from I,  1 from C,  1 from J,   3 from K,    2 from P,   1 from R - 325
-# 005   (AI_92,    FCA,       PKOP,       Shimkent,    Paricipant_B,       First)
+# 004   1 from I,  2 from C,  1 from J,   4 from K,     1 from P,   1 from R - 40
+# 004   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_A,  First)
 
-# 006   1 from I,  2 from C,  1 from J,   2 from K,    3 from P,   1 from R - 200
-# 006   (AI_92,    EXW,       PKOP,       Astana,      Paricipant_C,       First)
+# 005   1 from I,  2 from C,  1 from J,   5 from K,     1 from P,   1 from R - 75
+# 005   (AI_92,    EXW,       PKOP,       Zhambyl,      Paricipant_A,  First)
 
-# 007   1 from I,  1 from C,  1 from J,   1 from K,    4 from P,   4 from R - 260
-# 007   (AI_92,    FCA,       PKOP,       Almaty,      Paricipant_D,       Fourth)
+# 006   1 from I,  2 from C,  1 from J,   5 from K,     1 from P,   1 from R - 75
+# 006   (AI_92,    EXW,       PKOP,       Zhambyl,      Paricipant_A,  First)
 
-# 008   1 from I,  1 from C,  1 from J,   1 from K,    5 from P,   4 from R - 520
-# 008   (AI_92,    FCA,       PKOP,       Almaty,      Paricipant_E,       Fourth)
+# 009   1 from I,  1 from C,  1 from J,   3 from K,     2 from P,   1 from R - 715
+# 009   (AI_92,    FCA,       PKOP,       Shimkent,     Paricipant_B,  First)
 
-# 009   1 from I,  1 from C,  1 from J,   3 from K,    6 from P,   4 from R - 715
-# 009   (AI_92,    FCA,       PKOP,       Shimkent,    Paricipant_F,       Fourth)
+# 010   1 from I,  2 from C,  1 from J,   5 from K,     3 from P,   1 from R - 200
+# 010   (AI_92,    EXW,       PKOP,       Zhambyl,      Paricipant_C,  First)
+
+# 011   1 from I,  1 from C,  1 from J,   4 from K,    12 from P,   1 from R - 65
+# 011   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_N,  First)
+
+# 012   1 from I,  1 from C,  1 from J,   4 from K,    12 from P,   1 from R - 65
+# 012   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_N,  First)
+
+# 013   1 from I,  1 from C,  1 from J,   4 from K,    12 from P,   1 from R - 65
+# 013   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_N,  First)
+
+# 014   1 from I,  1 from C,  1 from J,   4 from K,    12 from P,   1 from R - 65
+# 014   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_N,  First)
+
+# 015   1 from I,  1 from C,  1 from J,   4 from K,    12 from P,   1 from R - 65
+# 015   (AI_92,    FCA,       PKOP,       Ulytau,       Paricipant_N,  First)
+
+# 016   1 from I,  2 from C,  1 from J,   4 from K,    13 from P,   1 from R - 65
+# 016   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_P,  First)
+
+# 017   1 from I,  2 from C,  1 from J,   4 from K,    13 from P,   1 from R - 65
+# 017   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_P,  First)
+
+# 018   1 from I,  2 from C,  1 from J,   4 from K,    13 from P,   1 from R - 65
+# 018   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_P,  First)
+
+# 019   1 from I,  2 from C,  1 from J,   4 from K,    13 from P,   1 from R - 65
+# 019   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_P,  First)
+
+# 020   1 from I,  2 from C,  1 from J,   4 from K,    13 from P,   1 from R - 65
+# 020   (AI_92,    EXW,       PKOP,       Ulytau,       Paricipant_P,  First)
+
+# 021   1 from I,  2 from C,  1 from J,   1 from K,     7 from P,   1 from R - 70   # also 2 from R (queue I/II)
+# 021   (AI_92,    EXW,       PKOP,       Almaty,       Paricipant_H,  First/Second)
+
+# 022   1 from I,  2 from C,  2 from J,   4 from K,     7 from P,   1 from R - 100  # also 2 from R (queue I/II)
+# 022   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_H,  First/Second)
+
+# 023   1 from I,  1 from C,  3 from J,   2 from K,     8 from P,   2 from R - 65
+# 023   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_I,  Second)
+
+# 024   1 from I,  1 from C,  3 from J,   2 from K,     9 from P,   2 from R - 130
+# 024   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_K,  Second)
+
+# 025   1 from I,  1 from C,  1 from J,   3 from K,    14 from P,   2 from R - 195
+# 025   (AI_92,    FCA,       PKOP,       Shimkent,     Paricipant_Q,  Second)
+
+# 026   1 from I,  2 from C,  1 from J,   1 from K,    15 from P,   2 from R - 50
+# 026   (AI_92,    EXW,       PKOP,       Almaty,       Paricipant_R,  Second)
+
+# 027   1 from I,  1 from C,  2 from J,   4 from K,    16 from P,   2 from R - 130
+# 027   (AI_92,    FCA,       ANPZ,       Ulytau,       Paricipant_S,  Second)
+
+# 028   1 from I,  2 from C,  2 from J,   4 from K,    17 from P,   2 from R - 70
+# 028   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_T,  Second)
+
+# 029   1 from I,  2 from C,  2 from J,   4 from K,    18 from P,   1 from R - 100
+# 029   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_U,  First)
+
+# 030   1 from I,  2 from C,  2 from J,   4 from K,    19 from P,   1 from R - 50
+# 030   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_V,  First)
+
+# 038   1 from I,  2 from C,  2 from J,   4 from K,    20 from P,   2 from R - 15
+# 038   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_Y,  Second)
+
+# 039   1 from I,  2 from C,  2 from J,   4 from K,    21 from P,   2 from R - 35
+# 039   (AI_92,    EXW,       ANPZ,       Ulytau,       Paricipant_Z,  Second)
+
+# 032   1 from I,  1 from C,  3 from J,   2 from K,    10 from P,   3 from R - 195
+# 032   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_L,  Third)
+
+# 033   1 from I,  2 from C,  3 from J,   6 from K,    11 from P,   3 from R - 250
+# 033   (AI_92,    EXW,       PNHZ,       Pavlodar,     Paricipant_M,  Third)
+
+# 034   1 from I,  1 from C,  3 from J,   2 from K,     4 from P,   4 from R - 260
+# 034   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_D,  Fourth)
+
+# 035   1 from I,  1 from C,  3 from J,   2 from K,     5 from P,   4 from R - 520
+# 035   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_E,  Fourth)
+
+# 036   1 from I,  1 from C,  3 from J,   2 from K,     6 from P,   4 from R - 715
+# 036   (AI_92,    FCA,       PNHZ,       Astana,       Paricipant_F,  Fourth)
+
+# 037   1 from I,  1 from C,  2 from J,   4 from K,     6 from P,   4 from R - 520
+# 037   (AI_92,    FCA,       ANPZ,       Ulytau,       Paricipant_F,  Fourth)
+
+
 
 requests_i_j_k_l_s_l0_q = {
     (1 from I, 1 from C) = {
