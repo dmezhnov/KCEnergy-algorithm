@@ -46,6 +46,15 @@ Region = ( # K
     Pavlodar # Павлодарская область - 6 from K
 )
 
+District = ( # K0
+    Almaty,  # Алматы               - 1 from K0
+    Astana,  # Астана               - 2 from K0
+    Shimkent,# Шымкент              - 3 from K0
+    Ulytau,  # Улытауская   область - 4 from K0
+    Zhambyl, # Жамбылская   область - 5 from K0
+    Pavlodar # Павлодарская область - 6 from K0
+)
+
 Ship_terms = ( # C
     FCA, # 1 from C
     EXW  # 2 from C
