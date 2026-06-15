@@ -118,13 +118,8 @@ requests_i_j_k_l_s(4 from R) = {
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_l0 = {
-    (1 from R) = {
+requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms) = {
 
-    },
-    (4 from R) = {
-
-    }
 }
     where
         R from index # Индексы очереди
