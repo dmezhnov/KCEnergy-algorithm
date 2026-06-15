@@ -219,8 +219,53 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms) = {
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l = {
-
+requests_i_j_k_l = sum_by_axes(requests_i_j_k_l_l0, Queue) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P) = 70,  # 110
+                (1 from I, 1 from J, 1 from K, 15 from P) = 50   # 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P) = 715, # 106
+                (1 from I, 1 from J, 3 from K, 14 from P) = 195  # 203
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = 230, # 101 + 102
+                (1 from I, 1 from J, 4 from K, 12 from P) = 325, # 108
+                (1 from I, 1 from J, 4 from K, 13 from P) = 325  # 109
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P) = 150, # 103
+                (1 from I, 1 from J, 5 from K, 3  from P) = 200  # 107
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) = 520, # 404
+                (1 from I, 2 from J, 4 from K, 7  from P) = 100, # 111
+                (1 from I, 2 from J, 4 from K, 16 from P) = 130, # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = 70,  # 206
+                (1 from I, 2 from J, 4 from K, 18 from P) = 100, # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = 50,  # 113
+                (1 from I, 2 from J, 4 from K, 21 from P) = 15,  # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = 35   # 209
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 4  from P) = 260, # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 520, # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715, # 403
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,  # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130, # 202
+                (1 from I, 3 from J, 2 from K, 10 from P) = 195  # 301
+            },
+            (1 from I, 3 from J, 6 from K) = {
+                (1 from I, 3 from J, 6 from K, 11 from P) = 250  # 302
+            }
+        }
+    }
 }
     where
         I from index # Индексы нефпродукта
@@ -228,8 +273,22 @@ requests_i_j_k_l = {
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k = {
-
+requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = 70 + 50 = 120,
+            (1 from I, 1 from J, 3 from K) = 715 + 195 = 910,
+            (1 from I, 1 from J, 4 from K) = 230 + 325 + 325 = 880,
+            (1 from I, 1 from J, 5 from K) = 150 + 200 = 350
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = 520 + 100 + 130 + 70 + 100 + 50 + 15 + 35 = 1020
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = 260 + 520 + 715 + 65 + 130 + 195 = 1885,
+            (1 from I, 3 from J, 6 from K) = 250
+        }
+    }
 }
     where
         I from index # Индексы нефпродукта
@@ -237,8 +296,12 @@ requests_i_j_k = {
         K from index # Индексы региона
 
 
-requests_i_j = {
-
+requests_i_j = sum_by_axes(requests_i_j_k, Region) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 120 + 910 + 880 + 350 = 2260,
+        (1 from I, 2 from J) = 1020,
+        (1 from I, 3 from J) = 1885 + 250 = 2135
+    }
 }
     where
         I from index # Индексы нефпродукта

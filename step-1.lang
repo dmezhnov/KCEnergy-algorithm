@@ -142,7 +142,7 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
 
-requests_i_j_k_l(i) = {
+requests_i_j_k_l = {
     (i) = {
         (i, j) = {
             (i, j, k) = {
