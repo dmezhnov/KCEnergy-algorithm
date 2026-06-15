@@ -214,28 +214,28 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 1 from C, 1 from J, 3 from K) = {
                 (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
                     (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 715
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 715  # 009
                     }
                 },
                 (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
                     (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
-                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 195
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 195  # 025
                     }
                 }
             },
             (1 from I, 1 from C, 1 from J, 4 from K) = {
                 (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
                     (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 130
+                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 130  # 001
                     }
                 },
                 (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
                     (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 65,
-                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 65
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 65,  # 014
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 65  # 015
                     }
                 }
             }
@@ -244,12 +244,12 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 1 from C, 2 from J, 4 from K) = {
                 (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = {
                     (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = {
-                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R, 37 from Z) = 520
+                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R, 37 from Z) = 520  # 037
                     }
                 },
                 (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
                     (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
-                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130
+                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
                     }
                 }
             }
@@ -258,32 +258,32 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 1 from C, 3 from J, 2 from K) = {
                 (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260
+                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
                     }
                 },
                 (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520
+                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
                     }
                 },
                 (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715
+                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
                     }
                 },
                 (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65
+                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65  # 023
                     }
                 },
                 (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130
+                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
                     }
                 },
                 (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
                     (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
-                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195
+                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
                     }
                 }
             }
@@ -294,43 +294,43 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 2 from C, 1 from J, 1 from K) = {
                 (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
                     (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 70
+                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 70  # 021
                     }
                 },
                 (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
                     (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
-                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 50
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 50  # 026
                     }
                 }
             },
             (1 from I, 2 from C, 1 from J, 4 from K) = {
                 (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
                     (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 25,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 35,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 40
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 25,  # 002
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 35,  # 003
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 40  # 004
                     }
                 },
                 (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
                     (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 65,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 65,
-                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 65
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 65,  # 018
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 65,  # 019
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 65  # 020
                     }
                 }
             },
             (1 from I, 2 from C, 1 from J, 5 from K) = {
                 (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
                     (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,
-                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 75
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 75  # 006
                     }
                 },
                 (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
                     (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
-                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 200
+                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 200  # 010
                     }
                 }
             }
@@ -339,32 +339,32 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 2 from C, 2 from J, 4 from K) = {
                 (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 100
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 100  # 022
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70
+                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70  # 028
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 100
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 100  # 029
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 50
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 50  # 030
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15
+                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15  # 038
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35
+                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35  # 039
                     }
                 }
             }
@@ -373,7 +373,7 @@ requests_i_j_k_l_s_l0_q = {
             (1 from I, 2 from C, 3 from J, 6 from K) = {
                 (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
                     (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
-                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250
+                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
                     }
                 }
             }
@@ -994,3 +994,30 @@ available_i_j.First = {
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+
+# Порог превышения доступных объёмов, %
+OVERALL_REQUEST_CAPACITY_PERCENTAGE of percentage = 120
+    where
+        percentage of number
+
+# Доля порога [0; 1]
+OVERALL_REQUEST_CAPACITY_COEFFICIENT of number     = OVERALL_REQUEST_CAPACITY_PERCENTAGE / 100 = 1.2
+
+# Вагонная норма для НПЗ, МТ
+RAIL_ROAD_MIN_TONNAGE                of number     = 65
+
+# Минимальная норма для нефтебазы, МТ
+OIL_TERMINAL_MIN_TONNAGE             of number     = 4
+
+# Шаг нормы для нефтебазы, МТ
+OIL_TERMINAL_STEP_TONNAGE            of number     = 5
+
+# Предельная доля одному Субъекту, %
+MAX_SUBJECT_SHARE_PERCENTAGE         of percentage = 50
+    where
+        percentage of number
+
+# Предельная доля одному Субъекту, коэффициент
+MAX_SUBJECT_SHARE_COEFFICIENT        of number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100 = 0.5
+    where
+        percentage of number
