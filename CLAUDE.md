@@ -48,6 +48,26 @@ other indices are always single-digit.
   start of the line that opened it (root `}` at column 0, `(I, C)` at column 4,
   `J` at 8, `K` at 12, `P` at 16, `R` at 20).
 
+### Leaf line request number comments
+
+Every leaf line (a `Z`-level assignment) must end with a `# NNN` comment that
+gives the request number (the Z index, zero-padded to 3 digits). All `#`
+characters across every leaf line in the structure must appear in the same
+column. Because tuple widths are uniform (due to P/Z padding) but value widths
+vary (2- or 3-digit numbers, with or without a trailing comma), use extra spaces
+before `#` to reach the common column:
+
+```
+(... 11 from Z) = 65,  # 011
+(... 12 from Z) = 65,  # 012
+(... 15 from Z) = 65   # 015
+(... 1  from Z) = 130  # 001
+(... 9  from Z) = 715  # 009
+```
+
+- `65,` and `715` occupy the same width (3 chars), so both take 2 spaces before `#`.
+- `65` (no comma, 2 chars) takes 3 spaces before `#` to reach the same column.
+
 ### Brackets
 
 - The `R`-level wrapper uses curly braces: `... from R) = { ... }`.
@@ -58,8 +78,8 @@ Example:
 ```
 (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
     (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
-        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,
-        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65
+        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65   # 012
     }
 }
 ```
