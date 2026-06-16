@@ -142,7 +142,7 @@ refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_k_l_s.First, contains, refinery_count_by_deficit_requests_single) = {
+requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_k_l_s_deficit, contains, refinery_count_by_deficit_requests_single) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
