@@ -94,7 +94,7 @@ contributes:
 ```
 (1 from I, 1 from J, 1 from K) =  70 +  50                                     = 120,   # 110 + 204
 (1 from I, 1 from J, 4 from K) = 230 + 325 + 325                               = 880,   # 101 + 102 + 108 + 109
-(1 from I, 2 from J, 4 from K) = 520 + 100 + 130 +  70 + 100 +  50 +  15 +  35 = 1020   # 404 + 111 + 205 + 206 + 112 + 113 + 208 + 209
+(1 from I, 2 from J, 4 from K) = 100 + 100 +  50 + 130 +  70 +  15 +  35 + 520 = 1020   # 111 + 112 + 113 + 205 + 206 + 208 + 209 + 404
 (1 from I, 3 from J, 6 from K)                                                 = 250    # 302
 ```
 
@@ -117,6 +117,19 @@ contributes:
   column** as the result `=` of the summed lines: pad between the tuple's `)` and
   the `=` so the value lands under the totals (see `= 250` above). Every `=` that
   introduces a final number therefore shares one column across the whole block.
+
+### Request-number order
+
+- The request numbers listed in the `# NNN ...` comment are always sorted in
+  ascending order (smallest to largest), never in structural or discovery order.
+- Where each summand maps one-to-one to a single request (e.g. `requests_i_j_k`,
+  where every value is a per-participant subtotal), the value summands are
+  reordered together with their request numbers, so the n-th value still sits in
+  the same position as the n-th request number (` 65 + 130 + 195 + 260 + 520 +
+  715` for `201 + 202 + 301 + 401 + 402 + 403`).
+- Where a summand aggregates several requests (e.g. `requests_i_j`, whose values
+  are per-region subtotals), the values keep their structural order and only the
+  comment's request numbers are sorted ascending.
 
 ### `#` alignment
 
