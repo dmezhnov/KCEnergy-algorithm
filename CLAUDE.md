@@ -95,7 +95,7 @@ contributes:
 (1 from I, 1 from J, 1 from K) =  70 +  50                                     = 120,   # 110 + 204
 (1 from I, 1 from J, 4 from K) = 230 + 325 + 325                               = 880,   # 101 + 102 + 108 + 109
 (1 from I, 2 from J, 4 from K) = 520 + 100 + 130 +  70 + 100 +  50 +  15 +  35 = 1020   # 404 + 111 + 205 + 206 + 112 + 113 + 208 + 209
-(1 from I, 3 from J, 6 from K) = 250                                                    # 302
+(1 from I, 3 from J, 6 from K)                                                 = 250    # 302
 ```
 
 ### Operand and operator alignment (`+`)
@@ -112,9 +112,11 @@ contributes:
 - The arithmetic expression is left-padded to the widest expression in the
   block, so the result `=` (the `=` before the final total) lines up in one
   column for every summed line — independently of how many summands a line has.
-- Single-summand leaves (just one contributing request) print only the value,
-  with no `= total` and therefore no result `=`; they are not padded to the
-  result column.
+- Single-summand leaves (just one contributing request) have no sum to show, so
+  they print only the value after a single `=`. That `=` must sit in the **same
+  column** as the result `=` of the summed lines: pad between the tuple's `)` and
+  the `=` so the value lands under the totals (see `= 250` above). Every `=` that
+  introduces a final number therefore shares one column across the whole block.
 
 ### `#` alignment
 
