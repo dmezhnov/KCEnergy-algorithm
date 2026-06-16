@@ -83,3 +83,41 @@ Example:
     }
 }
 ```
+
+## Aggregated Leaf Lines (`sum_by_axes` results)
+
+Leaves produced by summing over an axis (e.g. `requests_i_j_k`,
+`requests_i_j`) show the arithmetic inline: the summed values, then the total,
+then a `# NNN ...` comment listing every original request number that
+contributes:
+
+```
+(1 from I, 1 from J, 1 from K) =  70 +  50                                     = 120,   # 110 + 204
+(1 from I, 1 from J, 4 from K) = 230 + 325 + 325                               = 880,   # 101 + 102 + 108 + 109
+(1 from I, 2 from J, 4 from K) = 520 + 100 + 130 +  70 + 100 +  50 +  15 +  35 = 1020   # 404 + 111 + 205 + 206 + 112 + 113 + 208 + 209
+(1 from I, 3 from J, 6 from K) = 250                                                    # 302
+```
+
+### Operand and operator alignment (`+`)
+
+- Each summand is right-aligned to a fixed field width — the maximum summand
+  width across the whole block (3 chars above: `715`; 4 chars in `requests_i_j`
+  where `1885` appears). This makes every `+` sit in the same column across all
+  leaf lines of the block (so a `+` is always directly under another `+`).
+- Separators are a single `" + "`; the right-alignment supplies the leading
+  space for narrower numbers (` 70` under `715`).
+
+### Result `=` alignment
+
+- The arithmetic expression is left-padded to the widest expression in the
+  block, so the result `=` (the `=` before the final total) lines up in one
+  column for every summed line — independently of how many summands a line has.
+- Single-summand leaves (just one contributing request) print only the value,
+  with no `= total` and therefore no result `=`; they are not padded to the
+  result column.
+
+### `#` alignment
+
+- As elsewhere, all `#` comments line up in one column per block — 2 spaces
+  after the longest leaf line. Contributing request numbers are 3 digits, so the
+  `+` inside the comments also align automatically.
