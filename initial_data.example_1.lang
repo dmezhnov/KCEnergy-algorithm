@@ -587,7 +587,7 @@ Month_and_year = ( # Y
 # 0058 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     10 from Y       - 190
 # 0058 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  ноябрь   2024)
 
-# 0059 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     11 from Y       - 185
+# 0059 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     11 from Y       - 190
 # 0059 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  октябрь  2024)
 
 # 0060 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     12 from Y       - 185
@@ -617,13 +617,13 @@ Month_and_year = ( # Y
 # 0068 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     8 from Y        - 190
 # 0068 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  январь   2025)
 
-# 0069 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     9 from Y        - 170
+# 0069 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     9 from Y        - 180
 # 0069 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  декабрь  2024)
 
-# 0070 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     10 from Y       - 160
+# 0070 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     10 from Y       - 170
 # 0070 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  ноябрь   2024)
 
-# 0071 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     11 from Y       - 150
+# 0071 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     11 from Y       - 160
 # 0071 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  октябрь  2024)
 
 # 0072 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     12 from Y       - 150
@@ -761,7 +761,7 @@ Month_and_year = ( # Y
 # 0116 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     8 from Y        - 20
 # 0116 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  январь   2025)
 
-# 0117 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     9 from Y        - 35
+# 0117 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     9 from Y        - 20
 # 0117 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  декабрь  2024)
 
 # 0118 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     10 from Y       - 35
@@ -889,7 +889,7 @@ volumes_l_t_i_k_k0_i0 = {
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 8  from Y) = 195, # 0056
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 9  from Y) = 190, # 0057
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 10 from Y) = 190, # 0058
-                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 11 from Y) = 185, # 0059
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 11 from Y) = 190, # 0059
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 12 from Y) = 185  # 0060
                     },
                     (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P) = {
@@ -901,9 +901,9 @@ volumes_l_t_i_k_k0_i0 = {
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 6  from Y) = 200, # 0066
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 7  from Y) = 200, # 0067
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 8  from Y) = 190, # 0068
-                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 9  from Y) = 170, # 0069
-                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 10 from Y) = 160, # 0070
-                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 11 from Y) = 150, # 0071
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 9  from Y) = 180, # 0069
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 10 from Y) = 170, # 0070
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 11 from Y) = 160, # 0071
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 12 from Y) = 150  # 0072
                     },
                     (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P) = {
@@ -943,7 +943,7 @@ volumes_l_t_i_k_k0_i0 = {
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 6  from Y) = 25,  # 0114
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 7  from Y) = 20,  # 0115
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 8  from Y) = 20,  # 0116
-                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 9  from Y) = 35,  # 0117
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 9  from Y) = 20,  # 0117
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 10 from Y) = 35,  # 0118
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 11 from Y) = 35,  # 0119
                         (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 12 from Y) = 35   # 0120
