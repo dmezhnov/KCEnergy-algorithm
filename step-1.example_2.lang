@@ -300,8 +300,8 @@ requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant) = {
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = 260 + 520 + 715 +  65 + 130 + 195                   = 1885,  # 401 + 402 + 403 + 201 + 202 + 301
-            (1 from I, 3 from J, 4 from K) = 600,                                                         # 105
-            (1 from I, 3 from J, 6 from K) = 250                                                          # 302
+            (1 from I, 3 from J, 4 from K)                                                       = 600,   # 105
+            (1 from I, 3 from J, 6 from K)                                                       = 250    # 302
         }
     }
 }
@@ -314,7 +314,7 @@ requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant) = {
 requests_i_j = sum_by_axes(requests_i_j_k, Region) = {
     (1 from I) = {
         (1 from I, 1 from J) =  120 +  910 +  880 +  350 = 2260,  # 110 + 204 + 106 + 203 + 101 + 102 + 108 + 109 + 103 + 107
-        (1 from I, 2 from J) = 1030,                              # 104 + 111 + 205 + 206 + 112 + 113 + 207 + 208 + 209
+        (1 from I, 2 from J)                             = 1030,  # 104 + 111 + 205 + 206 + 112 + 113 + 207 + 208 + 209
         (1 from I, 3 from J) = 1885 +  600 +  250        = 2735   # 401 + 402 + 403 + 201 + 202 + 301 + 105 + 302
     }
 }
