@@ -376,7 +376,6 @@ requests_i_j_x_k = sum_by_axes(requests_i_j_x_k_l, Market_participant) = {
         X from index # Индексы нефтебаз
         K from index # Индексы региона
 
-
 requests_i_j_x = sum_by_axes(requests_i_j_x_k, Region) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
@@ -397,3 +396,14 @@ requests_i_j_x = sum_by_axes(requests_i_j_x_k, Region) = {
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         X from index # Индексы нефтебаз
+
+requests_i_j = sum_by_axes(requests_i_j_x, Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 895 + 1365 = 2260, # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
+        (1 from I, 2 from J) = 370 + 650  = 1020, # 111 + 112 + 113 + 205 + 206 + 208 + 209 + 404
+        (1 from I, 3 from J) = 250 + 1885 = 2135  # 201 + 202 + 301 + 302 + 401 + 402 + 403
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
