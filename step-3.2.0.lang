@@ -10,9 +10,11 @@ requests_i_j_x_k_l_s                                       from ("step-1.lang")
 # Матрица дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_x_k_l_s_deficit(i) = {
     (i, j) = {
-        (i, j, s) = {
-            (i, j, s, k) = {
-                (i, j, s, k, l) = requests_i_j_x_k_l_s.First(i, j, s, k, l)
+        (i, j, x) = {
+            (i, j, x, s) = {
+                (i, j, x, s, k) = {
+                    (i, j, x, s, k, l) = requests_i_j_x_k_l_s.First(i, j, x, s, k, l)
+                }
             }
         }
     }
