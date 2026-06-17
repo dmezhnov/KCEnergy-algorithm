@@ -271,7 +271,7 @@ requests_i_j_x = {
                 k  for K  from index # Индексы региона
                 Q         from index # Количество регионов
 
-# Матрица объемов в запросах от всех субъектов ранка, размерами N x M
+
 requests_i_j_x = sum_by_axes(requests_i_j_x_k_l, Region, Market_participant)
 requests_i_j_x = sum_by_axes(requests_i_j_x_k,   Region)
 requests_i_j_x = requests_i_j_x_k(i, j, x, 1) + ... + requests_i_j_x_k(i, j, x, Q)
@@ -294,3 +294,37 @@ requests_i_j_x = requests_i_j_x(1),          ...,  requests_i_j_x(I)
                 l  for P  from index # Индексы субъекта рынка
                 Q         from index # Количество регионов
                 I         from index # Количество нефпродуктов
+
+requests_i_j = {
+    (i) = {
+        (i, j) = requests_i_j_x(i, j, 1) + ... + requests_i_j_x(i, j, X_leng)
+    }
+}
+    where
+        requests_i_j_x(i, j, x) of  number
+        requests_i_j(i, j)      of  number
+        requests_i_j_x  of matrix(Product, Refinery, Terminal)
+        requests_i_j    of matrix(Product, Refinery)
+        requests_i_j(i) of matrix(         Refinery)
+        requests_i_j_x(i, j, 1), ..., requests_i_j_x(i, j, X_leng) => requests_i_j_x(x)
+            where
+                Product, Refinery, Terminal from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                X_leng    from index # Количество нефтебаз
+
+# Матрица объемов в запросах от всех субъектов ранка, размерами N x M
+requests_i_j = sum_by_axes(requests_i_j_x, Terminal)
+    where
+        requests_i_j_x(i, j, x) of  number
+        requests_i_j(i, j)      of  number
+        requests_i_j_x of matrix(Product, Refinery, Terminal)
+        requests_i_j   of matrix(Product, Refinery)
+        requests_i_j_x(i, j, 1), ..., requests_i_j_x(i, j, X_leng) => requests_i_j_x(x)
+            where
+                Product, Refinery, Terminal from axis # Оси агрегатов
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                X_leng    from index # Количество нефтебаз
