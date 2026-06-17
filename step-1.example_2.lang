@@ -412,3 +412,15 @@ requests_i_j_x = sum_by_axes(requests_i_j_x_k, Region) = {
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         X from index # Индексы нефтебаз
+
+requests_i_j_x = sum_by_axes(requests_i_j_x_k, Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 895 + 1365 = 2260, # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
+        (1 from I, 2 from J) = 770 + 260  = 1030, # 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
+        (1 from I, 3 from J) = 850 + 1885 = 2735  # 105 + 201 + 202 + 301 + 302 + 401 + 402 + 403
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        X from index # Индексы нефтебаз
