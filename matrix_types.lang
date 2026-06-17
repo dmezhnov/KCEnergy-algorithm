@@ -12,7 +12,7 @@ Ship_terms = FCA, EXW
 
 Product = AI_92, Diesel
 
-axis = Region, District, Product_category, Product, Refinery, Market_participant, Month_and_year, Queue, Ship_terms, Request
+axis = Region, District, Product_category, Product, Refinery, Terminal, Market_participant, Month_and_year, Queue, Ship_terms, Request
 
 matrix(Tcoords(1), ..., Tcoords(C)) = {
     coords = Tcoords(1), ..., Tcoords(C)
@@ -39,6 +39,9 @@ index of number = {
     J  of number = 1, ..., M                  # Индексы завода (НПЗ)
     M  of number = length(Refinery)           # Количество заводов (последний индекс)
 
+    X  of number = 1, ..., X_leng             # Индексы нефтебазы
+    X_leng  of number = length(Terminal)      # Количество нефтебаз (последний индекс)
+
     K  of number = 1, ..., Q                  # Индексы региона
     Q  of number = length(Region)             # Количество регионов (последний индекс)
 
@@ -64,6 +67,7 @@ index of number = {
 # i  for I  from index
 # i0 for I0 from index
 # j  for J  from index
+# x  for X  from index
 # k  for K  from index
 # k0 for K0 from index
 # l  for P  from index

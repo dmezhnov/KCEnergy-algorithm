@@ -12,6 +12,13 @@ Refinery = ( # J
     PNHZ  # ПНХЗ - 3 from J
 )
 
+Terminal = ( # X
+    NEFTEK,      # АНПЗ NEFTEK Operating                - 1 from X
+    AO_Shimkent, # ПОКП АО "Шымкент Мунай онімдері"     - 2 from X
+    Parnas,      # ПНХЗ ТОО «ТК Парнас»                 - 3 from X
+    Without_term # Без нефтебазы (условие поставки FCA) - 4 from X
+)
+
 Market_participant = ( # P
     Paricipant_A, # А. - 1  from P
     Paricipant_B, # Б. - 2  from P

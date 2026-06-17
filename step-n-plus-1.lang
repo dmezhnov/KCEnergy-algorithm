@@ -82,7 +82,7 @@ requests_i_j_k_l_s_l0_q_final(n) = for_each_pair(requests_i_j_k_l_s_l0_q_final_e
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_l0_q_final_not_exceed(1), ..., requests_i_j_k_l_s_l0_q_final_not_exceed(x))
+requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_l0_q_final_not_exceed(1), ..., requests_i_j_k_l_s_l0_q_final_not_exceed(q))
     where
         requests_i_j_k_l_s_l0_q_final_not_exceed_all(i, j, k, l, l0, s, q) of number
         requests_i_j_k_l_s_l0_q_final_not_exceed(n)(i, j, k, l, l0, s, q)  of number
@@ -90,7 +90,7 @@ requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_
         requests_i_j_k_l_s_l0_q_final_not_exceed(n)     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
             where
                 n  of          index # Индек матрицы
-                x  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
+                q  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
                 Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ

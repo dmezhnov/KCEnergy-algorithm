@@ -54,27 +54,27 @@ available_i_j.Second = filter_by_value(available_i_j_new.First, ">=", MIN_NEXT_A
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-available_i_j_final = available_i_j_new(x)
+available_i_j_final = available_i_j_new(last_n)
     where
         available_i_j_final(i, j)   of number
         available_i_j_new(l0)(i, j) of number
         available_i_j_final   of matrix(Product, Refinery)
         available_i_j_new(l0) of matrix(Product, Refinery)
             where
-                x  of          index = length(available_i_j_new) # Индекс матрицы доступных объемов последней очереди
+                last_n    of   index = length(available_i_j_new) # Индекс матрицы доступных объемов последней очереди
                 l0 for R  from index # Индексы очереди
                 Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(x))
+estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(last_n))
     where
         estimated_i_j_k_l_s_last(l0)(i, l, j, k, s) of number
-        estimated_i_j_k_l_final(i, l, j, k, s)       of number
+        estimated_i_j_k_l_final(i, l, j, k, s)      of number
         estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
         estimated_i_j_k_l_final      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
             where
-                x  of          index = length(estimated_i_j_k_l_s_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
+                last_n  of     index = length(estimated_i_j_k_l_s_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
                 l0 for R  from index # Индексы очереди
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
