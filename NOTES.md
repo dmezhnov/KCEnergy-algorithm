@@ -68,8 +68,8 @@ Purpose: Prepare retail sales (spill) data for moving average calculation.
 **File:** `step-1.lang`
 **Input:** `requests_i_j_x_k_l_s_l0` from step -1
 **Output:** Various aggregation levels:
-- `requests_i_j_k_l_s(l0)` -- filter by queue (l0), removing Queue axis
-- `requests_i_j_k_l_s.First` -- filter specifically for First queue
+- `requests_i_j_x_k_l_s(l0)` -- filter by queue (l0), removing Queue axis
+- `requests_i_j_x_k_l_s.First` -- filter specifically for First queue
 - `requests_i_j_k_l_l0` -- sum by Ship_terms
 - `requests_i_j_x_k_l` -- sum by Ship_terms + Queue
 - `requests_i_j_k` -- sum by Market_participant
@@ -104,9 +104,9 @@ Purpose: Compute per-participant average monthly sales to cap deficit requests.
 ### Step 3.2.0: Split deficit requests by refinery count
 
 **File:** `step-3.2.0.lang`
-**Input:** `requests_i_j_deficit`, `requests_i_j_k_l_s.First`
+**Input:** `requests_i_j_deficit`, `requests_i_j_x_k_l_s.First`
 **Output:**
-- `requests_i_j_k_l_s_deficit` -- deficit requests for first queue
+- `requests_i_j_x_k_l_s_deficit` -- deficit requests for first queue
 - `refinery_count_by_deficit_requests` -- count of deficit refineries per participant
 - `requests_i_j_k_l_s_deficit_single` -- requests to exactly 1 deficit refinery
 - `requests_i_j_k_l_s_deficit_multiple` -- requests to >1 deficit refineries
