@@ -21,7 +21,7 @@ the matching names in the description line.
 - The request number in the comment is the original table number; it equals the
   `Z` index (e.g. `001` -> `1 from Z`).
 
-## `requests_i_j_k_l_s_l0_q` Structure
+## `requests_i_j_x_k_l_s_l0_q` Structure
 
 The nested structure is grouped by `(I, C) -> J -> K -> P -> R -> Z`. Multiple
 requests that share the same `(I, C, J, K, P, R)` path are listed together as

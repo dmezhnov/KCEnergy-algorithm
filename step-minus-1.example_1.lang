@@ -1,5 +1,5 @@
 sum_by_axes             from ("matrix_operation.lang")
-requests_i_j_k_l_s_l0_q from ("initial_data.example_1.lang")
+requests_i_j_x_k_l_s_l0_q from ("initial_data.example_1.lang")
 
 # 101   1 from I,   1 from C,   1 from J,   4 from K,   1 from P,      1 from R - 130
 # 101  (AI_92,      FCA,        PKOP,       Ulytau,     Paricipant_A,  First)
@@ -76,7 +76,7 @@ requests_i_j_k_l_s_l0_q from ("initial_data.example_1.lang")
 # 404   1 from I,   1 from C,   2 from J,   4 from K,   6 from P,      4 from R - 520
 # 404  (AI_92,      FCA,        ANPZ,       Ulytau,     Paricipant_F,  Fourth)
 
-requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_k_l_s_l0_q, Request) = {
+requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
