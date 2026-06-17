@@ -1,230 +1,36 @@
 filter_by_pair, for_each_pair, for_each_element from ("matrix_operation.lang")
-requests_i_j_k_l_s_deficit_single               from ("step-3.2.0.example_1.lang")
+requests_i_j_x_k_l_s_deficit_single             from ("step-3.2.0.example_1.lang")
 moving_average                                  from ("step-3.1.0.example_1.lang")
 
-requests_i_j_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_k_l_s_deficit_single, min, moving_average) = {
-    (1 from I) = {
-        (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) = {
-                (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = min(715, 750)                  = 715 # 106
-                },
-                (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = min(130,  90)                  = 90, # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = min(325, 200)                  = 200 # 108
-                }
-            }
-        },
-        (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = {
-                (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = min(70, 83.333333333333333333) = 70  # 110
-                },
-                (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = min(100,  90)                  = 90, # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = min(325, 200)                  = 200 # 109
-                },
-                (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = min(150, 90)                   = 90, # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = min(200, 100)                  = 100 # 107
-                }
-            },
-            (1 from I, 2 from C, 2 from J) = {
-                (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = min(100, 30)                   = 30, # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = min(100, 20)                   = 20  # 112
-                }
-            }
-        }
-    }
-}
-    where
-        C from index # Индексы условий поставки
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-
-requests_i_j_k_l_deficit_single_corrected = sum_by_axes(requests_i_j_k_l_s_deficit_single_corrected, Ship_terms) = {
+requests_i_j_k_l_deficit_single = sum_by_axes(requests_i_j_x_k_l_s_deficit_single, Ship_terms, Terminal) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P)           = 70  # 110
+                (1 from I, 1 from J, 1 from K, 7  from P)             = 70   # 110
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P)           = 715 # 106
+                (1 from I, 1 from J, 3 from K, 2  from P)             = 715  # 106
             },
             (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 90 + 90 = 180, # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P)           = 200, # 108
-                (1 from I, 1 from J, 4 from K, 13 from P)           = 200  # 109
+                (1 from I, 1 from J, 4 from K, 1  from P) = 130 + 100 = 230, # 101 + 102
+                (1 from I, 1 from J, 4 from K, 12 from P)             = 325, # 108
+                (1 from I, 1 from J, 4 from K, 13 from P)             = 325  # 109
             },
             (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P)           = 90, # 103
-                (1 from I, 1 from J, 5 from K, 3  from P)           = 100 # 107
+                (1 from I, 1 from J, 5 from K, 1  from P)             = 150, # 103
+                (1 from I, 1 from J, 5 from K, 3  from P)             = 200  # 107
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P)           = 30, # 111
-                (1 from I, 2 from J, 4 from K, 18 from P)           = 20  # 112
-            }
-        }
-    }
-}
-    where
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-
-requests_i_j_k_l_s_deficit_single_corrected_share = for_each_pair(requests_i_j_k_l_s_deficit_single_corrected, safe_divide, requests_i_j_k_l_deficit_single_corrected) = {
-    (1 from I) = {
-        (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) = {
-                (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715 / 715 = 1    # 106
-                },
-                (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 90  / 180 = 0.5, # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200 / 200 = 1    # 108
-                }
+                (1 from I, 2 from J, 4 from K, 7  from P)             = 100, # 111
+                (1 from I, 2 from J, 4 from K, 18 from P)             = 100, # 112
+                (1 from I, 2 from J, 4 from K, 19 from P)             = 50   # 113
             }
         },
-        (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = {
-                (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70  / 70  = 1    # 110
-                },
-                (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 90  / 180 = 0.5, # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200 / 200 = 1    # 109
-                },
-                (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90  / 90  = 1  , # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100 / 100 = 1    # 107
-                }
-            },
-            (1 from I, 2 from C, 2 from J) = {
-                (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30  / 30  = 1,   # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 20  / 20  = 1    # 112
-                }
-            }
-        }
     }
 }
     where
-        C from index # Индексы условий поставки
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-
-xxxx!!!!! = for_each_pair(requests_i_j_k_l_s_deficit_single_corrected_share, "*", moving_average) = {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-requests_i_j_k_l_s_deficit_single_pend_temp = for_each_pair(requests_i_j_k_l_s_deficit_single, "-", requests_i_j_k_l_s_deficit_single_corrected) = {
-    (1 from I) = {
-        (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) = {
-                (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715 - 715 = 0   # 106
-                },
-                (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 130 - 90  = 40, # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 325 - 200 = 125 # 108
-                }
-            }
-        },
-        (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = {
-                (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70  - 70  = 0   # 110
-                },
-                (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 100 - 90  = 10, # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 325 - 200 = 125 # 109
-                },
-                (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 150 - 90  = 60, # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 200 - 100 = 100 # 107
-                }
-            },
-            (1 from I, 2 from C, 2 from J) = {
-                (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 100 - 30  = 70, # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 100 - 20  = 80  # 112
-                }
-            }
-        }
-    }
-}
-    where
-        C from index # Индексы условий поставки
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-
-requests_i_j_k_l_s_deficit_single_pend = for_each_element(requests_i_j_k_l_s_deficit_single_pend_temp, "max", 0) = {
-    (1 from I) = {
-        (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) = {
-                (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = max(0,   0) = 0   # 106
-                },
-                (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = max(40,  0) = 40, # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = max(125, 0) = 125 # 108
-                }
-            }
-        },
-        (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = {
-                (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = max(0,   0) = 0   # 110
-                },
-                (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = max(10,  0) = 10, # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = max(125, 0) = 125 # 109
-                },
-                (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = max(60,  0) = 60, # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = max(100, 0) = 100 # 107
-                }
-            },
-            (1 from I, 2 from C, 2 from J) = {
-                (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = max(70,  0) = 70, # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = max(80,  0) = 80  # 112
-                }
-            }
-        }
-    }
-}
-    where
-        C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         K from index # Индексы региона
