@@ -47,7 +47,7 @@ to market participants based on their requests, subject to constraints
 ### Step -1: Aggregate requests by Request axis
 
 **File:** `step-minus-1.lang`
-**Input:** `requests_i_j_k_l_s_l0_q` (7D matrix with Request axis)
+**Input:** `requests_i_j_x_k_l_s_l0_q` (7D matrix with Request axis)
 **Output:** `requests_i_j_k_l_s_l0` (6D matrix, Request axis summed away)
 **Operation:** `sum_by_axes(requests, Request)` -- collapses individual requests into totals per participant.
 
@@ -251,7 +251,7 @@ Purpose: Filter out refineries with insufficient remaining volume, pass rest to 
 ### Step N+1: Distribute results back to individual requests
 
 **File:** `step-n-plus-1.lang`
-**Input:** `estimated_i_j_k_l_final`, `requests_i_j_k_l_s_l0_q` (original with Request axis)
+**Input:** `estimated_i_j_k_l_final`, `requests_i_j_x_k_l_s_l0_q` (original with Request axis)
 **Output:** `requests_i_j_k_l_s_l0_q_final_not_exceed_all` -- final per-request allocations
 **Operations:**
 1. Merge estimated with original request structure

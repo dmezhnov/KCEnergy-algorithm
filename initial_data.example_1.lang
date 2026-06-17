@@ -224,7 +224,7 @@ Queue = ( # R
 # 039   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      22 from P,     2 from R - 35
 # 039  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_Z,  Second)
 
-requests_i_j_k_l_s_l0_q = {
+requests_i_j_x_k_l_s_l0_q = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
             (1 from I, 1 from C, 1 from J, 3 from K) = {
@@ -400,6 +400,7 @@ requests_i_j_k_l_s_l0_q = {
         I  from index # Индексы нефпродукта
         C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
