@@ -1,8 +1,8 @@
 count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
 requests_i_j_deficit                                       from ("step-2.example_2.lang")
-requests_i_j_k_l_s                                         from ("step-1.example_2.lang")
+requests_i_j_x_k_l_s                                         from ("step-1.example_2.lang")
 
-requests_i_j_k_l_s_deficit = filter_by_pair(requests_i_j_k_l_s.First, contains, requests_i_j_deficit) = {
+requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s.First, contains, requests_i_j_deficit) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -47,7 +47,7 @@ requests_i_j_k_l_s_deficit = filter_by_pair(requests_i_j_k_l_s.First, contains, 
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_k_l_s_deficit, Ship_terms) = {
+requests_i_j_x_k_l_deficit = sum_by_axes(requests_i_j_x_k_l_s_deficit, Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
@@ -82,7 +82,7 @@ requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_k_l_s_deficit, Ship_terms) =
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_deficit, Refinery) = {
+refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_x_k_l_deficit, Refinery) = {
     (1 from I) = {
         (1 from I, 1 from K) = {
             (1 from I, 1 from K, 7  from P) = 1  # 110
@@ -147,7 +147,7 @@ refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_k_l_s_deficit, contains, refinery_count_by_deficit_requests_single) = {
+requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_x_k_l_s_deficit, contains, refinery_count_by_deficit_requests_single) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -189,7 +189,7 @@ requests_i_j_k_l_s_deficit_single = filter_by_pair(requests_i_j_k_l_s_deficit, c
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_deficit, contains, refinery_count_by_deficit_requests_multiple) = {
+requests_i_j_k_l_s_deficit_multiple = filter_by_pair(requests_i_j_x_k_l_s_deficit, contains, refinery_count_by_deficit_requests_multiple) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -219,7 +219,7 @@ requests_i_j_k_l_s_deficit_multiple = filter_by_pair(requests_i_j_k_l_s_deficit,
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-requests_i_j_k_l_s_all_multiple = filter_by_pair(requests_i_j_k_l_s.First, contains, refinery_count_by_deficit_requests_multiple) = {
+requests_i_j_k_l_s_all_multiple = filter_by_pair(requests_i_j_x_k_l_s.First, contains, refinery_count_by_deficit_requests_multiple) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {

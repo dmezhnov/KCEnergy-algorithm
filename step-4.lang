@@ -1,18 +1,18 @@
 number, indexOf              from core
 requests_i_j_k_l_s_corrected from ("step-3.3.0.lang")
-requests_i_j_k_l_s           from ("step-1.lang")
+requests_i_j_x_k_l_s           from ("step-1.lang")
 sum_by_axes, assign_matrix   from ("matrix_operation.lang")
 axis, matrix, index          from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-requests_i_j_k_l_s_corrected(l0) = requests_i_j_k_l_s(l0)
+requests_i_j_k_l_s_corrected(l0) = requests_i_j_x_k_l_s(l0)
     where
         l0 > 1 # Если это не первыя очередь
         requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k) of number
-        requests_i_j_k_l_s(l0)(i, j, s, l, k)           of number
+        requests_i_j_x_k_l_s(l0)(i, j, s, l, k)           of number
         requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s(l0)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_x_k_l_s(l0)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 l0 for R  from index # Индексы очереди
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
