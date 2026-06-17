@@ -48,7 +48,7 @@ to market participants based on their requests, subject to constraints
 
 **File:** `step-minus-1.lang`
 **Input:** `requests_i_j_x_k_l_s_l0_q` (7D matrix with Request axis)
-**Output:** `requests_i_j_k_l_s_l0` (6D matrix, Request axis summed away)
+**Output:** `requests_i_j_x_k_l_s_l0` (6D matrix, Request axis summed away)
 **Operation:** `sum_by_axes(requests, Request)` -- collapses individual requests into totals per participant.
 
 ### Step 0: Aggregate spill volumes
@@ -66,12 +66,12 @@ Purpose: Prepare retail sales (spill) data for moving average calculation.
 ### Step 1: Aggregate requests by axes
 
 **File:** `step-1.lang`
-**Input:** `requests_i_j_k_l_s_l0` from step -1
+**Input:** `requests_i_j_x_k_l_s_l0` from step -1
 **Output:** Various aggregation levels:
 - `requests_i_j_k_l_s(l0)` -- filter by queue (l0), removing Queue axis
 - `requests_i_j_k_l_s.First` -- filter specifically for First queue
 - `requests_i_j_k_l_l0` -- sum by Ship_terms
-- `requests_i_j_k_l` -- sum by Ship_terms + Queue
+- `requests_i_j_x_k_l` -- sum by Ship_terms + Queue
 - `requests_i_j_k` -- sum by Market_participant
 - `requests_i_j` -- sum by Region (final: Product x Refinery totals)
 
