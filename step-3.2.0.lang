@@ -71,6 +71,23 @@ requests_i_j_x_k_l_deficit = sum_by_axes(requests_i_j_x_k_l_s_deficit, Ship_term
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условий поставки
 
+requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_x_k_l_deficit, Terminal)
+    where
+        requests_i_j_x_k_l_deficit(i, j, k, l, x) of number
+        requests_i_j_k_l_deficit(i, j, k, l)      of number # Запрашиваемый объем НП
+        requests_i_j_deficit(i, j)                of number
+        requests_i_j_x_k_l_deficit of matrix(Product, Refinery, Region, Market_participant, Terminal)
+        requests_i_j_k_l_deficit   of matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_deficit       of matrix(Product, Refinery)
+        contains from condition
+            where
+                Product, Refinery, Region, Market_participant, Terminal from axis # Оси заявок
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                x  for X  from index # Индексы нефтебаз
+
 # Матрица количества НПЗ в дефицитных запросах (запросы на дефицитный НПЗ) первой очереди
 refinery_count_by_deficit_requests(i) = {
     (i, k) = {
@@ -79,10 +96,10 @@ refinery_count_by_deficit_requests(i) = {
 }
     where
         refinery_count_by_deficit_requests(i, k, l) of number
-        requests_i_j_x_k_l_deficit(i, j, k, l)      of number
-        requests_i_j_x_k_l_deficit         of matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_deficit(i, j, k, l)        of number
+        requests_i_j_k_l_deficit           of matrix(Product, Region, Market_participant, Refinery)
         refinery_count_by_deficit_requests of matrix(Product, Region, Market_participant)
-        requests_i_j_x_k_l_deficit(i, k, l, 1), ..., requests_i_j_x_k_l_deficit(i, k, l, J) => requests_i_j_x_k_l_deficit(j)
+        requests_i_j_k_l_deficit(i, k, l, 1), ..., requests_i_j_k_l_deficit(i, k, l, J) => requests_i_j_k_l_deficit(j)
             where
                 Product, Region, Market_participant, Refinery from axis # Оси заявок
                 i  for I  from index # Индексы нефпродукта
@@ -91,13 +108,13 @@ refinery_count_by_deficit_requests(i) = {
                 j  for J  from index # Индексы НПЗ
                 M         from index # Количество НПЗ
 
-refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_x_k_l_deficit, Refinery)
+refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_deficit, Refinery)
     where
-        requests_i_j_x_k_l_deficit(i, k, l, j)      of number
+        requests_i_j_k_l_deficit(i, k, l, j)        of number
         refinery_count_by_deficit_requests(i, k, l) of number
-        requests_i_j_x_k_l_deficit         of matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_deficit           of matrix(Product, Region, Market_participant, Refinery)
         refinery_count_by_deficit_requests of matrix(Product, Region, Market_participant)
-        requests_i_j_x_k_l_deficit(i, k, l, 1), ..., requests_i_j_x_k_l_deficit(i, k, l, M) => requests_i_j_x_k_l_deficit(j)
+        requests_i_j_k_l_deficit(i, k, l, 1), ..., requests_i_j_k_l_deficit(i, k, l, M) => requests_i_j_k_l_deficit(j)
             where
                 Product, Region, Market_participant, Refinery from axis # Оси заявок
                 i  for I  from index # Индексы нефпродукта
