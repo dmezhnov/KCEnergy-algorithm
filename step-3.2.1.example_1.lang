@@ -1,6 +1,6 @@
-filter_by_pair, for_each_pair, for_each_element from ("matrix_operation.lang")
-requests_i_j_x_k_l_s_deficit_single             from ("step-3.2.0.example_1.lang")
-moving_average                                  from ("step-3.1.0.example_1.lang")
+sum_by_axes, for_each_pair          from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_deficit_single from ("step-3.2.0.example_1.lang")
+moving_average                      from ("step-3.1.0.example_1.lang")
 
 requests_i_j_k_l_deficit_single = sum_by_axes(requests_i_j_x_k_l_s_deficit_single, Ship_terms, Terminal) = {
     (1 from I) = {
