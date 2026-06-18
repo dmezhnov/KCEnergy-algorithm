@@ -116,7 +116,8 @@ requests_i_j_x_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_x_k_l
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 1 from X) = {
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
-                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 1 * 32.5                  = 32.5,                   # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 1 * 30                    = 30,                     # 111
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 1 * 30                    = 30,                     # 112
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 1 * 20                    = 20                      # 113
                     }
                 }
