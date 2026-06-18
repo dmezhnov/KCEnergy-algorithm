@@ -130,47 +130,51 @@ requests_i_j_x_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_x_k_l_s
                 x  for X  from index # Индексы нефтебаз
 
 # Матрица для вычисления выпадающих при корректировке на проливы объемов множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_k_l_s_deficit_multiple_pend_aux(i) = {
+requests_i_j_x_k_l_s_deficit_multiple_pend_aux(i) = {
     (i, k) = {
         (i, k, l) = {
             (i, k, l, s) = {
-                (i, k, l, s, j) = requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j) * moving_average(i, k, l)
+                (i, k, l, s, j) = {
+                    (i, k, l, s, j, x) = requests_i_j_x_k_l_s_deficit_multiple_share(i, k, l, s, j, x) * moving_average(i, k, l)
+                }
             }
         }
     }
 }
     where
-        requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j) of number
-        requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j)    of number
-        moving_average(i, k, l)                                     of number # Скользящее среднее
-        requests_i_j_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average                               of matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j, x) of number
+        requests_i_j_x_k_l_s_deficit_multiple_share(i, k, l, s, j, x)    of number
+        moving_average(i, k, l)                                          of number # Скользящее среднее
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        requests_i_j_x_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        moving_average                                 of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 "*" from operation
-                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
 
-requests_i_j_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_k_l_s_deficit_multiple_share, "*", moving_average)
+requests_i_j_x_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_x_k_l_s_deficit_multiple_share, "*", moving_average)
     where
-        requests_i_j_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j) of number
-        requests_i_j_k_l_s_deficit_multiple_share(i, k, l, s, j)    of number
-        moving_average(i, k, l)                                     of number # Скользящее среднее
-        requests_i_j_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        requests_i_j_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery)
-        moving_average                               of matrix(Product, Region, Market_participant)  # Скользящее среднее
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j, x) of number
+        requests_i_j_x_k_l_s_deficit_multiple_share(i, k, l, s, j, x)    of number
+        moving_average(i, k, l)                                          of number # Скользящее среднее
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        requests_i_j_x_k_l_s_deficit_multiple_share    of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        moving_average                                 of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 "*" from operation
-                Product, Region, Market_participant, Ship_terms, Refinery from axis
+                Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
 
 # Матрица выпадающих при корректировке на проливы объемы множественных (запросы на несколько НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_s_deficit_multiple_pend(i) = {
