@@ -1,0 +1,47 @@
+sum_by_axes, for_each_pair            from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_deficit_multiple from ("step-3.2.0.example_1.lang")
+requests_i_j_x_k_l_s_all_multiple     from ("step-3.2.0.example_1.lang")
+moving_average                        from ("step-3.1.0.example_1.lang")
+
+# В этом примере нет субъектов рынка с несколькими дефицитными НПЗ
+# (refinery_count_by_deficit_requests_multiple пуст), поэтому все матрицы Шага 3.2.2 пусты.
+
+requests_i_j_k_l_s_all_multiple = sum_by_axes(requests_i_j_x_k_l_s_all_multiple, Terminal) = {
+
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_k_l_all_multiple = sum_by_axes(requests_i_j_k_l_s_all_multiple, Refinery, Ship_terms) = {
+
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_j_x_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_x_k_l_s_deficit_multiple, "/", requests_i_k_l_all_multiple) = {
+
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_x_k_l_s_deficit_multiple_share, "*", moving_average) = {
+
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
