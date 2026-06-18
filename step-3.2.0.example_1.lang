@@ -1,5 +1,6 @@
 count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
 requests_i_j_deficit                                       from ("step-2.example_1.lang")
+requests_i_j_surplus                                       from ("step-2.example_1.lang")
 requests_i_j_x_k_l_s                                       from ("step-1.example_1.lang")
 
 requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s.First, contains, requests_i_j_deficit) = {
@@ -44,6 +45,18 @@ requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s.First, contai
             }
         }
     }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+# В первой очереди нет запросов на профицитный НПЗ (J=3), поэтому матрица пуста.
+requests_i_j_x_k_l_s_surplus = filter_by_pair(requests_i_j_x_k_l_s.First, contains, requests_i_j_surplus) = {
+
 }
     where
         C from index # Индексы условий поставки

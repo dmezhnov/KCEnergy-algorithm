@@ -1,5 +1,6 @@
 count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
 requests_i_j_deficit                                       from ("step-2.example_2.lang")
+requests_i_j_surplus                                       from ("step-2.example_2.lang")
 requests_i_j_x_k_l_s                                         from ("step-1.example_2.lang")
 
 requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s.First, contains, requests_i_j_deficit) = {
@@ -40,6 +41,27 @@ requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s.First, contai
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 100, # 111
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 100, # 112
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 50   # 113
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_s_surplus = filter_by_pair(requests_i_j_x_k_l_s.First, contains, requests_i_j_surplus) = {
+    (1 from I) = {
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 3 from X) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = 600  # 105
                     }
                 }
             }
