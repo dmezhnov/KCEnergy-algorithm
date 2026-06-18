@@ -51,7 +51,7 @@ requests_i_j_x_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_x_k_
 
 # Объединённая матрица скорректированных на проливы объёмов по всем запросам первой очереди (вспомогательная, до ограничения объёмом запроса):
 # единичные дефицитные (Шаг 3.2.1, _corrected) + множественные дефицитные (Шаг 3.2.2, _pend_aux, здесь пусто) + профицитные (здесь пусто).
-requests_i_j_x_k_l_s_corrected_all_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_single_corrected, requests_i_j_x_k_l_s_deficit_multiple_pend_aux, requests_i_j_x_k_l_s_surplus) = {
+requests_i_j_x_k_l_s_corrected_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_single_corrected, requests_i_j_x_k_l_s_deficit_multiple_pend_aux, requests_i_j_x_k_l_s_surplus) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -104,7 +104,7 @@ requests_i_j_x_k_l_s_corrected_all_aux = assign_matrix(requests_i_j_x_k_l_s_defi
 # Итоговый скорректированный на проливы объём по всем запросам первой очереди:
 # min(запрос, вспомогательный объём). Меняются только #106 (750 -> 715) и #110 (83,33 -> 70),
 # где запрос меньше; остальные уже не превышали запрос.
-requests_i_j_x_k_l_s_corrected_all = for_each_pair(requests_i_j_x_k_l_s.First, min, requests_i_j_x_k_l_s_corrected_all_aux) = {
+requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, requests_i_j_x_k_l_s_corrected_aux) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
