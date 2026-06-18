@@ -1,9 +1,11 @@
-number                                from core
-operation                             from ("matrix_types.lang")
-sum_by_axes, for_each_pair            from ("matrix_operation.lang")
-requests_i_j_x_k_l_s_deficit_multiple from ("step-3.2.0.lang")
-requests_i_j_x_k_l_s_all_multiple     from ("step-3.2.0.lang")
-moving_average                        from ("step-3.1.0.lang")
+number                                        from core
+operation                                     from ("matrix_types.lang")
+sum_by_axes, for_each_pair, assign_matrix     from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_deficit_multiple         from ("step-3.2.0.lang")
+requests_i_j_x_k_l_s_all_multiple             from ("step-3.2.0.lang")
+requests_i_j_x_k_l_s_surplus                  from ("step-3.2.0.lang")
+requests_i_j_x_k_l_s_deficit_single_corrected from ("step-3.2.1.lang")
+moving_average                                from ("step-3.1.0.lang")
 
 # Матрица суммарных по нефтебазам запросов по ВСЕМ НПЗ (включая профицитные) для субъектов рынка с множественными дефицитными НПЗ
 requests_i_j_k_l_s_all_multiple(i) = {
@@ -168,6 +170,28 @@ requests_i_j_x_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_x_k_
         moving_average                                 of matrix(Product, Region, Market_participant)  # Скользящее среднее
             where
                 "*" from operation
+                Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
+                i  for I  from index # Индексы нефпродукта
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+
+# Объединённая матрица скорректированных на проливы объёмов по всем запросам первой очереди (вспомогательная, до ограничения объёмом запроса):
+# единичные дефицитные (Шаг 3.2.1, _corrected) + множественные дефицитные (Шаг 3.2.2, _pend_aux) + профицитные (полный запрашиваемый объём).
+# Координаты трёх матриц не пересекаются, поэтому это объединение без конфликтов.
+requests_i_j_x_k_l_s_corrected_all_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_single_corrected, requests_i_j_x_k_l_s_deficit_multiple_pend_aux, requests_i_j_x_k_l_s_surplus)
+    where
+        requests_i_j_x_k_l_s_corrected_all_aux(i, k, l, s, j, x)         of number
+        requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)  of number
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux(i, k, l, s, j, x) of number
+        requests_i_j_x_k_l_s_surplus(i, j, x, s, k, l)                   of number
+        requests_i_j_x_k_l_s_corrected_all_aux         of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        requests_i_j_x_k_l_s_deficit_single_corrected  of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        requests_i_j_x_k_l_s_deficit_multiple_pend_aux of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
+        requests_i_j_x_k_l_s_surplus                   of matrix(Product, Refinery, Terminal, Ship_terms, Region, Market_participant)
+            where
                 Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
