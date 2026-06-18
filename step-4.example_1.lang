@@ -1,0 +1,117 @@
+sum_by_axes                    from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_corrected from ("step-3.2.2.example_1.lang")
+
+### Шаг 4. Итоговый суммарный объём Запросов на покупку НП в разрезе видов НП (i) и НПЗ (j)
+# На данном шаге есть данные только для первой очереди: итог считается по
+# скорректированному на проливы объёму (Шаг 3:S, Таблица 68) — случай r°_ijkl.
+# Цепочка свёрток: i_j_k_l_s -> (-Регион) i_j_l_s -> (-Субъект) i_j_s -> (-Усл. поставки) i_j.
+
+# Свёртка по нефтебазам (X). Каждой комбинации (i, j, k, l, s) соответствует одна
+# нефтебаза, поэтому значения совпадают с Таблицей 68.
+requests_i_j_k_l_s_corrected.First = sum_by_axes(requests_i_j_x_k_l_s_corrected, Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715                     # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 50.869565217391304347,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200                     # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70                      # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 39.130434782608695652,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200                     # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90,                     # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100                     # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,                     # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 20                      # 112
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+# Свёртка по регионам (K): объём по (i, j, l, s).
+requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 2  from P)                              = 715,                     # 106
+                (1 from I, 1 from C, 1 from J, 1  from P)                              = 50.869565217391304347,   # 101
+                (1 from I, 1 from C, 1 from J, 12 from P)                              = 200                      # 108
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 7  from P)                              = 70,                      # 110
+                (1 from I, 2 from C, 1 from J, 1  from P) = 39.130434782608695652 + 90 = 129.130434782608695652,  # 102 + 103
+                (1 from I, 2 from C, 1 from J, 13 from P)                              = 200,                     # 109
+                (1 from I, 2 from C, 1 from J, 3  from P)                              = 100                      # 107
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 7  from P)                              = 30,                      # 111
+                (1 from I, 2 from C, 2 from J, 18 from P)                              = 20                       # 112
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+# Свёртка по субъектам рынка (P): объём по (i, j, s).
+requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First, Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = 50.869565217391304347 + 715 + 200       = 965.869565217391304347   # 101 + 106 + 108
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = 129.130434782608695652 + 100 + 70 + 200 = 499.130434782608695652,  # 102 + 103 + 107 + 109 + 110
+            (1 from I, 2 from C, 2 from J) = 30 + 20                                 = 50                       # 111 + 112
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        P from index # Индексы субъекта рынка
+
+# Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
+# ПКОП (J=1): дробные части #101 (20/23) и #102 (3/23) в сумме дают ровно 1,
+# поэтому точный итог равен 1465 (сложение усечённых до 18 знаков слагаемых
+# дало бы 1464.999999999999999999 из-за усечения).
+requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 965.869565217391304347 + 499.130434782608695652 = 1465,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
+        (1 from I, 2 from J)                                                   = 50     # 111 + 112
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
