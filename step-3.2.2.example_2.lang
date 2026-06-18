@@ -1,0 +1,133 @@
+sum_by_axes, for_each_pair            from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_deficit_multiple from ("step-3.2.0.example_2.lang")
+requests_i_j_x_k_l_s_all_multiple     from ("step-3.2.0.example_2.lang")
+moving_average                        from ("step-3.1.0.example_2.lang")
+
+# Субъект рынка P=1 в регионе K=4 имеет несколько дефицитных НПЗ.
+# Запросы #101 и #102 разделяют одну комбинацию ijkl=(1,1,4,1) (различаются условием
+# поставки и нефтебазой) и делятся пропорционально объёмам (130 и 100), аналогично Шагу 3.2.1.
+
+# Суммирование по нефтебазам (Terminal): у каждой комбинации (s, j) одна нефтебаза, объёмы не меняются
+requests_i_j_k_l_s_all_multiple = sum_by_axes(requests_i_j_x_k_l_s_all_multiple, Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1 from P) = 130 # 101
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1 from P) = 100 # 102
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1 from P) = 400 # 104
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1 from P) = 600 # 105
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+# Знаменатель долей: суммирование по НПЗ (Refinery) и условиям поставки (Ship_terms) — r_ikl
+requests_i_k_l_all_multiple = sum_by_axes(requests_i_j_k_l_s_all_multiple, Refinery, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1 from P) = 130 + 100 + 400 + 600 = 1230 # 101 + 102 + 104 + 105
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+# Доли дефицитных запросов: r_ijxkls / r_ikl (#105 — профицитный НПЗ, входит только в знаменатель)
+requests_i_j_x_k_l_s_deficit_multiple_share = for_each_pair(requests_i_j_x_k_l_s_deficit_multiple, "/", requests_i_k_l_all_multiple) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1 from P) = 130 / 1230 = 0.105691056910569105 # 101
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1 from P) = 100 / 1230 = 0.081300813008130081 # 102
+                    }
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1 from P) = 400 / 1230 = 0.325203252032520325 # 104
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+# Выпадающие при корректировке на проливы объёмы: доля * скользящее среднее (moving_average(1,4,1) = 90)
+requests_i_j_x_k_l_s_deficit_multiple_pend_aux = for_each_pair(requests_i_j_x_k_l_s_deficit_multiple_share, "*", moving_average) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1 from P) = 0.105691056910569105 * 90 = 9.512195121951219512  # 101
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1 from P) = 0.081300813008130081 * 90 = 7.317073170731707317  # 102
+                    }
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1 from P) = 0.325203252032520325 * 90 = 29.268292682926829268 # 104
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
