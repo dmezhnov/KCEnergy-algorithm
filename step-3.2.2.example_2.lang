@@ -3,6 +3,7 @@ requests_i_j_x_k_l_s_deficit_multiple         from ("step-3.2.0.example_2.lang")
 requests_i_j_x_k_l_s_all_multiple             from ("step-3.2.0.example_2.lang")
 requests_i_j_x_k_l_s_surplus                  from ("step-3.2.0.example_2.lang")
 requests_i_j_x_k_l_s_deficit_single_corrected from ("step-3.2.1.example_2.lang")
+requests_i_j_x_k_l_s                          from ("step-1.example_2.lang")
 moving_average                                from ("step-3.1.0.example_2.lang")
 
 # Субъект рынка P=1 в регионе K=4 имеет несколько дефицитных НПЗ.
@@ -156,6 +157,68 @@ requests_i_j_x_k_l_s_corrected_all_aux = assign_matrix(requests_i_j_x_k_l_s_defi
                 (1 from I, 2 from C, 1 from J, 2 from X) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 83.333333333333333333  # 110
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 7.317073170731707317,  # 102
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = 200                    # 109
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = 90,                    # 103
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = 100                    # 107
+                    }
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = 29.268292682926829268, # 104
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 30,                    # 111
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 30,                    # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 20                     # 113
+                    }
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 3 from X) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = 600                    # 105
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+# Итоговый скорректированный на проливы объём по всем запросам первой очереди (Таблица 68):
+# min(запрос, вспомогательный объём). Меняются только #106 (750 -> 715) и #110 (83,33 -> 70),
+# где запрос меньше; остальные уже не превышали запрос.
+requests_i_j_x_k_l_s_corrected_all = for_each_pair(requests_i_j_x_k_l_s.First, min, requests_i_j_x_k_l_s_corrected_all_aux) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = 715                    # 106
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = 9.512195121951219512,  # 101
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = 200                    # 108
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 70                     # 110
                     },
                     (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 7.317073170731707317,  # 102
