@@ -1,6 +1,6 @@
 filter_by_pair, for_each_pair, assign_matrix         from ("matrix_operation.lang")
-requests_i_j_corrected, requests_i_j_k_l_s_corrected from ("step-4.example_1.lang")
-available_i_j                                        from ("initial_data.example_1.lang")
+requests_i_j_corrected, requests_i_j_k_l_s_corrected from ("step-4.example_2.lang")
+available_i_j                                        from ("initial_data.example_2.lang")
 
 ### Предварительный расчетный объем НП (для Владельцев АЗС)
 # Если итоговый суммарный объём Запросов на НПЗ превышает доступный объём,
@@ -10,7 +10,7 @@ available_i_j                                        from ("initial_data.example
 # Итоговые объёмы Запросов первой очереди, которые превышают доступный объём.
 requests_i_j_corrected_exceed.First = filter_by_pair(requests_i_j_corrected.First, ">", available_i_j.First) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 1465  # 1200 < 1465 -> 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
+        (1 from I, 1 from J) = 1391.829268292682926829  # 1200 < 1391.829268292682926829 -> 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
     }
 }
     where
@@ -20,7 +20,8 @@ requests_i_j_corrected_exceed.First = filter_by_pair(requests_i_j_corrected.Firs
 # Итоговые объёмы Запросов первой очереди, которые не превышают доступный объём.
 requests_i_j_corrected_not_exceed.First = filter_by_pair(requests_i_j_corrected.First, "<=", available_i_j.First) = {
     (1 from I) = {
-        (1 from I, 2 from J) = 80  # 500 > 80 -> 111 + 112 + 113
+        (1 from I, 2 from J) = 109.268292682926829268,  # 500 > 109.268292682926829268 -> 104 + 111 + 112 + 113
+        (1 from I, 3 from J) = 600                      # 2500 > 600 -> 105
     }
 }
     where
@@ -33,26 +34,26 @@ requests_i_j_k_l_s_corrected_exceed.First = filter_by_pair(requests_i_j_k_l_s_co
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
                 (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715                     # 106
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715                    # 106
                 },
                 (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 50.869565217391304347,  # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200                     # 108
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 9.512195121951219512,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200                    # 108
                 }
             }
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70                      # 110
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70                     # 110
                 },
                 (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 39.130434782608695652,  # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200                     # 109
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 7.317073170731707317,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200                    # 109
                 },
                 (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90,                     # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100                     # 107
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90,                    # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100                    # 107
                 }
             }
         }
@@ -65,15 +66,21 @@ requests_i_j_k_l_s_corrected_exceed.First = filter_by_pair(requests_i_j_k_l_s_co
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-# Скорректированные объёмы субъектов первой очереди без превышения (НПЗ j=2).
+# Скорректированные объёмы субъектов первой очереди без превышения (НПЗ j=2, j=3).
 requests_i_j_k_l_s_corrected_not_exceed.First = filter_by_pair(requests_i_j_k_l_s_corrected.First, contains, requests_i_j_corrected_not_exceed.First) = {
     (1 from I) = {
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,  # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,  # 112
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = 29.268292682926829268,  # 104
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,                     # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,                     # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20                      # 113
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = 600                     # 105
                 }
             }
         }
@@ -89,7 +96,7 @@ requests_i_j_k_l_s_corrected_not_exceed.First = filter_by_pair(requests_i_j_k_l_
 # Доля доступного объёма от запрошенного для превышенных НПЗ первой очереди.
 estimated_i_j_exceed_share.First = for_each_pair(available_i_j.First, safe_divide, requests_i_j_corrected_exceed.First) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 1200 / 1465 = 0.819112627986348122
+        (1 from I, 1 from J) = 1200 / 1391.829268292682926829 = 0.862174713046525891
     }
 }
     where
@@ -102,26 +109,26 @@ estimated_i_j_k_l_s_exceed.First = for_each_pair(requests_i_j_k_l_s_corrected_ex
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
                 (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715 * 0.819112627986348122 = 585.66552901023890723                     # 106
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715 * 0.862174713046525891 = 616.454919828266012065                  # 106
                 },
                 (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 50.869565217391304347 * 0.819112627986348122 = 41.667903249740317509,  # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200 * 0.819112627986348122 = 163.8225255972696244                      # 108
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 9.512195121951219512 * 0.862174713046525891 = 8.201174099710856036,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 200 * 0.862174713046525891 = 172.4349426093051782                    # 108
                 }
             }
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70 * 0.819112627986348122 = 57.33788395904436854                       # 110
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70 * 0.862174713046525891 = 60.35222991325681237                     # 110
                 },
                 (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 39.130434782608695652 * 0.819112627986348122 = 32.052233269031013469,  # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200 * 0.819112627986348122 = 163.8225255972696244                      # 109
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 7.317073170731707317 * 0.862174713046525891 = 6.308595461316043104,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 200 * 0.862174713046525891 = 172.4349426093051782                    # 109
                 },
                 (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90 * 0.819112627986348122 = 73.72013651877133098,                      # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100 * 0.819112627986348122 = 81.9112627986348122                       # 107
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 90 * 0.862174713046525891 = 77.59572417418733019,                    # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 100 * 0.862174713046525891 = 86.2174713046525891                     # 107
                 }
             }
         }
@@ -140,9 +147,15 @@ estimated_i_j_k_l_s_not_exceed.First = requests_i_j_k_l_s_corrected_not_exceed.F
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,  # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,  # 112
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = 29.268292682926829268,  # 104
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,                     # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,                     # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20                      # 113
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = 600                     # 105
                 }
             }
         }
@@ -161,33 +174,39 @@ estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exce
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
                 (1 from I, 1 from C, 1 from J, 3 from K) = {
-                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 585.66552901023890723   # 106
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 616.454919828266012065  # 106
                 },
                 (1 from I, 1 from C, 1 from J, 4 from K) = {
-                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 41.667903249740317509,  # 101
-                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 163.8225255972696244    # 108
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 8.201174099710856036,   # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 172.4349426093051782    # 108
                 }
             }
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 1 from K) = {
-                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 57.33788395904436854    # 110
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 60.35222991325681237    # 110
                 },
                 (1 from I, 2 from C, 1 from J, 4 from K) = {
-                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 32.052233269031013469,  # 102
-                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 163.8225255972696244    # 109
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 6.308595461316043104,   # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 172.4349426093051782    # 109
                 },
                 (1 from I, 2 from C, 1 from J, 5 from K) = {
-                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 73.72013651877133098,   # 103
-                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 81.9112627986348122     # 107
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 77.59572417418733019,   # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 86.2174713046525891     # 107
                 }
             },
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = 29.268292682926829268,  # 104
                     (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,                     # 111
                     (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,                     # 112
                     (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20                      # 113
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = 600                     # 105
                 }
             }
         }
