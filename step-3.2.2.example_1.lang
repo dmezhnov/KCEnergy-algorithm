@@ -70,7 +70,7 @@ requests_i_j_x_k_l_s_corrected_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 2 from X) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
-                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 83.333333333333333333  # 110
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 85                     # 110
                     },
                     (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 39.130434782608695652, # 102
@@ -86,7 +86,8 @@ requests_i_j_x_k_l_s_corrected_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_
                 (1 from I, 2 from C, 2 from J, 1 from X) = {
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 30,                    # 111
-                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 20                     # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 30,                    # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 20                     # 113
                     }
                 }
             }
@@ -102,7 +103,7 @@ requests_i_j_x_k_l_s_corrected_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_
         X from index # Индексы нефтебаз
 
 # Итоговый скорректированный на проливы объём по всем запросам первой очереди:
-# min(запрос, вспомогательный объём). Меняются только #106 (750 -> 715) и #110 (83,33 -> 70),
+# min(запрос, вспомогательный объём). Меняются только #106 (750 -> 715) и #110 (85 -> 70),
 # где запрос меньше; остальные уже не превышали запрос.
 requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, requests_i_j_x_k_l_s_corrected_aux) = {
     (1 from I) = {
@@ -123,7 +124,7 @@ requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, 
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 2 from X) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
-                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = min(70, 83.333333333333333333)  = 70                      # 110
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = min(70, 85)                     = 70                      # 110
                     },
                     (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = min(100, 39.130434782608695652) = 39.130434782608695652,  # 102
@@ -139,7 +140,8 @@ requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, 
                 (1 from I, 2 from C, 2 from J, 1 from X) = {
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = min(100, 30)                    = 30,                     # 111
-                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = min(100, 20)                    = 20                      # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = min(100, 30)                    = 30,                     # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = min(50, 20)                     = 20                      # 113
                     }
                 }
             }
