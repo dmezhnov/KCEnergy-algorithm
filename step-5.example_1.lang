@@ -1,4 +1,4 @@
-filter_by_pair, for_each_pair, assign_matrix       from ("matrix_operation.lang")
+filter_by_pair, for_each_pair, assign_matrix         from ("matrix_operation.lang")
 requests_i_j_corrected, requests_i_j_k_l_s_corrected from ("step-4.example_1.lang")
 available_i_j                                        from ("initial_data.example_1.lang")
 
