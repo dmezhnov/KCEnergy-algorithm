@@ -685,112 +685,112 @@ Month_and_year = ( # Y
 # 0084 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      12 from Y       - 0
 # 0084 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  сентябрь 2024)
 
-# 0085 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     1 from Y        - 20
+# 0085 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     1 from Y        - 50
 # 0085 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  август   2025)
 
-# 0086 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     2 from Y        - 20
+# 0086 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     2 from Y        - 40
 # 0086 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  июль     2025)
 
-# 0087 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     3 from Y        - 20
+# 0087 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     3 from Y        - 30
 # 0087 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  июнь     2025)
 
 # 0088 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     4 from Y        - 20
 # 0088 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  май      2025)
 
-# 0089 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     5 from Y        - 20
+# 0089 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     5 from Y        - 10
 # 0089 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  апрель   2025)
 
-# 0090 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     6 from Y        - 20
+# 0090 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     6 from Y        - 0
 # 0090 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  март     2025)
 
-# 0091 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     7 from Y        - 20
+# 0091 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     7 from Y        - 0
 # 0091 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  февраль  2025)
 
-# 0092 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     8 from Y        - 20
+# 0092 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     8 from Y        - 0
 # 0092 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  январь   2025)
 
-# 0093 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     9 from Y        - 20
+# 0093 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     9 from Y        - 0
 # 0093 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  декабрь  2024)
 
-# 0094 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     10 from Y       - 20
+# 0094 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     10 from Y       - 0
 # 0094 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  ноябрь   2024)
 
-# 0095 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     11 from Y       - 20
+# 0095 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     11 from Y       - 0
 # 0095 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  октябрь  2024)
 
-# 0096 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     12 from Y       - 20
+# 0096 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     12 from Y       - 0
 # 0096 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  сентябрь 2024)
 
-# 0097 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     1 from Y        - 0
+# 0097 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     1 from Y        - 20
 # 0097 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  август   2025)
 
-# 0098 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     2 from Y        - 0
+# 0098 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     2 from Y        - 20
 # 0098 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  июль     2025)
 
-# 0099 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     3 from Y        - 0
+# 0099 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     3 from Y        - 20
 # 0099 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  июнь     2025)
 
-# 0100 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     4 from Y        - 0
+# 0100 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     4 from Y        - 20
 # 0100 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  май      2025)
 
-# 0101 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     5 from Y        - 0
+# 0101 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     5 from Y        - 20
 # 0101 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  апрель   2025)
 
-# 0102 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     6 from Y        - 0
+# 0102 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     6 from Y        - 20
 # 0102 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  март     2025)
 
-# 0103 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     7 from Y        - 0
+# 0103 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     7 from Y        - 20
 # 0103 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  февраль  2025)
 
-# 0104 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     8 from Y        - 0
+# 0104 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     8 from Y        - 20
 # 0104 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  январь   2025)
 
-# 0105 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     9 from Y        - 0
+# 0105 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     9 from Y        - 20
 # 0105 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  декабрь  2024)
 
-# 0106 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     10 from Y       - 0
+# 0106 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     10 from Y       - 20
 # 0106 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  ноябрь   2024)
 
-# 0107 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     11 from Y       - 0
+# 0107 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     11 from Y       - 20
 # 0107 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  октябрь  2024)
 
-# 0108 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     12 from Y       - 0
+# 0108 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     12 from Y       - 20
 # 0108 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  сентябрь 2024)
 
-# 0109 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     1 from Y        - 40
+# 0109 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     1 from Y        - 0
 # 0109 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  август   2025)
 
-# 0110 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     2 from Y        - 40
+# 0110 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     2 from Y        - 0
 # 0110 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  июль     2025)
 
-# 0111 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     3 from Y        - 40
+# 0111 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     3 from Y        - 0
 # 0111 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  июнь     2025)
 
-# 0112 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     4 from Y        - 25
+# 0112 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     4 from Y        - 0
 # 0112 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  май      2025)
 
-# 0113 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     5 from Y        - 25
+# 0113 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     5 from Y        - 0
 # 0113 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  апрель   2025)
 
-# 0114 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     6 from Y        - 25
+# 0114 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     6 from Y        - 0
 # 0114 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  март     2025)
 
-# 0115 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     7 from Y        - 20
+# 0115 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     7 from Y        - 0
 # 0115 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  февраль  2025)
 
-# 0116 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     8 from Y        - 20
+# 0116 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     8 from Y        - 0
 # 0116 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  январь   2025)
 
-# 0117 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     9 from Y        - 20
+# 0117 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     9 from Y        - 0
 # 0117 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  декабрь  2024)
 
-# 0118 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     10 from Y       - 35
+# 0118 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     10 from Y       - 0
 # 0118 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  ноябрь   2024)
 
-# 0119 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     11 from Y       - 35
+# 0119 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     11 from Y       - 0
 # 0119 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  октябрь  2024)
 
-# 0120 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     12 from Y       - 35
+# 0120 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     12 from Y       - 0
 # 0120 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  сентябрь 2024)
 
 # 0121 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      1 from Y        - 100
