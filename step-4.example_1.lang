@@ -38,7 +38,8 @@ requests_i_j_k_l_s_corrected.First = sum_by_axes(requests_i_j_x_k_l_s_corrected,
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 30,                     # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 20                      # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 30,                     # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 20                      # 113
                 }
             }
         }
@@ -71,7 +72,8 @@ requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.Firs
             },
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 7  from P)                              = 30,                      # 111
-                (1 from I, 2 from C, 2 from J, 18 from P)                              = 20                       # 112
+                (1 from I, 2 from C, 2 from J, 18 from P)                              = 30,                      # 112
+                (1 from I, 2 from C, 2 from J, 19 from P)                              = 20                       # 113
             }
         }
     }
@@ -91,7 +93,7 @@ requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First, M
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = 129.130434782608695652 + 100 + 70 + 200 = 499.130434782608695652,  # 102 + 103 + 107 + 109 + 110
-            (1 from I, 2 from C, 2 from J) = 30 + 20                                 = 50                       # 111 + 112
+            (1 from I, 2 from C, 2 from J) = 30 + 30 + 20                            = 80                       # 111 + 112 + 113
         }
     }
 }
@@ -108,7 +110,7 @@ requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First, M
 requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) = 965.869565217391304347 + 499.130434782608695652 = 1465,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
-        (1 from I, 2 from J)                                                   = 50     # 111 + 112
+        (1 from I, 2 from J)                                                   = 80     # 111 + 112 + 113
     }
 }
     where
