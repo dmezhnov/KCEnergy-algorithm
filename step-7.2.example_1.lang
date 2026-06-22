@@ -20,11 +20,43 @@ normalized_i_j_threshold.First(1 from n) = for_each_element(normalized_i_j.First
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-# Субъекты рынка, чья доля превышает предел (s̈_ijl > δ × Ṡ_ij).
-# Ни один объём не превышает свой предел, поэтому фильтр пуст:
-# (1, 1) порог 625: P2 = 585, P12 = 195, P1 = 170, P13 = 165, P3 = 80, P7 = 55 — все <= 625;
-# (1, 2) порог  40: P7 = 30, P18 = 30, P19 = 20 — все <= 40.
-normalized_i_j_l_increased.First(1 from n) = filter_by_pair(normalized_i_j_l.First(1 from n), ">", normalized_i_j_threshold.First(1 from n)) = {}
+# Количество Субъектов рынка на каждом НПЗ (для проверки на монополию).
+normalized_i_j_subject_count.First(1 from n) = count_coordinates_by_axis(normalized_i_j_l.First(1 from n), Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 6,
+        (1 from I, 2 from J) = 3
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        P  from index # Индексы субъекта рынка
+
+# Оба НПЗ имеют более одного субъекта, поэтому проверка применяется к обоим.
+normalized_i_j_subject_multiple.First(1 from n) = filter_by_value(normalized_i_j_subject_count.First(1 from n), "!=", 1) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 6,
+        (1 from I, 2 from J) = 3
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+# Субъекты, чья доля достигает/превышает предел (s̈_ijl >= δ × Ṡ_ij). Ни один не достигает:
+# (1, 1) порог 625: P2 = 585, P12 = 195, P1 = 170, P13 = 165, P3 = 80, P7 = 55 — все < 625;
+# (1, 2) порог  40: P7 = 30, P18 = 30, P19 = 20 — все < 40.
+normalized_i_j_l_over_threshold.First(1 from n) = filter_by_pair(normalized_i_j_l.First(1 from n), ">=", normalized_i_j_threshold.First(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        P  from index # Индексы субъекта рынка
+
+# Оба НПЗ многосубъектные, но множество превысивших пусто — корректировать нечего.
+normalized_i_j_l_increased.First(1 from n) = filter_by_pair(normalized_i_j_l_over_threshold.First(1 from n), contains, normalized_i_j_subject_multiple.First(1 from n)) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта

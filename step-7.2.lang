@@ -1,13 +1,14 @@
 MAX_SUBJECT_SHARE_COEFFICIENT                   from ("initial_data.lang")
 normalized_i_j_k_l_s                            from ("step-6.lang")
 normalized_i_j_l, normalized_i_j                from ("step-7.1.lang")
-for_each_element, filter_by_pair, for_each_pair from ("matrix_operation.lang")
+for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis, filter_by_value from ("matrix_operation.lang")
 condition, axis, index                          from ("matrix_types.lang")
 
 #### Уточненный нормированный объем НП
 # Сравниваем долю субъекта с предельной долей и, при необходимости,
 # применяем понижающий коэффициент к его объёмам; затем переходим к повторному
-# нормированию (Шаг 6).
+# нормированию (Шаг 6). Если все Запросы с НПЗ подал единственный Субъект рынка,
+# правило Шага 7 не соблюдается — такой НПЗ исключается из проверки.
 
 normalized_i_j_threshold(l0)(n) = for_each_element(normalized_i_j(l0)(n), "*", MAX_SUBJECT_SHARE_COEFFICIENT)
     where
@@ -38,15 +39,13 @@ normalized_i_j_threshold.First(n) = for_each_element(normalized_i_j.First(n), "*
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
 
-normalized_i_j_l_increased(l0)(n) = filter_by_pair(normalized_i_j_l(l0)(n), ">", normalized_i_j_threshold(l0)(n))
+# Количество Субъектов рынка на каждом НПЗ (для проверки на монополию).
+normalized_i_j_subject_count(l0)(n) = count_coordinates_by_axis(normalized_i_j_l(l0)(n), Market_participant)
     where
-        normalized_i_j_l_increased(l0)(n)(i, j, l) of number
-        normalized_i_j_l(l0)(n)(i, j, l)           of number
-        normalized_i_j_threshold(l0)(n)(i, j)      of number
-        normalized_i_j_l_increased(l0)(n) of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_l(l0)(n)           of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_threshold(l0)(n)   of matrix(Product, Refinery)
-        ">" from condition
+        normalized_i_j_l(l0)(n)(i, j, l)          of number
+        normalized_i_j_subject_count(l0)(n)(i, j) of number
+        normalized_i_j_l(l0)(n)             of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_subject_count(l0)(n) of matrix(Product, Refinery)
             where
                 l0 for R from index # Индексы очереди
                 n  of         index # Индекс матрицы
@@ -55,15 +54,111 @@ normalized_i_j_l_increased(l0)(n) = filter_by_pair(normalized_i_j_l(l0)(n), ">",
                 j  for J from index # Индексы НПЗ
                 l  for P from index # Индексы субъекта рынка
 
-normalized_i_j_l_increased.First(n) = filter_by_pair(normalized_i_j_l.First(n), ">", normalized_i_j_threshold.First(n))
+normalized_i_j_subject_count.First(n) = count_coordinates_by_axis(normalized_i_j_l.First(n), Market_participant)
     where
-        normalized_i_j_l_increased.First(n)(i, j, l) of number
-        normalized_i_j_l.First(n)(i, j, l)           of number
-        normalized_i_j_threshold.First(n)(i, j)      of number
-        normalized_i_j_l_increased.First(n) of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_l.First(n)           of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_threshold.First(n)   of matrix(Product, Refinery)
-        ">" from condition
+        normalized_i_j_l.First(n)(i, j, l)          of number
+        normalized_i_j_subject_count.First(n)(i, j) of number
+        normalized_i_j_l.First(n)             of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_subject_count.First(n) of matrix(Product, Refinery)
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery, Market_participant from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+                l  for P from index # Индексы субъекта рынка
+
+# НПЗ с несколькими Субъектами рынка; монопольные НПЗ (один субъект) исключаются,
+# т.к. для них правило Шага 7 не соблюдается.
+normalized_i_j_subject_multiple(l0)(n) = filter_by_value(normalized_i_j_subject_count(l0)(n), "!=", 1)
+    where
+        normalized_i_j_subject_multiple(l0)(n)(i, j) of number
+        normalized_i_j_subject_count(l0)(n)(i, j)    of number
+        normalized_i_j_subject_multiple(l0)(n) of matrix(Product, Refinery)
+        normalized_i_j_subject_count(l0)(n)    of matrix(Product, Refinery)
+        "!=" from condition
+            where
+                l0 for R from index # Индексы очереди
+                n  of         index # Индекс матрицы
+                Product, Refinery from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+
+normalized_i_j_subject_multiple.First(n) = filter_by_value(normalized_i_j_subject_count.First(n), "!=", 1)
+    where
+        normalized_i_j_subject_multiple.First(n)(i, j) of number
+        normalized_i_j_subject_count.First(n)(i, j)    of number
+        normalized_i_j_subject_multiple.First(n) of matrix(Product, Refinery)
+        normalized_i_j_subject_count.First(n)    of matrix(Product, Refinery)
+        "!=" from condition
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+
+# Субъекты, чья доля достигает или превышает предел (s̈_ijl >= δ × Ṡ_ij):
+# нарушение строгого неравенства s̈_ijl < δ × Ṡ_ij из Шага 7.2.
+normalized_i_j_l_over_threshold(l0)(n) = filter_by_pair(normalized_i_j_l(l0)(n), ">=", normalized_i_j_threshold(l0)(n))
+    where
+        normalized_i_j_l_over_threshold(l0)(n)(i, j, l) of number
+        normalized_i_j_l(l0)(n)(i, j, l)                of number
+        normalized_i_j_threshold(l0)(n)(i, j)           of number
+        normalized_i_j_l_over_threshold(l0)(n) of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_l(l0)(n)                of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_threshold(l0)(n)        of matrix(Product, Refinery)
+        ">=" from condition
+            where
+                l0 for R from index # Индексы очереди
+                n  of         index # Индекс матрицы
+                Product, Refinery, Market_participant from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+                l  for P from index # Индексы субъекта рынка
+
+normalized_i_j_l_over_threshold.First(n) = filter_by_pair(normalized_i_j_l.First(n), ">=", normalized_i_j_threshold.First(n))
+    where
+        normalized_i_j_l_over_threshold.First(n)(i, j, l) of number
+        normalized_i_j_l.First(n)(i, j, l)                of number
+        normalized_i_j_threshold.First(n)(i, j)           of number
+        normalized_i_j_l_over_threshold.First(n) of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_l.First(n)                of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_threshold.First(n)        of matrix(Product, Refinery)
+        ">=" from condition
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery, Market_participant from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+                l  for P from index # Индексы субъекта рынка
+
+# Из превысивших оставляем только НПЗ с несколькими субъектами (монопольные НПЗ
+# исключены фильтром по normalized_i_j_subject_multiple).
+normalized_i_j_l_increased(l0)(n) = filter_by_pair(normalized_i_j_l_over_threshold(l0)(n), contains, normalized_i_j_subject_multiple(l0)(n))
+    where
+        normalized_i_j_l_increased(l0)(n)(i, j, l)      of number
+        normalized_i_j_l_over_threshold(l0)(n)(i, j, l) of number
+        normalized_i_j_subject_multiple(l0)(n)(i, j)    of number
+        normalized_i_j_l_increased(l0)(n)      of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_l_over_threshold(l0)(n) of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_subject_multiple(l0)(n) of matrix(Product, Refinery)
+        contains from condition
+            where
+                l0 for R from index # Индексы очереди
+                n  of         index # Индекс матрицы
+                Product, Refinery, Market_participant from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+                l  for P from index # Индексы субъекта рынка
+
+normalized_i_j_l_increased.First(n) = filter_by_pair(normalized_i_j_l_over_threshold.First(n), contains, normalized_i_j_subject_multiple.First(n))
+    where
+        normalized_i_j_l_increased.First(n)(i, j, l)      of number
+        normalized_i_j_l_over_threshold.First(n)(i, j, l) of number
+        normalized_i_j_subject_multiple.First(n)(i, j)    of number
+        normalized_i_j_l_increased.First(n)      of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_l_over_threshold.First(n) of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_subject_multiple.First(n) of matrix(Product, Refinery)
+        contains from condition
             where
                 n  of         index # Индекс матрицы
                 Product, Refinery, Market_participant from axis
