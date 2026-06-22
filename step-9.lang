@@ -1,7 +1,7 @@
 available_i_j_new, estimated_i_j_k_l_s_last     from ("step-8.lang")
-requests_i_j_k_l_s_corrected                    from ("step-4.lang")
+requests_i_j_x_k_l_s                            from ("step-1.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
-filter_by_value, for_each_pair                  from ("matrix_operation.lang")
+filter_by_value, for_each_pair, sum_by_axes     from ("matrix_operation.lang")
 condition, operation, matrix, index, axis       from ("matrix_types.lang")
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
@@ -57,17 +57,36 @@ available_i_j.Second = filter_by_value(available_i_j_new.First, ">", MIN_NEXT_AV
 
 ### Шаг 9a. Дополнительные («виртуальные») Запросы для второй очереди распределения
 # Виртуальный объём — арифметическая разность между изначально запрашиваемым объёмом
-# и нормированным объёмом, предоставленным в первой очереди (Шаги 3–7):
-# r̃_ijkl = r_ijkl − s̈_ijkl. Дополнительные Запросы участвуют только во II очереди
-# распределения Доступных объёмов НП.
-requests_i_j_k_l_s_virtual.Second = for_each_pair(requests_i_j_k_l_s_corrected.First, "-", estimated_i_j_k_l_s_last.First)
+# (исходный, нескорректированный Запрос первой очереди) и нормированным объёмом,
+# предоставленным в первой очереди (Шаги 3–7): r̃_ijkl = r_ijkl − s̈_ijkl.
+# Дополнительные Запросы участвуют только во II очереди распределения Доступных объёмов НП.
+
+# Изначально запрашиваемый объём первой очереди в разрезе (i, j, k, l, s):
+# свёртка исходных Запросов по нефтебазам (каждой комбинации соответствует одна нефтебаза).
+requests_i_j_k_l_s.First = sum_by_axes(requests_i_j_x_k_l_s.First, Terminal)
     where
-        requests_i_j_k_l_s_corrected.First(i, j, s, l, k) of number
-        estimated_i_j_k_l_s_last.First(i, j, s, l, k)     of number
-        requests_i_j_k_l_s_virtual.Second(i, j, s, l, k)  of number
-        requests_i_j_k_l_s_corrected.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j_k_l_s_last.First     of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual.Second  of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_x_k_l_s.First(i, j, x, k, l, s) of number
+        requests_i_j_k_l_s.First(i, j, s, l, k)      of number
+        requests_i_j_x_k_l_s.First of matrix(Product, Refinery, Terminal, Region, Market_participant, Ship_terms)
+        requests_i_j_k_l_s.First   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Ship_terms from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условия поставки
+
+# r̃_ijkl = r_ijkl − s̈_ijkl
+requests_i_j_k_l_s_virtual.Second = for_each_pair(requests_i_j_k_l_s.First, "-", estimated_i_j_k_l_s_last.First)
+    where
+        requests_i_j_k_l_s.First(i, j, s, l, k)          of number
+        estimated_i_j_k_l_s_last.First(i, j, s, l, k)    of number
+        requests_i_j_k_l_s_virtual.Second(i, j, s, l, k) of number
+        requests_i_j_k_l_s.First          of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j_k_l_s_last.First    of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual.Second of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         "-" from operation
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
