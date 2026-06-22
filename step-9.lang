@@ -1,7 +1,8 @@
 available_i_j_new, estimated_i_j_k_l_s_last     from ("step-8.lang")
+requests_i_j_k_l_s_corrected                    from ("step-4.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
-filter_by_value                                 from ("matrix_operation.lang")
-condition, matrix, index, axis                  from ("matrix_types.lang")
+filter_by_value, for_each_pair                  from ("matrix_operation.lang")
+condition, operation, matrix, index, axis       from ("matrix_types.lang")
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
 # Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
@@ -26,7 +27,7 @@ MIN_NEXT_AVAIL_TONNAGE(l0) = RAIL_ROAD_MIN_TONNAGE
                 l0 for R  from index # Индексы очереди
 
 # Доступные объемы для следующей очереди
-available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), ">=", MIN_NEXT_AVAIL_TONNAGE(l0))
+available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), ">", MIN_NEXT_AVAIL_TONNAGE(l0))
     where
         available_i_j_new(l0)(i, j)   of number
         MIN_NEXT_AVAIL_TONNAGE(l0)    of number
@@ -41,18 +42,40 @@ available_i_j(l0 + 1) = filter_by_value(available_i_j_new(l0), ">=", MIN_NEXT_AV
                 j  for J  from index # Индексы НПЗ
 
 # Доступные объемы для второй очереди (обслуживания запросов Владельцев нефтебаз и (или) резервуаров)
-available_i_j.Second = filter_by_value(available_i_j_new.First, ">=", MIN_NEXT_AVAIL_TONNAGE(1))
+available_i_j.Second = filter_by_value(available_i_j_new.First, ">", MIN_NEXT_AVAIL_TONNAGE(1))
     where
         available_i_j_new.First(i, j) of number
         MIN_NEXT_AVAIL_TONNAGE.First  of number
         available_i_j.Second(i, j)    of number
         available_i_j_new.First of matrix(Product, Refinery)
         available_i_j.Second    of matrix(Product, Refinery)
-        ">=" from condition
+        ">" from condition
             where
                 Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
+
+### Шаг 9a. Дополнительные («виртуальные») Запросы для второй очереди распределения
+# Виртуальный объём — арифметическая разность между изначально запрашиваемым объёмом
+# и нормированным объёмом, предоставленным в первой очереди (Шаги 3–7):
+# r̃_ijkl = r_ijkl − s̈_ijkl. Дополнительные Запросы участвуют только во II очереди
+# распределения Доступных объёмов НП.
+requests_i_j_k_l_s_virtual.Second = for_each_pair(requests_i_j_k_l_s_corrected.First, "-", estimated_i_j_k_l_s_last.First)
+    where
+        requests_i_j_k_l_s_corrected.First(i, j, s, l, k) of number
+        estimated_i_j_k_l_s_last.First(i, j, s, l, k)     of number
+        requests_i_j_k_l_s_virtual.Second(i, j, s, l, k)  of number
+        requests_i_j_k_l_s_corrected.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j_k_l_s_last.First     of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual.Second  of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        "-" from operation
+            where
+                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
 
 available_i_j_final = available_i_j_new(last_n)
     where
