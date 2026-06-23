@@ -1,5 +1,6 @@
 filter_by_value, for_each_pair, sum_by_axes from ("matrix_operation.lang")
-available_i_j_new, estimated_i_j_k_l_s_last  from ("step-8.example_2.lang")
+available_i_j_new                            from ("step-11.example_2.lang")
+estimated_i_j_k_l_s_last                     from ("step-8.example_2.lang")
 requests_i_j_x_k_l_s                         from ("step-1.example_2.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.example_2.lang")
 
@@ -19,6 +20,24 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
     (1 from I) = {
         (1 from I, 2 from J) =  390, #  390 > 4
         (1 from I, 3 from J) = 1900  # 1900 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+### Шаг 12. Тот же гейт при l0 = 2 (переход к III очереди — ГМК)
+# Остаток после распределения Владельцам нефтебаз/резервуаров v3 = available_i_j_new(2 from R)
+# = { -45, -20, 1705 } (Шаг 11). Норма та же: min(4, 65) = 4.
+# ПКОП (J=1, -45) и АНПЗ (J=2, -20) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 13.
+
+MIN_NEXT_AVAIL_TONNAGE(2 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_NEXT_AVAIL_TONNAGE(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1705  # 1705 > 4
     }
 }
     where
