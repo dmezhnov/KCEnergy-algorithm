@@ -11,6 +11,7 @@ operation                  from ("matrix_types.lang")
 # Последняя матрица предварительных расчетных объемов НП l0-й очереди
 estimated_i_j_k_l_s_last(l0) = estimated_i_j_k_l_s(l0)(last_n)
     where
+        l0 > 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
         estimated_i_j_k_l_s_last(l0)(i, l, j, k, s)    of number
         estimated_i_j_k_l_s(l0)(last_n)(i, l, j, k, s) of number
         estimated_i_j_k_l_s(l0)      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
@@ -43,6 +44,7 @@ estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(last_n)
 
 estimated_i_j_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Market_participant, Ship_terms)
     where
+        l0 > 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
         estimated_i_j_k_l_s_last(l0)(i, j, s, l, k) of number
         estimated_i_j_last(l0)(i, j)                of number
         estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
@@ -73,6 +75,7 @@ estimated_i_j_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region, M
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП l0-й очереди
 available_i_j_new_only(l0) = for_each_pair(available_i_j(l0), "-", estimated_i_j_last(l0))
     where
+        l0 > 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
         available_i_j_new_only(l0)(i, j) of number
         available_i_j(l0)(i, j)          of number
         estimated_i_j_last(l0)(i, j)     of number
@@ -88,6 +91,7 @@ available_i_j_new_only(l0) = for_each_pair(available_i_j(l0), "-", estimated_i_j
 
 available_i_j_new(l0) = assign_matrix(available_i_j(l0), available_i_j_new_only(l0))
     where
+        l0 > 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
         available_i_j_new(l0)(i, j)      of number
         available_i_j(l0)(i, j)          of number
         available_i_j_new_only(l0)(i, j) of number
