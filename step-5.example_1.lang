@@ -202,10 +202,10 @@ estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exce
         P from index # Индексы субъекта рынка
         n of   index # Индекс матрицы
 
-### Шаг 5 для II очереди: предварительный расчётный объём по виртуальным Запросам (.Second).
-# Дефицита нет: единственный обслуживаемый НПЗ — АНПЗ (J=2), 170 <= 420. ПКОП (J=1, 765)
-# не имеет встречной ячейки available_i_j.Second и выпадает из обоих фильтров. ПНХЗ (J=3,
-# 2500 доступно) Запросов II очереди не имеет. Поэтому ветка «превышение» пуста.
+### Шаг 5 для II очереди: предварительный расчётный объём (.Second).
+# Дефицита нет: оба обслуживаемых НПЗ удовлетворяются полностью — АНПЗ (J=2): 420 <= 420,
+# ПНХЗ (J=3): 195 <= 2500. ПКОП (J=1, 1010) не имеет встречной ячейки available_i_j.Second и
+# выпадает из обоих фильтров. Поэтому ветка «превышение» пуста.
 
 # Объёмы Запросов II очереди, превышающие доступный объём, — пусто (дефицита нет).
 requests_i_j_corrected_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, ">", available_i_j.Second) = {}
@@ -213,10 +213,11 @@ requests_i_j_corrected_exceed.Second = filter_by_pair(requests_i_j_corrected.Sec
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
 
-# Объёмы Запросов II очереди, не превышающие доступный объём (АНПЗ, J=2).
+# Объёмы Запросов II очереди, не превышающие доступный объём (АНПЗ J=2, ПНХЗ J=3).
 requests_i_j_corrected_not_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, "<=", available_i_j.Second) = {
     (1 from I) = {
-        (1 from I, 2 from J) = 170  # 420 > 170 -> 111 + 112 + 113
+        (1 from I, 2 from J) = 420,  # 420 = 420 -> 111 + 112 + 113 + 205 + 206 + 208 + 209
+        (1 from I, 3 from J) = 195   # 195 < 2500 -> 201 + 202
     }
 }
     where
@@ -232,15 +233,31 @@ requests_i_j_k_l_s_corrected_exceed.Second = filter_by_pair(requests_i_j_k_l_s_c
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-# Скорректированные объёмы субъектов II очереди без превышения (АНПЗ, J=2).
+# Скорректированные объёмы субъектов II очереди без превышения (АНПЗ J=2, ПНХЗ J=3).
 requests_i_j_k_l_s_corrected_not_exceed.Second = filter_by_pair(requests_i_j_k_l_s_corrected.Second, contains, requests_i_j_corrected_not_exceed.Second) = {
     (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = 130   # 205
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = 130   # 202
+                }
+            }
+        },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,  # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,  # 112
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,   # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,   # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30,   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = 35    # 209
                 }
             }
         }
@@ -268,15 +285,31 @@ estimated_i_j_k_l_s_exceed.Second = for_each_pair(requests_i_j_k_l_s_corrected_e
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
 
-# Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (АНПЗ, J=2).
+# Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (АНПЗ J=2, ПНХЗ J=3).
 estimated_i_j_k_l_s_not_exceed.Second = requests_i_j_k_l_s_corrected_not_exceed.Second = {
     (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = 130   # 205
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = 130   # 202
+                }
+            }
+        },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,  # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,  # 112
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,   # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,   # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30,   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = 35    # 209
                 }
             }
         }
@@ -292,12 +325,28 @@ estimated_i_j_k_l_s_not_exceed.Second = requests_i_j_k_l_s_corrected_not_exceed.
 # 1-я матрица предварительных расчётных объёмов НП II очереди.
 estimated_i_j_k_l_s.Second(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed.Second, estimated_i_j_k_l_s_exceed.Second) = {
     (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = 130   # 205
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = 130   # 202
+                }
+            }
+        },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 4 from K) = {
-                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,  # 111
-                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,  # 112
-                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,   # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,   # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30,   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = 35    # 209
                 }
             }
         }
