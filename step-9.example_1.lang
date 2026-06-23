@@ -43,6 +43,24 @@ available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
+### Шаг 15. Тот же гейт при l0 = 3 (переход к IV очереди — иные Субъекты рынка)
+# Остаток после распределения Субъектам рынка из состава ГМК v4 = available_i_j_new(3 from R)
+# = { -50, 0, 1860 } (Шаг 14). Норма та же: min(4, 65) = 4.
+# ПКОП (J=1, -50) и АНПЗ (J=2, 0) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 16.
+
+MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+available_i_j(4 from R) = filter_by_value(available_i_j_new(3 from R), ">", MIN_NEXT_AVAIL_TONNAGE(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1860  # 1860 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
 ### Шаг 9a. Дополнительные («виртуальные») Запросы для второй очереди распределения
 # r̃_ijkl = r_ijkl − s̈_ijkl: изначально запрашиваемый объём первой очереди минус
 # нормированный объём, предоставленный в первой очереди (Шаги 3–7).

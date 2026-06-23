@@ -294,3 +294,89 @@ requests_i_j_corrected(3 from R) = sum_by_axes(requests_i_j_s_corrected(3 from R
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         R from index # Индексы очереди
+
+### Шаг 16 для IV очереди (иные Субъекты рынка): свёртки исходных Запросов R=4 ((4 from R)).
+# Generic-форма Шага 4 (guard l0 > 2) строит вход IV очереди прямо из исходных Запросов R=4:
+# виртуальных Запросов в IV очереди нет. Запросы иных Субъектов рынка: на ПНХЗ (J=3) — #401
+# (260, FCA, K=2, P=4), #402 (520, FCA, K=2, P=5), #403 (715, FCA, K=2, P=6); на АНПЗ (J=2) —
+# #404 (520, FCA, K=4, P=6). АНПЗ выбыл гейтом Шага 15 (v4=0), но в свёртках Шага 4 ещё участвует.
+
+# Свёртка по нефтебазам (X): объём по (i, j, k, l, s).
+requests_i_j_k_l_s_corrected(4 from R) = sum_by_axes(requests_i_j_x_k_l_s(4 from R), Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = 520   # 404
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = 260,  # 401
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = 520,  # 402
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = 715   # 403
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+        R from index # Индексы очереди
+
+# Свёртка по регионам (K): объём по (i, j, l, s).
+requests_i_j_l_s_corrected(4 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(4 from R), Region) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 6  from P) = 520   # 404
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 4  from P) = 260,  # 401
+                (1 from I, 1 from C, 3 from J, 5  from P) = 520,  # 402
+                (1 from I, 1 from C, 3 from J, 6  from P) = 715   # 403
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Свёртка по субъектам рынка (P): объём по (i, j, s).
+requests_i_j_s_corrected(4 from R) = sum_by_axes(requests_i_j_l_s_corrected(4 from R), Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 2 from J)                   = 520,  # 404
+            (1 from I, 1 from C, 3 from J) = 260 + 520 + 715 = 1495  # 401 + 402 + 403
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
+requests_i_j_corrected(4 from R) = sum_by_axes(requests_i_j_s_corrected(4 from R), Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 2 from J)                   = 520,  # 404
+        (1 from I, 3 from J) = 260 + 520 + 715 = 1495  # 401 + 402 + 403
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
