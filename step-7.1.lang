@@ -10,7 +10,7 @@ sum_by_axes          from ("matrix_operation.lang")
 # предоставленных каждому Субъекту рынка с каждого НПЗ
 normalized_i_j_l(l0)(n) = sum_by_axes(normalized_i_j_k_l_s(l0)(n), Region, Ship_terms)
     where
-        l0 != 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
+        l0 == 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
         normalized_i_j_k_l_s(l0)(n)(i, l, s, j, k) of number
         normalized_i_j_l(l0)(n)(i, j, l)           of number
         normalized_i_j_k_l_s(l0)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
@@ -45,7 +45,7 @@ normalized_i_j_l(1 from R)(n) = sum_by_axes(normalized_i_j_k_l_s(1 from R)(n), R
 # предоставленных всем Субъектам рынка с каждого НПЗ
 normalized_i_j(l0)(n) = sum_by_axes(normalized_i_j_l(l0)(n), Market_participant)
     where
-        l0 != 2 # Виртуальная II очередь распределяется только в Шагах 4-6 (step-10.lang); Шаги 7-8 к ней не применяются
+        l0 == 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
         normalized_i_j_l(l0)(n)(i, j, l) of number
         normalized_i_j(l0)(n)(i, j)      of number
         normalized_i_j_l(l0)(n) of matrix(Product, Refinery, Market_participant)
