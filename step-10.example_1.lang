@@ -1,0 +1,152 @@
+for_each_pair, for_each_element from ("matrix_operation.lang")
+requests_i_j_k_l_s_virtual      from ("step-9.example_1.lang")
+estimated_i_j_k_l_s_last        from ("step-8.example_1.lang")
+normalized_i_j_k_l_s            from ("step-6.example_1.lang")
+
+### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров — II очередь (пример 1)
+# Вход II очереди — «виртуальные» Запросы r̃ Шага 9a (без коррекции на проливы; ось нефтебаз
+# уже свёрнута). Дальше generic-формы Шагов 4-6 строят .Second-свёртки, estimated и normalized.
+# Доступные объёмы II очереди есть только у АНПЗ (J=2: 420) и ПНХЗ (J=3: 2500); ПКОП (J=1)
+# выбыл (остаток -50, Шаг 9). Поэтому Запросы ПКОП во II очереди не обслуживаются: в Шаге 5 они
+# выпадают из filter_by_pair, т.к. встречной ячейки available_i_j.Second для J=1 нет.
+
+### Обвязка входа II очереди (аналог входа Шага 4): r°_ijkl(.Second) = r̃_ijkl (Шаг 9a).
+requests_i_j_k_l_s_corrected.Second = requests_i_j_k_l_s_virtual.Second = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 130   # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 65,   # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 130   # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 15    # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 70,   # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 160   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 75,   # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 120   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,   # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,   # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30    # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+### Шаг 10a. Суммарное распределение по очередям I, II (s⃛ = s̈ + ẗ)
+# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last.First, Шаги 3-7)
+# плюс объём II очереди по виртуальному Запросу (ẗ = normalized_i_j_k_l_s.Second(1), Шаги 4-6).
+# Объём II очереди получили только #111, #112, #113 (АНПЗ, J=2); остальные ячейки удержали
+# объём I очереди (встречной ячейки .Second нет, прибавляется 0).
+estimated_i_j_k_l_s_total = for_each_pair(estimated_i_j_k_l_s_last.First, "+", normalized_i_j_k_l_s.Second(1)) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2  from P)           = 585   # 106
+                },
+                (1 from C, 1 from I, 1 from J, 4 from K) = {
+                    (1 from C, 1 from I, 1 from J, 4 from K, 1  from P)           = 65,   # 101
+                    (1 from C, 1 from I, 1 from J, 4 from K, 12 from P)           = 195   # 108
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 7  from P)           = 55    # 110
+                },
+                (2 from C, 1 from I, 1 from J, 4 from K) = {
+                    (2 from C, 1 from I, 1 from J, 4 from K, 1  from P)           = 30,   # 102
+                    (2 from C, 1 from I, 1 from J, 4 from K, 13 from P)           = 165   # 109
+                },
+                (2 from C, 1 from I, 1 from J, 5 from K) = {
+                    (2 from C, 1 from I, 1 from J, 5 from K, 1  from P)           = 75,   # 103
+                    (2 from C, 1 from I, 1 from J, 5 from K, 3  from P)           = 80    # 107
+                }
+            },
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 4 from K) = {
+                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 30 + 70 = 100,  # 111
+                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 30 + 70 = 100,  # 112
+                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 20 + 30 = 50    # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Виртуальные Запросы после II очереди элиминируются (ẗ_request <- r̃ × 0 = 0) и далее не используются.
+requests_i_j_k_l_s_virtual_final.Second = for_each_element(requests_i_j_k_l_s_corrected.Second, "*", 0) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 0   # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 0,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 0   # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 0   # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 0,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 0   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 0,  # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 0   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 0,  # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 0,  # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 0   # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка

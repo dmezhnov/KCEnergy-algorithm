@@ -1,5 +1,6 @@
 sum_by_axes                    from ("matrix_operation.lang")
 requests_i_j_x_k_l_s_corrected from ("step-3.2.2.example_1.lang")
+requests_i_j_k_l_s_corrected   from ("step-10.example_1.lang")
 
 ### Шаг 4. Итоговый суммарный объём Запросов на покупку НП в разрезе видов НП (i) и НПЗ (j)
 # На данном шаге есть данные только для первой очереди: итог считается по
@@ -111,6 +112,73 @@ requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_
     (1 from I) = {
         (1 from I, 1 from J) = 965.869565217391304347 + 499.130434782608695652 = 1465,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
         (1 from I, 2 from J)                                                   = 80     # 111 + 112 + 113
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+
+### Шаг 4 для II очереди: те же свёртки на виртуальных Запросах r̃ (.Second).
+# Вход — requests_i_j_k_l_s_corrected.Second (= r̃ Шага 9a, step-10.example_1.lang). Коррекции
+# на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует в
+# свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j.Second).
+
+# Свёртка по регионам (K): объём по (i, j, l, s).
+requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Second, Region) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 2  from P)           = 130,  # 106
+                (1 from I, 1 from C, 1 from J, 1  from P)           = 65,   # 101
+                (1 from I, 1 from C, 1 from J, 12 from P)           = 130   # 108
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 7  from P)           = 15,   # 110
+                (1 from I, 2 from C, 1 from J, 1  from P) = 70 + 75 = 145,  # 102 + 103
+                (1 from I, 2 from C, 1 from J, 13 from P)           = 160,  # 109
+                (1 from I, 2 from C, 1 from J, 3  from P)           = 120   # 107
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 7  from P)           = 70,   # 111
+                (1 from I, 2 from C, 2 from J, 18 from P)           = 70,   # 112
+                (1 from I, 2 from C, 2 from J, 19 from P)           = 30    # 113
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+# Свёртка по субъектам рынка (P): объём по (i, j, s).
+requests_i_j_s_corrected.Second = sum_by_axes(requests_i_j_l_s_corrected.Second, Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) =  65 + 130 + 130       = 325   # 101 + 106 + 108
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = 145 + 120 +  15 + 160 = 440,  # 102 + 103 + 107 + 109 + 110
+            (1 from I, 2 from C, 2 from J) =  70 +  70 +  30       = 170   # 111 + 112 + 113
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        P from index # Индексы субъекта рынка
+
+# Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
+requests_i_j_corrected.Second = sum_by_axes(requests_i_j_s_corrected.Second, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 325 + 440 = 765,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
+        (1 from I, 2 from J)             = 170    # 111 + 112 + 113
     }
 }
     where
