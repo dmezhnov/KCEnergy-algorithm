@@ -328,3 +328,172 @@ normalized_i_j_k_l_s.First(1 from n) = {
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+
+### Шаг 6 для II очереди: нормирование предварительных объёмов .Second (n = 1).
+# Все обслуживаемые во II очереди Запросы — Владельцы нефтебаз АНПЗ (J=2, поставка EXW),
+# поэтому ветка НПЗ (FCA) пуста, а нормируется только ветка нефтебаз. Объёмы уже кратны
+# шагу вывоза (5 МТ) и не ниже минимальной нормы (4 МТ), поэтому остаются без изменений.
+
+# Предварительные расчётные объёмы II очереди, для поставки с НПЗ, — пусто (нет FCA).
+estimated_i_j_k_l_fca.Second(1 from n) = filter_by_coordinate(estimated_i_j_k_l_s.Second(1 from n), FCA) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Коэффициенты для нормирования объёмов с НПЗ — пусто.
+estimated_i_j_k_l_fca_coeff.Second(1 from n) = for_each_element(estimated_i_j_k_l_fca.Second(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Округлённые коэффициенты с НПЗ — пусто.
+estimated_i_j_k_l_fca_coeff_rounded.Second(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff.Second(1 from n), round, 0) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Нормированные кратные объёмы с НПЗ — пусто.
+estimated_i_j_k_l_fca_rounded.Second(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded.Second(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Нормированные объёмы НП II очереди, для поставки с НПЗ, — пусто.
+normalized_i_j_k_l_fca.Second(1 from n) = for_each_element(estimated_i_j_k_l_fca_rounded.Second(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Предварительные расчётные объёмы II очереди, для поставки с нефтебаз (АНПЗ, J=2).
+estimated_i_j_k_l_exw.Second(1 from n) = filter_by_coordinate(estimated_i_j_k_l_s.Second(1 from n), EXW) = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 7  from P) = 70,  # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = 70,  # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = 30   # 113
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Коэффициенты для нормирования объёмов с нефтебаз: делим на шаг вывоза.
+estimated_i_j_k_l_exw_coeff.Second(1 from n) = for_each_element(estimated_i_j_k_l_exw.Second(1 from n), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 7  from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6    # 113
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Округляем коэффициенты до целого по мат. правилам (n = 1).
+estimated_i_j_k_l_exw_coeff_rounded.Second(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff.Second(1 from n), round, 0) = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 7  from P) = round(14) = 14,  # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = round(14) = 14,  # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = round(6) = 6     # 113
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Нормированные кратные объёмы с нефтебаз: умножаем коэффициенты на шаг вывоза.
+estimated_i_j_k_l_exw_rounded.Second(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded.Second(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 7  from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30     # 113
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Нормированные объёмы НП II очереди, для поставки с нефтебаз: не ниже минимальной нормы.
+normalized_i_j_k_l_exw.Second(1 from n) = for_each_element(estimated_i_j_k_l_exw_rounded.Second(1 from n), max, MIN_EXW_TONNAGE(1 from n)) = {
+    (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 7  from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = max(30, OIL_TERMINAL_MIN_TONNAGE) = max(30, 4) = 30   # 113
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Нормированные объёмы НП II очереди (матрица II очереди): ветка FCA пуста, есть только нефтебазы.
+normalized_i_j_k_l_s.Second(1 from n)(1 from C) = normalized_i_j_k_l_fca.Second(1 from n)
+normalized_i_j_k_l_s.Second(1 from n)(2 from C) = normalized_i_j_k_l_exw.Second(1 from n)
+normalized_i_j_k_l_s.Second(1 from n) = {
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 4 from K) = {
+                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 70,  # 111
+                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 70,  # 112
+                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 30   # 113
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
