@@ -550,3 +550,124 @@ estimated_i_j_k_l_s(3 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_
         P from index # Индексы субъекта рынка
         n of   index # Индекс матрицы
         R from index # Индексы очереди
+
+### Шаг 16 для IV очереди (иные Субъекты рынка): предварительный расчётный объём ((4 from R)).
+# Дефицит: ПНХЗ (J=3) — спрос 1495 > доступного 1260 (Шаг 15). Запросы #401, #402, #403 попадают
+# в ветку «превышение» и распределяются пропорционально доле доступного объёма (1260 / 1495 =
+# 0.842809364548494983). Других НПЗ в IV очереди нет — гейт Шага 15 пропустил только ПНХЗ.
+
+# Объёмы Запросов IV очереди, превышающие доступный объём (ПНХЗ J=3).
+requests_i_j_corrected_exceed(4 from R) = filter_by_pair(requests_i_j_corrected(4 from R), ">", available_i_j(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1495  # 1495 > 1260 -> 401 + 402 + 403
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Объёмы Запросов IV очереди, не превышающие доступный объём, — пусто (дефицит).
+requests_i_j_corrected_not_exceed(4 from R) = filter_by_pair(requests_i_j_corrected(4 from R), "<=", available_i_j(4 from R)) = {}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Скорректированные объёмы субъектов IV очереди в превышении (ПНХЗ J=3).
+requests_i_j_k_l_s_corrected_exceed(4 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(4 from R), contains, requests_i_j_corrected_exceed(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = 260,  # 401
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = 520,  # 402
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = 715   # 403
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Скорректированные объёмы субъектов IV очереди без превышения — пусто (дефицит).
+requests_i_j_k_l_s_corrected_not_exceed(4 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(4 from R), contains, requests_i_j_corrected_not_exceed(4 from R)) = {}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Доля доступного объёма от запрошенного для превышенных НПЗ IV очереди (ПНХЗ J=3).
+estimated_i_j_exceed_share(4 from R) = for_each_pair(available_i_j(4 from R), safe_divide, requests_i_j_corrected_exceed(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1260 / 1495 = 0.842809364548494983
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Предварительный объём НП для превышенных НПЗ IV очереди: Запрос * доля (ПНХЗ J=3).
+estimated_i_j_k_l_s_exceed(4 from R) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(4 from R), "*", estimated_i_j_exceed_share(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = 260 * 0.842809364548494983 = 219.13043478260869558,   # 401
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = 520 * 0.842809364548494983 = 438.26086956521739116,   # 402
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = 715 * 0.842809364548494983 = 602.608695652173912845  # 403
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Предварительный объём НП для НПЗ без превышения — пусто (дефицит).
+estimated_i_j_k_l_s_not_exceed(4 from R) = requests_i_j_k_l_s_corrected_not_exceed(4 from R) = {}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# 1-я матрица предварительных расчётных объёмов НП IV очереди.
+estimated_i_j_k_l_s(4 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(4 from R), estimated_i_j_k_l_s_exceed(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = 219.13043478260869558,   # 401
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = 438.26086956521739116,   # 402
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = 602.608695652173912845  # 403
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        n of   index # Индекс матрицы
+        R from index # Индексы очереди
