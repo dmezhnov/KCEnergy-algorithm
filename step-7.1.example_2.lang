@@ -9,7 +9,7 @@ sum_by_axes          from ("matrix_operation.lang")
 
 # Суммарный нормированный объём НП каждому Субъекту рынка с каждого НПЗ (s_ijl):
 # свёртка по региону (K) и условию поставки (C), объём по (i, j, l).
-normalized_i_j_l.First(1 from n) = sum_by_axes(normalized_i_j_k_l_s.First(1 from n), Region, Ship_terms) = {
+normalized_i_j_l(1 from R)(1 from n) = sum_by_axes(normalized_i_j_k_l_s(1 from R)(1 from n), Region, Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 2  from P)                = 585,  # 106
@@ -40,7 +40,7 @@ normalized_i_j_l.First(1 from n) = sum_by_axes(normalized_i_j_k_l_s.First(1 from
 
 # Суммарный нормированный объём НП всем Субъектам рынка с каждого НПЗ (итог по НПЗ, S_ij):
 # доп. свёртка по Субъекту рынка (P), объём по (i, j).
-normalized_i_j.First(1 from n) = sum_by_axes(normalized_i_j_l.First(1 from n), Market_participant) = {
+normalized_i_j(1 from R)(1 from n) = sum_by_axes(normalized_i_j_l(1 from R)(1 from n), Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from J) = 585 + 150 + 195 +  60 + 170 +  85 = 1245,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
         (1 from I, 2 from J) =              30 +  30 +  30 +  20 = 110,   # 104 + 111 + 112 + 113

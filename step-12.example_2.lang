@@ -1,0 +1,24 @@
+filter_by_value                                 from ("matrix_operation.lang")
+available_i_j_new                               from ("step-11.example_2.lang")
+OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.example_2.lang")
+
+### Шаг 12. Оставшиеся объёмы позволяют удовлетворить Запросы ГМК? (пример 2)
+# Остаток второй очереди v3 = available_i_j_new(2 from R) = { -45, -20, 1705 }.
+# Минимальная норма для третьей очереди: min(OIL_TERMINAL_MIN_TONNAGE = 4,
+# RAIL_ROAD_MIN_TONNAGE = 65) = 4.
+
+MIN_NEXT_AVAIL_TONNAGE(2 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+# Доступные объёмы для третьей очереди (ГМК): остаток строго больше нормы (v3 > 4).
+# ПКОП (J=1, -45) и АНПЗ (J=2, -20) выбывают: остаток не превышает норму.
+# ПНХЗ (J=3) сохраняет остаток 1705 — Система переходит к Шагу 13.
+available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_NEXT_AVAIL_TONNAGE(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1705  # 1705 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ

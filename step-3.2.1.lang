@@ -24,12 +24,14 @@ requests_i_j_k_l_deficit_single = sum_by_axes(requests_i_j_x_k_l_s_deficit_singl
                 x  for X  from index # Индексы нефтебаз
 
 # Матрица долей одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_x_k_l_s_deficit_single_share(i) = {
-    (i, k) = {
-        (i, k, l) = {
-            (i, k, l, s) = {
-                (i, k, l, s, j) = {
-                    (i, k, l, s, j, x) = requests_i_j_x_k_l_s_deficit_single(i, k, l, s, j, x) / requests_i_j_k_l_deficit_single(i, k, l, j)
+requests_i_j_x_k_l_s_deficit_single_share = {
+    (i) = {
+        (i, k) = {
+            (i, k, l) = {
+                (i, k, l, s) = {
+                    (i, k, l, s, j) = {
+                        (i, k, l, s, j, x) = requests_i_j_x_k_l_s_deficit_single(i, k, l, s, j, x) / requests_i_j_k_l_deficit_single(i, k, l, j)
+                    }
                 }
             }
         }
@@ -71,12 +73,14 @@ requests_i_j_x_k_l_s_deficit_single_share = for_each_pair(requests_i_j_x_k_l_s_d
                 x  for X  from index # Индексы нефтебаз
 
 # Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_x_k_l_s_deficit_single_corrected(i) = {
-    (i, k) = {
-        (i, k, l) = {
-            (i, k, l, s) = {
-                (i, k, l, s, j) = {
-                    (i, k, l, s, j, x) = requests_i_j_x_k_l_s_deficit_single_share(i, k, l, s, j, x) * moving_average(i, k, l)
+requests_i_j_x_k_l_s_deficit_single_corrected = {
+    (i) = {
+        (i, k) = {
+            (i, k, l) = {
+                (i, k, l, s) = {
+                    (i, k, l, s, j) = {
+                        (i, k, l, s, j, x) = requests_i_j_x_k_l_s_deficit_single_share(i, k, l, s, j, x) * moving_average(i, k, l)
+                    }
                 }
             }
         }

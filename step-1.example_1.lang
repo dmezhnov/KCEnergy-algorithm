@@ -1,8 +1,8 @@
 sum_by_axes, filter_by_coordinate from ("matrix_operation.lang")
 requests_i_j_x_k_l_s_l0             from ("step-minus-1.example_1.lang")
 
-requests_i_j_x_k_l_s(l0) = filter_by_coordinate(requests_i_j_x_k_l_s_l0, l0)
-requests_i_j_x_k_l_s(1 from R) = {
+requests_i_j_x_k_l_s(l0 for  R) = filter_by_coordinate(requests_i_j_x_k_l_s_l0, l0)
+requests_i_j_x_k_l_s(1  from R) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {

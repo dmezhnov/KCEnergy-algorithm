@@ -16,17 +16,17 @@ axis, index, matrix, operation                             from ("matrix_types.l
 # Вход II очереди = исходные Запросы 2-й очереди (R=2) ОБЪЕДИНЁННЫЕ с виртуальными Запросами
 # r̃ Шага 9a. Виртуальные Запросы обрабатываются так же, как обычные Запросы 2-й очереди, и
 # распределяются вместе с ними. Коррекции на проливы во II очереди нет, ось нефтебаз (Terminal)
-# сворачивается. Это .Second-определение заменяет обобщённый вход Шага 4 (его guard сужен до
+# сворачивается. Это (2 from R)-определение заменяет обобщённый вход Шага 4 (его guard сужен до
 # l0 > 2, поэтому коллизии для l0 = 2 нет); дальше generic-формы Шагов 5-6 сами строят
 # estimated/normalized для II очереди.
 
-# Исходные Запросы 2-й очереди в разрезе (i, j, k, l, s): свёртка по нефтебазам (аналог .First в Шаге 9a).
-requests_i_j_k_l_s.Second = sum_by_axes(requests_i_j_x_k_l_s.Second, Terminal)
+# Исходные Запросы 2-й очереди в разрезе (i, j, k, l, s): свёртка по нефтебазам (аналог (1 from R) в Шаге 9a).
+requests_i_j_k_l_s(2 from R) = sum_by_axes(requests_i_j_x_k_l_s(2 from R), Terminal)
     where
-        requests_i_j_x_k_l_s.Second(i, j, x, k, l, s) of number
-        requests_i_j_k_l_s.Second(i, j, s, l, k)      of number
-        requests_i_j_x_k_l_s.Second of matrix(Product, Refinery, Terminal, Region, Market_participant, Ship_terms)
-        requests_i_j_k_l_s.Second   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_x_k_l_s(2 from R)(i, j, x, k, l, s) of number
+        requests_i_j_k_l_s(2 from R)(i, j, s, l, k)      of number
+        requests_i_j_x_k_l_s(2 from R) of matrix(Product, Refinery, Terminal, Region, Market_participant, Ship_terms)
+        requests_i_j_k_l_s(2 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 Product, Refinery, Terminal, Region, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
@@ -40,14 +40,14 @@ requests_i_j_k_l_s.Second = sum_by_axes(requests_i_j_x_k_l_s.Second, Terminal)
 # Множества Субъектов рынка двух матриц не пересекаются (очередь назначается per-Субъект по
 # факту подачи сведений о розничных продажах), поэтому assign_matrix объединяет их однозначно,
 # без потери ячеек и без коллизий координат.
-requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, requests_i_j_k_l_s_virtual.Second)
+requests_i_j_k_l_s_corrected(2 from R) = assign_matrix(requests_i_j_k_l_s(2 from R), requests_i_j_k_l_s_virtual(2 from R))
     where
-        requests_i_j_k_l_s.Second(i, j, s, l, k)           of number
-        requests_i_j_k_l_s_virtual.Second(i, j, s, l, k)   of number
-        requests_i_j_k_l_s_corrected.Second(i, j, s, l, k) of number
-        requests_i_j_k_l_s.Second           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual.Second   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_corrected.Second of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s(2 from R)(i, j, s, l, k)           of number
+        requests_i_j_k_l_s_virtual(2 from R)(i, j, s, l, k)   of number
+        requests_i_j_k_l_s_corrected(2 from R)(i, j, s, l, k) of number
+        requests_i_j_k_l_s(2 from R)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual(2 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_corrected(2 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
@@ -57,8 +57,8 @@ requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, r
                 k  for K  from index # Индексы региона
 
 ### Шаг 10a. Суммарное распределение по очередям I, II (s⃛ = s̈ + ẗ)
-# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last.First, Шаги 3-7)
-# плюс объём II очереди по виртуальному Запросу (ẗ = normalized_i_j_k_l_s.Second(1), Шаги 4-6).
+# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last(1 from R), Шаги 3-7)
+# плюс объём II очереди по виртуальному Запросу (ẗ = normalized_i_j_k_l_s(2 from R)(1), Шаги 4-6).
 # Это объединение-со-сложением по ОБЪЕДИНЕНИЮ координат:
 #   - ячейки только I очереди (s̈, без II)              -> s̈;
 #   - ячейки только II очереди (Запросы R=2, без I)     -> ẗ;
@@ -66,13 +66,13 @@ requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, r
 # for_each_pair(s̈, "+", ẗ) ведётся по координатам ЛЕВОГО операнда (s̈): покрывает «только I» и
 # «общие», но теряет «только II». Чтобы вернуть «только II», накрываем сумму на ẗ через
 # assign_matrix — суммы перекрывают исходные ẗ, а уникальные для II очереди ячейки ẗ остаются.
-estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s.Second(1), for_each_pair(estimated_i_j_k_l_s_last.First, "+", normalized_i_j_k_l_s.Second(1)))
+estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s(2 from R)(1), for_each_pair(estimated_i_j_k_l_s_last(1 from R), "+", normalized_i_j_k_l_s(2 from R)(1)))
     where
-        estimated_i_j_k_l_s_last.First(i, j, k, l, s)  of number
-        normalized_i_j_k_l_s.Second(1)(i, j, k, l, s)  of number
+        estimated_i_j_k_l_s_last(1 from R)(i, j, k, l, s)  of number
+        normalized_i_j_k_l_s(2 from R)(1)(i, j, k, l, s)  of number
         estimated_i_j_k_l_s_total(i, j, k, l, s)       of number
-        estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        normalized_i_j_k_l_s.Second(1) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s_last(1 from R) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        normalized_i_j_k_l_s(2 from R)(1) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         estimated_i_j_k_l_s_total      of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         "+" from operation
             where
@@ -87,12 +87,12 @@ estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s.Second(1), for_ea
 # Виртуальные Запросы после II очереди элиминируются (ẗ_request <- 0) и далее не используются.
 # Зануляются ИМЕННО виртуальные Запросы Шага 9a, а не объединённый вход: исходные Запросы R=2
 # реальны, их остаток обрабатывается штатным механизмом следующих очередей.
-requests_i_j_k_l_s_virtual_final.Second = for_each_element(requests_i_j_k_l_s_virtual.Second, "*", 0)
+requests_i_j_k_l_s_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_s_virtual(2 from R), "*", 0)
     where
-        requests_i_j_k_l_s_virtual.Second(i, j, s, l, k)       of number
-        requests_i_j_k_l_s_virtual_final.Second(i, j, s, l, k) of number
-        requests_i_j_k_l_s_virtual.Second       of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual_final.Second of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual(2 from R)(i, j, s, l, k)       of number
+        requests_i_j_k_l_s_virtual_final(2 from R)(i, j, s, l, k) of number
+        requests_i_j_k_l_s_virtual(2 from R)       of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual_final(2 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         "*" from operation
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis

@@ -105,7 +105,7 @@ requests_i_j_x_k_l_s_corrected_aux = assign_matrix(requests_i_j_x_k_l_s_deficit_
 # Итоговый скорректированный на проливы объём по всем запросам первой очереди:
 # min(запрос, вспомогательный объём). Меняются только #106 (750 -> 715) и #110 (85 -> 70),
 # где запрос меньше; остальные уже не превышали запрос.
-requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, requests_i_j_x_k_l_s_corrected_aux) = {
+requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s(1 from R), min, requests_i_j_x_k_l_s_corrected_aux) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -155,3 +155,4 @@ requests_i_j_x_k_l_s_corrected = for_each_pair(requests_i_j_x_k_l_s.First, min, 
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
         X from index # Индексы нефтебаз
+        R from index # Индексы очереди
