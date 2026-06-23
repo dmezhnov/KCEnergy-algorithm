@@ -7,16 +7,16 @@ normalized_i_j_k_l_s                                        from ("step-6.exampl
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров — II очередь (пример 1)
 # Вход II очереди = исходные Запросы 2-й очереди (R=2) ОБЪЕДИНЁННЫЕ с «виртуальными» Запросами
 # r̃ Шага 9a. Виртуальные Запросы обрабатываются наравне с исходными Запросами 2-й очереди.
-# Дальше generic-формы Шагов 4-6 строят .Second-свёртки, estimated и normalized.
+# Дальше generic-формы Шагов 4-6 строят (2 from R)-свёртки, estimated и normalized.
 # Доступные объёмы II очереди есть только у АНПЗ (J=2: 420) и ПНХЗ (J=3: 2500); ПКОП (J=1)
 # выбыл (остаток -50, Шаг 9). Поэтому Запросы ПКОП во II очереди не обслуживаются: в Шаге 5 они
-# выпадают из filter_by_pair, т.к. встречной ячейки available_i_j.Second для J=1 нет.
+# выпадают из filter_by_pair, т.к. встречной ячейки available_i_j(2 from R) для J=1 нет.
 
 ### Обвязка входа II очереди (аналог входа Шага 4)
 # Исходные Запросы 2-й очереди (R=2) в разрезе (i, j, k, l, s): свёртка по нефтебазам (X).
 # Каждой комбинации (i, j, k, l, s) соответствует одна нефтебаза, поэтому значения совпадают
 # с исходными Запросами #201-#209.
-requests_i_j_k_l_s.Second = sum_by_axes(requests_i_j_x_k_l_s.Second, Terminal) = {
+requests_i_j_k_l_s(2 from R) = sum_by_axes(requests_i_j_x_k_l_s(2 from R), Terminal) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -63,7 +63,7 @@ requests_i_j_k_l_s.Second = sum_by_axes(requests_i_j_x_k_l_s.Second, Terminal) =
 # Множества Субъектов рынка двух матриц не пересекаются (очередь назначается per-Субъект по
 # факту подачи сведений о розничных продажах: виртуальные — P∈{1,2,3,7,12,13,18,19};
 # R=2 — P∈{8,9,14,15,16,17,21,22}), поэтому assign_matrix объединяет их без коллизий координат.
-requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, requests_i_j_k_l_s_virtual.Second) = {
+requests_i_j_k_l_s_corrected(2 from R) = assign_matrix(requests_i_j_k_l_s(2 from R), requests_i_j_k_l_s_virtual(2 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -124,8 +124,8 @@ requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, r
         P  from index # Индексы субъекта рынка
 
 ### Шаг 10a. Суммарное распределение по очередям I, II (s⃛ = s̈ + ẗ)
-# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last.First, Шаги 3-7)
-# плюс объём II очереди (ẗ = normalized_i_j_k_l_s.Second(1), Шаги 4-6). Это объединение-со-
+# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last(1 from R), Шаги 3-7)
+# плюс объём II очереди (ẗ = normalized_i_j_k_l_s(2 from R)(1), Шаги 4-6). Это объединение-со-
 # сложением по ОБЪЕДИНЕНИЮ координат:
 #   - ячейки только I очереди (ПКОП #106,#101,#108,#110,#102,#109,#103,#107) -> s̈;
 #   - ячейки только II очереди (Запросы R=2 #205,#201,#202,#206,#208,#209)   -> ẗ;
@@ -133,7 +133,7 @@ requests_i_j_k_l_s_corrected.Second = assign_matrix(requests_i_j_k_l_s.Second, r
 # for_each_pair(s̈, "+", ẗ) ведётся по координатам ЛЕВОГО операнда (s̈): теряет «только II»;
 # поэтому накрываем сумму на ẗ через assign_matrix — суммы перекрывают ẗ, а уникальные для II
 # очереди ячейки ẗ остаются.
-estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s.Second(1), for_each_pair(estimated_i_j_k_l_s_last.First, "+", normalized_i_j_k_l_s.Second(1))) = {
+estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s(2 from R)(1), for_each_pair(estimated_i_j_k_l_s_last(1 from R), "+", normalized_i_j_k_l_s(2 from R)(1))) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
@@ -196,7 +196,7 @@ estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s.Second(1), for_ea
 # Виртуальные Запросы после II очереди элиминируются (ẗ_request <- r̃ × 0 = 0) и далее не
 # используются. Зануляются ИМЕННО виртуальные Запросы Шага 9a, а не объединённый вход: исходные
 # Запросы R=2 реальны, их остаток обрабатывается штатным механизмом следующих очередей.
-requests_i_j_k_l_s_virtual_final.Second = for_each_element(requests_i_j_k_l_s_virtual.Second, "*", 0) = {
+requests_i_j_k_l_s_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_s_virtual(2 from R), "*", 0) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {

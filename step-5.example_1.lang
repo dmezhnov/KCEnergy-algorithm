@@ -9,7 +9,7 @@ available_i_j                                        from ("step-9.example_1.lan
 # Иначе удовлетворяем запросы в полном объёме (профицит/достаточность).
 
 # Итоговые объёмы Запросов первой очереди, которые превышают доступный объём.
-requests_i_j_corrected_exceed.First = filter_by_pair(requests_i_j_corrected.First, ">", available_i_j.First) = {
+requests_i_j_corrected_exceed(1 from R) = filter_by_pair(requests_i_j_corrected(1 from R), ">", available_i_j(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from J) = 1465  # 1200 < 1465 -> 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
     }
@@ -17,9 +17,10 @@ requests_i_j_corrected_exceed.First = filter_by_pair(requests_i_j_corrected.Firs
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Итоговые объёмы Запросов первой очереди, которые не превышают доступный объём.
-requests_i_j_corrected_not_exceed.First = filter_by_pair(requests_i_j_corrected.First, "<=", available_i_j.First) = {
+requests_i_j_corrected_not_exceed(1 from R) = filter_by_pair(requests_i_j_corrected(1 from R), "<=", available_i_j(1 from R)) = {
     (1 from I) = {
         (1 from I, 2 from J) = 80  # 500 > 80 -> 111 + 112 + 113
     }
@@ -27,9 +28,10 @@ requests_i_j_corrected_not_exceed.First = filter_by_pair(requests_i_j_corrected.
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Скорректированные объёмы субъектов первой очереди, попавшие в превышение (НПЗ j=1).
-requests_i_j_k_l_s_corrected_exceed.First = filter_by_pair(requests_i_j_k_l_s_corrected.First, contains, requests_i_j_corrected_exceed.First) = {
+requests_i_j_k_l_s_corrected_exceed(1 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(1 from R), contains, requests_i_j_corrected_exceed(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -65,9 +67,10 @@ requests_i_j_k_l_s_corrected_exceed.First = filter_by_pair(requests_i_j_k_l_s_co
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Скорректированные объёмы субъектов первой очереди без превышения (НПЗ j=2).
-requests_i_j_k_l_s_corrected_not_exceed.First = filter_by_pair(requests_i_j_k_l_s_corrected.First, contains, requests_i_j_corrected_not_exceed.First) = {
+requests_i_j_k_l_s_corrected_not_exceed(1 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(1 from R), contains, requests_i_j_corrected_not_exceed(1 from R)) = {
     (1 from I) = {
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
@@ -86,9 +89,10 @@ requests_i_j_k_l_s_corrected_not_exceed.First = filter_by_pair(requests_i_j_k_l_
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Доля доступного объёма от запрошенного для превышенных НПЗ первой очереди.
-estimated_i_j_exceed_share.First = for_each_pair(available_i_j.First, safe_divide, requests_i_j_corrected_exceed.First) = {
+estimated_i_j_exceed_share(1 from R) = for_each_pair(available_i_j(1 from R), safe_divide, requests_i_j_corrected_exceed(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from J) = 1200 / 1465 = 0.819112627986348122
     }
@@ -96,9 +100,10 @@ estimated_i_j_exceed_share.First = for_each_pair(available_i_j.First, safe_divid
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Предварительный объём НП для превышенных НПЗ: запрос, умноженный на долю.
-estimated_i_j_k_l_s_exceed.First = for_each_pair(requests_i_j_k_l_s_corrected_exceed.First, "*", estimated_i_j_exceed_share.First) = {
+estimated_i_j_k_l_s_exceed(1 from R) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(1 from R), "*", estimated_i_j_exceed_share(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -134,9 +139,10 @@ estimated_i_j_k_l_s_exceed.First = for_each_pair(requests_i_j_k_l_s_corrected_ex
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Предварительный объём НП для НПЗ без превышения: запрос удовлетворяется полностью.
-estimated_i_j_k_l_s_not_exceed.First = requests_i_j_k_l_s_corrected_not_exceed.First = {
+estimated_i_j_k_l_s_not_exceed(1 from R) = requests_i_j_k_l_s_corrected_not_exceed(1 from R) = {
     (1 from I) = {
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 2 from J) = {
@@ -155,9 +161,10 @@ estimated_i_j_k_l_s_not_exceed.First = requests_i_j_k_l_s_corrected_not_exceed.F
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # 1-я матрица предварительных расчётных объёмов НП первой очереди.
-estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed.First, estimated_i_j_k_l_s_exceed.First) = {
+estimated_i_j_k_l_s(1 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(1 from R), estimated_i_j_k_l_s_exceed(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -201,20 +208,22 @@ estimated_i_j_k_l_s.First(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exce
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
         n of   index # Индекс матрицы
+        R from index # Индексы очереди
 
-### Шаг 5 для II очереди: предварительный расчётный объём (.Second).
+### Шаг 5 для II очереди: предварительный расчётный объём ((2 from R)).
 # Дефицита нет: оба обслуживаемых НПЗ удовлетворяются полностью — АНПЗ (J=2): 420 <= 420,
-# ПНХЗ (J=3): 195 <= 2500. ПКОП (J=1, 1010) не имеет встречной ячейки available_i_j.Second и
+# ПНХЗ (J=3): 195 <= 2500. ПКОП (J=1, 1010) не имеет встречной ячейки available_i_j(2 from R) и
 # выпадает из обоих фильтров. Поэтому ветка «превышение» пуста.
 
 # Объёмы Запросов II очереди, превышающие доступный объём, — пусто (дефицита нет).
-requests_i_j_corrected_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, ">", available_i_j.Second) = {}
+requests_i_j_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_corrected(2 from R), ">", available_i_j(2 from R)) = {}
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Объёмы Запросов II очереди, не превышающие доступный объём (АНПЗ J=2, ПНХЗ J=3).
-requests_i_j_corrected_not_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, "<=", available_i_j.Second) = {
+requests_i_j_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_corrected(2 from R), "<=", available_i_j(2 from R)) = {
     (1 from I) = {
         (1 from I, 2 from J) = 420,  # 420 = 420 -> 111 + 112 + 113 + 205 + 206 + 208 + 209
         (1 from I, 3 from J) = 195   # 195 < 2500 -> 201 + 202
@@ -223,18 +232,20 @@ requests_i_j_corrected_not_exceed.Second = filter_by_pair(requests_i_j_corrected
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Скорректированные объёмы субъектов II очереди в превышении — пусто.
-requests_i_j_k_l_s_corrected_exceed.Second = filter_by_pair(requests_i_j_k_l_s_corrected.Second, contains, requests_i_j_corrected_exceed.Second) = {}
+requests_i_j_k_l_s_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(2 from R), contains, requests_i_j_corrected_exceed(2 from R)) = {}
     where
         C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Скорректированные объёмы субъектов II очереди без превышения (АНПЗ J=2, ПНХЗ J=3).
-requests_i_j_k_l_s_corrected_not_exceed.Second = filter_by_pair(requests_i_j_k_l_s_corrected.Second, contains, requests_i_j_corrected_not_exceed.Second) = {
+requests_i_j_k_l_s_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(2 from R), contains, requests_i_j_corrected_not_exceed(2 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 2 from J) = {
@@ -269,24 +280,27 @@ requests_i_j_k_l_s_corrected_not_exceed.Second = filter_by_pair(requests_i_j_k_l
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Доля доступного объёма от запрошенного для превышенных НПЗ II очереди — пусто (нет превышения).
-estimated_i_j_exceed_share.Second = for_each_pair(available_i_j.Second, safe_divide, requests_i_j_corrected_exceed.Second) = {}
+estimated_i_j_exceed_share(2 from R) = for_each_pair(available_i_j(2 from R), safe_divide, requests_i_j_corrected_exceed(2 from R)) = {}
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
 # Предварительный объём НП для превышенных НПЗ II очереди — пусто.
-estimated_i_j_k_l_s_exceed.Second = for_each_pair(requests_i_j_k_l_s_corrected_exceed.Second, "*", estimated_i_j_exceed_share.Second) = {}
+estimated_i_j_k_l_s_exceed(2 from R) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(2 from R), "*", estimated_i_j_exceed_share(2 from R)) = {}
     where
         C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (АНПЗ J=2, ПНХЗ J=3).
-estimated_i_j_k_l_s_not_exceed.Second = requests_i_j_k_l_s_corrected_not_exceed.Second = {
+estimated_i_j_k_l_s_not_exceed(2 from R) = requests_i_j_k_l_s_corrected_not_exceed(2 from R) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 2 from J) = {
@@ -321,9 +335,10 @@ estimated_i_j_k_l_s_not_exceed.Second = requests_i_j_k_l_s_corrected_not_exceed.
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # 1-я матрица предварительных расчётных объёмов НП II очереди.
-estimated_i_j_k_l_s.Second(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed.Second, estimated_i_j_k_l_s_exceed.Second) = {
+estimated_i_j_k_l_s(2 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(2 from R), estimated_i_j_k_l_s_exceed(2 from R)) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 2 from J) = {
@@ -359,3 +374,4 @@ estimated_i_j_k_l_s.Second(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exc
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
         n of   index # Индекс матрицы
+        R from index # Индексы очереди

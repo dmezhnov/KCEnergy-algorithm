@@ -9,7 +9,7 @@ requests_i_j_k_l_s_corrected   from ("step-10.example_2.lang")
 
 # Свёртка по нефтебазам (X). Каждой комбинации (i, j, k, l, s) соответствует одна
 # нефтебаза, поэтому значения совпадают с Таблицей 68.
-requests_i_j_k_l_s_corrected.First = sum_by_axes(requests_i_j_x_k_l_s_corrected, Terminal) = {
+requests_i_j_k_l_s_corrected(1 from R) = sum_by_axes(requests_i_j_x_k_l_s_corrected, Terminal) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -59,9 +59,10 @@ requests_i_j_k_l_s_corrected.First = sum_by_axes(requests_i_j_x_k_l_s_corrected,
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
         X from index # Индексы нефтебаз
+        R from index # Индексы очереди
 
 # Свёртка по регионам (K): объём по (i, j, l, s).
-requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region) = {
+requests_i_j_l_s_corrected(1 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(1 from R), Region) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -95,9 +96,10 @@ requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.Firs
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Свёртка по субъектам рынка (P): объём по (i, j, s).
-requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First, Market_participant) = {
+requests_i_j_s_corrected(1 from R) = sum_by_axes(requests_i_j_l_s_corrected(1 from R), Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = 9.512195121951219512 + 715 + 200       = 924.512195121951219512   # 101 + 106 + 108
@@ -114,9 +116,10 @@ requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First, M
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
-requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_terms) = {
+requests_i_j_corrected(1 from R) = sum_by_axes(requests_i_j_s_corrected(1 from R), Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) = 924.512195121951219512 + 467.317073170731707317 = 1391.829268292682926829,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
         (1 from I, 2 from J)                                                   = 109.268292682926829268,   # 104 + 111 + 112 + 113
@@ -127,15 +130,16 @@ requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_
         C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди
 
-### Шаг 4 для II очереди: те же свёртки на объединённом входе R=2 + виртуальные r̃ (.Second).
-# Вход — requests_i_j_k_l_s_corrected.Second (= R=2 ∪ r̃ Шага 9a, step-10.example_2.lang).
+### Шаг 4 для II очереди: те же свёртки на объединённом входе R=2 + виртуальные r̃ ((2 from R)).
+# Вход — requests_i_j_k_l_s_corrected(2 from R) (= R=2 ∪ r̃ Шага 9a, step-10.example_2.lang).
 # Коррекции на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует
-# в свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j.Second).
+# в свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j(2 from R)).
 # Монопольный Запрос 105 (ПНХЗ) удовлетворён в I очереди (r̃ = 0) и во II очередь не передаётся.
 
 # Свёртка по регионам (K): объём по (i, j, l, s).
-requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Second, Region) = {
+requests_i_j_l_s_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(2 from R), Region) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
@@ -179,9 +183,10 @@ requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Sec
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Свёртка по субъектам рынка (P): объём по (i, j, s).
-requests_i_j_s_corrected.Second = sum_by_axes(requests_i_j_l_s_corrected.Second, Market_participant) = {
+requests_i_j_s_corrected(2 from R) = sum_by_axes(requests_i_j_l_s_corrected(2 from R), Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) =  65 + 130 + 130 + 195                   = 520,  # 101 + 106 + 108 + 203
@@ -199,10 +204,11 @@ requests_i_j_s_corrected.Second = sum_by_axes(requests_i_j_l_s_corrected.Second,
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
         P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 # Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
-# ПКОП (J=1, 1015) выбывает в Шаге 5 — у него нет встречной ячейки available_i_j.Second.
-requests_i_j_corrected.Second = sum_by_axes(requests_i_j_s_corrected.Second, Ship_terms) = {
+# ПКОП (J=1, 1015) выбывает в Шаге 5 — у него нет встречной ячейки available_i_j(2 from R).
+requests_i_j_corrected(2 from R) = sum_by_axes(requests_i_j_s_corrected(2 from R), Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) = 520 + 495 = 1015,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
         (1 from I, 2 from J) = 260 + 660 =  920,  # 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
@@ -213,3 +219,4 @@ requests_i_j_corrected.Second = sum_by_axes(requests_i_j_s_corrected.Second, Shi
         C from index # Индексы условий поставки
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R from index # Индексы очереди

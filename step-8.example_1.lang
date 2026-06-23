@@ -11,7 +11,7 @@ operation                  from ("matrix_types.lang")
 # предварительных расчётных объёмов совпадает с нормированной матрицей Шага 6.
 
 # Последняя матрица предварительных расчётных объёмов НП первой очереди (s̈).
-estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(last_n) = {
+estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s(1 from R)(last_n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 1 from J) = {
@@ -51,12 +51,12 @@ estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(last_n) = {
     }
 }
     where
-        estimated_i_j_k_l_s_last.First(i, l, j, k, s)    of number
-        estimated_i_j_k_l_s.First(last_n)(i, l, j, k, s) of number
-        estimated_i_j_k_l_s.First      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
-        estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
+        estimated_i_j_k_l_s_last(1 from R)(i, l, j, k, s)    of number
+        estimated_i_j_k_l_s(1 from R)(last_n)(i, l, j, k, s) of number
+        estimated_i_j_k_l_s(1 from R)      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
+        estimated_i_j_k_l_s_last(1 from R) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
             where
-                last_n    of   index = length(estimated_i_j_k_l_s.First) # индекс последней матрицы предварительных расчётных объёмов НП
+                last_n    of   index = length(estimated_i_j_k_l_s(1 from R)) # индекс последней матрицы предварительных расчётных объёмов НП
                 Product, Market_participant, Refinery, Region, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
@@ -65,17 +65,17 @@ estimated_i_j_k_l_s_last.First = estimated_i_j_k_l_s.First(last_n) = {
                 s  for C  from index # Индексы условия поставки
 
 # Суммарно предоставленный Владельцам АЗС объём по НПЗ (свёртка s̈ по региону, субъекту, условию).
-estimated_i_j_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region, Market_participant, Ship_terms) = {
+estimated_i_j_last(1 from R) = sum_by_axes(estimated_i_j_k_l_s_last(1 from R), Region, Market_participant, Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) =  65 +  30 +  75 + 585 +  80 + 195 + 165 +  55 = 1250,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
         (1 from I, 2 from J) =                                30 +  30 +  20 =   80    # 111 + 112 + 113
     }
 }
     where
-        estimated_i_j_k_l_s_last.First(i, j, s, l, k) of number
-        estimated_i_j_last.First(i, j)                of number
-        estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j_last.First       of matrix(Product, Refinery)
+        estimated_i_j_k_l_s_last(1 from R)(i, j, s, l, k) of number
+        estimated_i_j_last(1 from R)(i, j)                of number
+        estimated_i_j_k_l_s_last(1 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j_last(1 from R)       of matrix(Product, Refinery)
             where
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
@@ -86,7 +86,7 @@ estimated_i_j_last.First = sum_by_axes(estimated_i_j_k_l_s_last.First, Region, M
 
 # Матрица оставшихся после распределения Владельцам АЗС объёмов НП первой очереди (v2 = v0 - s̈).
 # По ПНХЗ распределения первой очереди не было, поэтому остаток равен доступному объёму.
-available_i_j_new.First = for_each_pair(available_i_j.First, "-", estimated_i_j_last.First) = {
+available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estimated_i_j_last(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from J) = 1200 - 1250 =  -50,
         (1 from I, 2 from J) =  500 -   80 =  420,
@@ -94,12 +94,12 @@ available_i_j_new.First = for_each_pair(available_i_j.First, "-", estimated_i_j_
     }
 }
     where
-        available_i_j_new.First(i, j)  of number
-        available_i_j.First(i, j)      of number
-        estimated_i_j_last.First(i, j) of number
-        available_i_j_new.First  of matrix(Product, Refinery)
-        available_i_j.First      of matrix(Product, Refinery)
-        estimated_i_j_last.First of matrix(Product, Refinery)
+        available_i_j_new(1 from R)(i, j)  of number
+        available_i_j(1 from R)(i, j)      of number
+        estimated_i_j_last(1 from R)(i, j) of number
+        available_i_j_new(1 from R)  of matrix(Product, Refinery)
+        available_i_j(1 from R)      of matrix(Product, Refinery)
+        estimated_i_j_last(1 from R) of matrix(Product, Refinery)
         "-" from operation
             where
                 Product, Refinery from axis

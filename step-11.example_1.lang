@@ -5,24 +5,24 @@ for_each_pair, sum_by_axes from ("matrix_operation.lang")
 operation                  from ("matrix_types.lang")
 
 ### Шаг 11. Оставшийся после распределения Владельцам нефтебаз/резервуаров объём НП (пример 1)
-# v3_ij = v2_ij − Σ_k Σ_l' ẗ_ijkl', где v2 = available_i_j_new.First = { -50, 420, 2500 }
-# (остаток I очереди, Шаг 8), а ẗ = normalized_i_j_k_l_s.Second(1) — нормированные объёмы,
+# v3_ij = v2_ij − Σ_k Σ_l' ẗ_ijkl', где v2 = available_i_j_new(1 from R) = { -50, 420, 2500 }
+# (остаток I очереди, Шаг 8), а ẗ = normalized_i_j_k_l_s(2 from R)(1) — нормированные объёмы,
 # предоставленные Владельцам нефтебаз/резервуаров во II очереди (Шаг 6).
 # АНПЗ (J=2) выбран полностью: 420 из 420, остаток 0. ПНХЗ (J=3) обслужил только #201, #202
 # (195 из 2500). ПКОП (J=1) во II очереди не участвовал (выбыл в Шаге 9), остаток равен v2 = -50.
 
 # Суммарно предоставленный во II очереди объём по НПЗ (свёртка ẗ по региону, субъекту, условию).
-estimated_i_j.Second = sum_by_axes(normalized_i_j_k_l_s.Second(1), Region, Market_participant, Ship_terms) = {
+estimated_i_j(2 from R) = sum_by_axes(normalized_i_j_k_l_s(2 from R)(1), Region, Market_participant, Ship_terms) = {
     (1 from I) = {
         (1 from I, 2 from J) =  70 +  70 +  30 + 130 +  70 +  15 +  35 = 420,  # 111 + 112 + 113 + 205 + 206 + 208 + 209
         (1 from I, 3 from J) =                                65 + 130 = 195   # 201 + 202
     }
 }
     where
-        normalized_i_j_k_l_s.Second(1)(i, j, s, l, k) of number
-        estimated_i_j.Second(i, j)                    of number
-        normalized_i_j_k_l_s.Second(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j.Second           of matrix(Product, Refinery)
+        normalized_i_j_k_l_s(2 from R)(1)(i, j, s, l, k) of number
+        estimated_i_j(2 from R)(i, j)                    of number
+        normalized_i_j_k_l_s(2 from R)(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j(2 from R)           of matrix(Product, Refinery)
             where
                 n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
                 Product, Market_participant, Ship_terms, Refinery, Region from axis
@@ -34,7 +34,7 @@ estimated_i_j.Second = sum_by_axes(normalized_i_j_k_l_s.Second(1), Region, Marke
 
 # Матрица оставшихся после распределения Владельцам нефтебаз/резервуаров объёмов НП (v3 = v2 - ẗ).
 # По ПКОП (J=1) распределения II очереди не было, поэтому остаток равен v2 (вычитается 0).
-available_i_j_new.Second = for_each_pair(available_i_j_new.First, "-", estimated_i_j.Second) = {
+available_i_j_new(2 from R) = for_each_pair(available_i_j_new(1 from R), "-", estimated_i_j(2 from R)) = {
     (1 from I) = {
         (1 from I, 1 from J) =  -50 -   0 =  -50,
         (1 from I, 2 from J) =  420 - 420 =    0,
@@ -42,12 +42,12 @@ available_i_j_new.Second = for_each_pair(available_i_j_new.First, "-", estimated
     }
 }
     where
-        available_i_j_new.Second(i, j) of number
-        available_i_j_new.First(i, j)  of number
-        estimated_i_j.Second(i, j)     of number
-        available_i_j_new.Second of matrix(Product, Refinery)
-        available_i_j_new.First  of matrix(Product, Refinery)
-        estimated_i_j.Second     of matrix(Product, Refinery)
+        available_i_j_new(2 from R)(i, j) of number
+        available_i_j_new(1 from R)(i, j)  of number
+        estimated_i_j(2 from R)(i, j)     of number
+        available_i_j_new(2 from R) of matrix(Product, Refinery)
+        available_i_j_new(1 from R)  of matrix(Product, Refinery)
+        estimated_i_j(2 from R)     of matrix(Product, Refinery)
         "-" from operation
             where
                 Product, Refinery from axis

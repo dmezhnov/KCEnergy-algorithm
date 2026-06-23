@@ -1013,7 +1013,7 @@ volumes_l_t_i_k_k0_i0 = {
         K0 from index # Индексы района
         I0 from index # Индексы категории нефпродукта
 
-available_i_j.First = {
+available_i_j(1 from R) = {
     (1 from I) = {
         (1 from I, 1 from J) = 1200,
         (1 from I, 2 from J) = 500,
@@ -1023,6 +1023,7 @@ available_i_j.First = {
     where
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
+        R of   index # Индексы очереди
 
 # Порог превышения доступных объёмов, %
 OVERALL_REQUEST_CAPACITY_PERCENTAGE of percentage = 120
