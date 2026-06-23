@@ -375,3 +375,135 @@ estimated_i_j_k_l_s(2 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_
         P from index # Индексы субъекта рынка
         n of   index # Индекс матрицы
         R from index # Индексы очереди
+
+### Шаг 5 для III очереди (ГМК): предварительный расчётный объём ((3 from R)).
+# Дефицита нет: ПНХЗ (J=3) обслуживает спрос 445 <= доступного 2305 (Шаг 12). Других НПЗ в III
+# очереди нет — гейт Шага 12 пропустил только ПНХЗ. Ветка «превышение» пуста, Запросы #301 и
+# #302 удовлетворяются полностью.
+
+# Объёмы Запросов III очереди, превышающие доступный объём, — пусто (профицит).
+requests_i_j_corrected_exceed(3 from R) = filter_by_pair(requests_i_j_corrected(3 from R), ">", available_i_j(3 from R)) = {}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Объёмы Запросов III очереди, не превышающие доступный объём (ПНХЗ J=3).
+requests_i_j_corrected_not_exceed(3 from R) = filter_by_pair(requests_i_j_corrected(3 from R), "<=", available_i_j(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 445  # 445 < 2305 -> 301 + 302
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Скорректированные объёмы субъектов III очереди в превышении — пусто.
+requests_i_j_k_l_s_corrected_exceed(3 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(3 from R), contains, requests_i_j_corrected_exceed(3 from R)) = {}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Скорректированные объёмы субъектов III очереди без превышения (ПНХЗ J=3).
+requests_i_j_k_l_s_corrected_not_exceed(3 from R) = filter_by_pair(requests_i_j_k_l_s_corrected(3 from R), contains, requests_i_j_corrected_not_exceed(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = 195   # 301
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = 250   # 302
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Доля доступного объёма от запрошенного для превышенных НПЗ III очереди — пусто (нет превышения).
+estimated_i_j_exceed_share(3 from R) = for_each_pair(available_i_j(3 from R), safe_divide, requests_i_j_corrected_exceed(3 from R)) = {}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+# Предварительный объём НП для превышенных НПЗ III очереди — пусто.
+estimated_i_j_k_l_s_exceed(3 from R) = for_each_pair(requests_i_j_k_l_s_corrected_exceed(3 from R), "*", estimated_i_j_exceed_share(3 from R)) = {}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (ПНХЗ J=3).
+estimated_i_j_k_l_s_not_exceed(3 from R) = requests_i_j_k_l_s_corrected_not_exceed(3 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = 195   # 301
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = 250   # 302
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# 1-я матрица предварительных расчётных объёмов НП III очереди.
+estimated_i_j_k_l_s(3 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed(3 from R), estimated_i_j_k_l_s_exceed(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = 195   # 301
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = 250   # 302
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        n of   index # Индекс матрицы
+        R from index # Индексы очереди
