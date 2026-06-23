@@ -1,0 +1,54 @@
+number                     from core
+available_i_j_new          from ("step-8.lang")
+normalized_i_j_k_l_s       from ("step-6.lang")
+for_each_pair, sum_by_axes from ("matrix_operation.lang")
+operation, axis, index     from ("matrix_types.lang")
+
+### Шаг 11. Оставшийся после распределения Владельцам нефтебаз/резервуаров объём НП (II очередь)
+# Система рассчитывает оставшиеся после распределения среди Владельцев нефтебаз и (или)
+# резервуаров объёмы НП по каждому НПЗ:
+#   v3_ij = v2_ij − Σ_k Σ_l' ẗ_ijkl',
+# где
+#   v2_ij    — оставшийся после распределения среди Владельцев АЗС объём (I очередь, Шаг 8):
+#              available_i_j_new.First;
+#   ẗ_ijkl'  — (уточнённый) нормированный объём, предоставленный l'-му Субъекту рынка —
+#              Владельцу нефтебаз/резервуаров — с j-го НПЗ для поставки в k-й регион во II
+#              очереди (Шаг 6): normalized_i_j_k_l_s.Second(1);
+#   V3       — итоговая матрица размера N × M.
+# Это l0 = 2 версия остатка, который guard'ы Шага 8 (l0 != 2) исключают: объёмы II очереди
+# нормируются в Шагах 4-6, поэтому здесь из остатка I очереди вычитается их свёртка.
+# Трассировочная строка (для каждого Запроса на покупку НП):
+#   Шаг 11. Оставшийся после распределения Владельцам нефтебаз / резервуаров объём НП {$НП, i}
+#           на НПЗ {$НПЗ, j}, МТ: v3_ij
+
+# Суммарно предоставленный во II очереди объём по (Product, Refinery): свёртка ẗ по k, l', s.
+estimated_i_j.Second = sum_by_axes(normalized_i_j_k_l_s.Second(1), Region, Market_participant, Ship_terms)
+    where
+        normalized_i_j_k_l_s.Second(1)(i, j, s, l, k) of number
+        estimated_i_j.Second(i, j)                    of number
+        normalized_i_j_k_l_s.Second(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j.Second           of matrix(Product, Refinery)
+            where
+                n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
+                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
+
+# Матрица оставшихся после распределения Владельцам нефтебаз/резервуаров объёмов НП (V3).
+# По НПЗ без распределения II очереди остаток равен v2 (вычитается 0).
+available_i_j_new.Second = for_each_pair(available_i_j_new.First, "-", estimated_i_j.Second)
+    where
+        available_i_j_new.Second(i, j) of number
+        available_i_j_new.First(i, j)  of number
+        estimated_i_j.Second(i, j)     of number
+        available_i_j_new.Second of matrix(Product, Refinery)
+        available_i_j_new.First  of matrix(Product, Refinery)
+        estimated_i_j.Second     of matrix(Product, Refinery)
+        "-" from operation
+            where
+                Product, Refinery from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
