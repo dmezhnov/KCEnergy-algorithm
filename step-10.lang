@@ -1,17 +1,20 @@
-number                                                                     from core
-requests_i_j_k_l_s_virtual, available_i_j, estimated_i_j_k_l_final          from ("step-9.lang")
-RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE  from ("initial_data.lang")
-assign_matrix, for_each_pair, for_each_element, filter_by_pair, filter_by_coordinate from ("matrix_operation.lang")
-sum_by_axes                                                                from ("matrix_operation.lang")
-axis, index, matrix, operation, condition, coordinate                      from ("matrix_types.lang")
+number                                from core
+requests_i_j_k_l_s_virtual            from ("step-9.lang")
+estimated_i_j_k_l_s_last              from ("step-8.lang")
+normalized_i_j_k_l_s                  from ("step-6.lang")
+for_each_pair, for_each_element       from ("matrix_operation.lang")
+axis, index, matrix, operation        from ("matrix_types.lang")
 
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров (II очередь)
-# Система выполняет шаги, аналогичные Шагам 4-6, но на вход подаются не исходные
-# Запросы второй очереди requests_i_j_x_k_l_s(2), а «виртуальные» Запросы r̃ из Шага 9a.
+# Система выполняет шаги, аналогичные Шагам 4-6. Отдельная реализация не нужна:
+# обобщённые формы (l0) в Шагах 4-6 уже описывают вторую очередь. Достаточно подать
+# на их вход не исходные Запросы, а «виртуальные» Запросы r̃ из Шага 9a.
 
-### Обвязка: виртуальные Запросы как итоговые суммарные Запросы II очереди (аналог Шага 4)
-# r̃ уже свёрнут по оси нефтебаз (Terminal); корректировки на проливы во II очереди нет,
-# поэтому скорректированный объём II очереди = виртуальный Запрос.
+### Обвязка входа II очереди (аналог входа Шага 4)
+# Скорректированный объём II очереди = виртуальный Запрос r̃ (Шаг 9a). Коррекции на проливы
+# во II очереди нет, ось нефтебаз (Terminal) уже свёрнута. Это .Second-определение заменяет
+# обобщённый вход Шага 4: его guard сужен до l0 > 2, поэтому коллизии для l0 = 2 нет.
+# Дальше generic-формы Шагов 5-6 сами строят estimated/normalized для II очереди.
 requests_i_j_k_l_s_corrected.Second = requests_i_j_k_l_s_virtual.Second
     where
         requests_i_j_k_l_s_corrected.Second(i, j, s, l, k) of number
@@ -26,363 +29,22 @@ requests_i_j_k_l_s_corrected.Second = requests_i_j_k_l_s_virtual.Second
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
-# Матрица итоговых суммарных скорректированных объёмов размера N x M второй очереди
-requests_i_j_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Second, Region, Market_participant, Ship_terms)
-    where
-        requests_i_j_k_l_s_corrected.Second(i, j, s, l, k) of number
-        requests_i_j_corrected.Second(i, j)               of number
-        requests_i_j_k_l_s_corrected.Second of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_corrected.Second       of matrix(Product, Refinery)
-            where
-                Product, Refinery, Ship_terms, Market_participant, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                l  for P  from index # Индексы субъекта рынка
-                k  for K  from index # Индексы региона
-
-### Расчётный объём НП для II очереди (аналог Шага 5: дефицит/профицит)
-# Если суммарный виртуальный Запрос на НПЗ превышает доступный объём II очереди —
-# распределяем доступное пропорционально, иначе удовлетворяем полностью.
-
-# Матрица суммарных виртуальных Запросов II очереди, превышающих доступный объём
-requests_i_j_corrected_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, ">", available_i_j.Second)
-    where
-        requests_i_j_corrected.Second(i, j)        of number
-        requests_i_j_corrected_exceed.Second(i, j) of number
-        available_i_j.Second(i, j)                 of number
-        requests_i_j_corrected.Second        of matrix(Product, Refinery)
-        requests_i_j_corrected_exceed.Second of matrix(Product, Refinery)
-        available_i_j.Second                 of matrix(Product, Refinery)
-        ">" from condition
-            where
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-
-# Матрица суммарных виртуальных Запросов II очереди, не превышающих доступный объём
-requests_i_j_corrected_not_exceed.Second = filter_by_pair(requests_i_j_corrected.Second, "<=", available_i_j.Second)
-    where
-        requests_i_j_corrected.Second(i, j)            of number
-        requests_i_j_corrected_not_exceed.Second(i, j) of number
-        available_i_j.Second(i, j)                     of number
-        requests_i_j_corrected.Second            of matrix(Product, Refinery)
-        requests_i_j_corrected_not_exceed.Second of matrix(Product, Refinery)
-        available_i_j.Second                     of matrix(Product, Refinery)
-        "<=" from condition
-            where
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-
-# Виртуальные Запросы субъектов рынка II очереди, попавшие в дефицитные (i, j)
-requests_i_j_k_l_s_corrected_exceed.Second = filter_by_pair(requests_i_j_k_l_s_corrected.Second, contains, requests_i_j_corrected_exceed.Second)
-    where
-        requests_i_j_k_l_s_corrected.Second(i, j, s, k, l)        of number
-        requests_i_j_k_l_s_corrected_exceed.Second(i, j, s, k, l) of number
-        requests_i_j_corrected_exceed.Second(i, j)                of number
-        requests_i_j_k_l_s_corrected.Second        of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_corrected_exceed.Second of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_corrected_exceed.Second       of matrix(Product, Refinery)
-        contains from condition
-            where
-                Product, Refinery, Ship_terms, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Виртуальные Запросы субъектов рынка II очереди, попавшие в недефицитные (i, j)
-requests_i_j_k_l_s_corrected_not_exceed.Second = filter_by_pair(requests_i_j_k_l_s_corrected.Second, contains, requests_i_j_corrected_not_exceed.Second)
-    where
-        requests_i_j_k_l_s_corrected.Second(i, j, s, k, l)            of number
-        requests_i_j_k_l_s_corrected_not_exceed.Second(i, j, s, k, l) of number
-        requests_i_j_corrected_not_exceed.Second(i, j)                of number
-        requests_i_j_k_l_s_corrected.Second            of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_corrected_not_exceed.Second of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_corrected_not_exceed.Second       of matrix(Product, Refinery)
-        contains from condition
-            where
-                Product, Refinery, Ship_terms, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Доля превышения доступного объёма II очереди (для дефицитных НПЗ)
-estimated_i_j_exceed_share.Second = for_each_pair(available_i_j.Second, safe_divide, requests_i_j_corrected_exceed.Second)
-    where
-        estimated_i_j_exceed_share.Second(i, j)    of number
-        requests_i_j_corrected_exceed.Second(i, j) of number
-        available_i_j.Second(i, j)                 of number
-        estimated_i_j_exceed_share.Second    of matrix(Product, Refinery)
-        requests_i_j_corrected_exceed.Second of matrix(Product, Refinery)
-        available_i_j.Second                 of matrix(Product, Refinery)
-        safe_divide from operation
-            where
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-
-# Предварительный объём НП II очереди, где суммарный Запрос превышает доступный объём
-estimated_i_j_k_l_s_exceed.Second = for_each_pair(requests_i_j_k_l_s_corrected_exceed.Second, "*", estimated_i_j_exceed_share.Second)
-    where
-        estimated_i_j_k_l_s_exceed.Second(i, j, s, k, l)          of number
-        requests_i_j_k_l_s_corrected_exceed.Second(i, j, s, k, l) of number
-        estimated_i_j_exceed_share.Second(i, j)                   of number
-        estimated_i_j_k_l_s_exceed.Second          of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_corrected_exceed.Second of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_exceed_share.Second          of matrix(Product, Refinery)
-        "*" from operation
-            where
-                Product, Refinery, Ship_terms, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Предварительный объём НП II очереди, где суммарный Запрос не превышает доступный объём
-estimated_i_j_k_l_s_not_exceed.Second = requests_i_j_k_l_s_corrected_not_exceed.Second
-    where
-        estimated_i_j_k_l_s_not_exceed.Second(i, j, s, k, l)          of number
-        requests_i_j_k_l_s_corrected_not_exceed.Second(i, j, s, k, l) of number
-        estimated_i_j_k_l_s_not_exceed.Second          of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        requests_i_j_k_l_s_corrected_not_exceed.Second of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-            where
-                Product, Refinery, Ship_terms, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Матрица предварительных расчётных объёмов НП II очереди (профицит + дефицит)
-estimated_i_j_k_l_s.Second(1 from n) = assign_matrix(estimated_i_j_k_l_s_not_exceed.Second, estimated_i_j_k_l_s_exceed.Second)
-    where
-        estimated_i_j_k_l_s.Second(1)(i, j, s, k, l)         of number
-        estimated_i_j_k_l_s_exceed.Second(i, j, s, k, l)     of number
-        estimated_i_j_k_l_s_not_exceed.Second(i, j, s, k, l) of number
-        estimated_i_j_k_l_s.Second(1)         of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_k_l_s_exceed.Second     of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-        estimated_i_j_k_l_s_not_exceed.Second of matrix(Product, Refinery, Ship_terms, Region, Market_participant)
-            where
-                n  of          index # Индекс матрицы
-                Product, Refinery, Ship_terms, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-### Нормирование объёмов НП II очереди (аналог Шага 6, единственная итерация n = 1)
-# Шаг 7 (контроль доли) к Владельцам нефтебаз/резервуаров во II очереди не применяется,
-# поэтому нормирование выполняется один раз (по правилам n = 1: округление round, нижняя
-# граница — минимальная норма).
-
-# Объёмы для поставки с НПЗ (FCA): кратность вагонной норме RAIL_ROAD_MIN_TONNAGE
-estimated_i_j_k_l_fca.Second = filter_by_coordinate(estimated_i_j_k_l_s.Second(1), FCA)
-    where
-        estimated_i_j_k_l_s.Second(1)(i, j, k, l, s) of number
-        estimated_i_j_k_l_fca.Second(i, j, k, l)     of number
-        estimated_i_j_k_l_s.Second(1)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        estimated_i_j_k_l_fca.Second    of matrix(Product, Refinery, Region, Market_participant)
-        FCA from coordinate
-            where
-                Product, Refinery, Region, Market_participant, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
-
-estimated_i_j_k_l_fca_coeff.Second = for_each_element(estimated_i_j_k_l_fca.Second, safe_divide, RAIL_ROAD_MIN_TONNAGE)
-    where
-        estimated_i_j_k_l_fca_coeff.Second(i, j, k, l) of number
-        estimated_i_j_k_l_fca.Second(i, j, k, l)       of number
-        RAIL_ROAD_MIN_TONNAGE                          of number
-        estimated_i_j_k_l_fca_coeff.Second of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca.Second       of matrix(Product, Refinery, Region, Market_participant)
-        safe_divide from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# n = 1: округление до целого по мат. правилам (round), знаков после запятой - 0
-estimated_i_j_k_l_fca_coeff_rounded.Second = for_each_element(estimated_i_j_k_l_fca_coeff.Second, round, 0)
-    where
-        estimated_i_j_k_l_fca_coeff.Second(i, j, k, l)         of number
-        estimated_i_j_k_l_fca_coeff_rounded.Second(i, j, k, l) of number
-        estimated_i_j_k_l_fca_coeff.Second         of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_coeff_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-        round from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-estimated_i_j_k_l_fca_rounded.Second = for_each_element(estimated_i_j_k_l_fca_coeff_rounded.Second, "*", RAIL_ROAD_MIN_TONNAGE)
-    where
-        estimated_i_j_k_l_fca_rounded.Second(i, j, k, l)       of number
-        estimated_i_j_k_l_fca_coeff_rounded.Second(i, j, k, l) of number
-        RAIL_ROAD_MIN_TONNAGE                                  of number
-        estimated_i_j_k_l_fca_rounded.Second       of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_coeff_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-        "*" from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Нижняя граница n = 1 для НПЗ - вагонная норма RAIL_ROAD_MIN_TONNAGE
-normalized_i_j_k_l_fca.Second = for_each_element(estimated_i_j_k_l_fca_rounded.Second, max, RAIL_ROAD_MIN_TONNAGE)
-    where
-        normalized_i_j_k_l_fca.Second(i, j, k, l)        of number
-        estimated_i_j_k_l_fca_rounded.Second(i, j, k, l) of number
-        RAIL_ROAD_MIN_TONNAGE                            of number
-        normalized_i_j_k_l_fca.Second        of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_fca_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-        max from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Объёмы для поставки с нефтебаз (EXW): кратность шагу вывоза OIL_TERMINAL_STEP_TONNAGE
-estimated_i_j_k_l_exw.Second = filter_by_coordinate(estimated_i_j_k_l_s.Second(1), EXW)
-    where
-        estimated_i_j_k_l_s.Second(1)(i, j, k, l, s) of number
-        estimated_i_j_k_l_exw.Second(i, j, k, l)     of number
-        estimated_i_j_k_l_s.Second(1)   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        estimated_i_j_k_l_exw.Second    of matrix(Product, Refinery, Region, Market_participant)
-        EXW from coordinate
-            where
-                Product, Refinery, Region, Market_participant, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
-
-estimated_i_j_k_l_exw_coeff.Second = for_each_element(estimated_i_j_k_l_exw.Second, safe_divide, OIL_TERMINAL_STEP_TONNAGE)
-    where
-        estimated_i_j_k_l_exw_coeff.Second(i, j, k, l) of number
-        estimated_i_j_k_l_exw.Second(i, j, k, l)       of number
-        OIL_TERMINAL_STEP_TONNAGE                      of number
-        estimated_i_j_k_l_exw_coeff.Second of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw.Second       of matrix(Product, Refinery, Region, Market_participant)
-        safe_divide from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# n = 1: округление до целого по мат. правилам (round), знаков после запятой - 0
-estimated_i_j_k_l_exw_coeff_rounded.Second = for_each_element(estimated_i_j_k_l_exw_coeff.Second, round, 0)
-    where
-        estimated_i_j_k_l_exw_coeff.Second(i, j, k, l)         of number
-        estimated_i_j_k_l_exw_coeff_rounded.Second(i, j, k, l) of number
-        estimated_i_j_k_l_exw_coeff.Second         of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_coeff_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-        round from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-estimated_i_j_k_l_exw_rounded.Second = for_each_element(estimated_i_j_k_l_exw_coeff_rounded.Second, "*", OIL_TERMINAL_STEP_TONNAGE)
-    where
-        estimated_i_j_k_l_exw_coeff_rounded.Second(i, j, k, l) of number
-        estimated_i_j_k_l_exw_rounded.Second(i, j, k, l)       of number
-        OIL_TERMINAL_STEP_TONNAGE                              of number
-        estimated_i_j_k_l_exw_coeff_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_exw_rounded.Second       of matrix(Product, Refinery, Region, Market_participant)
-        "*" from operation
-            where
-                Product, Refinery, Region, Market_participant from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
-# Нижняя граница n = 1 для нефтебаз: если предварительный объём ниже минимальной
-# нормы OIL_TERMINAL_MIN_TONNAGE, выдаём минимальную норму; иначе max(округлённый, норма)
-normalized_i_j_k_l_exw.Second = OIL_TERMINAL_MIN_TONNAGE
-    where
-        estimated_i_j_k_l_exw.Second < OIL_TERMINAL_MIN_TONNAGE
-            where
-                normalized_i_j_k_l_exw.Second(i, j, k, l) of number
-                estimated_i_j_k_l_exw.Second(i, j, k, l)  of number
-                OIL_TERMINAL_MIN_TONNAGE                  of number
-                    where
-                        Product, Refinery, Region, Market_participant from axis
-                        i  for I  from index # Индексы нефпродукта
-                        j  for J  from index # Индексы НПЗ
-                        k  for K  from index # Индексы региона
-                        l  for P  from index # Индексы субъекта рынка
-normalized_i_j_k_l_exw.Second = for_each_element(estimated_i_j_k_l_exw_rounded.Second, max, OIL_TERMINAL_MIN_TONNAGE)
-    where
-        estimated_i_j_k_l_exw.Second >= OIL_TERMINAL_MIN_TONNAGE
-            where
-                normalized_i_j_k_l_exw.Second(i, j, k, l)        of number
-                estimated_i_j_k_l_exw_rounded.Second(i, j, k, l) of number
-                OIL_TERMINAL_MIN_TONNAGE                         of number
-                normalized_i_j_k_l_exw.Second        of matrix(Product, Refinery, Region, Market_participant)
-                estimated_i_j_k_l_exw_rounded.Second of matrix(Product, Refinery, Region, Market_participant)
-                max from operation
-                    where
-                        Product, Refinery, Region, Market_participant from axis
-                        i  for I  from index # Индексы нефпродукта
-                        j  for J  from index # Индексы НПЗ
-                        k  for K  from index # Индексы региона
-                        l  for P  from index # Индексы субъекта рынка
-
-# Нормированные объёмы НП II очереди (ẗ_ijkl): объединение FCA и EXW по условию поставки
-normalized_i_j_k_l_s.Second(1 from C) = normalized_i_j_k_l_fca.Second
-normalized_i_j_k_l_s.Second(2 from C) = normalized_i_j_k_l_exw.Second
-    where
-        normalized_i_j_k_l_s.Second(i, j, k, l, s) of number
-        normalized_i_j_k_l_fca.Second(i, j, k, l)  of number
-        normalized_i_j_k_l_exw.Second(i, j, k, l)  of number
-        normalized_i_j_k_l_s.Second   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        normalized_i_j_k_l_fca.Second of matrix(Product, Refinery, Region, Market_participant)
-        normalized_i_j_k_l_exw.Second of matrix(Product, Refinery, Region, Market_participant)
-            where
-                C         from index # Индексы условия поставки
-                Product, Refinery, Region, Market_participant, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-
 ### Шаг 10a. Суммарное распределение по очередям I, II (s⃛ = s̈ + ẗ)
-# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_final, Шаг 9)
-# плюс объём II очереди по виртуальному Запросу (ẗ = normalized_i_j_k_l_s.Second).
-estimated_i_j_k_l_s_total = for_each_pair(estimated_i_j_k_l_final, "+", normalized_i_j_k_l_s.Second)
+# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last.First, Шаги 3-7)
+# плюс объём II очереди по виртуальному Запросу (ẗ = normalized_i_j_k_l_s.Second(1), Шаги 4-6).
+# Используется явное сложение "+", т.к. одни и те же (i, j, k, l, s) получают объём в обеих
+# очередях; assign_matrix объединяет ячейки присваиванием и для суммы не подходит.
+estimated_i_j_k_l_s_total = for_each_pair(estimated_i_j_k_l_s_last.First, "+", normalized_i_j_k_l_s.Second(1))
     where
-        estimated_i_j_k_l_final(i, j, k, l, s)      of number
-        normalized_i_j_k_l_s.Second(i, j, k, l, s)  of number
-        estimated_i_j_k_l_s_total(i, j, k, l, s)    of number
-        estimated_i_j_k_l_final     of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        normalized_i_j_k_l_s.Second of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        estimated_i_j_k_l_s_total   of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s_last.First(i, j, k, l, s)  of number
+        normalized_i_j_k_l_s.Second(1)(i, j, k, l, s)  of number
+        estimated_i_j_k_l_s_total(i, j, k, l, s)       of number
+        estimated_i_j_k_l_s_last.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        normalized_i_j_k_l_s.Second(1) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        estimated_i_j_k_l_s_total      of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
         "+" from operation
             where
+                n  of          index = 1 # Индекс матрицы нормирования (единственная итерация)
                 Product, Refinery, Region, Market_participant, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -393,10 +55,10 @@ estimated_i_j_k_l_s_total = for_each_pair(estimated_i_j_k_l_final, "+", normaliz
 # Виртуальные Запросы после II очереди элиминируются (ẗ_request <- 0) и далее не используются.
 requests_i_j_k_l_s_virtual_final.Second = for_each_element(requests_i_j_k_l_s_corrected.Second, "*", 0)
     where
-        requests_i_j_k_l_s_corrected.Second(i, j, s, l, k)       of number
-        requests_i_j_k_l_s_virtual_final.Second(i, j, s, l, k)   of number
-        requests_i_j_k_l_s_corrected.Second      of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual_final.Second  of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_corrected.Second(i, j, s, l, k)     of number
+        requests_i_j_k_l_s_virtual_final.Second(i, j, s, l, k) of number
+        requests_i_j_k_l_s_corrected.Second     of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s_virtual_final.Second of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         "*" from operation
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
