@@ -119,10 +119,10 @@ requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_
         I from index # Индексы нефпродукта
         J from index # Индексы НПЗ
 
-### Шаг 4 для II очереди: те же свёртки на виртуальных Запросах r̃ (.Second).
-# Вход — requests_i_j_k_l_s_corrected.Second (= r̃ Шага 9a, step-10.example_1.lang). Коррекции
-# на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует в
-# свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j.Second).
+### Шаг 4 для II очереди: те же свёртки на объединённом входе R=2 + виртуальные r̃ (.Second).
+# Вход — requests_i_j_k_l_s_corrected.Second (= R=2 ∪ r̃ Шага 9a, step-10.example_1.lang).
+# Коррекции на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует
+# в свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j.Second).
 
 # Свёртка по регионам (K): объём по (i, j, l, s).
 requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Second, Region) = {
@@ -130,21 +130,33 @@ requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Sec
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
                 (1 from I, 1 from C, 1 from J, 2  from P)           = 130,  # 106
+                (1 from I, 1 from C, 1 from J, 14 from P)           = 195,  # 203
                 (1 from I, 1 from C, 1 from J, 1  from P)           = 65,   # 101
                 (1 from I, 1 from C, 1 from J, 12 from P)           = 130   # 108
+            },
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 16 from P)           = 130   # 205
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 8  from P)           = 65,   # 201
+                (1 from I, 1 from C, 3 from J, 9  from P)           = 130   # 202
             }
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = {
                 (1 from I, 2 from C, 1 from J, 7  from P)           = 15,   # 110
+                (1 from I, 2 from C, 1 from J, 15 from P)           = 50,   # 204
                 (1 from I, 2 from C, 1 from J, 1  from P) = 70 + 75 = 145,  # 102 + 103
                 (1 from I, 2 from C, 1 from J, 13 from P)           = 160,  # 109
                 (1 from I, 2 from C, 1 from J, 3  from P)           = 120   # 107
             },
             (1 from I, 2 from C, 2 from J) = {
                 (1 from I, 2 from C, 2 from J, 7  from P)           = 70,   # 111
+                (1 from I, 2 from C, 2 from J, 17 from P)           = 70,   # 206
                 (1 from I, 2 from C, 2 from J, 18 from P)           = 70,   # 112
-                (1 from I, 2 from C, 2 from J, 19 from P)           = 30    # 113
+                (1 from I, 2 from C, 2 from J, 19 from P)           = 30,   # 113
+                (1 from I, 2 from C, 2 from J, 21 from P)           = 15,   # 208
+                (1 from I, 2 from C, 2 from J, 22 from P)           = 35    # 209
             }
         }
     }
@@ -160,11 +172,13 @@ requests_i_j_l_s_corrected.Second = sum_by_axes(requests_i_j_k_l_s_corrected.Sec
 requests_i_j_s_corrected.Second = sum_by_axes(requests_i_j_l_s_corrected.Second, Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) =  65 + 130 + 130       = 325   # 101 + 106 + 108
+            (1 from I, 1 from C, 1 from J) =  65 + 130 + 130 + 195             = 520,  # 101 + 106 + 108 + 203
+            (1 from I, 1 from C, 2 from J)                                     = 130,  # 205
+            (1 from I, 1 from C, 3 from J) =  65 + 130                         = 195   # 201 + 202
         },
         (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = 145 + 120 +  15 + 160 = 440,  # 102 + 103 + 107 + 109 + 110
-            (1 from I, 2 from C, 2 from J) =  70 +  70 +  30       = 170   # 111 + 112 + 113
+            (1 from I, 2 from C, 1 from J) = 145 + 120 +  15 + 160 +  50       = 490,  # 102 + 103 + 107 + 109 + 110 + 204
+            (1 from I, 2 from C, 2 from J) =  70 +  70 +  70 +  30 +  15 +  35 = 290    # 111 + 112 + 113 + 206 + 208 + 209
         }
     }
 }
@@ -177,8 +191,9 @@ requests_i_j_s_corrected.Second = sum_by_axes(requests_i_j_l_s_corrected.Second,
 # Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
 requests_i_j_corrected.Second = sum_by_axes(requests_i_j_s_corrected.Second, Ship_terms) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 325 + 440 = 765,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
-        (1 from I, 2 from J)             = 170    # 111 + 112 + 113
+        (1 from I, 1 from J) = 520 + 490 = 1010,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
+        (1 from I, 2 from J) = 130 + 290 =  420,  # 111 + 112 + 113 + 205 + 206 + 208 + 209
+        (1 from I, 3 from J)             =  195   # 201 + 202
     }
 }
     where
