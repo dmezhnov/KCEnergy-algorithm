@@ -1,6 +1,7 @@
 sum_by_axes                    from ("matrix_operation.lang")
 requests_i_j_x_k_l_s_corrected from ("step-3.2.2.example_2.lang")
 requests_i_j_k_l_s_corrected   from ("step-10.example_2.lang")
+requests_i_j_x_k_l_s           from ("step-1.example_2.lang")
 
 ### Шаг 4. Итоговый суммарный объём Запросов на покупку НП в разрезе видов НП (i) и НПЗ (j)
 # На данном шаге есть данные только для первой очереди: итог считается по
@@ -213,6 +214,92 @@ requests_i_j_corrected(2 from R) = sum_by_axes(requests_i_j_s_corrected(2 from R
         (1 from I, 1 from J) = 520 + 495 = 1015,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
         (1 from I, 2 from J) = 260 + 660 =  920,  # 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
         (1 from I, 3 from J)             =  195   # 201 + 202
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R from index # Индексы очереди
+
+### Шаг 4 для III очереди (ГМК): свёртки исходных Запросов R=3 ((3 from R)).
+# Generic-форма Шага 4 (guard l0 > 2) строит вход III очереди прямо из исходных Запросов R=3:
+# виртуальных Запросов в III очереди нет (на ПНХЗ вся II очередь удовлетворена, остатка нет).
+# Запросы ГМК — только на ПНХЗ (J=3): #301 (195, FCA, K=2, P=10) и #302 (250, EXW, K=6, P=11).
+
+# Свёртка по нефтебазам (X): объём по (i, j, k, l, s).
+requests_i_j_k_l_s_corrected(3 from R) = sum_by_axes(requests_i_j_x_k_l_s(3 from R), Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = 195   # 301
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = 250   # 302
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+        R from index # Индексы очереди
+
+# Свёртка по регионам (K): объём по (i, j, l, s).
+requests_i_j_l_s_corrected(3 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(3 from R), Region) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 10 from P) = 195   # 301
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 11 from P) = 250   # 302
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Свёртка по субъектам рынка (P): объём по (i, j, s).
+requests_i_j_s_corrected(3 from R) = sum_by_axes(requests_i_j_l_s_corrected(3 from R), Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 3 from J) = 195   # 301
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = 250   # 302
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
+requests_i_j_corrected(3 from R) = sum_by_axes(requests_i_j_s_corrected(3 from R), Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 195 + 250 = 445   # 301 + 302
     }
 }
     where
