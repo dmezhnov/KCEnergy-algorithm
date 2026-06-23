@@ -6,10 +6,11 @@ axis, matrix, index            from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-# В остальных случаях (очереди > 1) корректировки на проливы нет: берём исходные объёмы (r_ijkl)
+# Для очередей > 2 (исходные Запросы, поданные на эти очереди) корректировки на проливы нет: берём исходные объёмы (r_ijkl).
+# Вторая (виртуальная) очередь не задаётся здесь: её вход — виртуальные Запросы Шага 9a, определён в step-10.lang как .Second.
 requests_i_j_k_l_s_corrected(l0) = sum_by_axes(requests_i_j_x_k_l_s(l0), Terminal)
     where
-        l0 > 1 # Если это не первая очередь
+        l0 > 2 # Очереди > 2; первая — .First, вторая (виртуальная) — .Second (step-10.lang)
         requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k)    of number
         requests_i_j_x_k_l_s(l0)(i, j, s, l, k, x)         of number
         requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
