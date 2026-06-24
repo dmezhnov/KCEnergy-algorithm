@@ -45,21 +45,21 @@ Market_participant = ( # P
 )
 
 Region = ( # K
-    Almaty,  # Алматы               - 1 from K
-    Astana,  # Астана               - 2 from K
-    Shimkent,# Шымкент              - 3 from K
-    Ulytau,  # Улытауская   область - 4 from K
-    Zhambyl, # Жамбылская   область - 5 from K
-    Pavlodar # Павлодарская область - 6 from K
+    Almaty,   # Алматы               - 1 from K
+    Astana,   # Астана               - 2 from K
+    Shimkent, # Шымкент              - 3 from K
+    Ulytau,   # Улытауская   область - 4 from K
+    Zhambyl,  # Жамбылская   область - 5 from K
+    Pavlodar  # Павлодарская область - 6 from K
 )
 
 District = ( # K0
-    Almaty,  # Алматы               - 1 from K0
-    Astana,  # Астана               - 2 from K0
-    Shimkent,# Шымкент              - 3 from K0
-    Ulytau,  # Улытауская   область - 4 from K0
-    Zhambyl, # Жамбылская   область - 5 from K0
-    Pavlodar # Павлодарская область - 6 from K0
+    Almaty,   # Алматы               - 1 from K0
+    Astana,   # Астана               - 2 from K0
+    Shimkent, # Шымкент              - 3 from K0
+    Ulytau,   # Улытауская   область - 4 from K0
+    Zhambyl,  # Жамбылская   область - 5 from K0
+    Pavlodar  # Павлодарская область - 6 from K0
 )
 
 Ship_terms = ( # C
