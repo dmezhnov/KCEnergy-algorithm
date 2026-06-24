@@ -1,101 +1,134 @@
-requests_i_j_k_l_s_l0_q           from ("initial_data.lang")
-estimated_i_j_k_l_final           from ("step-9.lang")
-assign_matrix                     from ("matrix_operation.lang")
-condition, axis, index, operation from ("matrix_types.lang")
+length, number                                                                from core
+requests_i_j_x_k_l_s_l0_q                                                      from ("initial_data.lang")
+estimated_i_j_k_l_final                                                        from ("step-9.lang")
+assign_matrix, filter_by_coordinate, for_each_pair, sum_by_axes, replace_coord from ("matrix_operation.lang")
+axis, index, operation                                                         from ("matrix_types.lang")
 
-requests_i_j_k_l_s_l0_q_final(1 from n) = assign_matrix(requests_i_j_k_l_s_l0_q, estimated_i_j_k_l_final)
+### Additional Step (N + 1)
+# Distribute the non-zero corrected normalized volume provided to each market
+# participant (independent of the distribution queue) across that participant's
+# actually submitted requests, taken in chronological order. The Request axis is
+# assumed to be already ordered chronologically (earliest request = smallest
+# index) and the Request index is unique across queues, so the Queue tag simply
+# rides along with each request. Each request q is either satisfied in full (when
+# the remaining volume still exceeds it) or receives the whole remaining volume
+# (when it does not); the remaining volume is then reduced by the allocated
+# amount. The procedure repeats request by request until the remaining volume
+# reaches zero.
+
+# Remaining (undistributed) corrected normalized volume available when the q-th
+# chronological request is reached. Seeded for the first request with the full
+# corrected normalized volume of the collection (i, j, k, l, s).
+requests_remainder(1 from Z) = estimated_i_j_k_l_final
     where
-        estimated_i_j_k_l_final(i, j, k, l, s)               of number
-        requests_i_j_k_l_s_l0_q_final(1)(i, j, k, l, l0, s) of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)       of number # Запрашиваемый объем НП
-        estimated_i_j_k_l_final          of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-        requests_i_j_k_l_s_l0_q_final(1) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q          of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_k_l_final(i, j, k, l, s)      of number
+        requests_remainder(1 from Z)(i, j, k, l, s) of number
+        estimated_i_j_k_l_final      of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        requests_remainder(1 from Z) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
             where
-                n  of          index # Индек матрицы
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
+                Product, Refinery, Region, Market_participant, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices
 
-requests_i_j_k_l_s_l0_q_final_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), ">", requests_i_j_k_l_s_l0_q)
+# The q-th chronological request, selected along the Request axis (the axis is
+# removed; the request keeps its single Queue coordinate).
+requests_front(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, q)
     where
-        requests_i_j_k_l_s_l0_q_final_exceed(n)(i, j, k, l, l0, s, q) of number
-        requests_i_j_k_l_s_l0_q_final(n)(i, j, k, l, l0, s, q)        of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)                 of number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_l0_q_final_exceed(n) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q_final(n)        of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q                 of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        ">" from condition
+        requests_i_j_x_k_l_s_l0_q(i, j, k, l, l0, s, q) of number # Requested volume
+        requests_front(q)(i, j, k, l, l0, s)            of number
+        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front(q)         of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
             where
-                n  of          index # Индек матрицы
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                l0 for R  from index # Queue indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices
 
-requests_i_j_k_l_s_l0_q_final_not_exceed(n) = filter_by_pair(requests_i_j_k_l_s_l0_q_final(n), "<=", requests_i_j_k_l_s_l0_q)
+# Volume allocated to the q-th request = min(requested, remaining volume).
+# When the remaining volume exceeds the request the result equals the request
+# (full satisfaction); otherwise it equals the remaining volume (partial fill).
+requests_allocated(q) = for_each_pair(requests_front(q), min, requests_remainder(q))
     where
-        requests_i_j_k_l_s_l0_q_final_not_exceed(n)(i, j, k, l, l0, s, q) of number
-        requests_i_j_k_l_s_l0_q_final(n)(i, j, k, l, l0, s, q)            of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)                     of number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_l0_q_final_not_exceed(n) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q_final(n)            of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q                     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        "<=" from condition
+        requests_front(q)(i, j, k, l, l0, s)     of number
+        requests_remainder(q)(i, j, k, l, s)     of number
+        requests_allocated(q)(i, j, k, l, l0, s) of number
+        requests_front(q)     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_remainder(q) of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
+        requests_allocated(q) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        min from operation
             where
-                n  of          index # Индек матрицы
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                l0 for R  from index # Queue indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices
 
-requests_i_j_k_l_s_l0_q_final(n) = for_each_pair(requests_i_j_k_l_s_l0_q_final_exceed(n - 1), "-", requests_i_j_k_l_s_l0_q)
+# Remaining volume for the next chronological request: the current remaining
+# volume reduced by what was just allocated (the Queue tag of the allocation is
+# summed out to match the collection shape).
+requests_remainder(q + 1) = for_each_pair(requests_remainder(q), "-", sum_by_axes(requests_allocated(q), Queue))
     where
-        requests_i_j_k_l_s_l0_q_final_exceed(n)(i, j, k, l, l0, s, q) of number
-        requests_i_j_k_l_s_l0_q_final(n)(i, j, k, l, l0, s, q)        of number
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)                 of number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_l0_q_final_exceed(n) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q_final(n)        of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q                 of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder(q)(i, j, k, l, s)     of number
+        requests_allocated(q)(i, j, k, l, l0, s) of number
+        requests_remainder(q + 1)(i, j, k, l, s) of number
+        requests_remainder(q)     of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
+        requests_allocated(q)     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_remainder(q + 1) of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
         "-" from operation
             where
-                n  of          index # Индек матрицы
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                l0 for R  from index # Queue indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices
 
-requests_i_j_k_l_s_l0_q_final_not_exceed_all = assign_matrix(requests_i_j_k_l_s_l0_q_final_not_exceed(1), ..., requests_i_j_k_l_s_l0_q_final_not_exceed(x))
+# Re-attach the Request coordinate q to the allocation so that allocations of
+# distinct chronological requests of the same collection stay separate.
+requests_allocated_q(q) = replace_coord(requests_allocated(q), q, q from Request)
     where
-        requests_i_j_k_l_s_l0_q_final_not_exceed_all(i, j, k, l, l0, s, q) of number
-        requests_i_j_k_l_s_l0_q_final_not_exceed(n)(i, j, k, l, l0, s, q)  of number
-        requests_i_j_k_l_s_l0_q_final_not_exceed_all of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_k_l_s_l0_q_final_not_exceed(n)     of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_allocated(q)(i, j, k, l, l0, s)      of number
+        requests_allocated_q(q)(i, j, k, l, l0, s, q) of number
+        requests_allocated(q)   of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
+        requests_allocated_q(q) of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
             where
-                n  of          index # Индек матрицы
-                x  of          index = length(requests_i_j_k_l_s_l0_q_final_not_exceed) # Индек последней матрицы
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                l0 for R  from index # Queue indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices
+
+# Final result: the corrected normalized volume distributed over all chronological
+# requests, merged across every generation q = 1 .. length(Request).
+requests_i_j_k_l_s_l0_q_final = assign_matrix(requests_allocated_q(1), ..., requests_allocated_q(D))
+    where
+        requests_allocated_q(q)(i, j, k, l, l0, s, q)       of number
+        requests_i_j_k_l_s_l0_q_final(i, j, k, l, l0, s, q) of number
+        requests_allocated_q(q)       of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q_final of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                D of index = length(Request) # Number of chronological requests
+                Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Axes
+                i  for I  from index # Product indices
+                j  for J  from index # Refinery indices
+                k  for K  from index # Region indices
+                l  for P  from index # Market participant indices
+                l0 for R  from index # Queue indices
+                s  for C  from index # Ship terms indices
+                q  for Z  from index # Request (chronological) indices

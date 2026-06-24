@@ -4,13 +4,14 @@ axis, index, matrix from ("matrix_types.lang")
 ## Исходные данные
 
 # Заявки субъектов рынка за рассматриваемый период
-requests_i_j_k_l_s_l0_q of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
     where
-        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q) of number # Запрашиваемый объем НП
-        Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
+        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
             where
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
@@ -31,37 +32,38 @@ volumes_l_t_i_k_k0_i0 of matrix(Market_participant, Region, Product, Month_and_y
                 i0 for I0 from index # Индексы категории нефпродукта
 
 # Доступные объемы НП
-available_i_j.First of matrix(Product, Refinery)
+available_i_j(1 from R) of matrix(Product, Refinery)
     where
-        available_i_j.First(i, j) of number
+        available_i_j(1 from R)(i, j) of number
             where
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
+                R         from index # Индексы очереди
 
 # Порог превышения доступных объёмов, %
-OVERALL_REQUEST_CAPACITY_PERCENTAGE of percentage = 120
+OVERALL_REQUEST_CAPACITY_PERCENTAGE of percentage
     where
         percentage of number
 
 # Доля порога [0; 1]
-OVERALL_REQUEST_CAPACITY_COEFFICIENT of number     = OVERALL_REQUEST_CAPACITY_PERCENTAGE / 100 = 1.2
+OVERALL_REQUEST_CAPACITY_COEFFICIENT of number     = OVERALL_REQUEST_CAPACITY_PERCENTAGE / 100
 
 # Вагонная норма для НПЗ, МТ
-RAIL_ROAD_MIN_TONNAGE                of number     = 65
+RAIL_ROAD_MIN_TONNAGE                of number
 
 # Минимальная норма для нефтебазы, МТ
-OIL_TERMINAL_MIN_TONNAGE             of number     = 4
+OIL_TERMINAL_MIN_TONNAGE             of number
 
 # Шаг нормы для нефтебазы, МТ
-OIL_TERMINAL_STEP_TONNAGE            of number     = 5
+OIL_TERMINAL_STEP_TONNAGE            of number
 
 # Предельная доля одному Субъекту, %
-MAX_SUBJECT_SHARE_PERCENTAGE         of percentage = 50
+MAX_SUBJECT_SHARE_PERCENTAGE         of percentage
     where
         percentage of number
 
 # Предельная доля одному Субъекту, коэффициент
-MAX_SUBJECT_SHARE_COEFFICIENT        of number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100 = 0.5
+MAX_SUBJECT_SHARE_COEFFICIENT        of number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100
     where
         percentage of number

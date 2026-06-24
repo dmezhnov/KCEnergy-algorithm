@@ -1,0 +1,61 @@
+number                     from core
+available_i_j_new          from ("step-8.lang")
+normalized_i_j_k_l_s       from ("step-6.lang")
+for_each_pair, sum_by_axes from ("matrix_operation.lang")
+operation, axis, index     from ("matrix_types.lang")
+
+### Шаг 11 (II очередь) и Шаг 14 (III очередь, ГМК). Остаток после распределения виртуальных очередей
+# Система рассчитывает оставшиеся после распределения объёмы НП по каждому НПЗ для каждой
+# виртуальной очереди l0 (l0 != 1):
+#   v(l0+1)_ij = v(l0)_ij − Σ_k Σ_l ü_ijkl(l0),
+# где
+#   v(l0)_ij      — оставшийся после предыдущей очереди объём: available_i_j_new(l0 - 1);
+#   ü_ijkl(l0)    — (уточнённый) нормированный объём, предоставленный l-му Субъекту рынка
+#                   с j-го НПЗ для поставки в k-й регион в очереди l0 (Шаг 6):
+#                   normalized_i_j_k_l_s(l0)(1);
+#   V(l0)         — итоговая матрица размера N × M очереди l0.
+# Виртуальные очереди (II — Владельцы нефтебаз/резервуаров; III — Субъекты рынка из состава
+# ГМК) распределяются только в Шагах 4-6 без Шага 7, поэтому guard'ы Шага 8 (l0 = 1) их
+# исключают, а здесь из остатка предыдущей очереди вычитается свёртка их нормированных объёмов.
+# Семейство available_i_j_new делится на непересекающиеся части: l0 = 1 (step-8) и l0 != 1 (здесь).
+# Конкретные экземпляры приведены в step-11.example_N.lang: l0 = 2 — Шаг 11; l0 = 3 — Шаг 14.
+# Трассировочные строки (для каждого Запроса на покупку НП):
+#   Шаг 11. Оставшийся после распределения Владельцам нефтебаз / резервуаров объём НП {$НП, i}
+#           на НПЗ {$НПЗ, j}, МТ: v3_ij
+#   Шаг 14. Оставшийся после распределения ГМК объём НП {$НП, i} на НПЗ {$НПЗ, j}, МТ: v4_ij
+
+# Суммарно предоставленный в очереди l0 объём по (Product, Refinery): свёртка ü по k, l, s.
+estimated_i_j(l0) = sum_by_axes(normalized_i_j_k_l_s(l0)(1), Region, Market_participant, Ship_terms)
+    where
+        l0 != 1 # Только виртуальные очереди; реальная I очередь обрабатывается в Шагах 7-8
+        normalized_i_j_k_l_s(l0)(1)(i, j, s, l, k) of number
+        estimated_i_j(l0)(i, j)                    of number
+        normalized_i_j_k_l_s(l0)(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j(l0)           of matrix(Product, Refinery)
+            where
+                l0 for R  from index # Индексы очереди
+                n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
+                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
+
+# Матрица оставшихся после распределения очереди l0 объёмов НП (V(l0)).
+# По НПЗ без распределения данной очереди остаток равен предыдущему (вычитается 0).
+available_i_j_new(l0) = for_each_pair(available_i_j_new(l0 - 1), "-", estimated_i_j(l0))
+    where
+        l0 != 1 # Только виртуальные очереди; реальная I очередь обрабатывается в Шагах 7-8
+        available_i_j_new(l0)(i, j)     of number
+        available_i_j_new(l0 - 1)(i, j) of number
+        estimated_i_j(l0)(i, j)         of number
+        available_i_j_new(l0)     of matrix(Product, Refinery)
+        available_i_j_new(l0 - 1) of matrix(Product, Refinery)
+        estimated_i_j(l0)         of matrix(Product, Refinery)
+        "-" from operation
+            where
+                l0 for R  from index # Индексы очереди
+                Product, Refinery from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ

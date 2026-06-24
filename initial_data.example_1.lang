@@ -1,0 +1,1053 @@
+Product = ( # I
+    AI_92 # 1 from I
+)
+
+Product_category = ( # I0
+    AI_92 # 1 from I0
+)
+
+Refinery = ( # J
+    PKOP, # ПКОП - 1 from J
+    ANPZ, # АНПЗ - 2 from J
+    PNHZ  # ПНХЗ - 3 from J
+)
+
+Terminal = ( # X
+    NEFTEK,      # АНПЗ NEFTEK Operating                - 1 from X
+    AO_Shimkent, # ПОКП АО "Шымкент Мунай онімдері"     - 2 from X
+    Parnas,      # ПНХЗ ТОО «ТК Парнас»                 - 3 from X
+    Without_term # Без нефтебазы (условие поставки FCA) - 4 from X
+)
+
+Market_participant = ( # P
+    Paricipant_A, # А. - 1  from P
+    Paricipant_B, # Б. - 2  from P
+    Paricipant_C, # В. - 3  from P
+    Paricipant_D, # Г. - 4  from P
+    Paricipant_E, # Д. - 5  from P
+    Paricipant_F, # Е. - 6  from P
+    Paricipant_H, # З. - 7  from P
+    Paricipant_I, # И. - 8  from P
+    Paricipant_K, # К. - 9  from P
+    Paricipant_L, # Л. - 10 from P
+    Paricipant_M, # М. - 11 from P
+    Paricipant_N, # Н. - 12 from P
+    Paricipant_P, # П. - 13 from P
+    Paricipant_Q, # Р. - 14 from P
+    Paricipant_R, # С. - 15 from P
+    Paricipant_S, # Т. - 16 from P
+    Paricipant_T, # У. - 17 from P
+    Paricipant_U, # Ф. - 18 from P
+    Paricipant_V, # Х. - 19 from P
+    Paricipant_W, # Ц. - 20 from P
+    Paricipant_Y, # Ш. - 21 from P
+    Paricipant_Z  # Щ. - 22 from P
+)
+
+Region = ( # K
+    Almaty,   # Алматы               - 1 from K
+    Astana,   # Астана               - 2 from K
+    Shimkent, # Шымкент              - 3 from K
+    Ulytau,   # Улытауская   область - 4 from K
+    Zhambyl,  # Жамбылская   область - 5 from K
+    Pavlodar  # Павлодарская область - 6 from K
+)
+
+District = ( # K0
+    Almaty,   # Алматы               - 1 from K0
+    Astana,   # Астана               - 2 from K0
+    Shimkent, # Шымкент              - 3 from K0
+    Ulytau,   # Улытауская   область - 4 from K0
+    Zhambyl,  # Жамбылская   область - 5 from K0
+    Pavlodar  # Павлодарская область - 6 from K0
+)
+
+Ship_terms = ( # C
+    FCA, # 1 from C
+    EXW  # 2 from C
+)
+
+Request = ( # Z
+    001, # 1  from Z
+    002, # 2  from Z
+    003, # 3  from Z
+    004, # 4  from Z
+    005, # 5  from Z
+    006, # 6  from Z
+    007, # 7  from Z
+    008, # 8  from Z
+    009, # 9  from Z
+    010, # 10 from Z
+    011, # 11 from Z
+    012, # 12 from Z
+    013, # 13 from Z
+    014, # 14 from Z
+    015, # 15 from Z
+    016, # 16 from Z
+    017, # 17 from Z
+    018, # 18 from Z
+    019, # 19 from Z
+    020, # 20 from Z
+    021, # 21 from Z
+    022, # 22 from Z
+    023, # 23 from Z
+    024, # 24 from Z
+    025, # 25 from Z
+    026, # 26 from Z
+    027, # 27 from Z
+    028, # 28 from Z
+    029, # 29 from Z
+    030, # 30 from Z
+    031, # 31 from Z
+    032, # 32 from Z
+    033, # 33 from Z
+    034, # 34 from Z
+    035, # 35 from Z
+    036, # 36 from Z
+    037, # 37 from Z
+    038, # 38 from Z
+    039  # 39 from Z
+)
+
+Queue = ( # R
+    First,  # 1 from R
+    Second, # 3 from R
+    Third,  # 3 from R
+    Fourth  # 4 from R
+)
+
+# 001   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      1 from P,      1 from R - 130
+# 001  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_A,  First)
+
+# 002   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      1 from P,      1 from R - 25
+# 002  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_A,  First)
+
+# 003   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      1 from P,      1 from R - 35
+# 003  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_A,  First)
+
+# 004   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      1 from P,      1 from R - 40
+# 004  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_A,  First)
+
+# 005   1 from I,   2 from C,   1 from J,   5 from K,   2 from X,      1 from P,      1 from R - 75
+# 005  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Paricipant_A,  First)
+
+# 006   1 from I,   2 from C,   1 from J,   5 from K,   2 from X,      1 from P,      1 from R - 75
+# 006  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Paricipant_A,  First)
+
+# 009   1 from I,   1 from C,   1 from J,   3 from K,   4 from X,      2 from P,      1 from R - 715
+# 009  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Paricipant_B,  First)
+
+# 010   1 from I,   2 from C,   1 from J,   5 from K,   2 from X,      3 from P,      1 from R - 200
+# 010  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Paricipant_C,  First)
+
+# 011   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 65
+# 011  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+
+# 012   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 65
+# 012  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+
+# 013   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 65
+# 013  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+
+# 014   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 65
+# 014  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+
+# 015   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 65
+# 015  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+
+# 016   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 65
+# 016  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+
+# 017   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 65
+# 017  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+
+# 018   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 65
+# 018  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+
+# 019   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 65
+# 019  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+
+# 020   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 65
+# 020  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+
+# 021   1 from I,   2 from C,   1 from J,   1 from K,   2 from X,      7 from P,      1 from R - 70
+# 021  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Paricipant_H,  First)
+
+# 022   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      7 from P,      1 from R - 100
+# 022  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_H,  First)
+
+# 023   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      8 from P,      2 from R - 65
+# 023  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_I,  Second)
+
+# 024   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      9 from P,      2 from R - 130
+# 024  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_K,  Second)
+
+# 025   1 from I,   1 from C,   1 from J,   3 from K,   4 from X,      14 from P,     2 from R - 195
+# 025  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Paricipant_Q,  Second)
+
+# 026   1 from I,   2 from C,   1 from J,   1 from K,   2 from X,      15 from P,     2 from R - 50
+# 026  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Paricipant_R,  Second)
+
+# 027   1 from I,   1 from C,   2 from J,   4 from K,   4 from X,      16 from P,     2 from R - 130
+# 027  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Paricipant_S,  Second)
+
+# 028   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      17 from P,     2 from R - 70
+# 028  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_T,  Second)
+
+# 029   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      18 from P,     1 from R - 100
+# 029  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_U,  First)
+
+# 030   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      19 from P,     1 from R - 50
+# 030  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_V,  First)
+
+# 032   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      10 from P,     3 from R - 195
+# 032  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_L,  Third)
+
+# 033   1 from I,   2 from C,   3 from J,   6 from K,   3 from X,      11 from P,     3 from R - 250
+# 033  (AI_92,      EXW,        PNHZ,       Pavlodar,   Parnas,        Paricipant_M,  Third)
+
+# 034   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      4 from P,      4 from R - 260
+# 034  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_D,  Fourth)
+
+# 035   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      5 from P,      4 from R - 520
+# 035  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_E,  Fourth)
+
+# 036   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      6 from P,      4 from R - 715
+# 036  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_F,  Fourth)
+
+# 037   1 from I,   1 from C,   2 from J,   4 from K,   4 from X,      6 from P,      4 from R - 520
+# 037  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Paricipant_F,  Fourth)
+
+# 038   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      21 from P,     2 from R - 15
+# 038  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_Y,  Second)
+
+# 039   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      22 from P,     2 from R - 35
+# 039  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_Z,  Second)
+
+requests_i_j_x_k_l_s_l0_q = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 715  # 009
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 195  # 025
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R, 1  from Z) = 130  # 001
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 65,  # 014
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 65   # 015
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 520  # 037
+                        }
+                    },
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 70   # 021
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 50   # 026
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 25,  # 002
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 3  from Z) = 35,  # 003
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 4  from Z) = 40   # 004
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 65,  # 018
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 19 from Z) = 65,  # 019
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 20 from Z) = 65   # 020
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 75   # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 200  # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 100  # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 100  # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 50   # 030
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+Month_and_year = ( # Y
+    august_2025,    # август   2025 - 1  from Y
+    july_2025,      # июль     2025 - 2  from Y
+    june_2025,      # июнь     2025 - 3  from Y
+    may_2025,       # май      2025 - 4  from Y
+    april_2025,     # апрель   2025 - 5  from Y
+    march_2025,     # март     2025 - 6  from Y
+    february_2025,  # февраль  2025 - 7  from Y
+    january_2025,   # январь   2025 - 8  from Y
+    december_2024,  # декабрь  2024 - 9  from Y
+    november_2024,  # ноябрь   2024 - 10 from Y
+    october_2024,   # октябрь  2024 - 11 from Y
+    september_2024  # сентябрь 2024 - 12 from Y
+)
+
+# 0001 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      1 from Y        - 100
+# 0001 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  август   2025)
+
+# 0002 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      2 from Y        - 100
+# 0002 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  июль     2025)
+
+# 0003 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      3 from Y        - 100
+# 0003 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  июнь     2025)
+
+# 0004 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      4 from Y        - 100
+# 0004 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  май      2025)
+
+# 0005 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      5 from Y        - 90
+# 0005 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  апрель   2025)
+
+# 0006 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      6 from Y        - 90
+# 0006 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  март     2025)
+
+# 0007 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      7 from Y        - 80
+# 0007 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  февраль  2025)
+
+# 0008 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      8 from Y        - 60
+# 0008 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  январь   2025)
+
+# 0009 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      9 from Y        - 0
+# 0009 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  декабрь  2024)
+
+# 0010 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      10 from Y       - 0
+# 0010 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  ноябрь   2024)
+
+# 0011 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      11 from Y       - 0
+# 0011 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  октябрь  2024)
+
+# 0012 1 from I,  1 from I0,  4 from K,  4 from K0,  1 from P,      12 from Y       - 0
+# 0012 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_A,  сентябрь 2024)
+
+# 0013 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      1 from Y        - 120
+# 0013 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  август   2025)
+
+# 0014 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      2 from Y        - 120
+# 0014 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  июль     2025)
+
+# 0015 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      3 from Y        - 100
+# 0015 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  июнь     2025)
+
+# 0016 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      4 from Y        - 100
+# 0016 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  май      2025)
+
+# 0017 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      5 from Y        - 120
+# 0017 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  апрель   2025)
+
+# 0018 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      6 from Y        - 80
+# 0018 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  март     2025)
+
+# 0019 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      7 from Y        - 80
+# 0019 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  февраль  2025)
+
+# 0020 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      8 from Y        - 80
+# 0020 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  январь   2025)
+
+# 0021 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      9 from Y        - 80
+# 0021 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  декабрь  2024)
+
+# 0022 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      10 from Y       - 80
+# 0022 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  ноябрь   2024)
+
+# 0023 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      11 from Y       - 60
+# 0023 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  октябрь  2024)
+
+# 0024 1 from I,  1 from I0,  5 from K,  5 from K0,  1 from P,      12 from Y       - 60
+# 0024 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_A,  сентябрь 2024)
+
+# 0025 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      1 from Y        - 770
+# 0025 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  август   2025)
+
+# 0026 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      2 from Y        - 750
+# 0026 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  июль     2025)
+
+# 0027 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      3 from Y        - 730
+# 0027 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  июнь     2025)
+
+# 0028 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      4 from Y        - 0
+# 0028 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  май      2025)
+
+# 0029 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      5 from Y        - 0
+# 0029 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  апрель   2025)
+
+# 0030 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      6 from Y        - 0
+# 0030 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  март     2025)
+
+# 0031 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      7 from Y        - 0
+# 0031 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  февраль  2025)
+
+# 0032 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      8 from Y        - 0
+# 0032 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  январь   2025)
+
+# 0033 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      9 from Y        - 0
+# 0033 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  декабрь  2024)
+
+# 0034 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      10 from Y       - 0
+# 0034 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  ноябрь   2024)
+
+# 0035 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      11 from Y       - 0
+# 0035 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  октябрь  2024)
+
+# 0036 1 from I,  1 from I0,  3 from K,  3 from K0,  2 from P,      12 from Y       - 0
+# 0036 (AI_92,    AI_92,      Shimkent,  Shimkent,   Paricipant_B,  сентябрь 2024)
+
+# 0037 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      1 from Y        - 100
+# 0037 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  август   2025)
+
+# 0038 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      2 from Y        - 100
+# 0038 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  июль     2025)
+
+# 0039 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      3 from Y        - 100
+# 0039 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  июнь     2025)
+
+# 0040 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      4 from Y        - 100
+# 0040 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  май      2025)
+
+# 0041 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      5 from Y        - 100
+# 0041 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  апрель   2025)
+
+# 0042 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      6 from Y        - 100
+# 0042 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  март     2025)
+
+# 0043 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      7 from Y        - 100
+# 0043 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  февраль  2025)
+
+# 0044 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      8 from Y        - 100
+# 0044 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  январь   2025)
+
+# 0045 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      9 from Y        - 100
+# 0045 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  декабрь  2024)
+
+# 0046 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      10 from Y       - 100
+# 0046 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  ноябрь   2024)
+
+# 0047 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      11 from Y       - 100
+# 0047 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  октябрь  2024)
+
+# 0048 1 from I,  1 from I0,  5 from K,  5 from K0,  3 from P,      12 from Y       - 100
+# 0048 (AI_92,    AI_92,      Zhambyl,   Zhambyl,    Paricipant_C,  сентябрь 2024)
+
+# 0049 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     1 from Y        - 220
+# 0049 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  август   2025)
+
+# 0050 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     2 from Y        - 210
+# 0050 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  июль     2025)
+
+# 0051 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     3 from Y        - 210
+# 0051 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  июнь     2025)
+
+# 0052 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     4 from Y        - 210
+# 0052 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  май      2025)
+
+# 0053 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     5 from Y        - 200
+# 0053 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  апрель   2025)
+
+# 0054 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     6 from Y        - 200
+# 0054 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  март     2025)
+
+# 0055 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     7 from Y        - 200
+# 0055 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  февраль  2025)
+
+# 0056 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     8 from Y        - 195
+# 0056 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  январь   2025)
+
+# 0057 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     9 from Y        - 190
+# 0057 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  декабрь  2024)
+
+# 0058 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     10 from Y       - 190
+# 0058 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  ноябрь   2024)
+
+# 0059 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     11 from Y       - 190
+# 0059 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  октябрь  2024)
+
+# 0060 1 from I,  1 from I0,  4 from K,  4 from K0,  12 from P,     12 from Y       - 185
+# 0060 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_N,  сентябрь 2024)
+
+# 0061 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     1 from Y        - 250
+# 0061 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  август   2025)
+
+# 0062 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     2 from Y        - 240
+# 0062 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  июль     2025)
+
+# 0063 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     3 from Y        - 230
+# 0063 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  июнь     2025)
+
+# 0064 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     4 from Y        - 220
+# 0064 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  май      2025)
+
+# 0065 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     5 from Y        - 210
+# 0065 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  апрель   2025)
+
+# 0066 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     6 from Y        - 200
+# 0066 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  март     2025)
+
+# 0067 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     7 from Y        - 200
+# 0067 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  февраль  2025)
+
+# 0068 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     8 from Y        - 190
+# 0068 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  январь   2025)
+
+# 0069 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     9 from Y        - 180
+# 0069 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  декабрь  2024)
+
+# 0070 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     10 from Y       - 170
+# 0070 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  ноябрь   2024)
+
+# 0071 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     11 from Y       - 160
+# 0071 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  октябрь  2024)
+
+# 0072 1 from I,  1 from I0,  4 from K,  4 from K0,  13 from P,     12 from Y       - 150
+# 0072 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_P,  сентябрь 2024)
+
+# 0073 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      1 from Y        - 40
+# 0073 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  август   2025)
+
+# 0074 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      2 from Y        - 40
+# 0074 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  июль     2025)
+
+# 0075 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      3 from Y        - 40
+# 0075 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  июнь     2025)
+
+# 0076 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      4 from Y        - 25
+# 0076 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  май      2025)
+
+# 0077 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      5 from Y        - 25
+# 0077 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  апрель   2025)
+
+# 0078 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      6 from Y        - 25
+# 0078 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  март     2025)
+
+# 0079 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      7 from Y        - 20
+# 0079 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  февраль  2025)
+
+# 0080 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      8 from Y        - 20
+# 0080 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  январь   2025)
+
+# 0081 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      9 from Y        - 20
+# 0081 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  декабрь  2024)
+
+# 0082 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      10 from Y       - 35
+# 0082 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  ноябрь   2024)
+
+# 0083 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      11 from Y       - 35
+# 0083 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  октябрь  2024)
+
+# 0084 1 from I,  1 from I0,  4 from K,  4 from K0,  7 from P,      12 from Y       - 35
+# 0084 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_H,  сентябрь 2024)
+
+# 0085 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     1 from Y        - 50
+# 0085 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  август   2025)
+
+# 0086 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     2 from Y        - 40
+# 0086 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  июль     2025)
+
+# 0087 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     3 from Y        - 30
+# 0087 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  июнь     2025)
+
+# 0088 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     4 from Y        - 20
+# 0088 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  май      2025)
+
+# 0089 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     5 from Y        - 10
+# 0089 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  апрель   2025)
+
+# 0090 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     6 from Y        - 0
+# 0090 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  март     2025)
+
+# 0091 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     7 from Y        - 0
+# 0091 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  февраль  2025)
+
+# 0092 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     8 from Y        - 0
+# 0092 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  январь   2025)
+
+# 0093 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     9 from Y        - 0
+# 0093 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  декабрь  2024)
+
+# 0094 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     10 from Y       - 0
+# 0094 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  ноябрь   2024)
+
+# 0095 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     11 from Y       - 0
+# 0095 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  октябрь  2024)
+
+# 0096 1 from I,  1 from I0,  4 from K,  4 from K0,  18 from P,     12 from Y       - 0
+# 0096 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_U,  сентябрь 2024)
+
+# 0097 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     1 from Y        - 20
+# 0097 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  август   2025)
+
+# 0098 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     2 from Y        - 20
+# 0098 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  июль     2025)
+
+# 0099 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     3 from Y        - 20
+# 0099 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  июнь     2025)
+
+# 0100 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     4 from Y        - 20
+# 0100 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  май      2025)
+
+# 0101 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     5 from Y        - 20
+# 0101 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  апрель   2025)
+
+# 0102 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     6 from Y        - 20
+# 0102 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  март     2025)
+
+# 0103 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     7 from Y        - 20
+# 0103 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  февраль  2025)
+
+# 0104 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     8 from Y        - 20
+# 0104 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  январь   2025)
+
+# 0105 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     9 from Y        - 20
+# 0105 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  декабрь  2024)
+
+# 0106 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     10 from Y       - 20
+# 0106 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  ноябрь   2024)
+
+# 0107 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     11 from Y       - 20
+# 0107 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  октябрь  2024)
+
+# 0108 1 from I,  1 from I0,  4 from K,  4 from K0,  19 from P,     12 from Y       - 20
+# 0108 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_V,  сентябрь 2024)
+
+# 0109 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     1 from Y        - 0
+# 0109 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  август   2025)
+
+# 0110 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     2 from Y        - 0
+# 0110 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  июль     2025)
+
+# 0111 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     3 from Y        - 0
+# 0111 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  июнь     2025)
+
+# 0112 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     4 from Y        - 0
+# 0112 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  май      2025)
+
+# 0113 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     5 from Y        - 0
+# 0113 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  апрель   2025)
+
+# 0114 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     6 from Y        - 0
+# 0114 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  март     2025)
+
+# 0115 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     7 from Y        - 0
+# 0115 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  февраль  2025)
+
+# 0116 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     8 from Y        - 0
+# 0116 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  январь   2025)
+
+# 0117 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     9 from Y        - 0
+# 0117 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  декабрь  2024)
+
+# 0118 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     10 from Y       - 0
+# 0118 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  ноябрь   2024)
+
+# 0119 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     11 from Y       - 0
+# 0119 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  октябрь  2024)
+
+# 0120 1 from I,  1 from I0,  4 from K,  4 from K0,  21 from P,     12 from Y       - 0
+# 0120 (AI_92,    AI_92,      Ulytau,    Ulytau,     Paricipant_Y,  сентябрь 2024)
+
+# 0121 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      1 from Y        - 100
+# 0121 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  август   2025)
+
+# 0122 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      2 from Y        - 90
+# 0122 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  июль     2025)
+
+# 0123 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      3 from Y        - 80
+# 0123 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  июнь     2025)
+
+# 0124 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      4 from Y        - 80
+# 0124 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  май      2025)
+
+# 0125 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      5 from Y        - 75
+# 0125 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  апрель   2025)
+
+# 0126 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      6 from Y        - 90
+# 0126 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  март     2025)
+
+# 0127 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      7 from Y        - 90
+# 0127 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  февраль  2025)
+
+# 0128 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      8 from Y        - 90
+# 0128 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  январь   2025)
+
+# 0129 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      9 from Y        - 90
+# 0129 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  декабрь  2024)
+
+# 0130 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      10 from Y       - 70
+# 0130 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  ноябрь   2024)
+
+# 0131 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      11 from Y       - 80
+# 0131 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  октябрь  2024)
+
+# 0132 1 from I,  1 from I0,  1 from K,  1 from K0,  7 from P,      12 from Y       - 85
+# 0132 (AI_92,    AI_92,      Almaty,    Almaty,     Paricipant_H,  сентябрь 2024)
+
+volumes_l_t_i_k_k0_i0 = {
+    (1 from I) = {
+        (1 from I, 1 from I0) = {
+            (1 from I, 1 from I0, 1 from K) = {
+                (1 from I, 1 from I0, 1 from K, 1 from K0) = {
+                    (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P) = {
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 1  from Y) = 100, # 0121
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 2  from Y) = 90,  # 0122
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 3  from Y) = 80,  # 0123
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 4  from Y) = 80,  # 0124
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 5  from Y) = 75,  # 0125
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 6  from Y) = 90,  # 0126
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 7  from Y) = 90,  # 0127
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 8  from Y) = 90,  # 0128
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 9  from Y) = 90,  # 0129
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 10 from Y) = 70,  # 0130
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 11 from Y) = 80,  # 0131
+                        (1 from I, 1 from I0, 1 from K, 1 from K0, 7  from P, 12 from Y) = 85   # 0132
+                    }
+                }
+            },
+            (1 from I, 1 from I0, 3 from K) = {
+                (1 from I, 1 from I0, 3 from K, 3 from K0) = {
+                    (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P) = {
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 1  from Y) = 770, # 0025
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 2  from Y) = 750, # 0026
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 3  from Y) = 730, # 0027
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 4  from Y) = 0,   # 0028
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 5  from Y) = 0,   # 0029
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 6  from Y) = 0,   # 0030
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 7  from Y) = 0,   # 0031
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 8  from Y) = 0,   # 0032
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 9  from Y) = 0,   # 0033
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 10 from Y) = 0,   # 0034
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 11 from Y) = 0,   # 0035
+                        (1 from I, 1 from I0, 3 from K, 3 from K0, 2  from P, 12 from Y) = 0    # 0036
+                    }
+                }
+            },
+            (1 from I, 1 from I0, 4 from K) = {
+                (1 from I, 1 from I0, 4 from K, 4 from K0) = {
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 1  from Y) = 100, # 0001
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 2  from Y) = 100, # 0002
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 3  from Y) = 100, # 0003
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 4  from Y) = 100, # 0004
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 5  from Y) = 90,  # 0005
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 6  from Y) = 90,  # 0006
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 7  from Y) = 80,  # 0007
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 8  from Y) = 60,  # 0008
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 9  from Y) = 0,   # 0009
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 10 from Y) = 0,   # 0010
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 11 from Y) = 0,   # 0011
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 1  from P, 12 from Y) = 0    # 0012
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 1  from Y) = 40,  # 0073
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 2  from Y) = 40,  # 0074
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 3  from Y) = 40,  # 0075
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 4  from Y) = 25,  # 0076
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 5  from Y) = 25,  # 0077
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 6  from Y) = 25,  # 0078
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 7  from Y) = 20,  # 0079
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 8  from Y) = 20,  # 0080
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 9  from Y) = 20,  # 0081
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 10 from Y) = 35,  # 0082
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 11 from Y) = 35,  # 0083
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 7  from P, 12 from Y) = 35   # 0084
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 1  from Y) = 220, # 0049
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 2  from Y) = 210, # 0050
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 3  from Y) = 210, # 0051
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 4  from Y) = 210, # 0052
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 5  from Y) = 200, # 0053
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 6  from Y) = 200, # 0054
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 7  from Y) = 200, # 0055
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 8  from Y) = 195, # 0056
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 9  from Y) = 190, # 0057
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 10 from Y) = 190, # 0058
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 11 from Y) = 190, # 0059
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 12 from P, 12 from Y) = 185  # 0060
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 1  from Y) = 250, # 0061
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 2  from Y) = 240, # 0062
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 3  from Y) = 230, # 0063
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 4  from Y) = 220, # 0064
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 5  from Y) = 210, # 0065
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 6  from Y) = 200, # 0066
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 7  from Y) = 200, # 0067
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 8  from Y) = 190, # 0068
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 9  from Y) = 180, # 0069
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 10 from Y) = 170, # 0070
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 11 from Y) = 160, # 0071
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 13 from P, 12 from Y) = 150  # 0072
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 1  from Y) = 50,  # 0085
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 2  from Y) = 40,  # 0086
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 3  from Y) = 30,  # 0087
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 4  from Y) = 20,  # 0088
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 5  from Y) = 10,  # 0089
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 6  from Y) = 0,   # 0090
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 7  from Y) = 0,   # 0091
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 8  from Y) = 0,   # 0092
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 9  from Y) = 0,   # 0093
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 10 from Y) = 0,   # 0094
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 11 from Y) = 0,   # 0095
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 18 from P, 12 from Y) = 0    # 0096
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 1  from Y) = 20,  # 0097
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 2  from Y) = 20,  # 0098
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 3  from Y) = 20,  # 0099
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 4  from Y) = 20,  # 0100
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 5  from Y) = 20,  # 0101
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 6  from Y) = 20,  # 0102
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 7  from Y) = 20,  # 0103
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 8  from Y) = 20,  # 0104
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 9  from Y) = 20,  # 0105
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 10 from Y) = 20,  # 0106
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 11 from Y) = 20,  # 0107
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 19 from P, 12 from Y) = 20   # 0108
+                    },
+                    (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P) = {
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 1  from Y) = 0,   # 0109
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 2  from Y) = 0,   # 0110
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 3  from Y) = 0,   # 0111
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 4  from Y) = 0,   # 0112
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 5  from Y) = 0,   # 0113
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 6  from Y) = 0,   # 0114
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 7  from Y) = 0,   # 0115
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 8  from Y) = 0,   # 0116
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 9  from Y) = 0,   # 0117
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 10 from Y) = 0,   # 0118
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 11 from Y) = 0,   # 0119
+                        (1 from I, 1 from I0, 4 from K, 4 from K0, 21 from P, 12 from Y) = 0    # 0120
+                    }
+                }
+            },
+            (1 from I, 1 from I0, 5 from K) = {
+                (1 from I, 1 from I0, 5 from K, 5 from K0) = {
+                    (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P) = {
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 1  from Y) = 120, # 0013
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 2  from Y) = 120, # 0014
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 3  from Y) = 100, # 0015
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 4  from Y) = 100, # 0016
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 5  from Y) = 120, # 0017
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 6  from Y) = 80,  # 0018
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 7  from Y) = 80,  # 0019
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 8  from Y) = 80,  # 0020
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 9  from Y) = 80,  # 0021
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 10 from Y) = 80,  # 0022
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 11 from Y) = 60,  # 0023
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 1  from P, 12 from Y) = 60   # 0024
+                    },
+                    (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P) = {
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 1  from Y) = 100, # 0037
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 2  from Y) = 100, # 0038
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 3  from Y) = 100, # 0039
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 4  from Y) = 100, # 0040
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 5  from Y) = 100, # 0041
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 6  from Y) = 100, # 0042
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 7  from Y) = 100, # 0043
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 8  from Y) = 100, # 0044
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 9  from Y) = 100, # 0045
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 10 from Y) = 100, # 0046
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 11 from Y) = 100, # 0047
+                        (1 from I, 1 from I0, 5 from K, 5 from K0, 3  from P, 12 from Y) = 100  # 0048
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        P  from index # Индексы субъекта рынка
+        Y  from index # Индексы месяца и года
+        I  from index # Индексы нефпродукта
+        K  from index # Индексы региона
+        K0 from index # Индексы района
+        I0 from index # Индексы категории нефпродукта
+
+available_i_j(1 from R) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 1200,
+        (1 from I, 2 from J) = 500,
+        (1 from I, 3 from J) = 2500
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        R of   index # Индексы очереди
+
+# Порог превышения доступных объёмов, %
+OVERALL_REQUEST_CAPACITY_PERCENTAGE of percentage = 120
+    where
+        percentage of number
+
+# Доля порога [0; 1]
+OVERALL_REQUEST_CAPACITY_COEFFICIENT of number     = OVERALL_REQUEST_CAPACITY_PERCENTAGE / 100 = 1.2
+
+# Вагонная норма для НПЗ, МТ
+RAIL_ROAD_MIN_TONNAGE                of number     = 65
+
+# Минимальная норма для нефтебазы, МТ
+OIL_TERMINAL_MIN_TONNAGE             of number     = 4
+
+# Шаг нормы для нефтебазы, МТ
+OIL_TERMINAL_STEP_TONNAGE            of number     = 5
+
+# Предельная доля одному Субъекту, %
+MAX_SUBJECT_SHARE_PERCENTAGE         of percentage = 50
+    where
+        percentage of number
+
+# Предельная доля одному Субъекту, коэффициент
+MAX_SUBJECT_SHARE_COEFFICIENT        of number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100 = 0.5
+    where
+        percentage of number

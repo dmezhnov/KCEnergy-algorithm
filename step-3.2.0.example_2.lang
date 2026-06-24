@@ -1,0 +1,352 @@
+count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
+requests_i_j_deficit                                       from ("step-2.example_2.lang")
+requests_i_j_surplus                                       from ("step-2.example_2.lang")
+requests_i_j_x_k_l_s                                         from ("step-1.example_2.lang")
+
+requests_i_j_x_k_l_s_deficit = filter_by_pair(requests_i_j_x_k_l_s(1 from R), contains, requests_i_j_deficit) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = 715  # 106
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = 130, # 101
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = 325  # 108
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 70   # 110
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 100, # 102
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = 325  # 109
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = 150, # 103
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = 200  # 107
+                    }
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = 400, # 104
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 100, # 111
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 100, # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 50   # 113
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_s_surplus = filter_by_pair(requests_i_j_x_k_l_s(1 from R), contains, requests_i_j_surplus) = {
+    (1 from I) = {
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 3 from X) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = 600  # 105
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_deficit = sum_by_axes(requests_i_j_x_k_l_s_deficit, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 2 from X) = {
+                (1 from I, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 1 from J, 2 from X, 1 from K, 7  from P) = 70    # 110
+                },
+                (1 from I, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 1 from J, 2 from X, 4 from K, 1  from P) = 100,  # 102
+                    (1 from I, 1 from J, 2 from X, 4 from K, 13 from P) = 325   # 109
+                },
+                (1 from I, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 1 from J, 2 from X, 5 from K, 1  from P) = 150,  # 103
+                    (1 from I, 1 from J, 2 from X, 5 from K, 3  from P) = 200   # 107
+                }
+            },
+            (1 from I, 1 from J, 4 from X) = {
+                (1 from I, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from J, 4 from X, 3 from K, 2  from P) = 715   # 106
+                },
+                (1 from I, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from J, 4 from X, 4 from K, 1  from P) = 130,  # 101
+                    (1 from I, 1 from J, 4 from X, 4 from K, 12 from P) = 325   # 108
+                }
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 1 from X) = {
+                (1 from I, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from J, 1 from X, 4 from K, 1  from P) = 400,  # 104
+                    (1 from I, 2 from J, 1 from X, 4 from K, 7  from P) = 100,  # 111
+                    (1 from I, 2 from J, 1 from X, 4 from K, 18 from P) = 100,  # 112
+                    (1 from I, 2 from J, 1 from X, 4 from K, 19 from P) = 50    # 113
+                }
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_k_l_deficit = sum_by_axes(requests_i_j_x_k_l_deficit, Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P)             = 70   # 110
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P)             = 715  # 106
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = 130 + 100 = 230, # 101 + 102
+                (1 from I, 1 from J, 4 from K, 12 from P)             = 325, # 108
+                (1 from I, 1 from J, 4 from K, 13 from P)             = 325  # 109
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P)             = 150, # 103
+                (1 from I, 1 from J, 5 from K, 3  from P)             = 200  # 107
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 1  from P)             = 400, # 104
+                (1 from I, 2 from J, 4 from K, 7  from P)             = 100, # 111
+                (1 from I, 2 from J, 4 from K, 18 from P)             = 100, # 112
+                (1 from I, 2 from J, 4 from K, 19 from P)             = 50   # 113
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests = count_coordinates_by_axis(requests_i_j_k_l_deficit, Refinery) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = 1  # 110
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = 1  # 106
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 2, # 101, 102, 104
+            (1 from I, 4 from K, 7  from P) = 1, # 111
+            (1 from I, 4 from K, 12 from P) = 1, # 108
+            (1 from I, 4 from K, 13 from P) = 1, # 109
+            (1 from I, 4 from K, 18 from P) = 1, # 112
+            (1 from I, 4 from K, 19 from P) = 1  # 113
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = 1, # 103
+            (1 from I, 5 from K, 3  from P) = 1  # 107
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests_single = filter_by_value(refinery_count_by_deficit_requests, "=", 1) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = 1  # 110
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = 1  # 106
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 7  from P) = 1, # 111
+            (1 from I, 4 from K, 12 from P) = 1, # 108
+            (1 from I, 4 from K, 13 from P) = 1, # 109
+            (1 from I, 4 from K, 18 from P) = 1, # 112
+            (1 from I, 4 from K, 19 from P) = 1  # 113
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = 1, # 103
+            (1 from I, 5 from K, 3  from P) = 1  # 107
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+refinery_count_by_deficit_requests_multiple = filter_by_value(refinery_count_by_deficit_requests, "!=", 1) = {
+    (1 from I) = {
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 2 # 101, 102, 104
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+requests_i_j_x_k_l_s_deficit_single = filter_by_pair(requests_i_j_x_k_l_s_deficit, contains, refinery_count_by_deficit_requests_single) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = 715  # 106
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = 325  # 108
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = 70   # 110
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = 325  # 109
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = 150, # 103
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = 200  # 107
+                    }
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = 100, # 111
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = 100, # 112
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = 50   # 113
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_s_deficit_multiple = filter_by_pair(requests_i_j_x_k_l_s_deficit, contains, refinery_count_by_deficit_requests_multiple) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = 130 # 101
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 100 # 102
+                    }
+                },
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = 400 # 104
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз
+
+requests_i_j_x_k_l_s_all_multiple = filter_by_pair(requests_i_j_x_k_l_s(1 from R), contains, refinery_count_by_deficit_requests_multiple) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 4 from X) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = 130 # 101
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 2 from X) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = 100 # 102
+                    }
+                },
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 1 from X) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = 400 # 104
+                    }
+                }
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 3 from X) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = 600 # 105
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        C from index # Индексы условий поставки
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        X from index # Индексы нефтебаз

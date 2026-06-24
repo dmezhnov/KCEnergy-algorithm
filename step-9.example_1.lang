@@ -1,0 +1,156 @@
+filter_by_value, for_each_pair, sum_by_axes from ("matrix_operation.lang")
+available_i_j_new                            from ("step-11.example_1.lang")
+estimated_i_j_k_l_s_last                     from ("step-8.example_1.lang")
+requests_i_j_x_k_l_s                         from ("step-1.example_1.lang")
+OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.example_1.lang")
+
+### Шаг 9. Оставшиеся объёмы позволяют удовлетворить запросы Владельцев нефтебаз/резервуаров? (пример 1)
+# Остаток первой очереди v2 = available_i_j_new(1 from R) = { -50, 420, 2500 }.
+# Минимальная норма для второй очереди: min(OIL_TERMINAL_MIN_TONNAGE = 4,
+# RAIL_ROAD_MIN_TONNAGE = 65) = 4.
+
+MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+# Доступные объёмы для второй очереди: остаток строго больше нормы (v2 > 4).
+# ПКОП (J=1) выбывает: остаток -50 не превышает норму.
+available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_NEXT_AVAIL_TONNAGE(1 from R)) = {
+    (1 from I) = {
+        (1 from I, 2 from J) =  420, #  420 > 4
+        (1 from I, 3 from J) = 2500  # 2500 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+### Шаг 12. Тот же гейт при l0 = 2 (переход к III очереди — ГМК)
+# Остаток после распределения Владельцам нефтебаз/резервуаров v3 = available_i_j_new(2 from R)
+# = { -50, 0, 2305 } (Шаг 11). Норма та же: min(4, 65) = 4.
+# ПКОП (J=1, -50) и АНПЗ (J=2, 0) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 13.
+
+MIN_NEXT_AVAIL_TONNAGE(2 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_NEXT_AVAIL_TONNAGE(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 2305  # 2305 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+### Шаг 15. Тот же гейт при l0 = 3 (переход к IV очереди — иные Субъекты рынка)
+# Остаток после распределения Субъектам рынка из состава ГМК v4 = available_i_j_new(3 from R)
+# = { -50, 0, 1860 } (Шаг 14). Норма та же: min(4, 65) = 4.
+# ПКОП (J=1, -50) и АНПЗ (J=2, 0) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 16.
+
+MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # min(4, 65)
+    where
+        R  from index # Индексы очереди
+
+available_i_j(4 from R) = filter_by_value(available_i_j_new(3 from R), ">", MIN_NEXT_AVAIL_TONNAGE(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 1860  # 1860 > 4
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+### Шаг 9a. Дополнительные («виртуальные») Запросы для второй очереди распределения
+# r̃_ijkl = r_ijkl − s̈_ijkl: изначально запрашиваемый объём первой очереди минус
+# нормированный объём, предоставленный в первой очереди (Шаги 3–7).
+
+# Изначально запрашиваемый объём первой очереди (свёртка исходных Запросов по нефтебазам).
+requests_i_j_k_l_s(1 from R) = sum_by_axes(requests_i_j_x_k_l_s(1 from R), Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715   # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 130,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 325   # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 70    # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 100,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 325   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 150,  # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 200   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 100,  # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 100,  # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 50    # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Виртуальные Запросы второй очереди: r̃ = r − s̈ (изначальный Запрос минус предоставленный объём).
+requests_i_j_k_l_s_virtual(2 from R) = for_each_pair(requests_i_j_k_l_s(1 from R), "-", estimated_i_j_k_l_s_last(1 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 715 - 585 = 130   # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 130 -  65 =  65,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 325 - 195 = 130   # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) =  70 -  55 =  15   # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 100 -  30 =  70,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 325 - 165 = 160   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 150 -  75 =  75,  # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 200 -  80 = 120   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 100 -  30 =  70,  # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 100 -  30 =  70,  # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) =  50 -  20 =  30   # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка

@@ -1,10 +1,13 @@
+[tools]
+bun = "latest"
+
 [tasks.test]
 description = "Test algorithm files (no-op)"
 run = "echo No tests configured"
 
 [tasks.lint]
-description = "Lint algorithm files (no-op)"
-run = "echo No linter configured"
+description = "Lint .lang files"
+run = "bun run scripts/lang-lint.bun.ts"
 
 [tasks.save]
 description = "Save uncommitted changes"

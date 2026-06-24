@@ -1,26 +1,46 @@
-number, indexOf              from core
-requests_i_j_k_l_s_corrected from ("step-3.3.0.lang")
-requests_i_j_k_l_s           from ("step-1.lang")
-sum_by_axes, assign_matrix   from ("matrix_operation.lang")
-axis, matrix, index          from ("matrix_types.lang")
+number, indexOf                from core
+requests_i_j_x_k_l_s_corrected from ("step-3.2.2.lang")
+requests_i_j_x_k_l_s           from ("step-1.lang")
+sum_by_axes, assign_matrix     from ("matrix_operation.lang")
+axis, matrix, index            from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 
-requests_i_j_k_l_s_corrected(l0) = requests_i_j_k_l_s(l0)
+# Для очередей > 2 (исходные Запросы, поданные на эти очереди) корректировки на проливы нет: берём исходные объёмы (r_ijkl).
+# Вторая (виртуальная) очередь не задаётся здесь: её вход — виртуальные Запросы Шага 9a, определён в step-10.lang как (2 from R).
+requests_i_j_k_l_s_corrected(l0) = sum_by_axes(requests_i_j_x_k_l_s(l0), Terminal)
     where
-        l0 > 1 # Если это не первыя очередь
-        requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k) of number
-        requests_i_j_k_l_s(l0)(i, j, s, l, k)           of number
+        l0 > 2 # Очереди > 2; первая — (1 from R), вторая (виртуальная) — (2 from R) (step-10.lang)
+        requests_i_j_k_l_s_corrected(l0)(i, j, s, l, k)    of number
+        requests_i_j_x_k_l_s(l0)(i, j, s, l, k, x)         of number
         requests_i_j_k_l_s_corrected(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s(l0)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_x_k_l_s(l0)         of matrix(Product, Refinery, Ship_terms, Market_participant, Region, Terminal)
             where
                 l0 for R  from index # Индексы очереди
-                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                Product, Refinery, Ship_terms, Market_participant, Region, Terminal from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
+                x  for X  from index # Индексы нефтебаз
+
+# Для первой очереди берём скорректированный на проливы объём (Шаг 3:S, Таблица 68) — r°_ijkl
+requests_i_j_k_l_s_corrected(1 from R) = sum_by_axes(requests_i_j_x_k_l_s_corrected, Terminal)
+    where
+        requests_i_j_k_l_s_corrected(1 from R)(i, j, s, l, k) of number
+        requests_i_j_x_k_l_s_corrected(i, j, s, l, k, x)      of number
+        requests_i_j_k_l_s_corrected(1 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_x_k_l_s_corrected         of matrix(Product, Refinery, Ship_terms, Market_participant, Region, Terminal)
+            where
+                R         from index # Индексы очереди
+                Product, Refinery, Ship_terms, Market_participant, Region, Terminal from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
+                x  for X  from index # Индексы нефтебаз
 
 requests_i_j_l_s_corrected(l0) = sum_by_axes(requests_i_j_k_l_s_corrected(l0), Region)
     where
@@ -37,13 +57,14 @@ requests_i_j_l_s_corrected(l0) = sum_by_axes(requests_i_j_k_l_s_corrected(l0), R
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
-requests_i_j_l_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region)
+requests_i_j_l_s_corrected(1 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(1 from R), Region)
     where
-        requests_i_j_k_l_s_corrected.First(i, j, s, l, k) of number
-        requests_i_j_l_s_corrected.First(i, j, s, l)      of number
-        requests_i_j_k_l_s_corrected.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_l_s_corrected.First   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_k_l_s_corrected(1 from R)(i, j, s, l, k) of number
+        requests_i_j_l_s_corrected(1 from R)(i, j, s, l)      of number
+        requests_i_j_k_l_s_corrected(1 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_corrected(1 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant)
             where
+                R         from index # Индексы очереди
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -71,16 +92,17 @@ requests_i_j_s_corrected(l0) = sum_by_axes(requests_i_j_l_s_corrected(l0),      
                 k  for K  from index # Индексы региона
 
 # Матрица итоговых суммарных скорректированных объемов размера N x M первой очереди
-requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_k_l_s_corrected.First, Region, Market_participant)
-requests_i_j_s_corrected.First = sum_by_axes(requests_i_j_l_s_corrected.First,           Market_participant)
+requests_i_j_s_corrected(1 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(1 from R), Region, Market_participant)
+requests_i_j_s_corrected(1 from R) = sum_by_axes(requests_i_j_l_s_corrected(1 from R),           Market_participant)
     where
-        requests_i_j_k_l_s_corrected.First(i, j, s, l, k) of number
-        requests_i_j_l_s_corrected.First(i, j, s, l)      of number
-        requests_i_j_s_corrected.First(i, j, s)           of number
-        requests_i_j_k_l_s_corrected.First of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_l_s_corrected.First   of matrix(Product, Refinery, Ship_terms, Market_participant)
-        requests_i_j_s_corrected.First     of matrix(Product, Refinery, Ship_terms)
+        requests_i_j_k_l_s_corrected(1 from R)(i, j, s, l, k) of number
+        requests_i_j_l_s_corrected(1 from R)(i, j, s, l)      of number
+        requests_i_j_s_corrected(1 from R)(i, j, s)           of number
+        requests_i_j_k_l_s_corrected(1 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_l_s_corrected(1 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant)
+        requests_i_j_s_corrected(1 from R)     of matrix(Product, Refinery, Ship_terms)
             where
+                R         from index # Индексы очереди
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -101,13 +123,14 @@ requests_i_j_corrected(l0) = sum_by_axes(requests_i_j_s_corrected(l0), Ship_term
                 j  for J  from index # Индексы НПЗ
                 s  for C  from index # Индексы условия поставки
 
-requests_i_j_corrected.First = sum_by_axes(requests_i_j_s_corrected.First, Ship_terms)
+requests_i_j_corrected(1 from R) = sum_by_axes(requests_i_j_s_corrected(1 from R), Ship_terms)
     where
-        requests_i_j_s_corrected.First(i, j, s) of number
-        requests_i_j_corrected.First(i, j)      of number
-        requests_i_j_s_corrected.First  of matrix(Product, Refinery, Ship_terms)
-        requests_i_j_corrected.First    of matrix(Product, Refinery)
+        requests_i_j_s_corrected(1 from R)(i, j, s) of number
+        requests_i_j_corrected(1 from R)(i, j)      of number
+        requests_i_j_s_corrected(1 from R)  of matrix(Product, Refinery, Ship_terms)
+        requests_i_j_corrected(1 from R)    of matrix(Product, Refinery)
             where
+                R         from index # Индексы очереди
                 Product, Refinery, Ship_terms from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ

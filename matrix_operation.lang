@@ -106,4 +106,15 @@ filter_by_coordinate(matrix_source, Tcoord(1), ..., Tcoord(N)) = matrix_without_
 
 is_empty(matrix_source)
 
-replace_coord(matrix_source, coord_source, coord_new)
+### - Replace coordinate
+# Returns a copy of matrix_source where coordinate coord_source is replaced by
+# coord_new along coord_new's axis. If that axis is absent from matrix_source
+# (for example it was collapsed away by a previous single-coordinate selection),
+# the axis is reintroduced as a singleton holding coord_new; coord_source then
+# identifies the collapsed source position.
+replace_coord(matrix_source, coord_source, coord_new) = recoorded_matrix
+    where
+        matrix_source    of matrix     # Source matrix
+        coord_source     of coordinate # Coordinate to replace (or collapsed source position)
+        coord_new        of coordinate # Target coordinate (its axis is added if absent)
+        recoorded_matrix of matrix     # Result with the coordinate replaced
