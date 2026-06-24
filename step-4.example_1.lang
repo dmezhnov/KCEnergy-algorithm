@@ -184,7 +184,7 @@ requests_i_j_s_corrected(2 from R) = sum_by_axes(requests_i_j_l_s_corrected(2 fr
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = 145 + 120 +  15 + 160 +  50       = 490,  # 102 + 103 + 107 + 109 + 110 + 204
-            (1 from I, 2 from C, 2 from J) =  70 +  70 +  70 +  30 +  15 +  35 = 290    # 111 + 112 + 113 + 206 + 208 + 209
+            (1 from I, 2 from C, 2 from J) =  70 +  70 +  70 +  30 +  15 +  35 = 290   # 111 + 112 + 113 + 206 + 208 + 209
         }
     }
 }

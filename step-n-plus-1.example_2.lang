@@ -75,11 +75,11 @@ requests_remainder(1 from Z) = estimated_i_j_k_l_final = {
                 (2 from C, 1 from I, 2 from J, 4 from K) = {
                     (2 from C, 1 from I, 2 from J, 4 from K, 1  from P) = 30 + 155 = 185,  # 007 (I + II)
                     (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) =  30 + 30 =  60,  # 022 (I + II)
-                    (2 from C, 1 from I, 2 from J, 4 from K, 17 from P) =            30,  # 028
+                    (2 from C, 1 from I, 2 from J, 4 from K, 17 from P) =             30,  # 028
                     (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) =  30 + 30 =  60,  # 029 (I + II)
                     (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) =  20 + 15 =  35,  # 030 (I + II)
-                    (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) =             5,  # 038
-                    (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) =            15   # 039
+                    (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) =              5,  # 038
+                    (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) =             15   # 039
                 }
             },
             (2 from C, 1 from I, 3 from J) = {

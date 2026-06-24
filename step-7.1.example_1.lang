@@ -39,7 +39,7 @@ normalized_i_j_l(1 from R)(1 from n) = sum_by_axes(normalized_i_j_k_l_s(1 from R
 normalized_i_j(1 from R)(1 from n) = sum_by_axes(normalized_i_j_l(1 from R)(1 from n), Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from J) = 585 + 170 + 195 +  55 + 165 +  80 = 1250,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
-        (1 from I, 2 from J) =  30 +  30 +  20                   = 80      # 111 + 112 + 113
+        (1 from I, 2 from J) =  30 +  30 +  20                   = 80     # 111 + 112 + 113
     }
 }
     where

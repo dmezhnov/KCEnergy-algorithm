@@ -890,7 +890,7 @@ estimated_i_j_k_l_fca_coeff(4 from R)(1 from n) = for_each_element(estimated_i_j
             (1 from I, 3 from J, 2 from K) = {
                 (1 from I, 3 from J, 2 from K, 4  from P) = 260 / RAIL_ROAD_MIN_TONNAGE = 260 / 65 = 4,   # 401
                 (1 from I, 3 from J, 2 from K, 5  from P) = 520 / RAIL_ROAD_MIN_TONNAGE = 520 / 65 = 8,   # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 715 / RAIL_ROAD_MIN_TONNAGE = 715 / 65 = 11  # 403
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715 / RAIL_ROAD_MIN_TONNAGE = 715 / 65 = 11   # 403
             }
         }
     }
