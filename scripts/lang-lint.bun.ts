@@ -1,0 +1,428 @@
+import {readdirSync, readFileSync, statSync} from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+
+// Linter for the `.lang` DSL files in `algorithm/`.
+//
+// One member line of a bracketed list, tracked for comment-column alignment.
+// `column` is the 1-based position of its `#`; `contentEnd` is the 1-based
+// column of the last non-space character before that `#`.
+type AlignmentEntry = {
+    lineNumber: number;
+    column: number;
+    contentEnd: number;
+};
+
+// The set of rule identifiers the linter can emit. Used both for reporting and
+// as the keys of the per-rule enable map in the config file.
+type RuleName =
+    | 'trailing-whitespace'
+    | 'space-before-comment'
+    | 'space-after-hash'
+    | 'comment-alignment';
+
+// Linter configuration, loaded from `.lang-lint.json` at the project root. Each
+// rule can be switched off independently; a disabled rule produces no findings.
+type LangLintConfig = {
+    rules: Record<RuleName, boolean>;
+};
+
+// The config file name searched for, relative to the current working directory
+// (the directory `mise run lint` runs in — the `algorithm/` project root).
+const CONFIG_FILE_NAME = '.lang-lint.json';
+
+// This is the shared entry point for all `.lang` lint rules. The current rules
+// cover comment whitespace and comment-column alignment; further rule groups
+// (request-comment alignment, structure padding, aggregated leaf lines) are
+// meant to be added as extra methods on this class.
+class LangLinter {
+    // A single rule violation, reported as `path:line:col: rule message`.
+    private readonly problems: Array<{
+        file: string;
+        line: number;
+        column: number;
+        rule: string;
+        message: string;
+    }> = [];
+
+    // The active configuration. Initialised to the built-in defaults (every rule
+    // on) and replaced by `loadConfig()` at the start of `run()`.
+    private config: LangLintConfig = LangLinter.defaultConfig();
+
+    // Run the linter over the given paths (files or directories). With no
+    // arguments, lints every `.lang` file in the current working directory.
+    run(args: string[]): number {
+        this.config = this.loadConfig();
+
+        const targets = args.length ? args : ['.'];
+        const files = this.collectLangFiles(targets);
+
+        if (!files.length) {
+            process.stderr.write('No .lang files found to lint.\n');
+            return 1;
+        }
+
+        for (const file of files) {
+            this.lintFile(file);
+        }
+
+        return this.report(files.length);
+    }
+
+    // The built-in configuration: every rule enabled. This is the behaviour when
+    // no config file is present, and the base that the file's rules merge onto.
+    private static defaultConfig(): LangLintConfig {
+        return {
+            rules: {
+                'trailing-whitespace': true,
+                'space-before-comment': true,
+                'space-after-hash': true,
+                'comment-alignment': true,
+            },
+        };
+    }
+
+    // Load `.lang-lint.json` from the current working directory, merging its
+    // `rules` map over the defaults. A missing file means "use defaults"; an
+    // unreadable or malformed file is reported and the defaults are kept, so a
+    // broken config never silently suppresses every rule.
+    private loadConfig(): LangLintConfig {
+        const defaults = LangLinter.defaultConfig();
+        const configPath = path.join(process.cwd(), CONFIG_FILE_NAME);
+
+        let raw: string;
+        try {
+            raw = readFileSync(configPath, 'utf8');
+        } catch {
+            return defaults; // No config file: every rule stays on.
+        }
+
+        let parsed: unknown;
+        try {
+            parsed = JSON.parse(raw);
+        } catch (error) {
+            const reason = error instanceof Error ? error.message : String(error);
+            process.stderr.write(`Ignoring ${CONFIG_FILE_NAME}: invalid JSON (${reason}).\n`);
+            return defaults;
+        }
+
+        return this.mergeConfig(defaults, parsed);
+    }
+
+    // Merge a parsed config object over the defaults. Anything unexpected — a
+    // non-object root, a non-object `rules`, an unknown rule name, or a
+    // non-boolean value — is reported and skipped, leaving the corresponding
+    // default in place.
+    private mergeConfig(defaults: LangLintConfig, parsed: unknown): LangLintConfig {
+        if (typeof parsed !== 'object' || parsed === null) {
+            process.stderr.write(`Ignoring ${CONFIG_FILE_NAME}: expected a JSON object.\n`);
+            return defaults;
+        }
+
+        const rulesValue = (parsed as {rules?: unknown}).rules;
+
+        if (rulesValue === undefined) {
+            return defaults;
+        }
+
+        if (typeof rulesValue !== 'object' || rulesValue === null) {
+            process.stderr.write(`Ignoring ${CONFIG_FILE_NAME} "rules": expected an object.\n`);
+            return defaults;
+        }
+
+        const merged: LangLintConfig = {rules: {...defaults.rules}};
+
+        for (const [name, value] of Object.entries(rulesValue)) {
+            if (!(name in merged.rules)) {
+                process.stderr.write(`Ignoring unknown rule "${name}" in ${CONFIG_FILE_NAME}.\n`);
+            } else if (typeof value !== 'boolean') {
+                process.stderr.write(`Ignoring rule "${name}" in ${CONFIG_FILE_NAME}: expected a boolean.\n`);
+            } else {
+                merged.rules[name as RuleName] = value;
+            }
+        }
+
+        return merged;
+    }
+
+    // Expand the requested targets into a sorted, de-duplicated list of
+    // `.lang` files. Directories are scanned one level deep; explicit files are
+    // taken as-is.
+    private collectLangFiles(targets: string[]): string[] {
+        const found = new Set<string>();
+
+        for (const target of targets) {
+            const resolved = path.resolve(target);
+            const stats = this.tryStat(resolved);
+
+            if (!stats) {
+                process.stderr.write(`Path not found: ${target}\n`);
+                continue;
+            }
+
+            if (stats.isDirectory()) {
+                for (const entry of readdirSync(resolved)) {
+                    if (entry.endsWith('.lang')) {
+                        found.add(path.join(resolved, entry));
+                    }
+                }
+            } else if (resolved.endsWith('.lang')) {
+                found.add(resolved);
+            } else {
+                process.stderr.write(`Skipping non-.lang path: ${target}\n`);
+            }
+        }
+
+        return [...found].sort((a, b) => a.localeCompare(b));
+    }
+
+    // Stat a path, returning undefined instead of throwing when it is missing.
+    private tryStat(target: string): ReturnType<typeof statSync> | undefined {
+        try {
+            return statSync(target);
+        } catch {
+            return undefined;
+        }
+    }
+
+    // Apply every comment-whitespace rule to a single file.
+    private lintFile(file: string): void {
+        const text = readFileSync(file, 'utf8');
+        const lines = text.split('\n');
+
+        lines.forEach((line, index) => {
+            const lineNumber = index + 1;
+            this.checkTrailingWhitespace(file, lineNumber, line);
+            this.checkCommentSpacing(file, lineNumber, line);
+        });
+
+        if (this.config.rules['comment-alignment']) {
+            this.checkCommentAlignment(file, lines);
+        }
+    }
+
+    // Rule `trailing-whitespace`: no spaces or tabs at the end of a line.
+    private checkTrailingWhitespace(file: string, lineNumber: number, line: string): void {
+        const match = /[ \t]+$/.exec(line);
+
+        if (match) {
+            this.add(file, lineNumber, match.index + 1, 'trailing-whitespace', 'trailing whitespace');
+        }
+    }
+
+    // Rules `space-after-hash` and `space-before-comment`: a comment opener
+    // (the first `#` on a line) must be followed by a space — after any run of
+    // leading `#`, as in `##`/`###` headers — and, when it follows code on the
+    // same line, must be separated from that code by whitespace.
+    private checkCommentSpacing(file: string, lineNumber: number, line: string): void {
+        const hashIndex = line.indexOf('#');
+
+        if (hashIndex === -1) {
+            return;
+        }
+
+        const beforeChar = hashIndex > 0 ? line[hashIndex - 1] : '';
+        const isInline = line.slice(0, hashIndex).trim().length > 0;
+
+        if (isInline && beforeChar !== ' ' && beforeChar !== '\t') {
+            this.add(file, lineNumber, hashIndex + 1, 'space-before-comment', 'missing space before inline comment');
+        }
+
+        // Skip over the run of consecutive `#` so headers like `###` pass.
+        let afterRun = hashIndex;
+        while (afterRun < line.length && line[afterRun] === '#') {
+            afterRun += 1;
+        }
+
+        const followingChar = afterRun < line.length ? line[afterRun] : '';
+
+        if (followingChar !== '' && followingChar !== ' ') {
+            this.add(file, lineNumber, afterRun + 1, 'space-after-hash', "missing space after '#'");
+        }
+    }
+
+    // Rule `comment-alignment`: the comment `#` on the member lines of a
+    // bracketed list must all sit in the same column. Scope is deliberately
+    // narrow — only lines *inside* a `(`/`{`/`[` group (bracket depth > 0 at the
+    // start of the line) are considered. This catches list members such as
+    //   Region = (
+    //       Almaty,   # ...
+    //       Shimkent, # ...   <- must align with its siblings
+    //   )
+    // and the leaf lines of the requests structure, while excluding group-opener
+    // label comments (`X = ( # K`, depth 0 at line start) and the "soft" inline
+    // comments inside `where` blocks (also depth 0), which are not required to
+    // line up. A blank line, a comment-less line, or any line that opens/closes a
+    // bracket breaks the run, so each member list is checked on its own.
+    private checkCommentAlignment(file: string, lines: string[]): void {
+        let run: AlignmentEntry[] = [];
+        let depth = 0;
+
+        const flush = (): void => {
+            this.reportAlignmentRun(file, run);
+            run = [];
+        };
+
+        lines.forEach((line, index) => {
+            const depthAtStart = depth;
+            depth = Math.max(0, depth + this.bracketDelta(line));
+
+            const hashIndex = line.indexOf('#');
+            const column = this.inlineCommentColumn(line);
+
+            // Only consecutive member lines of one bracketed list form a block.
+            // Anything else — a line outside brackets, or a comment-less
+            // structural line (group opener/closer) — ends the current block, so
+            // each list and each nesting level is checked on its own.
+            if (depthAtStart > 0 && column !== undefined) {
+                run.push({
+                    lineNumber: index + 1,
+                    column,
+                    contentEnd: line.slice(0, hashIndex).replace(/\s+$/, '').length,
+                });
+            } else {
+                flush();
+            }
+        });
+
+        flush();
+    }
+
+    // The net change in bracket nesting contributed by a line's code, ignoring
+    // any inline comment (which may itself contain brackets, e.g. `(FCA)`).
+    private bracketDelta(line: string): number {
+        const hashIndex = line.indexOf('#');
+        const code = hashIndex === -1 ? line : line.slice(0, hashIndex);
+
+        let delta = 0;
+        for (const char of code) {
+            if (char === '(' || char === '{' || char === '[') {
+                delta += 1;
+            } else if (char === ')' || char === '}' || char === ']') {
+                delta -= 1;
+            }
+        }
+
+        return delta;
+    }
+
+    // The 1-based column of the comment opener on an inline-comment line, or
+    // undefined when the line carries no inline comment (no `#`, or a `#` that
+    // starts the line and is therefore a full-line comment).
+    private inlineCommentColumn(line: string): number | undefined {
+        const hashIndex = line.indexOf('#');
+
+        if (hashIndex <= 0) {
+            return undefined;
+        }
+
+        const isInline = line.slice(0, hashIndex).trim().length > 0;
+        return isInline ? hashIndex + 1 : undefined;
+    }
+
+    // Flag every line in a run whose `#` deviates from the block's shared
+    // column. The expected column is anchored on the line with the most content
+    // before its comment: that longest line fixes the column (it carries the
+    // tightest gap), and every shorter line pads up to meet it. Anchoring on the
+    // longest line — rather than the most common column — is what makes the
+    // reported `expected` correct whether the stray line is under- or
+    // over-padded.
+    private reportAlignmentRun(file: string, run: AlignmentEntry[]): void {
+        if (run.length < 2) {
+            return;
+        }
+
+        const expected = this.anchorColumn(run);
+
+        for (const entry of run) {
+            if (entry.column !== expected) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    entry.column,
+                    'comment-alignment',
+                    `comment '#' not aligned (column ${entry.column}, expected ${expected})`,
+                );
+            }
+        }
+    }
+
+    // The expected `#` column for a run. When a single longest-content line
+    // exists, it fixes the column (every shorter line pads up to it). When the
+    // longest lines are equally wide and disagree — so no line is the natural
+    // anchor — fall back to the most common column in the run.
+    private anchorColumn(run: AlignmentEntry[]): number {
+        const maxContentEnd = Math.max(...run.map((entry) => entry.contentEnd));
+        const longest = run.filter((entry) => entry.contentEnd === maxContentEnd);
+        const longestColumns = new Set(longest.map((entry) => entry.column));
+
+        if (longestColumns.size === 1) {
+            return longest[0].column;
+        }
+
+        return this.modalColumn(run);
+    }
+
+    // The most frequent `#` column in a run; ties resolve to the leftmost.
+    private modalColumn(run: AlignmentEntry[]): number {
+        const counts = new Map<number, number>();
+
+        for (const entry of run) {
+            counts.set(entry.column, (counts.get(entry.column) ?? 0) + 1);
+        }
+
+        let best = run[0].column;
+        let bestCount = 0;
+
+        for (const [column, count] of counts) {
+            if (count > bestCount || (count === bestCount && column < best)) {
+                best = column;
+                bestCount = count;
+            }
+        }
+
+        return best;
+    }
+
+    // Record a single violation, unless its rule is disabled in the config.
+    private add(file: string, line: number, column: number, rule: RuleName, message: string): void {
+        if (!this.config.rules[rule]) {
+            return;
+        }
+
+        this.problems.push({
+            file,
+            line,
+            column,
+            rule,
+            message,
+        });
+    }
+
+    // Print all violations grouped by file and return the process exit code.
+    private report(fileCount: number): number {
+        if (!this.problems.length) {
+            process.stdout.write(`Linted ${fileCount} .lang file(s): no problems found.\n`);
+            return 0;
+        }
+
+        const cwd = process.cwd();
+
+        for (const problem of this.problems) {
+            const relative = path.relative(cwd, problem.file) || problem.file;
+            process.stdout.write(
+                `${relative}:${problem.line}:${problem.column}: ${problem.rule} ${problem.message}\n`,
+            );
+        }
+
+        process.stdout.write(`\nFound ${this.problems.length} problem(s) in ${fileCount} file(s).\n`);
+        return 1;
+    }
+}
+
+if (import.meta.main) {
+    const exitCode = new LangLinter().run(process.argv.slice(2));
+    process.exitCode = exitCode;
+}
+
+export {LangLinter};

@@ -7,7 +7,7 @@ run = "echo No tests configured"
 
 [tasks.lint]
 description = "Lint .lang files"
-run = "bun run ../scripts/lang-lint.bun.ts"
+run = "bun run scripts/lang-lint.bun.ts"
 
 [tasks.save]
 description = "Save uncommitted changes"
