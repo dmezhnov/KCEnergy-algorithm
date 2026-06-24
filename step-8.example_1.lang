@@ -68,7 +68,7 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s(1 from R)(last_n) = {
 estimated_i_j_last(1 from R) = sum_by_axes(estimated_i_j_k_l_s_last(1 from R), Region, Market_participant, Ship_terms) = {
     (1 from I) = {
         (1 from I, 1 from J) =  65 +  30 +  75 + 585 +  80 + 195 + 165 +  55 = 1250,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
-        (1 from I, 2 from J) =                                30 +  30 +  20 =   80    # 111 + 112 + 113
+        (1 from I, 2 from J) =                                30 +  30 +  20 =   80   # 111 + 112 + 113
     }
 }
     where
