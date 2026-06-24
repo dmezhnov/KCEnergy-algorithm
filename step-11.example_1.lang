@@ -1,0 +1,104 @@
+number                     from core
+available_i_j_new          from ("step-8.example_1.lang")
+normalized_i_j_k_l_s       from ("step-6.example_1.lang")
+for_each_pair, sum_by_axes from ("matrix_operation.lang")
+operation                  from ("matrix_types.lang")
+
+### Шаг 11. Оставшийся после распределения Владельцам нефтебаз/резервуаров объём НП (пример 1)
+# v3_ij = v2_ij − Σ_k Σ_l' ẗ_ijkl', где v2 = available_i_j_new(1 from R) = { -50, 420, 2500 }
+# (остаток I очереди, Шаг 8), а ẗ = normalized_i_j_k_l_s(2 from R)(1) — нормированные объёмы,
+# предоставленные Владельцам нефтебаз/резервуаров во II очереди (Шаг 6).
+# АНПЗ (J=2) выбран полностью: 420 из 420, остаток 0. ПНХЗ (J=3) обслужил только #201, #202
+# (195 из 2500). ПКОП (J=1) во II очереди не участвовал (выбыл в Шаге 9), остаток равен v2 = -50.
+
+# Суммарно предоставленный во II очереди объём по НПЗ (свёртка ẗ по региону, субъекту, условию).
+estimated_i_j(2 from R) = sum_by_axes(normalized_i_j_k_l_s(2 from R)(1), Region, Market_participant, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 2 from J) =  70 +  70 +  30 + 130 +  70 +  15 +  35 = 420,  # 111 + 112 + 113 + 205 + 206 + 208 + 209
+        (1 from I, 3 from J) =                                65 + 130 = 195   # 201 + 202
+    }
+}
+    where
+        normalized_i_j_k_l_s(2 from R)(1)(i, j, s, l, k) of number
+        estimated_i_j(2 from R)(i, j)                    of number
+        normalized_i_j_k_l_s(2 from R)(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j(2 from R)           of matrix(Product, Refinery)
+            where
+                n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
+                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
+
+# Матрица оставшихся после распределения Владельцам нефтебаз/резервуаров объёмов НП (v3 = v2 - ẗ).
+# По ПКОП (J=1) распределения II очереди не было, поэтому остаток равен v2 (вычитается 0).
+available_i_j_new(2 from R) = for_each_pair(available_i_j_new(1 from R), "-", estimated_i_j(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from J) =  -50 -   0 =  -50,
+        (1 from I, 2 from J) =  420 - 420 =    0,
+        (1 from I, 3 from J) = 2500 - 195 = 2305
+    }
+}
+    where
+        available_i_j_new(2 from R)(i, j) of number
+        available_i_j_new(1 from R)(i, j)  of number
+        estimated_i_j(2 from R)(i, j)     of number
+        available_i_j_new(2 from R) of matrix(Product, Refinery)
+        available_i_j_new(1 from R)  of matrix(Product, Refinery)
+        estimated_i_j(2 from R)     of matrix(Product, Refinery)
+        "-" from operation
+            where
+                Product, Refinery from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+
+### Шаг 14. Оставшийся после распределения Субъектам рынка из состава ГМК объём НП (III очередь, пример 1)
+# v4_ij = v3_ij − Σ_k Σ_l'' ü_ijkl'', где v3 = available_i_j_new(2 from R) = { -50, 0, 2305 } (выше),
+# а ü = normalized_i_j_k_l_s(3 from R)(1) — нормированные объёмы Субъектов ГМК (Шаг 13, step-6.example_1).
+# Распределение III очереди шло только с ПНХЗ (J=3): #301 (195) и #302 (250), итого 445.
+# Профицит (445 < 2305), оба запроса удовлетворены полностью; остаток ПНХЗ 2305 - 445 = 1860.
+# ПКОП (J=1) и АНПЗ (J=2) в III очереди не участвовали, их остаток равен v3 (вычитается 0).
+
+# Суммарно предоставленный в III очереди объём по НПЗ (свёртка ü по региону, субъекту, условию).
+estimated_i_j(3 from R) = sum_by_axes(normalized_i_j_k_l_s(3 from R)(1), Region, Market_participant, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = 195 + 250 = 445   # 301 + 302
+    }
+}
+    where
+        normalized_i_j_k_l_s(3 from R)(1)(i, j, s, l, k) of number
+        estimated_i_j(3 from R)(i, j)                    of number
+        normalized_i_j_k_l_s(3 from R)(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j(3 from R)           of matrix(Product, Refinery)
+            where
+                n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
+                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                s  for C  from index # Индексы условия поставки
+                l  for P  from index # Индексы субъекта рынка
+                k  for K  from index # Индексы региона
+
+# Матрица оставшихся после распределения Субъектам ГМК объёмов НП (v4 = v3 - ü).
+# По ПКОП (J=1) и АНПЗ (J=2) распределения III очереди не было, поэтому остаток равен v3 (вычитается 0).
+available_i_j_new(3 from R) = for_each_pair(available_i_j_new(2 from R), "-", estimated_i_j(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from J) =  -50 -   0 =  -50,
+        (1 from I, 2 from J) =    0 -   0 =    0,
+        (1 from I, 3 from J) = 2305 - 445 = 1860
+    }
+}
+    where
+        available_i_j_new(3 from R)(i, j) of number
+        available_i_j_new(2 from R)(i, j) of number
+        estimated_i_j(3 from R)(i, j)     of number
+        available_i_j_new(3 from R) of matrix(Product, Refinery)
+        available_i_j_new(2 from R) of matrix(Product, Refinery)
+        estimated_i_j(3 from R)     of matrix(Product, Refinery)
+        "-" from operation
+            where
+                Product, Refinery from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ

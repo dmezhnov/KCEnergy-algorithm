@@ -1,0 +1,121 @@
+MAX_SUBJECT_SHARE_COEFFICIENT   from ("initial_data.example_2.lang")
+normalized_i_j_k_l_s            from ("step-6.example_2.lang")
+normalized_i_j_l, normalized_i_j from ("step-7.1.example_2.lang")
+
+### Шаг 7.2. Уточнение нормированных объёмов НП первой очереди по предельной доле
+# Сравниваем долю каждого Субъекта рынка на каждом НПЗ с предельной долей
+# (δ × Ṡ_ij, δ = 50%). Если доля субъекта превышает предел, его объёмы
+# понижаются и матрица перенормируется (возврат к Шагу 6); иначе расчёт сходится.
+# Особый случай: на НПЗ-3 все Запросы подал единственный Субъект рынка (P1, 100%),
+# поэтому правило Шага 7 для него не соблюдается — НПЗ-3 исключается из проверки.
+
+# Предельный объём на одного Субъекта рынка на каждом НПЗ (порог δ × Ṡ_ij):
+# умножаем итог по НПЗ (Ṡ_ij) на предельную долю δ = 0.5.
+normalized_i_j_threshold(1 from R)(1 from n) = for_each_element(normalized_i_j(1 from R)(1 from n), "*", MAX_SUBJECT_SHARE_COEFFICIENT) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 1245 * MAX_SUBJECT_SHARE_COEFFICIENT = 1245 * 0.5 = 622.5,
+        (1 from I, 2 from J) =  110 * MAX_SUBJECT_SHARE_COEFFICIENT =  110 * 0.5 =    55,
+        (1 from I, 3 from J) =  600 * MAX_SUBJECT_SHARE_COEFFICIENT =  600 * 0.5 =   300
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+# Количество Субъектов рынка на каждом НПЗ (для проверки на монополию):
+# НПЗ-3 имеет единственного субъекта (P1), НПЗ-1 — шесть, НПЗ-2 — четыре.
+normalized_i_j_subject_count(1 from R)(1 from n) = count_coordinates_by_axis(normalized_i_j_l(1 from R)(1 from n), Market_participant) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 6,
+        (1 from I, 2 from J) = 4,
+        (1 from I, 3 from J) = 1
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        P  from index # Индексы субъекта рынка
+
+# НПЗ с несколькими субъектами. Монопольный НПЗ-3 (один субъект) исключается —
+# для него правило Шага 7 не соблюдается.
+normalized_i_j_subject_multiple(1 from R)(1 from n) = filter_by_value(normalized_i_j_subject_count(1 from R)(1 from n), "!=", 1) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = 6,
+        (1 from I, 2 from J) = 4
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+
+# Субъекты, чья доля достигает/превышает предел (s̈_ijl >= δ × Ṡ_ij):
+# (1, 3) порог  300: P1 = 600 >= 300 — достигает (доля 100%);
+# (1, 1) порог 622.5: P2 = 585, P12 = 195, P13 = 170, P1 = 150, P3 = 85, P7 = 60 — все < 622.5;
+# (1, 2) порог   55: P1 = 30, P7 = 30, P18 = 30, P19 = 20 — все < 55.
+normalized_i_j_l_over_threshold(1 from R)(1 from n) = filter_by_pair(normalized_i_j_l(1 from R)(1 from n), ">=", normalized_i_j_threshold(1 from R)(1 from n)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 1 from P) = 600  # 105
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        P  from index # Индексы субъекта рынка
+
+# Единственный достигший предела субъект (P1) сидит на монопольном НПЗ-3,
+# который исключён из normalized_i_j_subject_multiple, поэтому множество пусто.
+normalized_i_j_l_increased(1 from R)(1 from n) = filter_by_pair(normalized_i_j_l_over_threshold(1 from R)(1 from n), contains, normalized_i_j_subject_multiple(1 from R)(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        P  from index # Индексы субъекта рынка
+
+# Записи исходной матрицы для превысивших субъектов — пусто, т.к. превысивших нет.
+normalized_i_j_k_l_s_increased(1 from R)(1 from n) = filter_by_pair(normalized_i_j_k_l_s(1 from R)(1 from n), contains, normalized_i_j_l_increased(1 from R)(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Ограниченные предельным порогом объёмы — пусто.
+normalized_i_j_k_l_s_limited(1 from R)(1 from n) = for_each_pair(normalized_i_j_k_l_s_increased(1 from R)(1 from n), "*", normalized_i_j_threshold(1 from R)(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Скорректированные объёмы s⃛ × (δ × Ṡ_ij) / s̈_ijl — пусто.
+normalized_i_j_k_l_s_corrected(1 from R)(1 from n) = for_each_pair(normalized_i_j_k_l_s_limited(1 from R)(1 from n), "/", normalized_i_j_l(1 from R)(1 from n)) = {}
+    where
+        n  of   index # Индекс матрицы
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Набор коррекций пуст (монополист исключён, остальные в пределах лимита), поэтому
+# итерация сходится: Шаг 7.2 возвращает пустую матрицу estimated, цикл завершается.
+estimated_i_j_k_l_s(1 from R)(2 from n) = {}
+    where
+        is_empty( normalized_i_j_k_l_s_corrected(1 from R)(1 from n) ) = true
+            where
+                n  of   index # Индекс матрицы
+                C  from index # Индексы условия поставки
+                I  from index # Индексы нефпродукта
+                J  from index # Индексы НПЗ
+                K  from index # Индексы региона
+                P  from index # Индексы субъекта рынка

@@ -1,0 +1,241 @@
+for_each_pair, for_each_element, sum_by_axes, assign_matrix from ("matrix_operation.lang")
+requests_i_j_k_l_s_virtual                                  from ("step-9.example_1.lang")
+requests_i_j_x_k_l_s                                        from ("step-1.example_1.lang")
+estimated_i_j_k_l_s_last                                    from ("step-8.example_1.lang")
+normalized_i_j_k_l_s                                        from ("step-6.example_1.lang")
+
+### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров — II очередь (пример 1)
+# Вход II очереди = исходные Запросы 2-й очереди (R=2) ОБЪЕДИНЁННЫЕ с «виртуальными» Запросами
+# r̃ Шага 9a. Виртуальные Запросы обрабатываются наравне с исходными Запросами 2-й очереди.
+# Дальше generic-формы Шагов 4-6 строят (2 from R)-свёртки, estimated и normalized.
+# Доступные объёмы II очереди есть только у АНПЗ (J=2: 420) и ПНХЗ (J=3: 2500); ПКОП (J=1)
+# выбыл (остаток -50, Шаг 9). Поэтому Запросы ПКОП во II очереди не обслуживаются: в Шаге 5 они
+# выпадают из filter_by_pair, т.к. встречной ячейки available_i_j(2 from R) для J=1 нет.
+
+### Обвязка входа II очереди (аналог входа Шага 4)
+# Исходные Запросы 2-й очереди (R=2) в разрезе (i, j, k, l, s): свёртка по нефтебазам (X).
+# Каждой комбинации (i, j, k, l, s) соответствует одна нефтебаза, поэтому значения совпадают
+# с исходными Запросами #201-#209.
+requests_i_j_k_l_s(2 from R) = sum_by_axes(requests_i_j_x_k_l_s(2 from R), Terminal) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = 195   # 203
+                }
+            },
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = 130   # 205
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = 130   # 202
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = 50    # 204
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = 35    # 209
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Объединённый вход II очереди: исходные Запросы R=2 + виртуальные Запросы Шага 9a.
+# Множества Субъектов рынка двух матриц не пересекаются (очередь назначается per-Субъект по
+# факту подачи сведений о розничных продажах: виртуальные — P∈{1,2,3,7,12,13,18,19};
+# R=2 — P∈{8,9,14,15,16,17,21,22}), поэтому assign_matrix объединяет их без коллизий координат.
+requests_i_j_k_l_s_corrected(2 from R) = assign_matrix(requests_i_j_k_l_s(2 from R), requests_i_j_k_l_s_virtual(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 130,  # 106
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = 195   # 203
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 65,   # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 130   # 108
+                }
+            },
+            (1 from I, 1 from C, 2 from J) = {
+                (1 from I, 1 from C, 2 from J, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = 130   # 205
+                }
+            },
+            (1 from I, 1 from C, 3 from J) = {
+                (1 from I, 1 from C, 3 from J, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = 130   # 202
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 15,   # 110
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = 50    # 204
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 70,   # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 160   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 75,   # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 120   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 70,   # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 70,   # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 30,   # 113
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = 35    # 209
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+### Шаг 10a. Суммарное распределение по очередям I, II (s⃛ = s̈ + ẗ)
+# Итоговый предоставленный объём = объём I очереди (s̈ = estimated_i_j_k_l_s_last(1 from R), Шаги 3-7)
+# плюс объём II очереди (ẗ = normalized_i_j_k_l_s(2 from R)(1), Шаги 4-6). Это объединение-со-
+# сложением по ОБЪЕДИНЕНИЮ координат:
+#   - ячейки только I очереди (ПКОП #106,#101,#108,#110,#102,#109,#103,#107) -> s̈;
+#   - ячейки только II очереди (Запросы R=2 #205,#201,#202,#206,#208,#209)   -> ẗ;
+#   - общие ячейки (виртуальные Запросы #111,#112,#113)                      -> s̈ + ẗ.
+# for_each_pair(s̈, "+", ẗ) ведётся по координатам ЛЕВОГО операнда (s̈): теряет «только II»;
+# поэтому накрываем сумму на ẗ через assign_matrix — суммы перекрывают ẗ, а уникальные для II
+# очереди ячейки ẗ остаются.
+estimated_i_j_k_l_s_total = assign_matrix(normalized_i_j_k_l_s(2 from R)(1), for_each_pair(estimated_i_j_k_l_s_last(1 from R), "+", normalized_i_j_k_l_s(2 from R)(1))) = {
+    (1 from C) = {
+        (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 1 from J) = {
+                (1 from C, 1 from I, 1 from J, 3 from K) = {
+                    (1 from C, 1 from I, 1 from J, 3 from K, 2  from P)           = 585   # 106
+                },
+                (1 from C, 1 from I, 1 from J, 4 from K) = {
+                    (1 from C, 1 from I, 1 from J, 4 from K, 1  from P)           = 65,   # 101
+                    (1 from C, 1 from I, 1 from J, 4 from K, 12 from P)           = 195   # 108
+                }
+            },
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 4 from K) = {
+                    (1 from C, 1 from I, 2 from J, 4 from K, 16 from P)           = 130   # 205
+                }
+            },
+            (1 from C, 1 from I, 3 from J) = {
+                (1 from C, 1 from I, 3 from J, 2 from K) = {
+                    (1 from C, 1 from I, 3 from J, 2 from K, 8  from P)           = 65,   # 201
+                    (1 from C, 1 from I, 3 from J, 2 from K, 9  from P)           = 130   # 202
+                }
+            }
+        }
+    },
+    (2 from C) = {
+        (2 from C, 1 from I) = {
+            (2 from C, 1 from I, 1 from J) = {
+                (2 from C, 1 from I, 1 from J, 1 from K) = {
+                    (2 from C, 1 from I, 1 from J, 1 from K, 7  from P)           = 55    # 110
+                },
+                (2 from C, 1 from I, 1 from J, 4 from K) = {
+                    (2 from C, 1 from I, 1 from J, 4 from K, 1  from P)           = 30,   # 102
+                    (2 from C, 1 from I, 1 from J, 4 from K, 13 from P)           = 165   # 109
+                },
+                (2 from C, 1 from I, 1 from J, 5 from K) = {
+                    (2 from C, 1 from I, 1 from J, 5 from K, 1  from P)           = 75,   # 103
+                    (2 from C, 1 from I, 1 from J, 5 from K, 3  from P)           = 80    # 107
+                }
+            },
+            (2 from C, 1 from I, 2 from J) = {
+                (2 from C, 1 from I, 2 from J, 4 from K) = {
+                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 30 + 70 = 100,  # 111
+                    (2 from C, 1 from I, 2 from J, 4 from K, 17 from P)           = 70,   # 206
+                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 30 + 70 = 100,  # 112
+                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 20 + 30 = 50,   # 113
+                    (2 from C, 1 from I, 2 from J, 4 from K, 21 from P)           = 15,   # 208
+                    (2 from C, 1 from I, 2 from J, 4 from K, 22 from P)           = 35    # 209
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Виртуальные Запросы после II очереди элиминируются (ẗ_request <- r̃ × 0 = 0) и далее не
+# используются. Зануляются ИМЕННО виртуальные Запросы Шага 9a, а не объединённый вход: исходные
+# Запросы R=2 реальны, их остаток обрабатывается штатным механизмом следующих очередей.
+requests_i_j_k_l_s_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_s_virtual(2 from R), "*", 0) = {
+    (1 from I) = {
+        (1 from I, 1 from C) = {
+            (1 from I, 1 from C, 1 from J) = {
+                (1 from I, 1 from C, 1 from J, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = 0   # 106
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = 0,  # 101
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = 0   # 108
+                }
+            }
+        },
+        (1 from I, 2 from C) = {
+            (1 from I, 2 from C, 1 from J) = {
+                (1 from I, 2 from C, 1 from J, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = 0   # 110
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = 0,  # 102
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = 0   # 109
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = 0,  # 103
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = 0   # 107
+                }
+            },
+            (1 from I, 2 from C, 2 from J) = {
+                (1 from I, 2 from C, 2 from J, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = 0,  # 111
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = 0,  # 112
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = 0   # 113
+                }
+            }
+        }
+    }
+}
+    where
+        C  from index # Индексы условия поставки
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка

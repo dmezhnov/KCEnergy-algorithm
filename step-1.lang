@@ -1,7 +1,7 @@
 number                            from core
 axis, index                       from ("matrix_types.lang")
 sum_by_axes, filter_by_coordinate from ("matrix_operation.lang")
-requests_i_j_k_l_s_l0             from ("step-minus-1.lang")
+requests_i_j_x_k_l_s_l0           from ("step-minus-1.lang")
 
 ### Вычисляем суммарные запрашиваемые объемы по всем НПЗ и регионам поставки
 # Отбираем Запросы на покупку НП на рассматриваемый период по виду НП,
@@ -10,251 +10,131 @@ requests_i_j_k_l_s_l0             from ("step-minus-1.lang")
 # проверки на дефицит/профицит.
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в l0-ю очередь
-requests_i_j_k_l_s(l0)(i) = {
-    (i, j) = {
-        (i, j, k) = {
-            (i, j, k, l) = {
-                (i, j, k, l, s) = requests_i_j_k_l_s_l0(i, j, k, l, l0, s)
-            }
-        }
-    }
-}
+requests_i_j_x_k_l_s(l0) = filter_by_coordinate(requests_i_j_x_k_l_s_l0, l0)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s(l0)(i, j, k, l, s)    of  number
-        requests_i_j_k_l_s_l0  of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s(l0) of matrix(Product, Refinery, Region, Market_participant,        Ship_terms)
-            where
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-
-# Заявки субъектов рынка за рассматриваемый период обслуживаемые в l0-ю очередь
-requests_i_j_k_l_s(l0) = filter_by_coordinate(requests_i_j_k_l_s_l0, l0)
-    where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s(l0)(i, j, k, l, s)    of  number
-        requests_i_j_k_l_s_l0  of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s(l0) of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        requests_i_j_x_k_l_s_l0(i, j, x, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_x_k_l_s(l0)(i, j, x, k, l, s)    of  number
+        requests_i_j_x_k_l_s_l0  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_x_k_l_s(l0) of matrix(Product, Refinery, Terminal, Region, Market_participant, Ship_terms)
             where
                 R from Queue
                     where
-                        Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
+                        x  for X  from index # Индексы нефтебаз
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
                         l0 for R  from index # Индексы очереди
                         s  for C  from index # Индексы условий поставки
 
-# Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
-requests_i_j_k_l_s.First(i) = {
-    (i, j) = {
-        (i, j, k) = {
-            (i, j, k, l) = {
-                (i, j, k, l, s) = requests_i_j_k_l_s_l0(i, j, k, l, l0, s)
-            }
-        }
-    }
-}
-    where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s.First(i, j, k, l, s)  of  number
-        requests_i_j_k_l_s_l0    of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
-            where
-                Queue(l0) = First
-                    where
-                        First from Queue
-                            where
-                                Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                                i  for I  from index # Индексы нефпродукта
-                                j  for J  from index # Индексы НПЗ
-                                k  for K  from index # Индексы региона
-                                l  for P  from index # Индексы субъекта рынка
-                                l0 for R  from index # Индексы очереди
-                                s  for C  from index # Индексы условий поставки
 
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
-requests_i_j_k_l_s.First = filter_by_coordinate(requests_i_j_k_l_s_l0, First)
+requests_i_j_x_k_l_s(1 from R) = filter_by_coordinate(requests_i_j_x_k_l_s_l0, First)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_s.First(i, j, k, l, s)  of  number
-        requests_i_j_k_l_s_l0    of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_s.First of matrix(Product, Refinery, Region, Market_participant, Ship_terms)
+        requests_i_j_x_k_l_s_l0(i, j, x, k, l, l0, s)     of  number # Запрашиваемый объем НП
+        requests_i_j_x_k_l_s(1 from R)(i, j, x, k, l, s)  of  number
+        requests_i_j_x_k_l_s_l0        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_x_k_l_s(1 from R) of matrix(Product, Refinery, Terminal, Region, Market_participant,        Ship_terms)
             where
                 First from Queue
                     where
-                        Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
+                        x  for X  from index # Индексы нефтебаз
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
                         l0 for R  from index # Индексы очереди
                         s  for C  from index # Индексы условий поставки
 
-requests_i_j_k_l_l0(i) = {
-    (i, j) = {
-        (i, j, k) = {
-            (i, j, k, l) = {
-                (i, j, k, l, l0) = requests_i_j_k_l_s_l0(i, j, k, l, l0, 1) + ... + requests_i_j_k_l_s_l0(i, j, k, l, l0, S)
-            }
-        }
-    }
-}
+requests_i_j_x_k_l_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0, Ship_terms)
     where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0(i, j, k, l, l0)      of number
-        requests_i_j_k_l_s_l0 of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_l0   of matrix(Product, Refinery, Region, Market_participant, Queue)
+        requests_i_j_x_k_l_s_l0(i, j, x, k, l, l0, s) of  number # Запрашиваемый объем НП
+        requests_i_j_x_k_l_l0(i, j, x, k, l, l0)      of  number
+        requests_i_j_x_k_l_s_l0 of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_x_k_l_l0   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue)
             where
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                S         from index # Количество условий поставки
-
-requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_k_l_s_l0, Ship_terms)
-    where
-        requests_i_j_k_l_s_l0(i, j, k, l, l0, s) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l_l0(i, j, k, l, l0)      of  number
-        requests_i_j_k_l_s_l0 of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms)
-        requests_i_j_k_l_l0   of matrix(Product, Refinery, Region, Market_participant, Queue)
-            where
-                Product, Refinery, Region, Market_participant, Queue, Ship_terms from axis # Оси заявок
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
 
-requests_i_j_k_l(i) = {
-    (i, j) = {
-        (i, j, k) = {
-            (i, j, k, l) = requests_i_j_k_l_l0(i, j, k, l, 1) + ... + requests_i_j_k_l_l0(i, j, k, l, L0)
-        }
-    }
-}
+requests_i_j_x_k_l = sum_by_axes(requests_i_j_x_k_l_l0, Queue)
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l(i, j, k, l)        of  number
-        requests_i_j_k_l_l0 of matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_k_l    of matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l(i) of matrix(         Refinery, Region, Market_participant)
-        requests_i_j_k_l_l0(i, j, k, l, 1), ..., requests_i_j_k_l_l0(i, j, k, l, L0) => requests_i_j_k_l_l0(l0)
+        requests_i_j_x_k_l_l0(i, j, x, k, l, l0) of  number # Запрашиваемый объем НП
+        requests_i_j_x_k_l(i, j, x, k, l)        of  number
+        requests_i_j_x_k_l_l0 of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue)
+        requests_i_j_x_k_l    of matrix(Product, Refinery, Terminal, Region, Market_participant)
+        requests_i_j_x_k_l_l0(i, j, x, k, l, 1), ..., requests_i_j_x_k_l_l0(i, j, x, k, l, L0) => requests_i_j_x_k_l_l0(l0)
             where
-                Product, Refinery, Region, Market_participant, Queue from axis # Оси заявок
+                Product, Refinery, Terminal, Region, Market_participant, Queue from axis # Оси заявок
                 i  for I  from index  # Индексы нефпродукта
                 j  for J  from index  # Индексы НПЗ
+                x  for X  from index  # Индексы нефтебаз
                 k  for K  from index  # Индексы региона
                 l  for P  from index  # Индексы субъекта рынка
                 l0 for R  from index  # Индексы очереди
                 L0        from index  # Количество очередей
 
-requests_i_j_k_l = sum_by_axes(requests_i_j_k_l_l0, Queue)
+requests_i_j_x_k = sum_by_axes(requests_i_j_x_k_l, Market_participant)
     where
-        requests_i_j_k_l_l0(i, j, k, l, l0) of  number # Запрашиваемый объем НП
-        requests_i_j_k_l(i, j, k, l)        of  number
-        requests_i_j_k_l_l0 of matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_k_l    of matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k_l(i) of matrix(         Refinery, Region, Market_participant)
-        requests_i_j_k_l_l0(i, j, k, l, 1), ..., requests_i_j_k_l_l0(i, j, k, l, L0) => requests_i_j_k_l_l0(l0)
+        requests_i_j_x_k_l(i, j, x, k, l) of  number # Запрашиваемый объем НП
+        requests_i_j_x_k(i, j, x, k)      of  number
+        requests_i_j_x_k_l of matrix(Product, Refinery, Terminal, Region, Market_participant)
+        requests_i_j_x_k   of matrix(Product, Refinery, Terminal, Region)
+        requests_i_j_x_k_l(i, j, x, k, 1), ..., requests_i_j_x_k_l(i, j, x, k, L) => requests_i_j_x_k_l(l)
+        requests_i_j_x_k(1),               ..., requests_i_j_x_k(N)               => requests_i_j_x_k(i)
             where
-                Product, Refinery, Region, Market_participant, Queue from axis # Оси заявок
-                i  for I  from index  # Индексы нефпродукта
-                j  for J  from index  # Индексы НПЗ
-                k  for K  from index  # Индексы региона
-                l  for P  from index  # Индексы субъекта рынка
-                l0 for R  from index  # Индексы очереди
-                L0        from index  # Количество очередей
-
-requests_i_j_k(i) = {
-    (i, j) = {
-        (i, j, k) = requests_i_j_k_l(i, j, k, 1) + ... + requests_i_j_k_l(i, j, k, L)
-    }
-}
-    where
-        requests_i_j_k_l(i, j, k, l) of  number # Запрашиваемый объем НП
-        requests_i_j_k(i, j, k)      of  number
-        requests_i_j_k_l  of matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k    of matrix(Product, Refinery, Region)
-        requests_i_j_k(i) of matrix(         Refinery, Region)
-        requests_i_j_k_l(i, j, k, 1), ..., requests_i_j_k_l(i, j, k, L) => requests_i_j_k_l(l)
-            where
-                Product, Refinery, Region, Market_participant from axis # Оси заявок
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                L         from index # Количество субъектов рынка
-
-requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant)
-requests_i_j_k = requests_i_j_k_l(i, j, k, 1) + ... + requests_i_j_k_l(i, j, k, L)
-requests_i_j_k = requests_i_j_k(1),             ...,  requests_i_j_k(N)
-    where
-        requests_i_j_k_l(i, j, k, l) of  number # Запрашиваемый объем НП
-        requests_i_j_k(i, j, k)      of  number
-        requests_i_j_k_l of matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k   of matrix(Product, Refinery, Region)
-        requests_i_j_k_l(i, j, k, 1), ..., requests_i_j_k_l(i, j, k, L) => requests_i_j_k_l(l)
-        requests_i_j_k(1),            ..., requests_i_j_k(N)            => requests_i_j_k(i)
-            where
-                requests_i_j_k_l(l) of matrix(Product, Refinery, Region)
-                requests_i_j_k(i)   of matrix(         Refinery, Region)
+                requests_i_j_x_k_l(l) of matrix(Product, Refinery, Terminal, Region)
+                requests_i_j_x_k(i)   of matrix(         Refinery, Terminal, Region)
                     where
-                        Product, Refinery, Region, Market_participant from axis # Оси заявок
+                        Product, Refinery, Terminal, Region, Market_participant from axis # Оси заявок
                         i  for I  from index # Индексы нефпродукта
                         j  for J  from index # Индексы НПЗ
+                        x  for X  from index # Индексы нефтебаз
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
                         L         from index # Количество субъектов рынка
                         N         from index # Количество нефпродуктов
 
-requests_i_j(i) = {
-    (i, j) = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
-}
-    where
-        requests_i_j_k(i, j, k) of  number
-        requests_i_j(i, j)      of   number
-        requests_i_j_k  of matrix(Product, Refinery, Region)
-        requests_i_j    of matrix(Product, Refinery)
-        requests_i_j(i) of matrix(         Refinery)
-        requests_i_j_k(i, j, 1), ..., requests_i_j_k(i, j, Q) => requests_i_j_k(k)
-            where
-                Product, Refinery, Region from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условий поставки
-                k  for K  from index # Индексы региона
-                Q         from index # Количество регионов
 
-# Матрица объемов в запросах от всех субъектов ранка, размерами N x M
-requests_i_j = sum_by_axes(requests_i_j_k_l, Region, Market_participant)
-requests_i_j = sum_by_axes(requests_i_j_k,   Region)
-requests_i_j = requests_i_j_k(i, j, 1) + ... + requests_i_j_k(i, j, Q)
-requests_i_j = requests_i_j(1),          ...,  requests_i_j(I)
+requests_i_j_x = sum_by_axes(requests_i_j_x_k_l, Region, Market_participant)
+requests_i_j_x = sum_by_axes(requests_i_j_x_k,   Region)
     where
-        requests_i_j_k_l(i, k, j, l) of  number # Запрашиваемый объем НП
-        requests_i_j_k(i, j, k)      of  number
-        requests_i_j(i, j)           of  number
-        requests_i_j_k_l of matrix(Product, Refinery, Region, Market_participant)
-        requests_i_j_k   of matrix(Product, Refinery, Region)
-        requests_i_j     of matrix(Product, Refinery)
-        requests_i_j_k(i, j, 1),  ..., requests_i_j_k(i, j, Q)  => requests_i_j_k(k)
-        requests_i_j(1),          ..., requests_i_j(I)          => requests_i_j(i)
+        requests_i_j_x_k_l(i, j, x, k, l) of  number # Запрашиваемый объем НП
+        requests_i_j_x_k(i, j, x, k)      of  number
+        requests_i_j_x(i, j, x)           of  number
+        requests_i_j_x_k_l of matrix(Product, Refinery, Terminal, Region, Market_participant)
+        requests_i_j_x_k   of matrix(Product, Refinery, Terminal, Region)
+        requests_i_j_x     of matrix(Product, Refinery, Terminal)
+        requests_i_j_x_k(i, j, x, 1),  ..., requests_i_j_x_k(i, j, x, Q)  => requests_i_j_x_k(k)
+        requests_i_j_x(1),             ..., requests_i_j_x(I)             => requests_i_j_x(i)
             where
-                Product, Region, Refinery, Market_participant from axis # Оси агрегатов
+                Product, Region, Refinery, Terminal, Market_participant from axis # Оси агрегатов
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
                 j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
                 l  for P  from index # Индексы субъекта рынка
                 Q         from index # Количество регионов
                 I         from index # Количество нефпродуктов
+
+# Матрица объемов в запросах от всех субъектов ранка, размерами N x M
+requests_i_j = sum_by_axes(requests_i_j_x, Terminal)
+    where
+        requests_i_j_x(i, j, x) of  number
+        requests_i_j(i, j)      of  number
+        requests_i_j_x of matrix(Product, Refinery, Terminal)
+        requests_i_j   of matrix(Product, Refinery)
+        requests_i_j_x(i, j, 1), ..., requests_i_j_x(i, j, X_leng) => requests_i_j_x(x)
+            where
+                Product, Refinery, Terminal from axis # Оси агрегатов
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                X_leng    from index # Количество нефтебаз

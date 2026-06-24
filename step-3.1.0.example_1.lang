@@ -1,0 +1,222 @@
+sum_by_axes, filter_by_value, count_coordinates_by_axis, for_each_pair from ("matrix_operation.lang")
+volumes_l_t_i_k                                                        from ("step-0.example_1.lang")
+
+volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, ">", 0) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = {
+                (1 from I, 1 from K, 7  from P, 1  from Y) = 100, # 0121
+                (1 from I, 1 from K, 7  from P, 2  from Y) = 90,  # 0122
+                (1 from I, 1 from K, 7  from P, 3  from Y) = 80,  # 0123
+                (1 from I, 1 from K, 7  from P, 4  from Y) = 80,  # 0124
+                (1 from I, 1 from K, 7  from P, 5  from Y) = 75,  # 0125
+                (1 from I, 1 from K, 7  from P, 6  from Y) = 90,  # 0126
+                (1 from I, 1 from K, 7  from P, 7  from Y) = 90,  # 0127
+                (1 from I, 1 from K, 7  from P, 8  from Y) = 90,  # 0128
+                (1 from I, 1 from K, 7  from P, 9  from Y) = 90,  # 0129
+                (1 from I, 1 from K, 7  from P, 10 from Y) = 70,  # 0130
+                (1 from I, 1 from K, 7  from P, 11 from Y) = 80,  # 0131
+                (1 from I, 1 from K, 7  from P, 12 from Y) = 85   # 0132
+            }
+        }
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = {
+                (1 from I, 3 from K, 2  from P, 1  from Y) = 770, # 0025
+                (1 from I, 3 from K, 2  from P, 2  from Y) = 750, # 0026
+                (1 from I, 3 from K, 2  from P, 3  from Y) = 730  # 0027
+            }
+        }
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = {
+                (1 from I, 4 from K, 1  from P, 1  from Y) = 100, # 0001
+                (1 from I, 4 from K, 1  from P, 2  from Y) = 100, # 0002
+                (1 from I, 4 from K, 1  from P, 3  from Y) = 100, # 0003
+                (1 from I, 4 from K, 1  from P, 4  from Y) = 100, # 0004
+                (1 from I, 4 from K, 1  from P, 5  from Y) = 90,  # 0005
+                (1 from I, 4 from K, 1  from P, 6  from Y) = 90,  # 0006
+                (1 from I, 4 from K, 1  from P, 7  from Y) = 80,  # 0007
+                (1 from I, 4 from K, 1  from P, 8  from Y) = 60   # 0008
+            },
+            (1 from I, 4 from K, 7  from P) = {
+                (1 from I, 4 from K, 7  from P, 1  from Y) = 40,  # 0073
+                (1 from I, 4 from K, 7  from P, 2  from Y) = 40,  # 0074
+                (1 from I, 4 from K, 7  from P, 3  from Y) = 40,  # 0075
+                (1 from I, 4 from K, 7  from P, 4  from Y) = 25,  # 0076
+                (1 from I, 4 from K, 7  from P, 5  from Y) = 25,  # 0077
+                (1 from I, 4 from K, 7  from P, 6  from Y) = 25,  # 0078
+                (1 from I, 4 from K, 7  from P, 7  from Y) = 20,  # 0079
+                (1 from I, 4 from K, 7  from P, 8  from Y) = 20,  # 0080
+                (1 from I, 4 from K, 7  from P, 9  from Y) = 20,  # 0081
+                (1 from I, 4 from K, 7  from P, 10 from Y) = 35,  # 0082
+                (1 from I, 4 from K, 7  from P, 11 from Y) = 35,  # 0083
+                (1 from I, 4 from K, 7  from P, 12 from Y) = 35   # 0084
+            },
+            (1 from I, 4 from K, 12 from P) = {
+                (1 from I, 4 from K, 12 from P, 1  from Y) = 220, # 0049
+                (1 from I, 4 from K, 12 from P, 2  from Y) = 210, # 0050
+                (1 from I, 4 from K, 12 from P, 3  from Y) = 210, # 0051
+                (1 from I, 4 from K, 12 from P, 4  from Y) = 210, # 0052
+                (1 from I, 4 from K, 12 from P, 5  from Y) = 200, # 0053
+                (1 from I, 4 from K, 12 from P, 6  from Y) = 200, # 0054
+                (1 from I, 4 from K, 12 from P, 7  from Y) = 200, # 0055
+                (1 from I, 4 from K, 12 from P, 8  from Y) = 195, # 0056
+                (1 from I, 4 from K, 12 from P, 9  from Y) = 190, # 0057
+                (1 from I, 4 from K, 12 from P, 10 from Y) = 190, # 0058
+                (1 from I, 4 from K, 12 from P, 11 from Y) = 190, # 0059
+                (1 from I, 4 from K, 12 from P, 12 from Y) = 185  # 0060
+            },
+            (1 from I, 4 from K, 13 from P) = {
+                (1 from I, 4 from K, 13 from P, 1  from Y) = 250, # 0061
+                (1 from I, 4 from K, 13 from P, 2  from Y) = 240, # 0062
+                (1 from I, 4 from K, 13 from P, 3  from Y) = 230, # 0063
+                (1 from I, 4 from K, 13 from P, 4  from Y) = 220, # 0064
+                (1 from I, 4 from K, 13 from P, 5  from Y) = 210, # 0065
+                (1 from I, 4 from K, 13 from P, 6  from Y) = 200, # 0066
+                (1 from I, 4 from K, 13 from P, 7  from Y) = 200, # 0067
+                (1 from I, 4 from K, 13 from P, 8  from Y) = 190, # 0068
+                (1 from I, 4 from K, 13 from P, 9  from Y) = 180, # 0069
+                (1 from I, 4 from K, 13 from P, 10 from Y) = 170, # 0070
+                (1 from I, 4 from K, 13 from P, 11 from Y) = 160, # 0071
+                (1 from I, 4 from K, 13 from P, 12 from Y) = 150  # 0072
+            },
+            (1 from I, 4 from K, 18 from P) = {
+                (1 from I, 4 from K, 18 from P, 1  from Y) = 50,  # 0085
+                (1 from I, 4 from K, 18 from P, 2  from Y) = 40,  # 0086
+                (1 from I, 4 from K, 18 from P, 3  from Y) = 30,  # 0087
+                (1 from I, 4 from K, 18 from P, 4  from Y) = 20,  # 0088
+                (1 from I, 4 from K, 18 from P, 5  from Y) = 10   # 0089
+            },
+            (1 from I, 4 from K, 19 from P) = {
+                (1 from I, 4 from K, 19 from P, 1  from Y) = 20,  # 0097
+                (1 from I, 4 from K, 19 from P, 2  from Y) = 20,  # 0098
+                (1 from I, 4 from K, 19 from P, 3  from Y) = 20,  # 0099
+                (1 from I, 4 from K, 19 from P, 4  from Y) = 20,  # 0100
+                (1 from I, 4 from K, 19 from P, 5  from Y) = 20,  # 0101
+                (1 from I, 4 from K, 19 from P, 6  from Y) = 20,  # 0102
+                (1 from I, 4 from K, 19 from P, 7  from Y) = 20,  # 0103
+                (1 from I, 4 from K, 19 from P, 8  from Y) = 20,  # 0104
+                (1 from I, 4 from K, 19 from P, 9  from Y) = 20,  # 0105
+                (1 from I, 4 from K, 19 from P, 10 from Y) = 20,  # 0106
+                (1 from I, 4 from K, 19 from P, 11 from Y) = 20,  # 0107
+                (1 from I, 4 from K, 19 from P, 12 from Y) = 20   # 0108
+            }
+        }
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = {
+                (1 from I, 5 from K, 1  from P, 1  from Y) = 120, # 0013
+                (1 from I, 5 from K, 1  from P, 2  from Y) = 120, # 0014
+                (1 from I, 5 from K, 1  from P, 3  from Y) = 100, # 0015
+                (1 from I, 5 from K, 1  from P, 4  from Y) = 100, # 0016
+                (1 from I, 5 from K, 1  from P, 5  from Y) = 120, # 0017
+                (1 from I, 5 from K, 1  from P, 6  from Y) = 80,  # 0018
+                (1 from I, 5 from K, 1  from P, 7  from Y) = 80,  # 0019
+                (1 from I, 5 from K, 1  from P, 8  from Y) = 80,  # 0020
+                (1 from I, 5 from K, 1  from P, 9  from Y) = 80,  # 0021
+                (1 from I, 5 from K, 1  from P, 10 from Y) = 80,  # 0022
+                (1 from I, 5 from K, 1  from P, 11 from Y) = 60,  # 0023
+                (1 from I, 5 from K, 1  from P, 12 from Y) = 60   # 0024
+            },
+            (1 from I, 5 from K, 3  from P) = {
+                (1 from I, 5 from K, 3  from P, 1  from Y) = 100, # 0037
+                (1 from I, 5 from K, 3  from P, 2  from Y) = 100, # 0038
+                (1 from I, 5 from K, 3  from P, 3  from Y) = 100, # 0039
+                (1 from I, 5 from K, 3  from P, 4  from Y) = 100, # 0040
+                (1 from I, 5 from K, 3  from P, 5  from Y) = 100, # 0041
+                (1 from I, 5 from K, 3  from P, 6  from Y) = 100, # 0042
+                (1 from I, 5 from K, 3  from P, 7  from Y) = 100, # 0043
+                (1 from I, 5 from K, 3  from P, 8  from Y) = 100, # 0044
+                (1 from I, 5 from K, 3  from P, 9  from Y) = 100, # 0045
+                (1 from I, 5 from K, 3  from P, 10 from Y) = 100, # 0046
+                (1 from I, 5 from K, 3  from P, 11 from Y) = 100, # 0047
+                (1 from I, 5 from K, 3  from P, 12 from Y) = 100  # 0048
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        Y from index # Индексы месяца и года
+
+
+matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_and_year) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = 12  # 0121, 0122, 0123, 0124, 0125, 0126, 0127, 0128, 0129, 0130, 0131, 0132
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = 3   # 0025, 0026, 0027
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 8,  # 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008
+            (1 from I, 4 from K, 7  from P) = 12, # 0073, 0074, 0075, 0076, 0077, 0078, 0079, 0080, 0081, 0082, 0083, 0084
+            (1 from I, 4 from K, 12 from P) = 12, # 0049, 0050, 0051, 0052, 0053, 0054, 0055, 0056, 0057, 0058, 0059, 0060
+            (1 from I, 4 from K, 13 from P) = 12, # 0061, 0062, 0063, 0064, 0065, 0066, 0067, 0068, 0069, 0070, 0071, 0072
+            (1 from I, 4 from K, 18 from P) = 5,  # 0085, 0086, 0087, 0088, 0089
+            (1 from I, 4 from K, 19 from P) = 12  # 0097, 0098, 0099, 0100, 0101, 0102, 0103, 0104, 0105, 0106, 0107, 0108
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = 12, # 0013, 0014, 0015, 0016, 0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024
+            (1 from I, 5 from K, 3  from P) = 12  # 0037, 0038, 0039, 0040, 0041, 0042, 0043, 0044, 0045, 0046, 0047, 0048
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+volumes_l_i_k = sum_by_axes(volumes_l_t_i_k, Month_and_year) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = 100 + 90  + 80  + 80  + 75  + 90  + 90  + 90  + 90  + 70  + 80  + 85  = 1020
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = 770 + 750 + 730                                                       = 2250
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 100 + 100 + 100 + 100 + 90  + 90  + 80  + 60                          = 720,
+            (1 from I, 4 from K, 7  from P) = 40  + 40  + 40  + 25  + 25  + 25  + 20  + 20  + 20  + 35  + 35  + 35  = 360,
+            (1 from I, 4 from K, 12 from P) = 220 + 210 + 210 + 210 + 200 + 200 + 200 + 195 + 190 + 190 + 190 + 185 = 2400,
+            (1 from I, 4 from K, 13 from P) = 250 + 240 + 230 + 220 + 210 + 200 + 200 + 190 + 180 + 170 + 160 + 150 = 2400,
+            (1 from I, 4 from K, 18 from P) = 50  + 40  + 30  + 20  + 10                                            = 150,
+            (1 from I, 4 from K, 19 from P) = 20  + 20  + 20  + 20  + 20  + 20  + 20  + 20  + 20  + 20  + 20  + 20  = 240
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = 120 + 120 + 100 + 100 + 120 + 80  + 80  + 80  + 80  + 80  + 60  + 60  = 1080,
+            (1 from I, 5 from K, 3  from P) = 100 + 100 + 100 + 100 + 100 + 100 + 100 + 100 + 100 + 100 + 100 + 100 = 1200
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
+moving_average = for_each_pair(volumes_l_i_k, safe_divide, matrix_of_activity) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = 1020 / 12 = 85
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = 2250 / 3  = 750
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 720  / 8  = 90,
+            (1 from I, 4 from K, 7  from P) = 360  / 12 = 30,
+            (1 from I, 4 from K, 12 from P) = 2400 / 12 = 200,
+            (1 from I, 4 from K, 13 from P) = 2400 / 12 = 200,
+            (1 from I, 4 from K, 18 from P) = 150  / 5  = 30,
+            (1 from I, 4 from K, 19 from P) = 240  / 12 = 20
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = 1080 / 12 = 90,
+            (1 from I, 5 from K, 3  from P) = 1200 / 12 = 100
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
