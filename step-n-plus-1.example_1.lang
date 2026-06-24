@@ -17,9 +17,10 @@ axis, index, operation                                                         f
 # EXW Улытау) и #103 (А., EXW Жамбыл). Остальные коллекции содержат ровно один Запрос, который
 # получает весь свой скорректированный объём целиком (он не превышает изначальный Запрос).
 #
-# Три Запроса не получают объёма вовсе и в результат не входят, так как их коллекция не была
-# обслужена ни в одной очереди: #025 (С., FCA ПКОП — ПКОП выбыл во II очереди) и #026 (Р., EXW
-# ПКОП) из II очереди, а также #037 (Е., FCA АНПЗ — АНПЗ исчерпан, в IV очереди обслужен лишь ПНХЗ).
+# Три Запроса получают нулевой объём (распределённый объём 0, результат ОП в Таблице 59), так как
+# их коллекция не была обслужена ни в одной очереди: #025 (Р., FCA ПКОП Шымкент) и #026 (С., EXW
+# ПКОП Алматы) из II очереди (ПКОП выбыл, остаток -50), а также #037 (Е., FCA АНПЗ Улытау — АНПЗ
+# исчерпан, в IV очереди обслужен лишь ПНХЗ). Они показаны нулевыми листьями: alloc = min(Запрос; 0) = 0.
 
 # Остаток (нераспределённый скорректированный нормированный объём) в момент достижения первого
 # хронологического Запроса коллекции. Затравка для первого Запроса — полный скорректированный
@@ -105,11 +106,16 @@ requests_remainder(1 from Z) = estimated_i_j_k_l_final = {
 requests_i_j_k_l_s_l0_q_final = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
-            # ПКОП FCA. #025 (С., K=3, P=14) не входит: ПКОП выбыл во II очереди (остаток -50).
+            # ПКОП FCA, Шымкент. P=14 (#025, Р.) не обслужен: ПКОП выбыл во II очереди (остаток -50).
             (1 from I, 1 from C, 1 from J, 3 from K) = {
                 (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
                     (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
                         (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 0    # 025  ост. 0 (коллекция не обслужена)
                     }
                 }
             },
@@ -132,8 +138,13 @@ requests_i_j_k_l_s_l0_q_final = {
             }
         },
         (1 from I, 1 from C, 2 from J) = {
-            # АНПЗ FCA. #037 (Е., K=4, P=6) не входит: АНПЗ исчерпан, в IV очереди обслужен лишь ПНХЗ.
+            # АНПЗ FCA, Улытау. P=6 (#037, Е.) не обслужен: АНПЗ исчерпан, в IV очереди обслужен лишь ПНХЗ.
             (1 from I, 1 from C, 2 from J, 4 from K) = {
+                (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R, 37 from Z) = 0    # 037  ост. 0 (коллекция не обслужена)
+                    }
+                },
                 (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
                     (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
                         (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
@@ -178,11 +189,16 @@ requests_i_j_k_l_s_l0_q_final = {
     },
     (1 from I, 2 from C) = {
         (1 from I, 2 from C, 1 from J) = {
-            # ПКОП EXW. #026 (Р., K=1, P=15) не входит: ПКОП выбыл во II очереди (остаток -50).
+            # ПКОП EXW, Алматы. P=15 (#026, С.) не обслужен: ПКОП выбыл во II очереди (остаток -50).
             (1 from I, 2 from C, 1 from J, 1 from K) = {
                 (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
                     (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
                         (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 55   # 021
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 0    # 026  ост. 0 (коллекция не обслужена)
                     }
                 }
             },
