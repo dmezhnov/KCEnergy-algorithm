@@ -860,18 +860,18 @@ normalized_i_j_k_l_s(3 from R)(1 from n) = {
 
 ### Шаг 16 для IV очереди (иные Субъекты рынка): нормирование предварительных объёмов (4 from R) (n = 1).
 # Обслуживаемые Запросы — только ПНХЗ (J=3), все на условиях FCA (с НПЗ): #401 (K=2, P=4), #402
-# (K=2, P=5), #403 (K=2, P=6). Поставок с нефтебаз (EXW) в IV очереди нет. Дефицит: предварительные
-# объёмы дробные (пропорция 1260/1495), нормирование до кратности вагонной норме (65 МТ) даёт
-# 195/455/585 (коэффициенты 3.37/6.74/9.27 округляются до 3/7/9).
+# (K=2, P=5), #403 (K=2, P=6). Поставок с нефтебаз (EXW) в IV очереди нет. Профицит: предварительные
+# объёмы целочисленны (260/520/715) и кратны вагонной норме (65 МТ), поэтому нормирование их не
+# меняет (коэффициенты 4/8/11).
 
 # Предварительные расчётные объёмы IV очереди, для поставки с НПЗ (ПНХЗ J=3).
 estimated_i_j_k_l_fca(4 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k_l_s(4 from R)(1 from n), FCA) = {
     (1 from I) = {
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 219.13043478260869558,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 438.26086956521739116,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 602.608695652173912845  # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = 260,  # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 520,  # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715   # 403
             }
         }
     }
@@ -888,9 +888,9 @@ estimated_i_j_k_l_fca_coeff(4 from R)(1 from n) = for_each_element(estimated_i_j
     (1 from I) = {
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 219.13043478260869558 / RAIL_ROAD_MIN_TONNAGE = 219.13043478260869558 / 65 = 3.371237458193979932,   # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 438.26086956521739116 / RAIL_ROAD_MIN_TONNAGE = 438.26086956521739116 / 65 = 6.742474916387959864,   # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 602.608695652173912845 / RAIL_ROAD_MIN_TONNAGE = 602.608695652173912845 / 65 = 9.270903010033444813  # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = 260 / RAIL_ROAD_MIN_TONNAGE = 260 / 65 = 4,   # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 520 / RAIL_ROAD_MIN_TONNAGE = 520 / 65 = 8,   # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715 / RAIL_ROAD_MIN_TONNAGE = 715 / 65 = 11  # 403
             }
         }
     }
@@ -907,9 +907,9 @@ estimated_i_j_k_l_fca_coeff_rounded(4 from R)(1 from n) = for_each_element(estim
     (1 from I) = {
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = round(3.371237458193979932) = 3,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = round(6.742474916387959864) = 7,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = round(9.270903010033444813) = 9   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = round(4) = 4,   # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = round(8) = 8,   # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = round(11) = 11  # 403
             }
         }
     }
@@ -926,9 +926,9 @@ estimated_i_j_k_l_fca_rounded(4 from R)(1 from n) = for_each_element(estimated_i
     (1 from I) = {
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 3 * RAIL_ROAD_MIN_TONNAGE = 3 * 65 = 195,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 7 * RAIL_ROAD_MIN_TONNAGE = 7 * 65 = 455,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 9 * RAIL_ROAD_MIN_TONNAGE = 9 * 65 = 585   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = 4 * RAIL_ROAD_MIN_TONNAGE = 4 * 65 = 260,   # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 8 * RAIL_ROAD_MIN_TONNAGE = 8 * 65 = 520,   # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 11 * RAIL_ROAD_MIN_TONNAGE = 11 * 65 = 715  # 403
             }
         }
     }
@@ -945,9 +945,9 @@ normalized_i_j_k_l_fca(4 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     (1 from I) = {
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = max(195, RAIL_ROAD_MIN_TONNAGE) = max(195, 65) = 195,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = max(455, RAIL_ROAD_MIN_TONNAGE) = max(455, 65) = 455,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = max(585, RAIL_ROAD_MIN_TONNAGE) = max(585, 65) = 585   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = max(260, RAIL_ROAD_MIN_TONNAGE) = max(260, 65) = 260,  # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = max(520, RAIL_ROAD_MIN_TONNAGE) = max(520, 65) = 520,  # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = max(715, RAIL_ROAD_MIN_TONNAGE) = max(715, 65) = 715   # 403
             }
         }
     }
@@ -1012,9 +1012,9 @@ normalized_i_j_k_l_s(4 from R)(1 from n) = {
         (1 from C, 1 from I) = {
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 2 from K) = {
-                    (1 from C, 1 from I, 3 from J, 2 from K, 4  from P) = 195,  # 401
-                    (1 from C, 1 from I, 3 from J, 2 from K, 5  from P) = 455,  # 402
-                    (1 from C, 1 from I, 3 from J, 2 from K, 6  from P) = 585   # 403
+                    (1 from C, 1 from I, 3 from J, 2 from K, 4  from P) = 260,  # 401
+                    (1 from C, 1 from I, 3 from J, 2 from K, 5  from P) = 520,  # 402
+                    (1 from C, 1 from I, 3 from J, 2 from K, 6  from P) = 715   # 403
                 }
             }
         }
