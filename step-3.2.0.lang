@@ -1,9 +1,9 @@
-number                                                     from core
-count_coordinates_by_axis, filter_by_pair, filter_by_value from ("matrix_operation.lang")
-axis, condition, matrix, index                             from ("matrix_types.lang")
-requests_i_j_deficit                                       from ("step-2.lang")
-requests_i_j_surplus                                       from ("step-2.lang")
-requests_i_j_x_k_l_s                                       from ("step-1.lang")
+number                                                                  from core
+count_coordinates_by_axis, filter_by_pair, filter_by_value, sum_by_axes from ("matrix_operation.lang")
+axis, condition, matrix, index                                          from ("matrix_types.lang")
+requests_i_j_deficit                                                    from ("step-2.lang")
+requests_i_j_surplus                                                    from ("step-2.lang")
+requests_i_j_x_k_l_s                                                    from ("step-1.lang")
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС / которые обслуживаются в 1-ю очередь)
 
