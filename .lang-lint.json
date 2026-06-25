@@ -3,6 +3,7 @@
     "trailing-whitespace": true,
     "space-before-comment": true,
     "space-after-hash": true,
-    "comment-alignment": true
+    "comment-alignment": true,
+    "unresolved-call": true
   }
 }

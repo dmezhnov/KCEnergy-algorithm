@@ -19,7 +19,8 @@ type RuleName =
     | 'trailing-whitespace'
     | 'space-before-comment'
     | 'space-after-hash'
-    | 'comment-alignment';
+    | 'comment-alignment'
+    | 'unresolved-call';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -30,6 +31,33 @@ type LangLintConfig = {
 // The config file name searched for, relative to the current working directory
 // (the directory `mise run lint` runs in — the `algorithm/` project root).
 const CONFIG_FILE_NAME = '.lang-lint.json';
+
+// Core primitives that are always in scope without an explicit import — the
+// built-in types and the element-wise operators listed in `matrix_types.lang`'s
+// `operation`/`condition` enumerations. Names used in call position that resolve
+// to one of these are never flagged by `unresolved-call`.
+const BUILTIN_NAMES: ReadonlySet<string> = new Set([
+    // Built-in types.
+    'matrix',
+    'number',
+    'index',
+    'coordinate',
+    'axis',
+    'condition',
+    'operation',
+    'length',
+    // The language's self-reference keyword (`() = this = this()`).
+    'this',
+    // Element-wise operators (the `operation` enumeration).
+    'min',
+    'max',
+    'round',
+    'floor',
+    'safe_divide',
+    // Comparison operators (the `condition` enumeration).
+    'contains',
+    'not_contains',
+]);
 
 // This is the shared entry point for all `.lang` lint rules. The current rules
 // cover comment whitespace and comment-column alignment; further rule groups
@@ -78,6 +106,7 @@ class LangLinter {
                 'space-before-comment': true,
                 'space-after-hash': true,
                 'comment-alignment': true,
+                'unresolved-call': true,
             },
         };
     }
@@ -199,6 +228,10 @@ class LangLinter {
         if (this.config.rules['comment-alignment']) {
             this.checkCommentAlignment(file, lines);
         }
+
+        if (this.config.rules['unresolved-call']) {
+            this.checkUnresolvedCalls(file, lines);
+        }
     }
 
     // Rule `trailing-whitespace`: no spaces or tabs at the end of a line.
@@ -286,6 +319,233 @@ class LangLinter {
         });
 
         flush();
+    }
+
+    // Rule `unresolved-call`: every identifier used in call position (`name(`)
+    // must resolve to something in scope — a built-in primitive, an imported
+    // name, a locally defined name, a parameter of a definition header, or a
+    // name bound inside a `where` block. A call to anything else is flagged as a
+    // missing import or typo. This is the narrowest slice of "no use of
+    // unimported identifiers": only call sites are checked here.
+    private checkUnresolvedCalls(file: string, lines: string[]): void {
+        const known = this.collectKnownNames(lines);
+        const callPattern = /([A-Za-z_]\w*)\(/g;
+
+        lines.forEach((line, index) => {
+            const code = this.stripCode(line);
+
+            let match: RegExpExecArray | null;
+            while ((match = callPattern.exec(code)) !== null) {
+                const name = match[1];
+
+                if (BUILTIN_NAMES.has(name) || known.has(name)) {
+                    continue;
+                }
+
+                this.add(
+                    file,
+                    index + 1,
+                    match.index + 1,
+                    'unresolved-call',
+                    `call to '${name}' is neither imported nor defined`,
+                );
+            }
+        });
+    }
+
+    // Build the set of names a call may legitimately resolve to within one file:
+    // imported names, locally defined names, the parameters of definition
+    // headers, and names bound inside `where` blocks. The set is deliberately
+    // generous — every binding form contributes — so the rule reports only calls
+    // that resolve to nothing at all.
+    private collectKnownNames(lines: string[]): Set<string> {
+        const known = new Set<string>();
+
+        for (const line of lines) {
+            const code = this.stripCode(line);
+
+            if (code.trim().length === 0) {
+                continue;
+            }
+
+            this.addImportedNames(line, known);
+            this.addDefinedName(line, code, known);
+            this.addEnumerationMembers(code, known);
+            this.addHeaderParameters(code, known);
+            this.addWhereBoundNames(line, code, known);
+        }
+
+        return known;
+    }
+
+    // Names brought in by a top-of-file import line: `A, B from core` or
+    // `A, B from ("file.lang")`. Matched on the raw line because the source is a
+    // string literal that `stripCode` would blank out. `from`-bindings inside
+    // `where` blocks never use `core`/`("…")` as their source, so this pattern
+    // does not pick them up.
+    private addImportedNames(line: string, known: Set<string>): void {
+        const match = /^([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s+from\s+(?:core|\(".*?"\))\s*$/.exec(line);
+
+        if (!match) {
+            return;
+        }
+
+        for (const part of match[1].split(',')) {
+            const id = this.leadingIdentifier(part);
+            if (id) {
+                known.add(id);
+            }
+        }
+    }
+
+    // The name introduced by a top-level definition: the leading identifier of
+    // any line that starts in column 0 with a letter (`requests_i_j = …`,
+    // `sum_by_axes(…) = …`, `is_empty(…)`). Indented lines are handled as
+    // `where` bindings instead.
+    private addDefinedName(rawLine: string, code: string, known: Set<string>): void {
+        if (!/^[A-Za-z_]/.test(code)) {
+            return;
+        }
+
+        const id = this.leadingIdentifier(code);
+        if (id) {
+            known.add(id);
+        }
+    }
+
+    // The members of a top-level enumeration definition. In this DSL a list
+    // definition such as `Queue = First, Second, Third` or `operation = "*",
+    // min, max` introduces each right-hand member as a name in its own right. A
+    // member is captured only from a segment that is a bare comma-separated list
+    // of identifiers (string literals are already blanked by `stripCode`); a
+    // segment containing brackets is an expression — e.g. `sum_by_axes(…)` — and
+    // is skipped, so the function it calls is not mistaken for a definition.
+    private addEnumerationMembers(code: string, known: Set<string>): void {
+        if (!/^[A-Za-z_]/.test(code)) {
+            return;
+        }
+
+        for (const segment of code.split('=')) {
+            if (!/^[\sA-Za-z0-9_,]+$/.test(segment)) {
+                continue;
+            }
+
+            for (const part of this.splitTopLevel(segment)) {
+                const id = this.leadingIdentifier(part);
+                if (id) {
+                    known.add(id);
+                }
+            }
+        }
+    }
+
+    // The parameter names of a definition header `name(params) = …`. These are
+    // in scope throughout the definition body (e.g. `matrix(Tcoords(1), …)` makes
+    // `Tcoords` usable below). Only a header whose closing `)` is followed by `=`
+    // counts, so plain indexing such as `requests(l0)(i, …) of …` is excluded.
+    private addHeaderParameters(code: string, known: Set<string>): void {
+        if (!/^\s*[A-Za-z_]\w*\(/.test(code)) {
+            return;
+        }
+
+        const open = code.indexOf('(');
+        const close = this.matchingParen(code, open);
+
+        if (close === -1) {
+            return;
+        }
+
+        if (!code.slice(close + 1).trimStart().startsWith('=')) {
+            return;
+        }
+
+        for (const part of this.splitTopLevel(code.slice(open + 1, close))) {
+            const id = this.leadingIdentifier(part);
+            if (id) {
+                known.add(id);
+            }
+        }
+    }
+
+    // Names bound on the left of a `where`-clause line — everything before the
+    // first binding keyword (`for`, `from`, `of`) or top-level `=`. Handles the
+    // single-name forms (`R from Queue`, `M of index`, `Tcoords = …`) and the
+    // comma lists (`Product, Refinery, … from axis`). Only indented lines are
+    // considered; column-0 lines are top-level definitions.
+    private addWhereBoundNames(rawLine: string, code: string, known: Set<string>): void {
+        if (!/^\s/.test(rawLine)) {
+            return;
+        }
+
+        const keyword = /\sfor\s|\sfrom\s|\sof\s|\s=\s/.exec(code);
+        const prefix = keyword ? code.slice(0, keyword.index) : code;
+
+        for (const part of this.splitTopLevel(prefix)) {
+            const id = this.leadingIdentifier(part);
+            if (id) {
+                known.add(id);
+            }
+        }
+    }
+
+    // The index of the `)` that closes the `(` at `open`, or -1 if unbalanced.
+    private matchingParen(code: string, open: number): number {
+        let depth = 0;
+
+        for (let i = open; i < code.length; i += 1) {
+            const char = code[i];
+
+            if (char === '(') {
+                depth += 1;
+            } else if (char === ')') {
+                depth -= 1;
+                if (depth === 0) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    // Split a comma-separated list, ignoring commas nested inside brackets so
+    // that `Tcoords(1), ..., Tcoords(C)` yields three top-level items.
+    private splitTopLevel(text: string): string[] {
+        const parts: string[] = [];
+        let depth = 0;
+        let start = 0;
+
+        for (let i = 0; i < text.length; i += 1) {
+            const char = text[i];
+
+            if (char === '(' || char === '[' || char === '{') {
+                depth += 1;
+            } else if (char === ')' || char === ']' || char === '}') {
+                depth -= 1;
+            } else if (char === ',' && depth === 0) {
+                parts.push(text.slice(start, i));
+                start = i + 1;
+            }
+        }
+
+        parts.push(text.slice(start));
+        return parts;
+    }
+
+    // The first identifier in a segment, or undefined when it holds none (e.g.
+    // the `...` ellipsis or a bare `(1)`).
+    private leadingIdentifier(segment: string): string | undefined {
+        const match = /[A-Za-z_]\w*/.exec(segment);
+        return match ? match[0] : undefined;
+    }
+
+    // Drop a line's inline comment and blank out string literals (replacing each
+    // with equal-width spaces so reported columns stay accurate), leaving only
+    // the code in which identifiers are matched.
+    private stripCode(line: string): string {
+        const hashIndex = line.indexOf('#');
+        const code = hashIndex === -1 ? line : line.slice(0, hashIndex);
+        return code.replace(/"[^"]*"/g, (literal) => ' '.repeat(literal.length));
     }
 
     // The net change in bracket nesting contributed by a line's code, ignoring
