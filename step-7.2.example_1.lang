@@ -1,6 +1,7 @@
-MAX_SUBJECT_SHARE_COEFFICIENT   from ("initial_data.example_1.lang")
-normalized_i_j_k_l_s            from ("step-6.example_1.lang")
-normalized_i_j_l, normalized_i_j from ("step-7.1.example_1.lang")
+MAX_SUBJECT_SHARE_COEFFICIENT                                                               from ("initial_data.example_1.lang")
+normalized_i_j_k_l_s                                                                        from ("step-6.example_1.lang")
+normalized_i_j_l, normalized_i_j                                                            from ("step-7.1.example_1.lang")
+for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis, filter_by_value from ("matrix_operation.lang")
 
 ### Шаг 7.2. Уточнение нормированных объёмов НП первой очереди по предельной доле
 # Сравниваем долю каждого Субъекта рынка на каждом НПЗ с предельной долей
