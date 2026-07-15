@@ -11,7 +11,7 @@ the matching names in the description line.
 
 ```
 # 001   1 from I,   1 from C,   1 from J,   4 from K,   1 from P,      1 from R - 130
-# 001  (AI_92,      FCA,        PKOP,       Ulytau,     Paricipant_A,  First)
+# 001  (AI_92,      FCA,        PKOP,       Ulytau,     Participant_A,  First)
 ```
 
 - Index values are left-aligned; each column has a fixed width shared by both

@@ -2,79 +2,79 @@ sum_by_axes               from ("matrix_operation.lang")
 requests_i_j_x_k_l_s_l0_q from ("initial_data.example_1.lang")
 
 # 101   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      1 from P,      1 from R - 130
-# 101  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_A,  First)
+# 101  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Participant_A,  First)
 
 # 102   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      1 from P,      1 from R - 100
-# 102  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_A,  First)
+# 102  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Participant_A,  First)
 
 # 103   1 from I,   2 from C,   1 from J,   5 from K,   2 from X,      1 from P,      1 from R - 150
-# 103  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Paricipant_A,  First)
+# 103  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Participant_A,  First)
 
 # 106   1 from I,   1 from C,   1 from J,   3 from K,   4 from X,      2 from P,      1 from R - 715
-# 106  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Paricipant_B,  First)
+# 106  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Participant_B,  First)
 
 # 107   1 from I,   2 from C,   1 from J,   5 from K,   2 from X,      3 from P,      1 from R - 200
-# 107  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Paricipant_C,  First)
+# 107  (AI_92,      EXW,        PKOP,       Zhambyl,    AO_Shimkent,   Participant_C,  First)
 
 # 108   1 from I,   1 from C,   1 from J,   4 from K,   4 from X,      12 from P,     1 from R - 325
-# 108  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Paricipant_N,  First)
+# 108  (AI_92,      FCA,        PKOP,       Ulytau,     Without_term,  Participant_N,  First)
 
 # 109   1 from I,   2 from C,   1 from J,   4 from K,   2 from X,      13 from P,     1 from R - 325
-# 109  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Paricipant_P,  First)
+# 109  (AI_92,      EXW,        PKOP,       Ulytau,     AO_Shimkent,   Participant_P,  First)
 
 # 110   1 from I,   2 from C,   1 from J,   1 from K,   2 from X,      7 from P,      1 from R - 70
-# 110  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Paricipant_H,  First)
+# 110  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Participant_H,  First)
 
 # 111   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      7 from P,      1 from R - 100
-# 111  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_H,  First)
+# 111  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_H,  First)
 
 # 112   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      18 from P,     1 from R - 100
-# 112  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_U,  First)
+# 112  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_U,  First)
 
 # 113   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      19 from P,     1 from R - 50
-# 113  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_V,  First)
+# 113  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_V,  First)
 
 # 201   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      8 from P,      2 from R - 65
-# 201  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_I,  Second)
+# 201  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_I,  Second)
 
 # 202   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      9 from P,      2 from R - 130
-# 202  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_K,  Second)
+# 202  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_K,  Second)
 
 # 203   1 from I,   1 from C,   1 from J,   3 from K,   4 from X,      14 from P,     2 from R - 195
-# 203  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Paricipant_Q,  Second)
+# 203  (AI_92,      FCA,        PKOP,       Shimkent,   Without_term,  Participant_Q,  Second)
 
 # 204   1 from I,   2 from C,   1 from J,   1 from K,   2 from X,      15 from P,     2 from R - 50
-# 204  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Paricipant_R,  Second)
+# 204  (AI_92,      EXW,        PKOP,       Almaty,     AO_Shimkent,   Participant_R,  Second)
 
 # 205   1 from I,   1 from C,   2 from J,   4 from K,   4 from X,      16 from P,     2 from R - 130
-# 205  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Paricipant_S,  Second)
+# 205  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Participant_S,  Second)
 
 # 206   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      17 from P,     2 from R - 70
-# 206  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_T,  Second)
+# 206  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_T,  Second)
 
 # 208   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      21 from P,     2 from R - 15
-# 208  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_Y,  Second)
+# 208  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_Y,  Second)
 
 # 209   1 from I,   2 from C,   2 from J,   4 from K,   1 from X,      22 from P,     2 from R - 35
-# 209  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Paricipant_Z,  Second)
+# 209  (AI_92,      EXW,        ANPZ,       Ulytau,     NEFTEK,        Participant_Z,  Second)
 
 # 301   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      10 from P,     3 from R - 195
-# 301  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_L,  Third)
+# 301  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_L,  Third)
 
 # 302   1 from I,   2 from C,   3 from J,   6 from K,   3 from X,      11 from P,     3 from R - 250
-# 302  (AI_92,      EXW,        PNHZ,       Pavlodar,   Parnas,        Paricipant_M,  Third)
+# 302  (AI_92,      EXW,        PNHZ,       Pavlodar,   Parnas,        Participant_M,  Third)
 
 # 401   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      4 from P,      4 from R - 260
-# 401  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_D,  Fourth)
+# 401  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_D,  Fourth)
 
 # 402   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      5 from P,      4 from R - 520
-# 402  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_E,  Fourth)
+# 402  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_E,  Fourth)
 
 # 403   1 from I,   1 from C,   3 from J,   2 from K,   4 from X,      6 from P,      4 from R - 715
-# 403  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Paricipant_F,  Fourth)
+# 403  (AI_92,      FCA,        PNHZ,       Astana,     Without_term,  Participant_F,  Fourth)
 
 # 404   1 from I,   1 from C,   2 from J,   4 from K,   4 from X,      6 from P,      4 from R - 520
-# 404  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Paricipant_F,  Fourth)
+# 404  (AI_92,      FCA,        ANPZ,       Ulytau,     Without_term,  Participant_F,  Fourth)
 
 requests_i_j_x_k_l_s_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request) = {
     (1 from I) = {

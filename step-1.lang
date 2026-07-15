@@ -138,3 +138,7 @@ requests_i_j = sum_by_axes(requests_i_j_x, Terminal)
                 j  for J  from index # Индексы НПЗ
                 x  for X  from index # Индексы нефтебаз
                 X_leng    from index # Количество нефтебаз
+
+## Трассировочная строка для запроса № Request(q):
+# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
+# $Refinery(j), МТ: $requests_i_j(i, j)
