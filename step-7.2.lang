@@ -10,22 +10,7 @@ condition, axis, index                                                          
 # нормированию (Шаг 6). Если все Запросы с НПЗ подал единственный Субъект рынка,
 # правило Шага 7 не соблюдается — такой НПЗ исключается из проверки.
 
-normalized_i_j_threshold(l0)(n) = for_each_element(normalized_i_j(l0)(n), "*", MAX_SUBJECT_SHARE_COEFFICIENT)
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_threshold(l0)(n)(i, j) of number
-        normalized_i_j(l0)(n)(i, j)           of number
-        MAX_SUBJECT_SHARE_COEFFICIENT         of number
-        normalized_i_j_threshold(l0)(n) of matrix(Product, Refinery)
-        normalized_i_j(l0)(n)           of matrix(Product, Refinery)
-        "*" from operation
-            where
-                l0 for R from index # Индексы очереди
-                n  of          index # Индекс матрицы
-                Product, Refinery from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-
+# Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
 normalized_i_j_threshold(1 from R)(n) = for_each_element(normalized_i_j(1 from R)(n), "*", MAX_SUBJECT_SHARE_COEFFICIENT)
     where
         normalized_i_j_threshold(1 from R)(n)(i, j) of number
@@ -41,21 +26,6 @@ normalized_i_j_threshold(1 from R)(n) = for_each_element(normalized_i_j(1 from R
                 j  for J from index # Индексы НПЗ
 
 # Количество Субъектов рынка на каждом НПЗ (для проверки на монополию).
-normalized_i_j_subject_count(l0)(n) = count_coordinates_by_axis(normalized_i_j_l(l0)(n), Market_participant)
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_l(l0)(n)(i, j, l)          of number
-        normalized_i_j_subject_count(l0)(n)(i, j) of number
-        normalized_i_j_l(l0)(n)             of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_subject_count(l0)(n) of matrix(Product, Refinery)
-            where
-                l0 for R from index # Индексы очереди
-                n  of         index # Индекс матрицы
-                Product, Refinery, Market_participant from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-                l  for P from index # Индексы субъекта рынка
-
 normalized_i_j_subject_count(1 from R)(n) = count_coordinates_by_axis(normalized_i_j_l(1 from R)(n), Market_participant)
     where
         normalized_i_j_l(1 from R)(n)(i, j, l)          of number
@@ -71,21 +41,6 @@ normalized_i_j_subject_count(1 from R)(n) = count_coordinates_by_axis(normalized
 
 # НПЗ с несколькими Субъектами рынка; монопольные НПЗ (один субъект) исключаются,
 # т.к. для них правило Шага 7 не соблюдается.
-normalized_i_j_subject_multiple(l0)(n) = filter_by_value(normalized_i_j_subject_count(l0)(n), "!=", 1)
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_subject_multiple(l0)(n)(i, j) of number
-        normalized_i_j_subject_count(l0)(n)(i, j)    of number
-        normalized_i_j_subject_multiple(l0)(n) of matrix(Product, Refinery)
-        normalized_i_j_subject_count(l0)(n)    of matrix(Product, Refinery)
-        "!=" from condition
-            where
-                l0 for R from index # Индексы очереди
-                n  of         index # Индекс матрицы
-                Product, Refinery from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-
 normalized_i_j_subject_multiple(1 from R)(n) = filter_by_value(normalized_i_j_subject_count(1 from R)(n), "!=", 1)
     where
         normalized_i_j_subject_multiple(1 from R)(n)(i, j) of number
@@ -99,26 +54,9 @@ normalized_i_j_subject_multiple(1 from R)(n) = filter_by_value(normalized_i_j_su
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
 
+
 # Субъекты, чья доля достигает или превышает предел (s̈_ijl >= δ × Ṡ_ij):
 # нарушение строгого неравенства s̈_ijl < δ × Ṡ_ij из Шага 7.2.
-normalized_i_j_l_over_threshold(l0)(n) = filter_by_pair(normalized_i_j_l(l0)(n), ">=", normalized_i_j_threshold(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_l_over_threshold(l0)(n)(i, j, l) of number
-        normalized_i_j_l(l0)(n)(i, j, l)                of number
-        normalized_i_j_threshold(l0)(n)(i, j)           of number
-        normalized_i_j_l_over_threshold(l0)(n) of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_l(l0)(n)                of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_threshold(l0)(n)        of matrix(Product, Refinery)
-        ">=" from condition
-            where
-                l0 for R from index # Индексы очереди
-                n  of         index # Индекс матрицы
-                Product, Refinery, Market_participant from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-                l  for P from index # Индексы субъекта рынка
-
 normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1 from R)(n), ">=", normalized_i_j_threshold(1 from R)(n))
     where
         normalized_i_j_l_over_threshold(1 from R)(n)(i, j, l) of number
@@ -135,26 +73,9 @@ normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1
                 j  for J from index # Индексы НПЗ
                 l  for P from index # Индексы субъекта рынка
 
+
 # Из превысивших оставляем только НПЗ с несколькими субъектами (монопольные НПЗ
 # исключены фильтром по normalized_i_j_subject_multiple).
-normalized_i_j_l_increased(l0)(n) = filter_by_pair(normalized_i_j_l_over_threshold(l0)(n), contains, normalized_i_j_subject_multiple(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_l_increased(l0)(n)(i, j, l)      of number
-        normalized_i_j_l_over_threshold(l0)(n)(i, j, l) of number
-        normalized_i_j_subject_multiple(l0)(n)(i, j)    of number
-        normalized_i_j_l_increased(l0)(n)      of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_l_over_threshold(l0)(n) of matrix(Product, Refinery, Market_participant)
-        normalized_i_j_subject_multiple(l0)(n) of matrix(Product, Refinery)
-        contains from condition
-            where
-                l0 for R from index # Индексы очереди
-                n  of         index # Индекс матрицы
-                Product, Refinery, Market_participant from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-                l  for P from index # Индексы субъекта рынка
-
 normalized_i_j_l_increased(1 from R)(n) = filter_by_pair(normalized_i_j_l_over_threshold(1 from R)(n), contains, normalized_i_j_subject_multiple(1 from R)(n))
     where
         normalized_i_j_l_increased(1 from R)(n)(i, j, l)      of number
@@ -171,24 +92,6 @@ normalized_i_j_l_increased(1 from R)(n) = filter_by_pair(normalized_i_j_l_over_t
                 j  for J from index # Индексы НПЗ
                 l  for P from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_s_increased(l0)(n) = filter_by_pair(normalized_i_j_k_l_s(l0)(n), contains, normalized_i_j_l_increased(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_k_l_s_increased(l0)(n)(i, l, s, j, k) of number
-        normalized_i_j_l_increased(l0)(n)(i, j, l)           of number
-        normalized_i_j_k_l_s_increased(l0)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_l_increased(l0)(n)     of matrix(Product, Refinery, Market_participant)
-        contains from condition
-            where
-                l0 for R from index # Индексы очереди
-                n  of          index # Индекс матрицы
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  for I from index # Индексы нефпродукта
-                l  for P from index # Индексы субъекта рынка
-                s  for C from index # Индексы условия поставки
-                j  for J from index # Индексы НПЗ
-                k  for K from index # Индексы региона
-
 normalized_i_j_k_l_s_increased(1 from R)(n) = filter_by_pair(normalized_i_j_k_l_s(1 from R)(n), contains, normalized_i_j_l_increased(1 from R)(n))
     where
         normalized_i_j_k_l_s_increased(1 from R)(n)(i, l, s, j, k) of number
@@ -204,26 +107,6 @@ normalized_i_j_k_l_s_increased(1 from R)(n) = filter_by_pair(normalized_i_j_k_l_
                 s  for C from index # Индексы условия поставки
                 j  for J from index # Индексы НПЗ
                 k  for K from index # Индексы региона
-
-normalized_i_j_k_l_s_limited(l0)(n) = for_each_pair(normalized_i_j_k_l_s_increased(l0)(n), "*", normalized_i_j_threshold(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_k_l_s_limited(l0)(n)(i, s, l, j, k)   of number
-        normalized_i_j_k_l_s_increased(l0)(n)(i, s, l, j, k) of number
-        normalized_i_j_threshold(l0)(n)(i, j)                of number
-        normalized_i_j_k_l_s_limited(l0)(n)   of matrix(Product, Ship_terms, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_s_increased(l0)(n) of matrix(Product, Ship_terms, Market_participant, Refinery, Region)
-        normalized_i_j_threshold(l0)(n)       of matrix(Product, Refinery)
-        "*" from operation
-            where
-                l0 for R  from index # Индексы очереди
-                n  of          index # Индекс матрицы
-                Product, Ship_terms, Market_participant, Refinery, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                s  for C  from index # Индексы условия поставки
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
 
 normalized_i_j_k_l_s_limited(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s_increased(1 from R)(n), "*", normalized_i_j_threshold(1 from R)(n))
     where
@@ -243,26 +126,7 @@ normalized_i_j_k_l_s_limited(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s_i
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
 
-normalized_i_j_k_l_s_corrected(l0)(n) = for_each_pair(normalized_i_j_k_l_s_limited(l0)(n), "/", normalized_i_j_l(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        normalized_i_j_k_l_s_corrected(l0)(n)(i, l, s, j, k) of number
-        normalized_i_j_k_l_s_limited(l0)(n)(i, l, s, j, k)   of number
-        normalized_i_j_l(l0)(n)(i, j, l)                     of number
-        normalized_i_j_k_l_s_corrected(l0)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_k_l_s_limited(l0)(n)   of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_l(l0)(n)               of matrix(Product, Refinery, Market_participant)
-        "/" from operation
-            where
-                l0 for R  from index # Индексы очереди
-                n  of          index # Индекс матрицы
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-
+# Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
 normalized_i_j_k_l_s_corrected(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s_limited(1 from R)(n), "/", normalized_i_j_l(1 from R)(n))
     where
         normalized_i_j_k_l_s_corrected(1 from R)(n)(i, l, s, j, k) of number
@@ -280,45 +144,6 @@ normalized_i_j_k_l_s_corrected(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s
                 s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
-
-estimated_i_j_k_l_s(l0)(n + 1) = assign_matrix(normalized_i_j_k_l_s(l0)(n), normalized_i_j_k_l_s_corrected(l0)(n))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        (is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = false) or n = 1
-            where
-                estimated_i_j_k_l_s(l0)(n + 1)(i, l, j, k, s)        of number
-                normalized_i_j_k_l_s(l0)(n)(i, l, j, k, s)           of number
-                normalized_i_j_k_l_s_corrected(l0)(n)(i, l, j, k, s) of number
-                estimated_i_j_k_l_s(l0)(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s(l0)(n)           of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s_corrected(l0)(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                    where
-                        l0 for R  from index # Индексы очереди
-                        n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region, Ship_terms from axis
-                        i  for I  from index # Индексы нефпродукта
-                        l  for P  from index # Индексы субъекта рынка
-                        j  for J  from index # Индексы НПЗ
-                        k  for K  from index # Индексы региона
-                        s  for C  from index # Индексы условия поставки
-estimated_i_j_k_l_s(l0)(n + 1) = {}
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        (is_empty( normalized_i_j_k_l_s_corrected(l0)(n) ) = true) and n != 1
-            where
-                estimated_i_j_k_l_s(l0)(n + 1)(i, l, j, k, s)        of number
-                normalized_i_j_k_l_s_corrected(l0)(n)(i, l, j, k, s) of number
-                estimated_i_j_k_l_s(l0)(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s_corrected(l0)(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                    where
-                        l0 for R  from index # Индексы очереди
-                        n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region, Ship_terms from axis
-                        i  for I  from index # Индексы нефпродукта
-                        l  for P  from index # Индексы субъекта рынка
-                        j  for J  from index # Индексы НПЗ
-                        k  for K  from index # Индексы региона
-                        s  for C  from index # Индексы условия поставки
 
 estimated_i_j_k_l_s(1 from R)(n + 1) = assign_matrix(normalized_i_j_k_l_s(1 from R)(n), normalized_i_j_k_l_s_corrected(1 from R)(n))
     where
@@ -354,3 +179,29 @@ estimated_i_j_k_l_s(1 from R)(n + 1) = {}
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
                         s  for C  from index # Индексы условия поставки
+
+## Трассировочная строка для запроса № Request(q)
+# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
+# $Refinery(j), МТ: $requests_i_j(i, j)
+# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
+# requests_i_j_deficit(i, j). Установлен Период дефицита
+# requests_i_j_surplus(i, j). Установлен Период профицита
+# Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
+# $Region(k), МТ: moving_average(l, i, k)
+# Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
+# НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
+# Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j), МТ: normalized_i_j(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
+# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_k_l_s_corrected(1 from R)(n)
+# Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)

@@ -8,25 +8,8 @@ operation                                 from ("matrix_types.lang")
 # Вычисляем остатки по (Product, Refinery) после распределения Владельцам АЗС:
 # доступный объём минус суммарно предоставленный Владельцам АЗС.
 
-# Последняя матрица предварительных расчетных объемов НП l0-й очереди
-estimated_i_j_k_l_s_last(l0) = estimated_i_j_k_l_s(l0)(last_n)
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        estimated_i_j_k_l_s_last(l0)(i, l, j, k, s)    of number
-        estimated_i_j_k_l_s(l0)(last_n)(i, l, j, k, s) of number
-        estimated_i_j_k_l_s(l0)      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
-        estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
-            where
-                l0 for R  from index # Индексы очереди
-                last_n    of   index = length(estimated_i_j_k_l_s(l0)) # индекс последней матрицы предварительных расчетных объемов НП
-                Product, Market_participant, Refinery, Region, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                s  for C  from index # Индексы условия поставки
-
 # Последняя матрица предварительных расчетных объемов НП первой очереди
+# Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
 estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s(1 from R)(last_n)
     where
         estimated_i_j_k_l_s_last(1 from R)(i, l, j, k, s)    of number
@@ -42,22 +25,7 @@ estimated_i_j_k_l_s_last(1 from R) = estimated_i_j_k_l_s(1 from R)(last_n)
                 k  for K  from index # Индексы региона
                 s  for C  from index # Индексы условия поставки
 
-estimated_i_j_last(l0) = sum_by_axes(estimated_i_j_k_l_s_last(l0), Region, Market_participant, Ship_terms)
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        estimated_i_j_k_l_s_last(l0)(i, j, s, l, k) of number
-        estimated_i_j_last(l0)(i, j)                of number
-        estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j_last(l0)       of matrix(Product, Refinery)
-            where
-                l0 for R  from index # Индексы очереди
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                l  for P  from index # Индексы субъекта рынка
-                k  for K  from index # Индексы региона
-
+# Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
 estimated_i_j_last(1 from R) = sum_by_axes(estimated_i_j_k_l_s_last(1 from R), Region, Market_participant, Ship_terms)
     where
         estimated_i_j_k_l_s_last(1 from R)(i, j, s, l, k) of number
@@ -72,37 +40,36 @@ estimated_i_j_last(1 from R) = sum_by_axes(estimated_i_j_k_l_s_last(1 from R), R
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
-# Матрица оставшихся после распределения Владельцам АЗС объемов НП l0-й очереди
-available_i_j_new_only(l0) = for_each_pair(available_i_j(l0), "-", estimated_i_j_last(l0))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        available_i_j_new_only(l0)(i, j) of number
-        available_i_j(l0)(i, j)          of number
-        estimated_i_j_last(l0)(i, j)     of number
-        available_i_j_new_only(l0) of matrix(Product, Refinery)
-        available_i_j(l0)          of matrix(Product, Refinery)
-        estimated_i_j_last(l0)     of matrix(Product, Refinery)
-        "-" from operation
-            where
-                l0 for R  from index # Индексы очереди
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
+# Матрица оставшихся после распределения Владельцам АЗС объемов НП 1-й очереди
+# Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
+# available_i_j_new_only(1 from R) = for_each_pair(available_i_j(1 from R), "-", estimated_i_j_last(1 from R))
+#     where
+#         available_i_j_new_only(1 from R)(i, j) of number
+#         available_i_j(1 from R)(i, j)          of number
+#         estimated_i_j_last(1 from R)(i, j)     of number
+#         available_i_j_new_only(1 from R) of matrix(Product, Refinery)
+#         available_i_j(1 from R)          of matrix(Product, Refinery)
+#         estimated_i_j_last(1 from R)     of matrix(Product, Refinery)
+#         "-" from operation
+#             where
+#                 R  from index # Индексы очереди
+#                 Product, Refinery from axis
+#                 i  for I  from index # Индексы нефпродукта
+#                 j  for J  from index # Индексы НПЗ
 
-available_i_j_new(l0) = assign_matrix(available_i_j(l0), available_i_j_new_only(l0))
-    where
-        l0 = 1 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-        available_i_j_new(l0)(i, j)      of number
-        available_i_j(l0)(i, j)          of number
-        available_i_j_new_only(l0)(i, j) of number
-        available_i_j_new(l0)      of matrix(Product, Refinery)
-        available_i_j(l0)          of matrix(Product, Refinery)
-        available_i_j_new_only(l0) of matrix(Product, Refinery)
-            where
-                l0 for R  from index # Индексы очереди
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
+# available_i_j_new(1 from R) = assign_matrix(available_i_j(1 from R), available_i_j_new_only(1 from R))
+#     where
+#         available_i_j_new(1 from R)(i, j)      of number
+#         available_i_j(1 from R)(i, j)          of number
+#         available_i_j_new_only(1 from R)(i, j) of number
+#         available_i_j_new(1 from R)      of matrix(Product, Refinery)
+#         available_i_j(1 from R)          of matrix(Product, Refinery)
+#         available_i_j_new_only(1 from R) of matrix(Product, Refinery)
+#             where
+#                 R  from index # Индексы очереди
+#                 Product, Refinery from axis
+#                 i  for I  from index # Индексы нефпродукта
+#                 j  for J  from index # Индексы НПЗ
 
 # Матрица оставшихся после распределения Владельцам АЗС объемов НП первой очереди
 available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estimated_i_j_last(1 from R))
@@ -118,3 +85,31 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
                 Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
+
+## Трассировочная строка для запроса № Request(q)
+# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
+# $Refinery(j), МТ: $requests_i_j(i, j)
+# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
+# requests_i_j_deficit(i, j). Установлен Период дефицита
+# requests_i_j_surplus(i, j). Установлен Период профицита
+# Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
+# $Region(k), МТ: moving_average(l, i, k)
+# Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
+# НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
+# Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j), МТ: normalized_i_j(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
+# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_k_l_s_corrected(1 from R)(n)
+# Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
+# Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
+# $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)

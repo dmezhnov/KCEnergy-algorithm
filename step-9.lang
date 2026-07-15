@@ -82,11 +82,11 @@ requests_i_j_k_l_s(1 from R) = sum_by_axes(requests_i_j_x_k_l_s(1 from R), Termi
 # r̃_ijkl = r_ijkl − s̈_ijkl
 requests_i_j_k_l_s_virtual(2 from R) = for_each_pair(requests_i_j_k_l_s(1 from R), "-", estimated_i_j_k_l_s_last(1 from R))
     where
-        requests_i_j_k_l_s(1 from R)(i, j, s, l, k)          of number
-        estimated_i_j_k_l_s_last(1 from R)(i, j, s, l, k)    of number
+        requests_i_j_k_l_s(1 from R)(i, j, s, l, k)         of number
+        estimated_i_j_k_l_s_last(1 from R)(i, j, s, l, k)   of number
         requests_i_j_k_l_s_virtual(2 from R)(i, j, s, l, k) of number
-        requests_i_j_k_l_s(1 from R)          of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j_k_l_s_last(1 from R)    of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_s(1 from R)         of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        estimated_i_j_k_l_s_last(1 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         requests_i_j_k_l_s_virtual(2 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         "-" from operation
             where
@@ -124,3 +124,32 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estima
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
+
+## Трассировочная строка для запроса № Request(q)
+# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
+# $Refinery(j), МТ: $requests_i_j(i, j)
+# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
+# requests_i_j_deficit(i, j). Установлен Период дефицита
+# requests_i_j_surplus(i, j). Установлен Период профицита
+# Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
+# $Region(k), МТ: moving_average(l, i, k)
+# Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
+# НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
+# Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j), МТ: normalized_i_j(1 from R)(n)
+# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
+# $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
+# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_k_l_s_corrected(1 from R)(n)
+# Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
+# Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
+# $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
+# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_s_virtual(2 from R)

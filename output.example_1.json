@@ -1,0 +1,2632 @@
+{
+    "result": [
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "dRxS0jZbFZJJGv0U"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-ZFY6KtSVqoFKJWnu"
+                    },
+                    "key": "Request",
+                    "value": "1"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "PTi5k5jJR4xJZNmf"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-~XDHiA2va3IxInrS"
+                    },
+                    "key": "Request",
+                    "value": "2"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 25.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "~kyv9eglfacqJ0ac"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-cPF~eem25Vjh54V1"
+                    },
+                    "key": "Request",
+                    "value": "3"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 5.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "aqNkr8k6rNcBR~Wl"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-IGzodPJffApXfAEs"
+                    },
+                    "key": "Request",
+                    "value": "4"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "YJ2yZS60vFT1icXa"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-sINiZhDk@4IibDIq"
+                    },
+                    "key": "Region",
+                    "value": "Zhambyl"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-4xqf1PqwPOtXE4mk"
+                    },
+                    "key": "Request",
+                    "value": "5"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 75.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "RTg3gfUBdG9z7YLr"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-sINiZhDk@4IibDIq"
+                    },
+                    "key": "Region",
+                    "value": "Zhambyl"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-lnYvPHRR2VaPfjTY"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_A"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-V6wXW3L~0i5KmtAM"
+                    },
+                    "key": "Request",
+                    "value": "6"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "rzphQCGa1IPtjFqG"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-BTjyqssVLrnHo59Y"
+                    },
+                    "key": "Region",
+                    "value": "Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-JW05mH8pqMX@L1hr"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_B"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-qTIi5GIYXWHJwLgV"
+                    },
+                    "key": "Request",
+                    "value": "9"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 585.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "BssytzZM57qg9YK4"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-sINiZhDk@4IibDIq"
+                    },
+                    "key": "Region",
+                    "value": "Zhambyl"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-kN~H0sJKCySqo6ht"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_C"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-HAz1il8zXz01hLGR"
+                    },
+                    "key": "Request",
+                    "value": "10"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 80.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "zfM6Q8gDxfnsDipE"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-6AtCZ0oh3NWy89Cw"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_N"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-1K8ehE2MTdfO3V9C"
+                    },
+                    "key": "Request",
+                    "value": "11"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "~4AJVBAZ8weAOzml"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-6AtCZ0oh3NWy89Cw"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_N"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-1ecLKNYNsKJH91kk"
+                    },
+                    "key": "Request",
+                    "value": "12"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "8pNYbKe2~g7XglZ6"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-6AtCZ0oh3NWy89Cw"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_N"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-NjGW2bg7K~HYIyw9"
+                    },
+                    "key": "Request",
+                    "value": "13"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "hzERAIn1zLtrqaRK"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-6AtCZ0oh3NWy89Cw"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_N"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-hGpGJG~ATZ1XNH4J"
+                    },
+                    "key": "Request",
+                    "value": "14"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "7FJceA11YZX5GpNl"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-6AtCZ0oh3NWy89Cw"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_N"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-3K556CpkuNIsjwbW"
+                    },
+                    "key": "Request",
+                    "value": "15"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "@CIOOQvEkcm2PSv7"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-rhAZ4XrLeYISKDO1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_P"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-fnqot6i8@QiTC3Cy"
+                    },
+                    "key": "Request",
+                    "value": "16"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "VZQ3DWbnWibGKWU6"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-rhAZ4XrLeYISKDO1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_P"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-PzT49qf3FJnFMYVR"
+                    },
+                    "key": "Request",
+                    "value": "17"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "70RrLiXn5yzT1XVZ"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-rhAZ4XrLeYISKDO1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_P"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-dIh7JqH07LktAQT6"
+                    },
+                    "key": "Request",
+                    "value": "18"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 35.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "un1pYg6ZGXpHySYU"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-rhAZ4XrLeYISKDO1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_P"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-GSJ55CkfC~FKzO46"
+                    },
+                    "key": "Request",
+                    "value": "19"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "FLDUpxSRgDrpJsnu"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-rhAZ4XrLeYISKDO1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_P"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-kfuFRcKRTZfjc9MJ"
+                    },
+                    "key": "Request",
+                    "value": "20"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "QVGw299G32g7ssbl"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-SSHi9Wm4t4qgow1m"
+                    },
+                    "key": "Region",
+                    "value": "Almaty"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-KJ~KTKfP76QtoXfk"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_H"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-4VrGf51qy0s4KERK"
+                    },
+                    "key": "Request",
+                    "value": "21"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 55.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "VELyNf83cZEKmFFM"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-KJ~KTKfP76QtoXfk"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_H"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-SGTvY8wFSr7V6Dgv"
+                    },
+                    "key": "Request",
+                    "value": "22"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 100.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "GJghhKEcWrcxnyWy"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-RcbYwGCV4BuWxH3y"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_I"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-91iaBxLcMm2drprP"
+                    },
+                    "key": "Request",
+                    "value": "23"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 65.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "JF8WEmQE4SAcmHLX"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-eoRr0SJkUXPNH7V1"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_K"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-UHmrR3l75YAG6SlR"
+                    },
+                    "key": "Request",
+                    "value": "24"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 130.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "e5CcECHeNRk3coHw"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-BTjyqssVLrnHo59Y"
+                    },
+                    "key": "Region",
+                    "value": "Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-KQfV9mlF0XW3eg0G"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_Q"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-rf@RZFL6GLFNI56n"
+                    },
+                    "key": "Request",
+                    "value": "25"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "kkuFB5PmJxqWCb5e"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ABP05YP@WC9QCOqU"
+                    },
+                    "key": "Refinery",
+                    "value": "PKOP"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-j70WQZbcDQgAoUdY"
+                    },
+                    "key": "Terminal",
+                    "value": "AO_Shimkent"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-SSHi9Wm4t4qgow1m"
+                    },
+                    "key": "Region",
+                    "value": "Almaty"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-60sMUma1R4nMvhkr"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_R"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-7m3zbUUb2RKkmO27"
+                    },
+                    "key": "Request",
+                    "value": "26"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "T~ilwYWULOwowN7b"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-UGMPaYlNwOWe7NZ5"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_S"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-raofHRcN0KmXdsNL"
+                    },
+                    "key": "Request",
+                    "value": "27"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 130.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "rGQB0AJnkBcOA3R~"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-fvefFoYsFzgZC27y"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_T"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-aq27ytyKI~WQnx9n"
+                    },
+                    "key": "Request",
+                    "value": "28"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 70.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "d8mTnnWK4SNkiIaa"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-K~osIDO44UWmoifx"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_U"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-NvTKXsKxat8vWhgq"
+                    },
+                    "key": "Request",
+                    "value": "29"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 100.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "h~6b7gpc9YtnpcP7"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-iqQT~2VhNt4zbzIU"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_V"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-8fspAwTT4szB7a9s"
+                    },
+                    "key": "Request",
+                    "value": "30"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-2twdCHsDJFWq@XYj"
+                    },
+                    "key": "Queue",
+                    "value": "First"
+                }
+            ],
+            "value": 50.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "Q@xMTwOkBQRXZABc"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-0ZEQZKL1HKCHYB3X"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_L"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-ta4YgDv4jQJ6e23q"
+                    },
+                    "key": "Request",
+                    "value": "32"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-bFufMnHyScbS@Ngl"
+                    },
+                    "key": "Queue",
+                    "value": "Third"
+                }
+            ],
+            "value": 195.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "iYy8jxK5RU6GkwzJ"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-EOKr9@m@ttreMsCX"
+                    },
+                    "key": "Terminal",
+                    "value": "Parnas"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-GfnIWX0dajcVj4G1"
+                    },
+                    "key": "Region",
+                    "value": "Pavlodar"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-qkExtCx@pM1vIVuK"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_M"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-~fIfj8N3JpfJQtPx"
+                    },
+                    "key": "Request",
+                    "value": "33"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-bFufMnHyScbS@Ngl"
+                    },
+                    "key": "Queue",
+                    "value": "Third"
+                }
+            ],
+            "value": 250.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "oNQP@l3WZN4tXEBJ"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-JWMFYfZTSnDPOevG"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_D"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-NFPlnmNOrndX7LKi"
+                    },
+                    "key": "Request",
+                    "value": "34"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-jxtjeEhbtUef1Wlb"
+                    },
+                    "key": "Queue",
+                    "value": "Fourth"
+                }
+            ],
+            "value": 260.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "~lOMkzbUmBghYO5B"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-JGRRpJ6APNualGvM"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_E"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-9oe3HJlnay~PoQIL"
+                    },
+                    "key": "Request",
+                    "value": "35"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-jxtjeEhbtUef1Wlb"
+                    },
+                    "key": "Queue",
+                    "value": "Fourth"
+                }
+            ],
+            "value": 520.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "mJnj8q0Im7F1Eg~0"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-ejK3PExCV0jDqc5m"
+                    },
+                    "key": "Refinery",
+                    "value": "PNHZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-DxBWs0EFpU19RzCa"
+                    },
+                    "key": "Region",
+                    "value": "Astana"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-dgGFRTyWqYPHKR6h"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_F"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-u799v6Rg0ZUnbDyC"
+                    },
+                    "key": "Request",
+                    "value": "36"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-jxtjeEhbtUef1Wlb"
+                    },
+                    "key": "Queue",
+                    "value": "Fourth"
+                }
+            ],
+            "value": 715.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "eQwWQOV2ukJtGTBN"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "cX1gj8bVqlpRGPSL",
+                        "boiId": null
+                    },
+                    "key": "Terminal",
+                    "value": "Without_term"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-dgGFRTyWqYPHKR6h"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_F"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-d5DNQWl1Pq9QHWOC"
+                    },
+                    "key": "Ship_terms",
+                    "value": "FCA"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-JmrVw9dlt3Wtovjy"
+                    },
+                    "key": "Request",
+                    "value": "37"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-jxtjeEhbtUef1Wlb"
+                    },
+                    "key": "Queue",
+                    "value": "Fourth"
+                }
+            ],
+            "value": 0.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "AodBzpiY~chVcTIw"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-G6YbCVBvNhL92Q7P"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_Y"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-COnRAUnHfi66pxDe"
+                    },
+                    "key": "Request",
+                    "value": "38"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 15.0
+        },
+        {
+            "ref": {
+                "boId": "aAVZ5Iqzemfvaf0x",
+                "boiId": "RKWfLvQOXU9npidz"
+            },
+            "axes": [
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "QoKOIy0v4YrVlSIr-uOkZ1zTNBH8fDMga"
+                    },
+                    "key": "Product",
+                    "value": "AI_92"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "8Bi7UUjZg8OfnonI-pVGw9Hr8QGUD5xjB"
+                    },
+                    "key": "Refinery",
+                    "value": "ANPZ"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "cX1gj8bVqlpRGPSL-juZo45jDvBvYWk1l"
+                    },
+                    "key": "Terminal",
+                    "value": "NEFTEK"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "PcoIoPROM8Hf3gVC-yfOtnwQWiYkRlWSd"
+                    },
+                    "key": "Region",
+                    "value": "Ulytau"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "SEkIZVXM8RwYYwb2-916pJeT9V@lXO6gr"
+                    },
+                    "key": "Market_participant",
+                    "value": "Participant_Z"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "I9pH42SszKghQeYE-~A@oRzuOPDA4~sij"
+                    },
+                    "key": "Ship_terms",
+                    "value": "EXW"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "9KQsxZAsqp9OJn1C-exmQL61HjZ~0WNwY"
+                    },
+                    "key": "Request",
+                    "value": "39"
+                },
+                {
+                    "ref": {
+                        "boId": "GQmfEHHN9m0JBuLP",
+                        "boiId": "ffQBZPzx2YeqrCDz-UFPYMt6V5tJQtzL9"
+                    },
+                    "key": "Queue",
+                    "value": "Second"
+                }
+            ],
+            "value": 35.0
+        }
+    ]
+}

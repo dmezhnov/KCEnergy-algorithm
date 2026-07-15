@@ -513,3 +513,22 @@ normalized_i_j_k_l_s(1 from R)(n)(2 from C) = normalized_i_j_k_l_exw(1 from R)(n
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
+
+## Трассировочная строка для запроса № Request(q)
+# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
+# $Refinery(j), МТ: $requests_i_j(i, j)
+# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
+# requests_i_j_deficit(i, j). Установлен Период дефицита
+# requests_i_j_surplus(i, j). Установлен Период профицита
+# Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
+# $Region(k), МТ: moving_average(l, i, k)
+# Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
+# НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
+# Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
