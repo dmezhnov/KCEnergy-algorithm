@@ -11,7 +11,6 @@ volumes_l_t_i_k_k0_i0, stepNullAxes from ("initial_data.lang")
 # Агрегируем проливы по районам и категориям НП, формируя базу для расчёта
 # скользящего среднего по продажам в дальнейшем.
 
-# !!!!!
 volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_i0, stepNullAxes(1), ..., stepNullAxes(leng))
     where
         volumes_l_t_i_k_k0_i0_require_correct(l, t, i, k, k0, i0) of  number
