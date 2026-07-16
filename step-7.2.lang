@@ -180,7 +180,7 @@ estimated_i_j_k_l_s(1 from R)(n + 1) = {}
                         k  for K  from index # Индексы региона
                         s  for C  from index # Индексы условия поставки
 
-## Трассировочная строка для запроса № Request(q)
+## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:

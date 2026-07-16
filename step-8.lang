@@ -86,7 +86,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-## Трассировочная строка для запроса № Request(q)
+## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:

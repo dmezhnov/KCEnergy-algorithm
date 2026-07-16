@@ -61,7 +61,7 @@ requests_i_j_x_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_x_k_l
                 j  for J  from index # Индексы НПЗ
                 x  for X  from index # Индексы нефтебаз
 
-## Трассировочная строка для запроса № Request(q)
+## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:

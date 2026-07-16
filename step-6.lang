@@ -514,7 +514,7 @@ normalized_i_j_k_l_s(1 from R)(n)(2 from C) = normalized_i_j_k_l_exw(1 from R)(n
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
 
-## Трассировочная строка для запроса № Request(q)
+## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:

@@ -136,7 +136,7 @@ moving_average = for_each_pair(volumes_l_i_k, safe_divide, matrix_of_activity)
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
 
-## Трассировочная строка для запроса № Request(q)
+## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
