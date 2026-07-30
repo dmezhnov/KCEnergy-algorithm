@@ -28,7 +28,7 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
 
 ### Шаг 12. Тот же гейт при l0 = 2 (переход к III очереди — ГМК)
 # Остаток после распределения Владельцам нефтебаз/резервуаров v3 = available_i_j_new(2 from R)
-# = { -45, -20, 1705 } (Шаг 11). Норма та же: min(4, 65) = 4.
+# = { -45, -20, 1701 } (Шаг 11). Норма та же: min(4, 65) = 4.
 # ПКОП (J=1, -45) и АНПЗ (J=2, -20) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 13.
 
 MIN_NEXT_AVAIL_TONNAGE(2 from R) = 4  # min(4, 65)
@@ -37,7 +37,7 @@ MIN_NEXT_AVAIL_TONNAGE(2 from R) = 4  # min(4, 65)
 
 available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_NEXT_AVAIL_TONNAGE(2 from R)) = {
     (1 from I) = {
-        (1 from I, 3 from J) = 1705  # 1705 > 4
+        (1 from I, 3 from J) = 1701  # 1701 > 4
     }
 }
     where
@@ -46,7 +46,7 @@ available_i_j(3 from R) = filter_by_value(available_i_j_new(2 from R), ">", MIN_
 
 ### Шаг 15. Тот же гейт при l0 = 3 (переход к IV очереди — иные Субъекты рынка)
 # Остаток после распределения Субъектам рынка из состава ГМК v4 = available_i_j_new(3 from R)
-# = { -45, -20, 1260 } (Шаг 14). Норма та же: min(4, 65) = 4.
+# = { -45, -20, 1256 } (Шаг 14). Норма та же: min(4, 65) = 4.
 # ПКОП (J=1, -45) и АНПЗ (J=2, -20) выбывают; ПНХЗ (J=3) проходит — Система переходит к Шагу 16.
 
 MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # min(4, 65)
@@ -55,7 +55,7 @@ MIN_NEXT_AVAIL_TONNAGE(3 from R) = 4  # min(4, 65)
 
 available_i_j(4 from R) = filter_by_value(available_i_j_new(3 from R), ">", MIN_NEXT_AVAIL_TONNAGE(3 from R)) = {
     (1 from I) = {
-        (1 from I, 3 from J) = 1260  # 1260 > 4
+        (1 from I, 3 from J) = 1256  # 1256 > 4
     }
 }
     where

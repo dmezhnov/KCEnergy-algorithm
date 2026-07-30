@@ -137,7 +137,8 @@ requests_i_j_corrected(1 from R) = sum_by_axes(requests_i_j_s_corrected(1 from R
 # Вход — requests_i_j_k_l_s_corrected(2 from R) (= R=2 ∪ r̃ Шага 9a, step-10.example_2.lang).
 # Коррекции на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует
 # в свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j(2 from R)).
-# Монопольный Запрос 105 (ПНХЗ) удовлетворён в I очереди (r̃ = 0) и во II очередь не передаётся.
+# Монопольный Запрос 105 (ПНХЗ) удовлетворён в I очереди (r̃ = 0); во II очередь входит нулевой
+# ячейкой, поднимаемой EXW-флором Шага 6 до 4.
 
 # Свёртка по регионам (K): объём по (i, j, l, s).
 requests_i_j_l_s_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(2 from R), Region) = {
@@ -174,6 +175,9 @@ requests_i_j_l_s_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(
                 (1 from I, 2 from C, 2 from J, 19 from P)           = 30,   # 113
                 (1 from I, 2 from C, 2 from J, 21 from P)           = 15,   # 208
                 (1 from I, 2 from C, 2 from J, 22 from P)           = 35    # 209
+            },
+            (1 from I, 2 from C, 3 from J) = {
+                (1 from I, 2 from C, 3 from J, 1  from P)           = 0     # 105
             }
         }
     }
@@ -196,7 +200,8 @@ requests_i_j_s_corrected(2 from R) = sum_by_axes(requests_i_j_l_s_corrected(2 fr
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = 165 + 115 +  10 + 155 +  50             = 495,  # 102 + 103 + 107 + 109 + 110 + 204
-            (1 from I, 2 from C, 2 from J) = 370 +  70 +  70 +  70 +  30 +  15 +  35 = 660   # 104 + 111 + 112 + 113 + 206 + 208 + 209
+            (1 from I, 2 from C, 2 from J) = 370 +  70 +  70 +  70 +  30 +  15 +  35 = 660,  # 104 + 111 + 112 + 113 + 206 + 208 + 209
+            (1 from I, 2 from C, 3 from J)                                           = 0     # 105
         }
     }
 }
@@ -213,7 +218,7 @@ requests_i_j_corrected(2 from R) = sum_by_axes(requests_i_j_s_corrected(2 from R
     (1 from I) = {
         (1 from I, 1 from J) = 520 + 495 = 1015,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
         (1 from I, 2 from J) = 260 + 660 =  920,  # 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
-        (1 from I, 3 from J)             =  195   # 201 + 202
+        (1 from I, 3 from J) = 195 +   0 =  195   # 105 + 201 + 202
     }
 }
     where
