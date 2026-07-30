@@ -493,7 +493,7 @@ normalized_i_j_k_l_fca(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-# Предварительные расчётные объёмы II очереди, для поставки с нефтебаз (АНПЗ, J=2).
+# Предварительные расчётные объёмы II очереди, для поставки с нефтебаз (АНПЗ J=2; монопольный #105 на ПНХЗ J=3, r̃=0).
 estimated_i_j_k_l_exw(2 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k_l_s(2 from R)(1 from n), EXW) = {
     (1 from I) = {
         (1 from I, 2 from J) = {
@@ -505,6 +505,11 @@ estimated_i_j_k_l_exw(2 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k
                 (1 from I, 2 from J, 4 from K, 19 from P) = 12.71739130434782607,   # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = 6.358695652173913035,   # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 14.836956521739130415   # 209
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = 0   # 105
             }
         }
     }
@@ -529,6 +534,11 @@ estimated_i_j_k_l_exw_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j
                 (1 from I, 2 from J, 4 from K, 21 from P) = 6.358695652173913035 / OIL_TERMINAL_STEP_TONNAGE = 6.358695652173913035 / 5 = 1.271739130434782607,     # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 14.836956521739130415 / OIL_TERMINAL_STEP_TONNAGE = 14.836956521739130415 / 5 = 2.967391304347826083    # 209
             }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = 0 / OIL_TERMINAL_STEP_TONNAGE = 0 / 5 = 0   # 105
+            }
         }
     }
 }
@@ -551,6 +561,11 @@ estimated_i_j_k_l_exw_coeff_rounded(2 from R)(1 from n) = for_each_element(estim
                 (1 from I, 2 from J, 4 from K, 19 from P) = round(2.543478260869565214) = 3,    # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = round(1.271739130434782607) = 1,    # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = round(2.967391304347826083) = 3     # 209
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = round(0) = 0   # 105
             }
         }
     }
@@ -575,6 +590,11 @@ estimated_i_j_k_l_exw_rounded(2 from R)(1 from n) = for_each_element(estimated_i
                 (1 from I, 2 from J, 4 from K, 21 from P) = 1 * OIL_TERMINAL_STEP_TONNAGE = 1 * 5 = 5,      # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15      # 209
             }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = 0 * OIL_TERMINAL_STEP_TONNAGE = 0 * 5 = 0   # 105
+            }
         }
     }
 }
@@ -597,6 +617,11 @@ normalized_i_j_k_l_exw(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
                 (1 from I, 2 from J, 4 from K, 19 from P) = max(15, OIL_TERMINAL_MIN_TONNAGE) = max(15, 4) = 15,     # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = max(5, OIL_TERMINAL_MIN_TONNAGE) = max(5, 4) = 5,        # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = max(15, OIL_TERMINAL_MIN_TONNAGE) = max(15, 4) = 15      # 209
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = max(0, OIL_TERMINAL_MIN_TONNAGE) = max(0, 4) = 4   # 105
             }
         }
     }
@@ -639,6 +664,11 @@ normalized_i_j_k_l_s(2 from R)(1 from n) = {
                     (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 15,   # 113
                     (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) = 5,    # 208
                     (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) = 15    # 209
+                }
+            },
+            (2 from C, 1 from I, 3 from J) = {
+                (2 from C, 1 from I, 3 from J, 4 from K) = {
+                    (2 from C, 1 from I, 3 from J, 4 from K, 1  from P) = 4   # 105
                 }
             }
         }
