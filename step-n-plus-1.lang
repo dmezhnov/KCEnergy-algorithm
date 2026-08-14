@@ -138,7 +138,7 @@ requests_i_j_k_l_s_l0_q_final = assign_matrix(requests_allocated_q(1), ..., requ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
 # available_i_j_deficit(i, j). Установлен Период дефицита
-# requests_i_j_surplus(i, j). Установлен Период профицита
+# available_i_j_surplus(i, j). Установлен Период профицита
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
 # Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
