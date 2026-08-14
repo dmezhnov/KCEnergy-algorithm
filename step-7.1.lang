@@ -43,7 +43,7 @@ normalized_i_j(1 from R)(n) = sum_by_axes(normalized_i_j_l(1 from R)(n), Market_
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: $requests_i_j(i, j)
 # Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
-# requests_i_j_deficit(i, j). Установлен Период дефицита
+# available_i_j_deficit(i, j). Установлен Период дефицита
 # requests_i_j_surplus(i, j). Установлен Период профицита
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
