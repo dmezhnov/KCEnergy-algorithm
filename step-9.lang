@@ -147,7 +147,7 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estima
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
-# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_k_l_s_corrected(1 from R)(n)
+# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП

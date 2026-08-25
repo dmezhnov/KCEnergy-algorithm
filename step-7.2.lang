@@ -25,6 +25,25 @@ normalized_i_j_threshold(1 from R)(n) = for_each_element(normalized_i_j(1 from R
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
 
+# Доля Субъекта рынка в суммарном нормированном объёме НПЗ (s̈_ijl / Ṡ_ij).
+# Сама проверка Шага 7.2 сравнивает s̈_ijl с порогом δ × Ṡ_ij и в этой дроби не нуждается;
+# доля считается для трассировочной строки, которая печатает именно отношение.
+normalized_i_j_l_share(1 from R)(n) = for_each_pair(normalized_i_j_l(1 from R)(n), "/", normalized_i_j(1 from R)(n))
+    where
+        normalized_i_j_l_share(1 from R)(n)(i, j, l) of number
+        normalized_i_j_l(1 from R)(n)(i, j, l)       of number
+        normalized_i_j(1 from R)(n)(i, j)            of number
+        normalized_i_j_l_share(1 from R)(n) of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_l(1 from R)(n)       of matrix(Product, Refinery, Market_participant)
+        normalized_i_j(1 from R)(n)         of matrix(Product, Refinery)
+        "/" from operation
+            where
+                n  of         index # Индекс матрицы
+                Product, Refinery, Market_participant from axis
+                i  for I from index # Индексы нефпродукта
+                j  for J from index # Индексы НПЗ
+                l  for P from index # Индексы субъекта рынка
+
 # Количество Субъектов рынка на каждом НПЗ (для проверки на монополию).
 normalized_i_j_subject_count(1 from R)(n) = count_coordinates_by_axis(normalized_i_j_l(1 from R)(n), Market_participant)
     where
@@ -202,6 +221,6 @@ estimated_i_j_k_l_s(1 from R)(n + 1) = {}
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
-# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_k_l_s_corrected(1 from R)(n)
+# Шаг 7.2. Доля Субъекта рынка, %: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
