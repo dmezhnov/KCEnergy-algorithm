@@ -12,20 +12,20 @@ axis, index, operation                                                         f
 # полностью (если остаток ещё превышает Запрос), либо получает весь остаток; остаток уменьшается
 # на выделенный объём и обработка переходит к следующему Запросу, пока остаток не обнулится.
 #
-# Из 22 непустых коллекций (i, j, k, l, s) перераспределение нетривиально только у четырёх — там,
+# Из 23 непустых коллекций (i, j, k, l, s) перераспределение нетривиально только у четырёх — там,
 # где Субъект подал несколько Запросов: #108 (Н., FCA Улытау), #102 (А., EXW Улытау), #109 (П.,
 # EXW Улытау) и #103 (А., EXW Жамбыл). Остальные коллекции содержат ровно один Запрос, который
 # получает весь свой скорректированный объём целиком (он не превышает изначальный Запрос).
 #
-# Три Запроса получают нулевой объём (распределённый объём 0, результат ОП в Таблице 59), так как
+# Два Запроса получают нулевой объём (распределённый объём 0, результат ОП в Таблице 59), так как
 # их коллекция не была обслужена ни в одной очереди: #025 (Р., FCA ПКОП Шымкент) и #026 (С., EXW
-# ПКОП Алматы) из II очереди (ПКОП выбыл, остаток -50), а также #037 (Е., FCA АНПЗ Улытау — АНПЗ
-# исчерпан, в IV очереди обслужен лишь ПНХЗ). Они показаны нулевыми листьями: alloc = min(Запрос; 0) = 0.
+# ПКОП Алматы) из II очереди (ПКОП выбыл, остаток -50). Они показаны нулевыми листьями:
+# alloc = min(Запрос; 0) = 0.
 
 # Остаток (нераспределённый скорректированный нормированный объём) в момент достижения первого
 # хронологического Запроса коллекции. Затравка для первого Запроса — полный скорректированный
-# объём коллекции (i, j, k, l, s) по итогам всех очередей: s̈ I очереди (Шаг 8), для Субъектов
-# АНПЗ дополненный объёмом II очереди (s⃛ = s̈ + ẗ, Шаг 10a), для ПНХЗ — объёмами III/IV очередей.
+# объём коллекции (i, j, k, l, s) по итогам всех очередей: s̈ I очереди (Шаг 8), для Владельцев
+# нефтебаз АНПЗ — объёмом II очереди (Шаг 10a), для ПНХЗ и АНПЗ — объёмами III/IV очередей.
 requests_remainder(1 from Z) = estimated_i_j_k_l_final = {
     (1 from C) = {
         (1 from C, 1 from I) = {
@@ -40,7 +40,8 @@ requests_remainder(1 from Z) = estimated_i_j_k_l_final = {
             },
             (1 from C, 1 from I, 2 from J) = {
                 (1 from C, 1 from I, 2 from J, 4 from K) = {
-                    (1 from C, 1 from I, 2 from J, 4 from K, 16 from P) = 130  # 027
+                    (1 from C, 1 from I, 2 from J, 4 from K, 6  from P) = 195,  # 037
+                    (1 from C, 1 from I, 2 from J, 4 from K, 16 from P) = 130   # 027
                 }
             },
             (1 from C, 1 from I, 3 from J) = {
@@ -72,12 +73,12 @@ requests_remainder(1 from Z) = estimated_i_j_k_l_final = {
             },
             (2 from C, 1 from I, 2 from J) = {
                 (2 from C, 1 from I, 2 from J, 4 from K) = {
-                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 30 + 70 = 100,  # 022 (I + II)
-                    (2 from C, 1 from I, 2 from J, 4 from K, 17 from P) =            70,  # 028
-                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 30 + 70 = 100,  # 029 (I + II)
-                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 20 + 30 =  50,  # 030 (I + II)
-                    (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) =            15,  # 038
-                    (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) =            35   # 039
+                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 30,  # 022
+                    (2 from C, 1 from I, 2 from J, 4 from K, 17 from P) = 70,  # 028
+                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 30,  # 029
+                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 20,  # 030
+                    (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) = 15,  # 038
+                    (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) = 35   # 039
                 }
             },
             (2 from C, 1 from I, 3 from J) = {
@@ -138,11 +139,12 @@ requests_i_j_k_l_s_l0_q_final = {
             }
         },
         (1 from I, 1 from C, 2 from J) = {
-            # АНПЗ FCA, Улытау. P=6 (#037, Е.) не обслужен: АНПЗ исчерпан, в IV очереди обслужен лишь ПНХЗ.
+            # АНПЗ FCA, Улытау. P=6 (#037, Е.) обслужен в IV очереди: Запрос 520, остаток АНПЗ 170,
+            # нормирование округлило объём до 195 -> alloc = min(520; 195) = 195.
             (1 from I, 1 from C, 2 from J, 4 from K) = {
                 (1 from I, 1 from C, 2 from J, 4 from K, 6  from P) = {
                     (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R) = {
-                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R, 37 from Z) = 0    # 037  ост. 0 (коллекция не обслужена)
+                        (1 from I, 1 from C, 2 from J, 4 from K, 6  from P, 4 from R, 37 from Z) = 195  # 037
                     }
                 },
                 (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
@@ -241,7 +243,7 @@ requests_i_j_k_l_s_l0_q_final = {
             (1 from I, 2 from C, 2 from J, 4 from K) = {
                 (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 100  # 022
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
@@ -251,12 +253,12 @@ requests_i_j_k_l_s_l0_q_final = {
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 100  # 029
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
                     (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
-                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 50   # 030
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
                     }
                 },
                 (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {

@@ -124,44 +124,35 @@ requests_i_j_corrected(1 from R) = sum_by_axes(requests_i_j_s_corrected(1 from R
         J from index # Индексы НПЗ
         R from index # Индексы очереди
 
-### Шаг 4 для II очереди: те же свёртки на объединённом входе R=2 + виртуальные r̃ ((2 from R)).
-# Вход — requests_i_j_k_l_s_corrected(2 from R) (= R=2 ∪ r̃ Шага 9a, step-10.example_1.lang).
-# Коррекции на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) пока присутствует
-# в свёртках; он выбывает позже, в Шаге 5 (нет встречного available_i_j(2 from R)).
+### Шаг 4 для II очереди: те же свёртки на исходных Запросах R=2 ((2 from R)).
+# Вход — requests_i_j_k_l_s_corrected(2 from R) (= Запросы R=2, step-10.example_1.lang); виртуальных
+# Запросов r̃ Шага 9a в нём нет. Коррекции на проливы во II очереди нет. Все объёмы целочисленные.
+# ПКОП (J=1) пока присутствует в свёртках; он выбывает позже, в Шаге 5 (нет встречного
+# available_i_j(2 from R)).
 
 # Свёртка по регионам (K): объём по (i, j, l, s).
 requests_i_j_l_s_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(2 from R), Region) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
             (1 from I, 1 from C, 1 from J) = {
-                (1 from I, 1 from C, 1 from J, 2  from P)           = 130,  # 106
-                (1 from I, 1 from C, 1 from J, 14 from P)           = 195,  # 203
-                (1 from I, 1 from C, 1 from J, 1  from P)           = 65,   # 101
-                (1 from I, 1 from C, 1 from J, 12 from P)           = 130   # 108
+                (1 from I, 1 from C, 1 from J, 14 from P) = 195   # 203
             },
             (1 from I, 1 from C, 2 from J) = {
-                (1 from I, 1 from C, 2 from J, 16 from P)           = 130   # 205
+                (1 from I, 1 from C, 2 from J, 16 from P) = 130   # 205
             },
             (1 from I, 1 from C, 3 from J) = {
-                (1 from I, 1 from C, 3 from J, 8  from P)           = 65,   # 201
-                (1 from I, 1 from C, 3 from J, 9  from P)           = 130   # 202
+                (1 from I, 1 from C, 3 from J, 8  from P) = 65,   # 201
+                (1 from I, 1 from C, 3 from J, 9  from P) = 130   # 202
             }
         },
         (1 from I, 2 from C) = {
             (1 from I, 2 from C, 1 from J) = {
-                (1 from I, 2 from C, 1 from J, 7  from P)           = 15,   # 110
-                (1 from I, 2 from C, 1 from J, 15 from P)           = 50,   # 204
-                (1 from I, 2 from C, 1 from J, 1  from P) = 70 + 75 = 145,  # 102 + 103
-                (1 from I, 2 from C, 1 from J, 13 from P)           = 160,  # 109
-                (1 from I, 2 from C, 1 from J, 3  from P)           = 120   # 107
+                (1 from I, 2 from C, 1 from J, 15 from P) = 50    # 204
             },
             (1 from I, 2 from C, 2 from J) = {
-                (1 from I, 2 from C, 2 from J, 7  from P)           = 70,   # 111
-                (1 from I, 2 from C, 2 from J, 17 from P)           = 70,   # 206
-                (1 from I, 2 from C, 2 from J, 18 from P)           = 70,   # 112
-                (1 from I, 2 from C, 2 from J, 19 from P)           = 30,   # 113
-                (1 from I, 2 from C, 2 from J, 21 from P)           = 15,   # 208
-                (1 from I, 2 from C, 2 from J, 22 from P)           = 35    # 209
+                (1 from I, 2 from C, 2 from J, 17 from P) = 70,   # 206
+                (1 from I, 2 from C, 2 from J, 21 from P) = 15,   # 208
+                (1 from I, 2 from C, 2 from J, 22 from P) = 35    # 209
             }
         }
     }
@@ -178,13 +169,13 @@ requests_i_j_l_s_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_s_corrected(
 requests_i_j_s_corrected(2 from R) = sum_by_axes(requests_i_j_l_s_corrected(2 from R), Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from C) = {
-            (1 from I, 1 from C, 1 from J) =  65 + 130 + 130 + 195             = 520,  # 101 + 106 + 108 + 203
-            (1 from I, 1 from C, 2 from J)                                     = 130,  # 205
-            (1 from I, 1 from C, 3 from J) =  65 + 130                         = 195   # 201 + 202
+            (1 from I, 1 from C, 1 from J)                   = 195,  # 203
+            (1 from I, 1 from C, 2 from J)                   = 130,  # 205
+            (1 from I, 1 from C, 3 from J) =  65 + 130       = 195   # 201 + 202
         },
         (1 from I, 2 from C) = {
-            (1 from I, 2 from C, 1 from J) = 145 + 120 +  15 + 160 +  50       = 490,  # 102 + 103 + 107 + 109 + 110 + 204
-            (1 from I, 2 from C, 2 from J) =  70 +  70 +  70 +  30 +  15 +  35 = 290   # 111 + 112 + 113 + 206 + 208 + 209
+            (1 from I, 2 from C, 1 from J)                   = 50,   # 204
+            (1 from I, 2 from C, 2 from J) =  70 +  15 +  35 = 120   # 206 + 208 + 209
         }
     }
 }
@@ -198,9 +189,9 @@ requests_i_j_s_corrected(2 from R) = sum_by_axes(requests_i_j_l_s_corrected(2 fr
 # Итоговая матрица R размера N×M: свёртка по условиям поставки (C), объём по (i, j).
 requests_i_j_corrected(2 from R) = sum_by_axes(requests_i_j_s_corrected(2 from R), Ship_terms) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 520 + 490 = 1010,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
-        (1 from I, 2 from J) = 130 + 290 =  420,  # 111 + 112 + 113 + 205 + 206 + 208 + 209
-        (1 from I, 3 from J)             =  195   # 201 + 202
+        (1 from I, 1 from J) = 195 +  50 = 245,  # 203 + 204
+        (1 from I, 2 from J) = 130 + 120 = 250,  # 205 + 206 + 208 + 209
+        (1 from I, 3 from J)             = 195   # 201 + 202
     }
 }
     where
@@ -211,7 +202,7 @@ requests_i_j_corrected(2 from R) = sum_by_axes(requests_i_j_s_corrected(2 from R
 
 ### Шаг 4 для III очереди (ГМК): свёртки исходных Запросов R=3 ((3 from R)).
 # Generic-форма Шага 4 (guard l0 > 2) строит вход III очереди прямо из исходных Запросов R=3:
-# виртуальных Запросов в III очереди нет (на ПНХЗ вся II очередь удовлетворена, остатка нет).
+# виртуальных Запросов в III очереди нет.
 # Запросы ГМК — только на ПНХЗ (J=3): #301 (195, FCA, K=2, P=10) и #302 (250, EXW, K=6, P=11).
 
 # Свёртка по нефтебазам (X): объём по (i, j, k, l, s).
@@ -299,7 +290,8 @@ requests_i_j_corrected(3 from R) = sum_by_axes(requests_i_j_s_corrected(3 from R
 # Generic-форма Шага 4 (guard l0 > 2) строит вход IV очереди прямо из исходных Запросов R=4:
 # виртуальных Запросов в IV очереди нет. Запросы иных Субъектов рынка: на ПНХЗ (J=3) — #401
 # (260, FCA, K=2, P=4), #402 (520, FCA, K=2, P=5), #403 (715, FCA, K=2, P=6); на АНПЗ (J=2) —
-# #404 (520, FCA, K=4, P=6). АНПЗ выбыл гейтом Шага 15 (v4=0), но в свёртках Шага 4 ещё участвует.
+# #404 (520, FCA, K=4, P=6). АНПЗ прошёл гейт Шага 15 с остатком v4 = 170, поэтому #404
+# обслуживается в IV очереди — по ветке превышения (520 > 170, Шаг 5).
 
 # Свёртка по нефтебазам (X): объём по (i, j, k, l, s).
 requests_i_j_k_l_s_corrected(4 from R) = sum_by_axes(requests_i_j_x_k_l_s(4 from R), Terminal) = {
