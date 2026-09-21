@@ -1,8 +1,8 @@
-available_i_j_new, estimated_i_j_k_l_s_last                from ("step-8.lang")
-requests_i_j_x_k_l_s                                       from ("step-1.lang")
-OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE            from ("initial_data.lang")
-filter_by_value, for_each_pair, sum_by_axes, assign_matrix from ("matrix_operation.lang")
-condition, operation, matrix, index, axis                  from ("matrix_types.lang")
+available_i_j_new, estimated_i_j_k_l_last       from ("step-8.lang")
+requests_i_j_k_l_queue                          from ("step-1.lang")
+OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
+filter_by_value, for_each_pair, assign_matrix   from ("matrix_operation.lang")
+condition, operation, matrix, index, axis       from ("matrix_types.lang")
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
 # Проверяем достаточность остатка по НПЗ для обслуживания запросов нефтебаз/резервуаров
@@ -62,38 +62,23 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
 # предоставленным в первой очереди (Шаги 3–7): r̃_ijkl = r_ijkl − s̈_ijkl.
 # Дополнительные Запросы участвуют только во II очереди распределения Доступных объёмов НП.
 
-# Изначально запрашиваемый объём первой очереди в разрезе (i, j, k, l, s):
-# свёртка исходных Запросов по нефтебазам (каждой комбинации соответствует одна нефтебаза).
-requests_i_j_k_l_s(1 from R) = sum_by_axes(requests_i_j_x_k_l_s(1 from R), Terminal)
-    where
-        requests_i_j_x_k_l_s(1 from R)(i, j, x, k, l, s) of number
-        requests_i_j_k_l_s(1 from R)(i, j, s, l, k)      of number
-        requests_i_j_x_k_l_s(1 from R) of matrix(Product, Refinery, Terminal, Region, Market_participant, Ship_terms)
-        requests_i_j_k_l_s(1 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-            where
-                Product, Refinery, Terminal, Region, Market_participant, Ship_terms from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
+# Изначально запрашиваемый объём первой очереди в разрезе (i, j, k, l) — это Запросы
+# первой очереди из Шага 1: свёртка по нефтебазам и условиям поставки сделана в Шаге -1.
 
 # r̃_ijkl = r_ijkl − s̈_ijkl
-requests_i_j_k_l_s_virtual(2 from R) = for_each_pair(requests_i_j_k_l_s(1 from R), "-", estimated_i_j_k_l_s_last(1 from R))
+requests_i_j_k_l_virtual(2 from R) = for_each_pair(requests_i_j_k_l_queue(1 from R), "-", estimated_i_j_k_l_last(1 from R))
     where
-        requests_i_j_k_l_s(1 from R)(i, j, s, l, k)         of number
-        estimated_i_j_k_l_s_last(1 from R)(i, j, s, l, k)   of number
-        requests_i_j_k_l_s_virtual(2 from R)(i, j, s, l, k) of number
-        requests_i_j_k_l_s(1 from R)         of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j_k_l_s_last(1 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual(2 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
+        requests_i_j_k_l_queue(1 from R)(i, j, l, k)   of number
+        estimated_i_j_k_l_last(1 from R)(i, j, l, k)   of number
+        requests_i_j_k_l_virtual(2 from R)(i, j, l, k) of number
+        requests_i_j_k_l_queue(1 from R)   of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_last(1 from R)   of matrix(Product, Refinery, Market_participant, Region)
+        requests_i_j_k_l_virtual(2 from R) of matrix(Product, Refinery, Market_participant, Region)
         "-" from operation
             where
-                Product, Refinery, Ship_terms, Market_participant, Region from axis
+                Product, Refinery, Market_participant, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
@@ -110,16 +95,16 @@ available_i_j_final = available_i_j_new(last_n)
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
 
-estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estimated_i_j_k_l_s_last(last_n))
+estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_last(1), ..., estimated_i_j_k_l_last(last_n))
     where
-        estimated_i_j_k_l_s_last(l0)(i, l, j, k, s) of number
-        estimated_i_j_k_l_final(i, l, j, k, s)      of number
-        estimated_i_j_k_l_s_last(l0) of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
-        estimated_i_j_k_l_final      of matrix(Product, Refinery, Market_participant, Region, Ship_terms)
+        estimated_i_j_k_l_last(l0)(i, l, j, k) of number
+        estimated_i_j_k_l_final(i, l, j, k)    of number
+        estimated_i_j_k_l_last(l0) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_k_l_final    of matrix(Product, Refinery, Market_participant, Region)
             where
-                last_n  of     index = length(estimated_i_j_k_l_s_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
+                last_n  of     index = length(estimated_i_j_k_l_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
                 l0 for R  from index # Индексы очереди
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
@@ -134,22 +119,22 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_s_last(1), ..., estima
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
 # Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_deficit_single_corrected(i, k, l, j)
 # Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_corrected(i, k, l, j)
 # Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
 # Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
-# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_s_virtual(2 from R)
+# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_virtual(2 from R)
