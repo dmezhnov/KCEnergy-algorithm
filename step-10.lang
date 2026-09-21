@@ -8,14 +8,12 @@ axis, index, matrix, operation                              from ("matrix_types.
 
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров (II очередь)
 # Система выполняет шаги, аналогичные Шагам 4-6. Отдельная реализация не нужна:
-# обобщённые формы (l0) в Шагах 4-6 уже описывают вторую очередь. На их вход подаётся
-# объединение исходных Запросов 2-й очереди (R=2) и «виртуальных» Запросов r̃ из Шага 9a;
-# виртуальные Запросы обрабатываются наравне с исходными Запросами 2-й очереди.
+# обобщённые формы (l0) в Шагах 4-6 уже описывают вторую очередь. На их вход подаются
+# исходные Запросы 2-й очереди (R=2).
 
 ### Обвязка входа II очереди (аналог входа Шага 4)
-# Вход II очереди = исходные Запросы 2-й очереди (R=2) ОБЪЕДИНЁННЫЕ с виртуальными Запросами
-# r̃ Шага 9a. Виртуальные Запросы обрабатываются так же, как обычные Запросы 2-й очереди, и
-# распределяются вместе с ними. Коррекции на проливы во II очереди нет, ось нефтебаз (Terminal)
+# Вход II очереди = исходные Запросы 2-й очереди (R=2); виртуальные Запросы r̃ Шага 9a в него
+# не входят. Коррекции на проливы во II очереди нет, ось нефтебаз (Terminal)
 # сворачивается. Это (2 from R)-определение заменяет обобщённый вход Шага 4 (его guard сужен до
 # l0 > 2, поэтому коллизии для l0 = 2 нет); дальше generic-формы Шагов 5-6 сами строят
 # estimated/normalized для II очереди.
@@ -36,17 +34,12 @@ requests_i_j_k_l_s(2 from R) = sum_by_axes(requests_i_j_x_k_l_s(2 from R), Termi
                 l  for P  from index # Индексы субъекта рынка
                 s  for C  from index # Индексы условия поставки
 
-# Объединённый вход II очереди: исходные Запросы R=2 + виртуальные Запросы Шага 9a.
-# Множества Субъектов рынка двух матриц не пересекаются (очередь назначается per-Субъект по
-# факту подачи сведений о розничных продажах), поэтому assign_matrix объединяет их однозначно,
-# без потери ячеек и без коллизий координат.
-requests_i_j_k_l_s_corrected(2 from R) = assign_matrix(requests_i_j_k_l_s(2 from R), requests_i_j_k_l_s_virtual(2 from R))
+# Вход II очереди: только исходные Запросы R=2.
+requests_i_j_k_l_s_corrected(2 from R) = requests_i_j_k_l_s(2 from R)
     where
         requests_i_j_k_l_s(2 from R)(i, j, s, l, k)           of number
-        requests_i_j_k_l_s_virtual(2 from R)(i, j, s, l, k)   of number
         requests_i_j_k_l_s_corrected(2 from R)(i, j, s, l, k) of number
         requests_i_j_k_l_s(2 from R)           of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        requests_i_j_k_l_s_virtual(2 from R)   of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
         requests_i_j_k_l_s_corrected(2 from R) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
             where
                 Product, Refinery, Ship_terms, Market_participant, Region from axis
