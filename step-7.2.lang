@@ -1,5 +1,5 @@
 MAX_SUBJECT_SHARE_COEFFICIENT                                                                              from ("initial_data.lang")
-normalized_i_j_k_l_s                                                                                       from ("step-6.lang")
+normalized_i_j_k_l                                                                                         from ("step-6.lang")
 normalized_i_j_l, normalized_i_j                                                                           from ("step-7.1.lang")
 for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis, filter_by_value, assign_matrix from ("matrix_operation.lang")
 condition, axis, index                                                                                     from ("matrix_types.lang")
@@ -111,93 +111,88 @@ normalized_i_j_l_increased(1 from R)(n) = filter_by_pair(normalized_i_j_l_over_t
                 j  for J from index # Индексы НПЗ
                 l  for P from index # Индексы субъекта рынка
 
-normalized_i_j_k_l_s_increased(1 from R)(n) = filter_by_pair(normalized_i_j_k_l_s(1 from R)(n), contains, normalized_i_j_l_increased(1 from R)(n))
+normalized_i_j_k_l_increased(1 from R)(n) = filter_by_pair(normalized_i_j_k_l(1 from R)(n), contains, normalized_i_j_l_increased(1 from R)(n))
     where
-        normalized_i_j_k_l_s_increased(1 from R)(n)(i, l, s, j, k) of number
-        normalized_i_j_l_increased(1 from R)(n)(i, j, l)           of number
-        normalized_i_j_k_l_s_increased(1 from R)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_l_increased(1 from R)(n)     of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_k_l_increased(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_l_increased(1 from R)(n)(i, j, l)      of number
+        normalized_i_j_k_l_increased(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_l_increased(1 from R)(n)   of matrix(Product, Refinery, Market_participant)
         contains from condition
             where
                 n  of          index # Индекс матрицы
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                Product, Market_participant, Refinery, Region from axis
                 i  for I from index # Индексы нефпродукта
                 l  for P from index # Индексы субъекта рынка
-                s  for C from index # Индексы условия поставки
                 j  for J from index # Индексы НПЗ
                 k  for K from index # Индексы региона
 
-normalized_i_j_k_l_s_limited(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s_increased(1 from R)(n), "*", normalized_i_j_threshold(1 from R)(n))
+normalized_i_j_k_l_limited(1 from R)(n) = for_each_pair(normalized_i_j_k_l_increased(1 from R)(n), "*", normalized_i_j_threshold(1 from R)(n))
     where
-        normalized_i_j_k_l_s_limited(1 from R)(n)(i, s, l, j, k)   of number
-        normalized_i_j_k_l_s_increased(1 from R)(n)(i, s, l, j, k) of number
-        normalized_i_j_threshold(1 from R)(n)(i, j)                of number
-        normalized_i_j_k_l_s_limited(1 from R)(n)   of matrix(Product, Ship_terms, Market_participant, Refinery, Region)
-        normalized_i_j_k_l_s_increased(1 from R)(n) of matrix(Product, Ship_terms, Market_participant, Refinery, Region)
-        normalized_i_j_threshold(1 from R)(n)       of matrix(Product, Refinery)
+        normalized_i_j_k_l_limited(1 from R)(n)(i, l, j, k)   of number
+        normalized_i_j_k_l_increased(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_threshold(1 from R)(n)(i, j)           of number
+        normalized_i_j_k_l_limited(1 from R)(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_increased(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_threshold(1 from R)(n)     of matrix(Product, Refinery)
         "*" from operation
             where
                 n  of          index # Индекс матрицы
-                Product, Ship_terms, Market_participant, Refinery, Region from axis
+                Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
-                s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
 
 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
-normalized_i_j_k_l_s_corrected(1 from R)(n) = for_each_pair(normalized_i_j_k_l_s_limited(1 from R)(n), "/", normalized_i_j_l(1 from R)(n))
+normalized_i_j_k_l_corrected(1 from R)(n) = for_each_pair(normalized_i_j_k_l_limited(1 from R)(n), "/", normalized_i_j_l(1 from R)(n))
     where
-        normalized_i_j_k_l_s_corrected(1 from R)(n)(i, l, s, j, k) of number
-        normalized_i_j_k_l_s_limited(1 from R)(n)(i, l, s, j, k)   of number
-        normalized_i_j_l(1 from R)(n)(i, j, l)                     of number
-        normalized_i_j_k_l_s_corrected(1 from R)(n) of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_k_l_s_limited(1 from R)(n)   of matrix(Product, Market_participant, Ship_terms, Refinery, Region)
-        normalized_i_j_l(1 from R)(n)               of matrix(Product, Refinery, Market_participant)
+        normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_limited(1 from R)(n)(i, l, j, k)   of number
+        normalized_i_j_l(1 from R)(n)(i, j, l)                of number
+        normalized_i_j_k_l_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_limited(1 from R)(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_l(1 from R)(n)             of matrix(Product, Refinery, Market_participant)
         "/" from operation
             where
                 n  of          index # Индекс матрицы
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
 
-estimated_i_j_k_l_s(1 from R)(n + 1) = assign_matrix(normalized_i_j_k_l_s(1 from R)(n), normalized_i_j_k_l_s_corrected(1 from R)(n))
+estimated_i_j_k_l(1 from R)(n + 1) = assign_matrix(normalized_i_j_k_l(1 from R)(n), normalized_i_j_k_l_corrected(1 from R)(n))
     where
-        is_empty( normalized_i_j_k_l_s_corrected(1 from R)(n) ) = false
+        is_empty( normalized_i_j_k_l_corrected(1 from R)(n) ) = false
             where
-                estimated_i_j_k_l_s(1 from R)(n + 1)(i, l, j, k, s)        of number
-                normalized_i_j_k_l_s(1 from R)(n)(i, l, j, k, s)           of number
-                normalized_i_j_k_l_s_corrected(1 from R)(n)(i, l, j, k, s) of number
-                estimated_i_j_k_l_s(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s(1 from R)(n)           of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+                estimated_i_j_k_l(1 from R)(n + 1)(i, l, j, k)        of number
+                normalized_i_j_k_l(1 from R)(n)(i, l, j, k)           of number
+                normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k) of number
+                estimated_i_j_k_l(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region)
+                normalized_i_j_k_l(1 from R)(n)           of matrix(Product, Market_participant, Refinery, Region)
+                normalized_i_j_k_l_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
                     where
                         n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region, Ship_terms from axis
+                        Product, Market_participant, Refinery, Region from axis
                         i  for I  from index # Индексы нефпродукта
                         l  for P  from index # Индексы субъекта рынка
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
-                        s  for C  from index # Индексы условия поставки
-estimated_i_j_k_l_s(1 from R)(n + 1) = {}
+estimated_i_j_k_l(1 from R)(n + 1) = {}
     where
-        is_empty( normalized_i_j_k_l_s_corrected(1 from R)(n) ) = true
+        is_empty( normalized_i_j_k_l_corrected(1 from R)(n) ) = true
             where
-                estimated_i_j_k_l_s(1 from R)(n + 1)(i, l, j, k, s)        of number
-                normalized_i_j_k_l_s_corrected(1 from R)(n)(i, l, j, k, s) of number
-                estimated_i_j_k_l_s(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
-                normalized_i_j_k_l_s_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region, Ship_terms)
+                estimated_i_j_k_l(1 from R)(n + 1)(i, l, j, k)        of number
+                normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k) of number
+                estimated_i_j_k_l(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region)
+                normalized_i_j_k_l_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
                     where
                         n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region, Ship_terms from axis
+                        Product, Market_participant, Refinery, Region from axis
                         i  for I  from index # Индексы нефпродукта
                         l  for P  from index # Индексы субъекта рынка
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
-                        s  for C  from index # Индексы условия поставки
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
@@ -208,19 +203,19 @@ estimated_i_j_k_l_s(1 from R)(n + 1) = {}
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
 # Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_deficit_single_corrected(i, k, l, j)
 # Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_corrected(i, k, l, j)
 # Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
 # Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
