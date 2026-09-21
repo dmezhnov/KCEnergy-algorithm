@@ -1,65 +1,48 @@
-sum_by_axes, for_each_pair          from ("matrix_operation.lang")
-operation                           from ("matrix_types.lang")
-requests_i_j_x_k_l_s_deficit_single from ("step-3.2.0.lang")
-moving_average                      from ("step-3.1.0.lang")
+for_each_pair                   from ("matrix_operation.lang")
+operation                       from ("matrix_types.lang")
+requests_i_j_k_l_deficit_single from ("step-3.2.0.lang")
+moving_average                  from ("step-3.1.0.lang")
 
 ##### Скорректированный на проливы объем НП
 # Для случая одного дефицитного НПЗ: распределяем скользящее среднее продаж в
-# регионе пропорционально долям запросов по нефтебазам и условиям поставки.
-
-# Матрица суммарных запросов субъектов рынка с одним дефицитным НПЗ (знаменатель для расчёта долей)
-requests_i_j_k_l_deficit_single = sum_by_axes(requests_i_j_x_k_l_s_deficit_single, Ship_terms, Terminal)
-    where
-        requests_i_j_x_k_l_s_deficit_single(i, k, l, j, s, x) of number
-        requests_i_j_k_l_deficit_single(i, k, l, j)           of number
-        requests_i_j_x_k_l_s_deficit_single of matrix(Product, Region, Market_participant, Refinery, Ship_terms, Terminal)
-        requests_i_j_k_l_deficit_single     of matrix(Product, Region, Market_participant, Refinery)
-            where
-                Product, Region, Market_participant, Refinery, Ship_terms, Terminal from axis
-                i  for I  from index # Индексы нефпродукта
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
-                x  for X  from index # Индексы нефтебаз
+# регионе пропорционально долям запросов субъекта рынка.
+# После объединения запросов по условиям поставки и нефтебазам (Шаг -1) у
+# субъекта рынка с одним дефицитным НПЗ остаётся ровно одна координата
+# (i, j, k, l), поэтому знаменатель долей совпадает с числителем и доля всегда
+# равна 1. Блок долей сохранён, чтобы шаг оставался верным, если запросы
+# перестанут объединяться и на субъекта снова придётся несколько координат.
 
 # Матрица долей одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_x_k_l_s_deficit_single_share = for_each_pair(requests_i_j_x_k_l_s_deficit_single, safe_divide, requests_i_j_k_l_deficit_single)
+requests_i_j_k_l_deficit_single_share = for_each_pair(requests_i_j_k_l_deficit_single, safe_divide, requests_i_j_k_l_deficit_single)
     where
-        requests_i_j_x_k_l_s_deficit_single_share(i, k, l, s, j, x) of number
-        requests_i_j_x_k_l_s_deficit_single(i, k, l, s, j, x)       of number
-        requests_i_j_k_l_deficit_single(i, k, l, j)                 of number
-        requests_i_j_x_k_l_s_deficit_single_share of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
-        requests_i_j_x_k_l_s_deficit_single       of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
-        requests_i_j_k_l_deficit_single           of matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_deficit_single_share(i, k, l, j) of number
+        requests_i_j_k_l_deficit_single(i, k, l, j)       of number
+        requests_i_j_k_l_deficit_single_share of matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_deficit_single       of matrix(Product, Region, Market_participant, Refinery)
             where
                 safe_divide from operation
-                Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
+                Product, Region, Market_participant, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
 
 # Матрица скорректированных на проливы объемы одиночных (запросы на один НПЗ) дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
-requests_i_j_x_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_x_k_l_s_deficit_single_share, "*", moving_average)
+requests_i_j_k_l_deficit_single_corrected = for_each_pair(requests_i_j_k_l_deficit_single_share, "*", moving_average)
     where
-        requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x) of number
-        requests_i_j_x_k_l_s_deficit_single_share(i, k, l, s, j, x)     of number
-        moving_average(i, k, l)                                         of number # Скользящее среднее
-        requests_i_j_x_k_l_s_deficit_single_corrected of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
-        requests_i_j_x_k_l_s_deficit_single_share     of matrix(Product, Region, Market_participant, Ship_terms, Refinery, Terminal)
-        moving_average                                of matrix(Product, Region, Market_participant) # Скользящее среднее
+        requests_i_j_k_l_deficit_single_corrected(i, k, l, j) of number
+        requests_i_j_k_l_deficit_single_share(i, k, l, j)     of number
+        moving_average(i, k, l)                               of number # Скользящее среднее
+        requests_i_j_k_l_deficit_single_corrected of matrix(Product, Region, Market_participant, Refinery)
+        requests_i_j_k_l_deficit_single_share     of matrix(Product, Region, Market_participant, Refinery)
+        moving_average                            of matrix(Product, Region, Market_participant) # Скользящее среднее
             where
                 "*" from operation
-                Product, Region, Market_participant, Ship_terms, Refinery, Terminal from axis
+                Product, Region, Market_participant, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-                s  for C  from index # Индексы условия поставки
                 j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
@@ -70,4 +53,4 @@ requests_i_j_x_k_l_s_deficit_single_corrected = for_each_pair(requests_i_j_x_k_l
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
 # Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_deficit_single_corrected(i, k, l, j)
