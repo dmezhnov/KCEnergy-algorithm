@@ -28,3 +28,25 @@ requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request, Ship_terms
                 l0 for R  from index # Индексы очереди
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
+
+# Условия поставки, заявленные в группе: та же свёртка, но ось Ship_terms сохранена.
+# Шагу 6 правило вагонной нормы нужно применять только там, где в группе заявлены оба
+# условия; если условие одно, группа нормируется по нему, как и до агрегации. Значения
+# здесь — объёмы по каждому условию, а сама матрица отвечает на вопрос «какие условия
+# заявлены в группе».
+requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request, Terminal)
+    where
+        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)           of number
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_l0     of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
