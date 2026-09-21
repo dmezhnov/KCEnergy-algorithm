@@ -218,17 +218,16 @@ estimated_i_j_k_l(1 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
         R from index # Индексы очереди
 
 ### Шаг 5 для II очереди: предварительный расчётный объём ((2 from R)).
-# Дефицитные НПЗ (ПКОП J=1, АНПЗ J=2) и профицитный (ПНХЗ J=3). АНПЗ: спрос 920 > доступных 390 —
-# дефицит, доступное распределяется пропорционально скорректированным Запросам (доля 390/920).
-# ПКОП (1015) не имеет встречной ячейки available_i_j(2 from R) и выпадает из фильтров. Профицитный
-# ПНХЗ (195 <= 1900) удовлетворяется полностью. Монопольный Запрос 105 (r̃ = 0) сохраняется нулевой
-# ячейкой, EXW-флор Шага 6 поднимет её до 4.
+# Дефицитные НПЗ (ПКОП J=1, АНПЗ J=2) и профицитный (ПНХЗ J=3). ПКОП прошёл гейт Шага 9 с
+# остатком 10 МТ, но спрос II очереди 245 > 10 — превышение, доступное распределяется
+# пропорционально Запросам (доля 10/245). АНПЗ: 380 <= 390 — Запросы удовлетворяются полностью.
+# Профицитный ПНХЗ (195 <= 1900) — тоже полностью.
 
 # Скорректированные Запросы II очереди для дефицитных НПЗ (ПКОП J=1, АНПЗ J=2).
 requests_i_j_corrected_deficit(2 from R) = filter_by_pair(requests_i_j_corrected(2 from R), contains, requests_i_j_deficit) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 1015,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110 + 203 + 204
-        (1 from I, 2 from J) =  920   # 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
+        (1 from I, 1 from J) = 245,  # 203 + 204
+        (1 from I, 2 from J) = 380   # 205 + 206 + 207 + 208 + 209
     }
 }
     where
@@ -239,7 +238,7 @@ requests_i_j_corrected_deficit(2 from R) = filter_by_pair(requests_i_j_corrected
 # Скорректированные Запросы II очереди для профицитных НПЗ (ПНХЗ J=3).
 requests_i_j_corrected_surplus(2 from R) = filter_by_pair(requests_i_j_corrected(2 from R), contains, requests_i_j_surplus) = {
     (1 from I) = {
-        (1 from I, 3 from J) = 195  # 105 + 201 + 202
+        (1 from I, 3 from J) = 195  # 201 + 202
     }
 }
     where
@@ -247,10 +246,10 @@ requests_i_j_corrected_surplus(2 from R) = filter_by_pair(requests_i_j_corrected
         J from index # Индексы НПЗ
         R from index # Индексы очереди
 
-# Запросы дефицитных НПЗ II очереди, превышающие доступный объём (АНПЗ J=2; ПКОП без ячейки available).
+# Запросы дефицитных НПЗ II очереди, превышающие доступный объём (ПКОП J=1).
 requests_i_j_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_corrected_deficit(2 from R), ">", available_i_j(2 from R)) = {
     (1 from I) = {
-        (1 from I, 2 from J) = 920  # 920 > 390 -> 104 + 111 + 112 + 113 + 205 + 206 + 207 + 208 + 209
+        (1 from I, 1 from J) = 245  # 245 > 10 -> 203 + 204
     }
 }
     where
@@ -258,10 +257,11 @@ requests_i_j_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_corrected_
         J from index # Индексы НПЗ
         R from index # Индексы очереди
 
-# Запросы II очереди в полном объёме: дефицитные без превышения (нет) + профицитные (ПНХЗ J=3).
+# Запросы II очереди в полном объёме: дефицитные без превышения (АНПЗ J=2) + профицитные (ПНХЗ J=3).
 requests_i_j_corrected_not_exceed(2 from R) = assign_matrix(filter_by_pair(requests_i_j_corrected_deficit(2 from R), "<=", available_i_j(2 from R)), requests_i_j_corrected_surplus(2 from R)) = {
     (1 from I) = {
-        (1 from I, 3 from J) = 195  # 195 < 1900 -> 105 + 201 + 202
+        (1 from I, 2 from J) = 380,  # 380 <= 390 -> 205 + 206 + 207 + 208 + 209
+        (1 from I, 3 from J) = 195   # 195 < 1900 -> 201 + 202
     }
 }
     where
@@ -269,41 +269,42 @@ requests_i_j_corrected_not_exceed(2 from R) = assign_matrix(filter_by_pair(reque
         J from index # Индексы НПЗ
         R from index # Индексы очереди
 
-# Скорректированные объёмы субъектов II очереди в превышении (АНПЗ J=2).
+# Скорректированные объёмы субъектов II очереди в превышении (ПКОП J=1).
 requests_i_j_k_l_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_k_l_corrected_queue(2 from R), contains, requests_i_j_corrected_exceed(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = 50   # 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = 195  # 203
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        J from index # Индексы НПЗ
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Скорректированные объёмы субъектов II очереди без превышения (АНПЗ J=2, ПНХЗ J=3).
+requests_i_j_k_l_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_k_l_corrected_queue(2 from R), contains, requests_i_j_corrected_not_exceed(2 from R)) = {
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 370,  # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 70,   # 111
                 (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
                 (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 70,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 30,   # 113
                 (1 from I, 2 from J, 4 from K, 20 from P) = 130,  # 207
                 (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 209
             }
-        }
-    }
-}
-    where
-        I from index # Индексы нефпродукта
-        J from index # Индексы НПЗ
-        K from index # Индексы региона
-        P from index # Индексы субъекта рынка
-        R from index # Индексы очереди
-
-# Скорректированные объёмы субъектов II очереди без превышения (ПНХЗ J=3).
-requests_i_j_k_l_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_k_l_corrected_queue(2 from R), contains, requests_i_j_corrected_not_exceed(2 from R)) = {
-    (1 from I) = {
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,  # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130  # 202
-            },
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 0    # 105
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130   # 202
             }
         }
     }
@@ -315,10 +316,10 @@ requests_i_j_k_l_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_k_
         P from index # Индексы субъекта рынка
         R from index # Индексы очереди
 
-# Доля доступного объёма от запрошенного для превышенных НПЗ II очереди (АНПЗ J=2).
+# Доля доступного объёма от запрошенного для превышенных НПЗ II очереди (ПКОП J=1).
 estimated_i_j_exceed_share(2 from R) = for_each_pair(available_i_j(2 from R), safe_divide, requests_i_j_corrected_exceed(2 from R)) = {
     (1 from I) = {
-        (1 from I, 2 from J) = 390 / 920 = 0.423913043478260869
+        (1 from I, 1 from J) = 10 / 245 = 0.040816326530612244
     }
 }
     where
@@ -329,17 +330,12 @@ estimated_i_j_exceed_share(2 from R) = for_each_pair(available_i_j(2 from R), sa
 # Предварительный объём НП для превышенных НПЗ II очереди: Запрос, умноженный на долю.
 estimated_i_j_k_l_exceed(2 from R) = for_each_pair(requests_i_j_k_l_corrected_exceed(2 from R), "*", estimated_i_j_exceed_share(2 from R)) = {
     (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 370 * 0.423913043478260869 = 156.84782608695652153,  # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 70 * 0.423913043478260869 = 29.67391304347826083,    # 111
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130 * 0.423913043478260869 = 55.10869565217391297,   # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70 * 0.423913043478260869 = 29.67391304347826083,    # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 70 * 0.423913043478260869 = 29.67391304347826083,    # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 30 * 0.423913043478260869 = 12.71739130434782607,    # 113
-                (1 from I, 2 from J, 4 from K, 20 from P) = 130 * 0.423913043478260869 = 55.10869565217391297,   # 207
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15 * 0.423913043478260869 = 6.358695652173913035,    # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35 * 0.423913043478260869 = 14.836956521739130415    # 209
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = 50 * 0.040816326530612244 = 2.0408163265306122    # 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = 195 * 0.040816326530612244 = 7.95918367346938758  # 203
             }
         }
     }
@@ -351,16 +347,22 @@ estimated_i_j_k_l_exceed(2 from R) = for_each_pair(requests_i_j_k_l_corrected_ex
         P from index # Индексы субъекта рынка
         R from index # Индексы очереди
 
-# Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (ПНХЗ J=3).
+# Предварительный объём НП для НПЗ без превышения: Запрос удовлетворяется полностью (АНПЗ J=2, ПНХЗ J=3).
 estimated_i_j_k_l_not_exceed(2 from R) = requests_i_j_k_l_corrected_not_exceed(2 from R) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
+                (1 from I, 2 from J, 4 from K, 20 from P) = 130,  # 207
+                (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 209
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,  # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130  # 202
-            },
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 0    # 105
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130   # 202
             }
         }
     }
@@ -375,26 +377,27 @@ estimated_i_j_k_l_not_exceed(2 from R) = requests_i_j_k_l_corrected_not_exceed(2
 # 1-я матрица предварительных расчётных объёмов НП II очереди.
 estimated_i_j_k_l(2 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exceed(2 from R), estimated_i_j_k_l_exceed(2 from R)) = {
     (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = 2.0408163265306122   # 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = 7.95918367346938758  # 203
+            }
+        },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 156.84782608695652153,  # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 29.67391304347826083,   # 111
-                (1 from I, 2 from J, 4 from K, 16 from P) = 55.10869565217391297,   # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 29.67391304347826083,   # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 29.67391304347826083,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 12.71739130434782607,   # 113
-                (1 from I, 2 from J, 4 from K, 20 from P) = 55.10869565217391297,   # 207
-                (1 from I, 2 from J, 4 from K, 21 from P) = 6.358695652173913035,   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 14.836956521739130415   # 209
+                (1 from I, 2 from J, 4 from K, 16 from P) = 130,                 # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = 70,                  # 206
+                (1 from I, 2 from J, 4 from K, 20 from P) = 130,                 # 207
+                (1 from I, 2 from J, 4 from K, 21 from P) = 15,                  # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = 35                   # 209
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,                     # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130                     # 202
-            },
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 0                       # 105
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,                  # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130                  # 202
             }
         }
     }

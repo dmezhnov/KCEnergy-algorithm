@@ -12,10 +12,10 @@ axis, matrix, index              from ("matrix_types.lang")
 # целиком и чтобы у первой и у прочих очередей был общий интерфейс.
 
 # Для очередей > 2 (исходные Запросы, поданные на эти очереди) корректировки на проливы нет: берём исходные объёмы (r_ijkl).
-# Вторая (виртуальная) очередь не задаётся здесь: её вход — виртуальные Запросы Шага 9a, определён в step-10.lang как (2 from R).
+# Вторая очередь не задаётся здесь: её вход — исходные Запросы R=2, определён в step-10.lang как (2 from R).
 requests_i_j_k_l_corrected_queue(l0) = requests_i_j_k_l_queue(l0)
     where
-        l0 > 2 # Очереди > 2; первая — (1 from R), вторая (виртуальная) — (2 from R) (step-10.lang)
+        l0 > 2 # Очереди > 2; первая — (1 from R), вторая — (2 from R) (step-10.lang)
         requests_i_j_k_l_corrected_queue(l0)(i, j, l, k) of number
         requests_i_j_k_l_queue(l0)(i, j, l, k)           of number
         requests_i_j_k_l_corrected_queue(l0) of matrix(Product, Refinery, Market_participant, Region)
