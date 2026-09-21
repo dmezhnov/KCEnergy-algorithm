@@ -1,6 +1,6 @@
 number                     from core
 available_i_j_new          from ("step-8.lang")
-normalized_i_j_k_l_s       from ("step-6.lang")
+normalized_i_j_k_l         from ("step-6.lang")
 for_each_pair, sum_by_axes from ("matrix_operation.lang")
 operation, axis, index     from ("matrix_types.lang")
 
@@ -12,7 +12,7 @@ operation, axis, index     from ("matrix_types.lang")
 #   v(l0)_ij      — оставшийся после предыдущей очереди объём: available_i_j_new(l0 - 1);
 #   ü_ijkl(l0)    — (уточнённый) нормированный объём, предоставленный l-му Субъекту рынка
 #                   с j-го НПЗ для поставки в k-й регион в очереди l0 (Шаг 6):
-#                   normalized_i_j_k_l_s(l0)(1);
+#                   normalized_i_j_k_l(l0)(1);
 #   V(l0)         — итоговая матрица размера N × M очереди l0.
 # Виртуальные очереди (II — Владельцы нефтебаз/резервуаров; III — Субъекты рынка из состава
 # ГМК) распределяются только в Шагах 4-6 без Шага 7, поэтому guard'ы Шага 8 (l0 = 1) их
@@ -20,21 +20,20 @@ operation, axis, index     from ("matrix_types.lang")
 # Семейство available_i_j_new делится на непересекающиеся части: l0 = 1 (step-8) и l0 != 1 (здесь).
 # Конкретные экземпляры приведены в step-11.example_N.lang: l0 = 2 — Шаг 11; l0 = 3 — Шаг 14.
 
-# Суммарно предоставленный в очереди l0 объём по (Product, Refinery): свёртка ü по k, l, s.
-estimated_i_j(l0) = sum_by_axes(normalized_i_j_k_l_s(l0)(1), Region, Market_participant, Ship_terms)
+# Суммарно предоставленный в очереди l0 объём по (Product, Refinery): свёртка ü по k, l.
+estimated_i_j(l0) = sum_by_axes(normalized_i_j_k_l(l0)(1), Region, Market_participant)
     where
         l0 != 1 # Только виртуальные очереди; реальная I очередь обрабатывается в Шагах 7-8
-        normalized_i_j_k_l_s(l0)(1)(i, j, s, l, k) of number
-        estimated_i_j(l0)(i, j)                    of number
-        normalized_i_j_k_l_s(l0)(1) of matrix(Product, Refinery, Ship_terms, Market_participant, Region)
-        estimated_i_j(l0)           of matrix(Product, Refinery)
+        normalized_i_j_k_l(l0)(1)(i, j, l, k) of number
+        estimated_i_j(l0)(i, j)               of number
+        normalized_i_j_k_l(l0)(1) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j(l0)         of matrix(Product, Refinery)
             where
                 l0 for R  from index # Индексы очереди
                 n  of   index = 1 # Индекс матрицы нормирования (единственная итерация)
-                Product, Market_participant, Ship_terms, Refinery, Region from axis
+                Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-                s  for C  from index # Индексы условия поставки
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
 
@@ -65,31 +64,31 @@ available_i_j_new(l0) = for_each_pair(available_i_j_new(l0 - 1), "-", estimated_
 # Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
 # $Region(k), МТ: moving_average(l, i, k)
 # Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_deficit_single_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_deficit_single_corrected(i, k, l, j)
 # Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_x_k_l_s_corrected(i, k, l, s, j, x)
+# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_corrected(i, k, l, j)
 # Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(1 from n)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(1 from R)(n)
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
 # Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(1 from R)(n + 1)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
-# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_s_virtual(2 from R)
+# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_virtual(2 from R)
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП $Product(i) на
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(2 from R)(i, j)
 # Шаг 5. Очередь II. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l_s(2 from R)(1 from n)
+# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l_s(2 from R)(n)
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_s_total(i, j, k, l, s)
+# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(2 from R)(n)
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(i, j, k, l)
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
 # резервуаров объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(2 from R)
