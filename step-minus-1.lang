@@ -2,11 +2,21 @@ requests_i_j_x_k_l_s_l0_q from ("initial_data.lang")
 axis, index, matrix     from ("matrix_types.lang")
 sum_by_axes             from ("matrix_operation.lang")
 
-requests_i_j_x_k_l_s_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request)
+### Агрегация Запросов в группу обслуживания
+# Запросы, у которых совпали вид НП, НПЗ, регион поставки, субъект рынка и очередь,
+# обслуживаются как один Запрос независимо от условия поставки: ось Ship_terms
+# сворачивается здесь же, вместе с осью Request. Условие поставки выбирается один раз
+# на всю группу в Шаге 6 (по вагонной норме) и возвращается на отдельные Запросы
+# в Шаге n+1.
+# Ось Terminal сворачивается вместе с Ship_terms: нефтебаза однозначно определена
+# условием поставки (FCA — Without_term, EXW — нефтебаза НПЗ), поэтому без неё
+# группа не склеится. Ни один шаг по нефтебазам не ветвится — раньше ось просто
+# ехала пассажиром до свёртки в Шагах 4 и 10.
+requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request, Ship_terms, Terminal)
     where
-        requests_i_j_x_k_l_s_l0(i, j, x, k, l, l0, s)      of number
+        requests_i_j_k_l_l0(i, j, k, l, l0)                of number
         requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
-        requests_i_j_x_k_l_s_l0   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_k_l_l0       of matrix(Product, Refinery, Region, Market_participant, Queue)
         requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
             where
