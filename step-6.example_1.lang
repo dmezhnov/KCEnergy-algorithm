@@ -331,7 +331,7 @@ normalized_i_j_k_l_s(1 from R)(1 from n) = {
 
 ### Шаг 6 для II очереди: нормирование предварительных объёмов (2 from R) (n = 1).
 # Обслуживаемые во II очереди Запросы: с НПЗ (FCA) — #205 (АНПЗ, J=2), #201, #202 (ПНХЗ, J=3);
-# с нефтебаз (EXW) — #111, #112, #113, #206, #208, #209 (АНПЗ, J=2). Нормируются обе ветки:
+# с нефтебаз (EXW) — #206, #208, #209 (АНПЗ, J=2). Нормируются обе ветки:
 # FCA — до кратности вагонной норме (65 МТ); EXW — до кратности шагу вывоза (5 МТ). Все объёмы
 # уже кратны и не ниже минимальных норм, поэтому остаются без изменений.
 
@@ -455,10 +455,7 @@ estimated_i_j_k_l_exw(2 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = 70,  # 111
                 (1 from I, 2 from J, 4 from K, 17 from P) = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 70,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 30,  # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = 15,  # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 35   # 209
             }
@@ -477,10 +474,7 @@ estimated_i_j_k_l_exw_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 111
                 (1 from I, 2 from J, 4 from K, 17 from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6,   # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = 15 / OIL_TERMINAL_STEP_TONNAGE = 15 / 5 = 3,   # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 35 / OIL_TERMINAL_STEP_TONNAGE = 35 / 5 = 7    # 209
             }
@@ -499,10 +493,7 @@ estimated_i_j_k_l_exw_coeff_rounded(2 from R)(1 from n) = for_each_element(estim
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = round(14) = 14,  # 111
                 (1 from I, 2 from J, 4 from K, 17 from P) = round(14) = 14,  # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = round(14) = 14,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = round(6) = 6,    # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = round(3) = 3,    # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = round(7) = 7     # 209
             }
@@ -521,10 +512,7 @@ estimated_i_j_k_l_exw_rounded(2 from R)(1 from n) = for_each_element(estimated_i
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 111
                 (1 from I, 2 from J, 4 from K, 17 from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30,    # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15,    # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = 7 * OIL_TERMINAL_STEP_TONNAGE = 7 * 5 = 35     # 209
             }
@@ -543,10 +531,7 @@ normalized_i_j_k_l_exw(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     (1 from I) = {
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 111
                 (1 from I, 2 from J, 4 from K, 17 from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = max(30, OIL_TERMINAL_MIN_TONNAGE) = max(30, 4) = 30,  # 113
                 (1 from I, 2 from J, 4 from K, 21 from P) = max(15, OIL_TERMINAL_MIN_TONNAGE) = max(15, 4) = 15,  # 208
                 (1 from I, 2 from J, 4 from K, 22 from P) = max(35, OIL_TERMINAL_MIN_TONNAGE) = max(35, 4) = 35   # 209
             }
@@ -583,10 +568,7 @@ normalized_i_j_k_l_s(2 from R)(1 from n) = {
         (2 from C, 1 from I) = {
             (2 from C, 1 from I, 2 from J) = {
                 (2 from C, 1 from I, 2 from J, 4 from K) = {
-                    (2 from C, 1 from I, 2 from J, 4 from K, 7  from P) = 70,  # 111
                     (2 from C, 1 from I, 2 from J, 4 from K, 17 from P) = 70,  # 206
-                    (2 from C, 1 from I, 2 from J, 4 from K, 18 from P) = 70,  # 112
-                    (2 from C, 1 from I, 2 from J, 4 from K, 19 from P) = 30,  # 113
                     (2 from C, 1 from I, 2 from J, 4 from K, 21 from P) = 15,  # 208
                     (2 from C, 1 from I, 2 from J, 4 from K, 22 from P) = 35   # 209
                 }
@@ -809,18 +791,25 @@ normalized_i_j_k_l_s(3 from R)(1 from n) = {
         P  from index # Индексы субъекта рынка
 
 ### Шаг 16 для IV очереди (иные Субъекты рынка): нормирование предварительных объёмов (4 from R) (n = 1).
-# Обслуживаемые Запросы — только ПНХЗ (J=3), все на условиях FCA (с НПЗ): #401 (K=2, P=4), #402
-# (K=2, P=5), #403 (K=2, P=6). Поставок с нефтебаз (EXW) в IV очереди нет. FCA нормируется до
-# кратности вагонной норме (65 МТ); объёмы 260/520/715 уже кратны и не ниже нормы, не меняются.
+# Обслуживаемые Запросы — ПНХЗ (J=3): #401 (K=2, P=4), #402 (K=2, P=5), #403 (K=2, P=6) и АНПЗ
+# (J=2): #404 (K=4, P=6); все на условиях FCA (с НПЗ). Поставок с нефтебаз (EXW) в IV очереди нет.
+# FCA нормируется до кратности вагонной норме (65 МТ): объёмы 260/520/715 ПНХЗ уже кратны и не
+# меняются, а урезанный долей объём #404 (169.99999999999999996) округляется вверх до 195 — как и
+# во II очереди примера 2, мат. округление коэффициента может дать объём больше остатка (170).
 
-# Предварительные расчётные объёмы IV очереди, для поставки с НПЗ (ПНХЗ J=3).
+# Предварительные расчётные объёмы IV очереди, для поставки с НПЗ (АНПЗ J=2, ПНХЗ J=3).
 estimated_i_j_k_l_fca(4 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k_l_s(4 from R)(1 from n), FCA) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) = 169.99999999999999996  # 404
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 260,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 520,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 715   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = 260,                   # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 520,                   # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715                    # 403
             }
         }
     }
@@ -835,11 +824,16 @@ estimated_i_j_k_l_fca(4 from R)(1 from n) = filter_by_coordinate(estimated_i_j_k
 # Коэффициенты для нормирования объёмов с НПЗ: делим на вагонную норму.
 estimated_i_j_k_l_fca_coeff(4 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca(4 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) = 169.99999999999999996 / RAIL_ROAD_MIN_TONNAGE = 169.99999999999999996 / 65 = 2.615384615384615384  # 404
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 260 / RAIL_ROAD_MIN_TONNAGE = 260 / 65 = 4,   # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 520 / RAIL_ROAD_MIN_TONNAGE = 520 / 65 = 8,   # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 715 / RAIL_ROAD_MIN_TONNAGE = 715 / 65 = 11   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = 260 / RAIL_ROAD_MIN_TONNAGE = 260 / 65 = 4,                                                        # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = 520 / RAIL_ROAD_MIN_TONNAGE = 520 / 65 = 8,                                                        # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = 715 / RAIL_ROAD_MIN_TONNAGE = 715 / 65 = 11                                                        # 403
             }
         }
     }
@@ -854,11 +848,16 @@ estimated_i_j_k_l_fca_coeff(4 from R)(1 from n) = for_each_element(estimated_i_j
 # Округляем коэффициенты до целого по мат. правилам (n = 1).
 estimated_i_j_k_l_fca_coeff_rounded(4 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff(4 from R)(1 from n), round, 0) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) = round(2.615384615384615384) = 3  # 404
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = round(4) = 4,    # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = round(8) = 8,    # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = round(11) = 11   # 403
+                (1 from I, 3 from J, 2 from K, 4  from P) = round(4) = 4,                    # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = round(8) = 8,                    # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = round(11) = 11                   # 403
             }
         }
     }
@@ -873,6 +872,11 @@ estimated_i_j_k_l_fca_coeff_rounded(4 from R)(1 from n) = for_each_element(estim
 # Нормированные кратные объёмы с НПЗ: умножаем коэффициенты на вагонную норму.
 estimated_i_j_k_l_fca_rounded(4 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(4 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) =  3 * RAIL_ROAD_MIN_TONNAGE =  3 * 65 = 195   # 404
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
                 (1 from I, 3 from J, 2 from K, 4  from P) =  4 * RAIL_ROAD_MIN_TONNAGE =  4 * 65 = 260,  # 401
@@ -892,6 +896,11 @@ estimated_i_j_k_l_fca_rounded(4 from R)(1 from n) = for_each_element(estimated_i
 # Нормированные объёмы НП IV очереди, для поставки с НПЗ: не ниже вагонной нормы.
 normalized_i_j_k_l_fca(4 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_rounded(4 from R)(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {
     (1 from I) = {
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 6  from P) = max(195, RAIL_ROAD_MIN_TONNAGE) = max(195, 65) = 195   # 404
+            }
+        },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
                 (1 from I, 3 from J, 2 from K, 4  from P) = max(260, RAIL_ROAD_MIN_TONNAGE) = max(260, 65) = 260,  # 401
@@ -959,6 +968,11 @@ normalized_i_j_k_l_s(4 from R)(1 from n)(2 from C) = normalized_i_j_k_l_exw(4 fr
 normalized_i_j_k_l_s(4 from R)(1 from n) = {
     (1 from C) = {
         (1 from C, 1 from I) = {
+            (1 from C, 1 from I, 2 from J) = {
+                (1 from C, 1 from I, 2 from J, 4 from K) = {
+                    (1 from C, 1 from I, 2 from J, 4 from K, 6  from P) = 195   # 404
+                }
+            },
             (1 from C, 1 from I, 3 from J) = {
                 (1 from C, 1 from I, 3 from J, 2 from K) = {
                     (1 from C, 1 from I, 3 from J, 2 from K, 4  from P) = 260,  # 401
