@@ -67,3 +67,6 @@ MAX_SUBJECT_SHARE_PERCENTAGE         of percentage
 MAX_SUBJECT_SHARE_COEFFICIENT        of number     = MAX_SUBJECT_SHARE_PERCENTAGE        / 100
     where
         percentage of number
+
+# Виды НП фильтруемые на 0-м шаге алгоритма
+stepNullAxes                         from Product
