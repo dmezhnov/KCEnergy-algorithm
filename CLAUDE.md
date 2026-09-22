@@ -107,12 +107,20 @@ contributes:
 
 ### Operand and operator alignment (`+`)
 
-- Each summand is right-aligned to a fixed field width — the maximum summand
-  width across the whole block (3 chars above: `715`; 4 chars in `requests_i_j`
-  where `1885` appears). This makes every `+` sit in the same column across all
-  leaf lines of the block (so a `+` is always directly under another `+`).
-- Separators are a single `" + "`; the right-alignment supplies the leading
-  space for narrower numbers (` 70` under `715`).
+- Each summand occupies a fixed field width — the maximum summand width across
+  the whole block (3 chars above: `715`; 4 chars in `requests_i_j` where `1885`
+  appears; 21 chars in `requests_i_j_corrected(1 from R)` of
+  `step-4.example_2.lang`, where a summand is a truncated fraction). This makes
+  every `+` sit in the same column across all leaf lines of the block (so a `+`
+  is always directly under another `+`).
+- Separators are a single `" + "`; the padding inside the field supplies the rest.
+  Most blocks pad on the left (` 70` under `715`); `volumes_l_i_k` in
+  `step-3.1.0.example_*.lang` pads on the right (`90  + 80  +`). Either is fine —
+  what the convention fixes is the column of the `+`, not the side the spaces sit
+  on. Do not reformat a block just to flip its padding.
+- An operand position written by only one leaf of the block has nothing to line up
+  with and is unconstrained: in the example above the 3rd summand exists on a
+  single line, so its `+` answers to no other.
 
 ### Result `=` alignment
 
@@ -124,6 +132,10 @@ contributes:
   column** as the result `=` of the summed lines: pad between the tuple's `)` and
   the `=` so the value lands under the totals (see `= 250` above). Every `=` that
   introduces a final number therefore shares one column across the whole block.
+- This holds for the deep structures too, not only for the flat two- and
+  three-axis ones: in `requests_i_j_k_l_l0` and `requests_i_j_k_l_s_l0` of
+  `step-minus-1.example_*.lang` most leaves carry a single request, and they pad
+  between `)` and `=` to meet the four leaves that do show a sum.
 
 ### Request-number order
 
@@ -137,6 +149,11 @@ contributes:
 - Where a summand aggregates several requests (e.g. `requests_i_j`, whose values
   are per-region subtotals), the values keep their structural order and only the
   comment's request numbers are sorted ascending.
+- A comment may carry two groups of numbers separated by `=` — the requests of
+  the source matrix on the left, the aggregated request numbers on the right
+  (`# 001 + 002 + 003 + 004 = 101 + 102` in `step-minus-1.example_1.lang`). Each
+  group is sorted on its own; the right-hand group starting lower than the
+  left-hand one is normal.
 
 ### `#` alignment
 
