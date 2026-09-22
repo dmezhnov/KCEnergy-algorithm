@@ -1,6 +1,6 @@
-available_i_j_new, estimated_i_j_k_l_last       from ("step-8.lang")
+available_i_j_new                               from ("step-8.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.lang")
-filter_by_value, assign_matrix                  from ("matrix_operation.lang")
+filter_by_value                                 from ("matrix_operation.lang")
 condition, matrix, index, axis                  from ("matrix_types.lang")
 
 ### Оставшиеся объемы позволяют удовлетворить запросы Владельцев нефтебаз и (или) резервуаров?
@@ -54,34 +54,6 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
                 Product, Refinery from axis
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-
-available_i_j_final = available_i_j_new(last_n)
-    where
-        available_i_j_final(i, j)   of number
-        available_i_j_new(l0)(i, j) of number
-        available_i_j_final   of matrix(Product, Refinery)
-        available_i_j_new(l0) of matrix(Product, Refinery)
-            where
-                last_n    of   index = length(available_i_j_new) # Индекс матрицы доступных объемов последней очереди
-                l0 for R  from index # Индексы очереди
-                Product, Refinery from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-
-estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_last(1), ..., estimated_i_j_k_l_last(last_n))
-    where
-        estimated_i_j_k_l_last(l0)(i, l, j, k) of number
-        estimated_i_j_k_l_final(i, l, j, k)    of number
-        estimated_i_j_k_l_last(l0) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l_final    of matrix(Product, Refinery, Market_participant, Region)
-            where
-                last_n  of     index = length(estimated_i_j_k_l_last(l0)) # Индекс матрицы предварительных расчетных объемов НП последней очереди
-                l0 for R  from index # Индексы очереди
-                Product, Market_participant, Refinery, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
