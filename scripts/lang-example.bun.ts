@@ -208,7 +208,7 @@ class ExampleIndex {
     // display name of a coordinate (`First` — `1 from R`) or the index and its
     // axis directly. A name two axes both carry fixes nothing and resolves to
     // nothing.
-    coordinate(text: string): {letter: string; index: number} | undefined {
+    coordinate(text: string, carried?: string[]): {letter: string; index: number} | undefined {
         const written = [...text.trim().matchAll(COORDINATE_ITEM)];
 
         if (written.length === 1) {
@@ -220,7 +220,11 @@ class ExampleIndex {
                 .filter(([, label]) => label === text.trim())
                 .map(([index]) => ({letter: axis.letter, index})));
 
-        return matches.length === 1 ? matches[0] : undefined;
+        // `AI_92` labels both `Product` and `Product_category`; a caller that
+        // knows which axes its matrix carries resolves the name against those.
+        const narrowed = carried ? matches.filter((match) => carried.includes(match.letter)) : matches;
+
+        return narrowed.length === 1 ? narrowed[0] : undefined;
     }
 
     // Parse a coordinate tuple such as `1 from I, 4 from K, 12 from P`.

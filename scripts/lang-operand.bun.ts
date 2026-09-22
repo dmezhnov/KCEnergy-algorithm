@@ -45,6 +45,9 @@ class OperandEvaluator {
     // an operand this evaluator cannot read is not a disagreement.
     readonly notes: string[] = [];
 
+    // The unexpanded variables whose expressions are being evaluated right now.
+    private readonly evaluating = new Set<string>();
+
     constructor(private readonly index: ExampleIndex) {}
 
     // The value of one operand — an expanded variable, or one of the nested
@@ -86,7 +89,10 @@ class OperandEvaluator {
         throw new Error(`unreachable: ${call[1]} is listed as a primitive but not evaluated`);
     }
 
-    // The matrix an expanded variable holds.
+    // The matrix an expanded variable holds. A variable the example states as a
+    // call without writing its result out is computed from that call instead —
+    // `volumes_l_t_i_k_k0_i0_require_correct` of `step-0.example_*.lang`, whose
+    // result is the source matrix itself and would only be duplicated.
     private fromVariable(reference: string, where: string): Matrix | undefined {
         const block = this.index.resolve(reference);
 
@@ -95,12 +101,40 @@ class OperandEvaluator {
             return undefined;
         }
 
+        if (!block.leaves.length && this.isCall(block.expression)) {
+            return this.fromExpression(block.expression, reference, where);
+        }
+
         if (block.signatures.length > 1) {
             this.notes.push(`${where}: ${reference} mixes leaf shapes; not evaluated`);
             return undefined;
         }
 
         return this.matrixOf(block);
+    }
+
+    // Whether an expression is a call this evaluator can carry out.
+    private isCall(expression: string): boolean {
+        const call = CALL.exec(expression.trim());
+
+        return Boolean(call && PRIMITIVES.has(call[1]));
+    }
+
+    // The value of an unexpanded variable's own expression, refusing a variable
+    // that is defined, directly or through others, in terms of itself.
+    private fromExpression(expression: string, reference: string, where: string): Matrix | undefined {
+        if (this.evaluating.has(reference)) {
+            this.notes.push(`${where}: ${reference} is defined in terms of itself; not evaluated`);
+            return undefined;
+        }
+
+        this.evaluating.add(reference);
+
+        try {
+            return this.evaluate(expression, where);
+        } finally {
+            this.evaluating.delete(reference);
+        }
     }
 
     // A block as a matrix, on the single axis signature its leaves share.
@@ -205,27 +239,40 @@ class OperandEvaluator {
         return {axes: source.axes, cells, name: `filter_by_value(${source.name}, ${args[1]}, ${args[2]})`};
     }
 
-    // `filter_by_coordinate(source, Tcoord(1), ..., Tcoord(N))`: the cells that
-    // sit on the given coordinates, with those axes collapsed away.
+    // `filter_by_coordinate(source, Tcoord(1), ..., Tcoord(N))`: on every axis
+    // the arguments name, only the listed coordinates of that axis survive —
+    // the coordinates of one axis are alternatives, the axes themselves are all
+    // required. An axis named by a single coordinate is fixed and leaves the
+    // matrix (the submatrix the call names carries it); an axis named by several
+    // keeps them and stays.
     private filterByCoordinate(args: string[], where: string): Matrix | undefined {
         const source = this.evaluate(args[0], where);
-        const fixed = args.slice(1).map((argument) => this.index.coordinate(argument));
 
         if (!source) {
             return undefined;
         }
 
-        if (fixed.some((coordinate) => !coordinate)) {
-            this.notes.push(`${where}: ${args.slice(1).join(', ')} does not name one coordinate each`);
+        const fixed = args.slice(1).map((argument) => this.index.coordinate(argument, source.axes));
+
+        const unresolved = args.slice(1).filter((argument, position) => !fixed[position]);
+
+        if (unresolved.length) {
+            this.notes.push(`${where}: ${unresolved.join(', ')} does not name one coordinate of ${source.name}`);
             return undefined;
         }
 
-        const removed = fixed.map((coordinate) => coordinate!.letter);
+        const kept = new Map<string, number[]>();
+
+        for (const coordinate of fixed) {
+            kept.set(coordinate!.letter, [...(kept.get(coordinate!.letter) ?? []), coordinate!.index]);
+        }
+
+        const removed = [...kept].filter(([, indices]) => indices.length === 1).map(([letter]) => letter);
         const axes = source.axes.filter((letter) => !removed.includes(letter));
         const cells = new Map<string, Cell>();
 
         for (const cell of source.cells.values()) {
-            if (fixed.some((coordinate) => cell.coordinates.get(coordinate!.letter) !== coordinate!.index)) {
+            if ([...kept].some(([letter, indices]) => !this.carries(cell, letter, indices))) {
                 continue;
             }
 
@@ -235,6 +282,14 @@ class OperandEvaluator {
         }
 
         return {axes, cells, name: `filter_by_coordinate(${source.name}, ${args.slice(1).join(', ')})`};
+    }
+
+    // Whether a cell sits on one of the coordinates an axis was filtered by. A
+    // cell the axis does not reach at all carries none of them.
+    private carries(cell: Cell, letter: string, indices: number[]): boolean {
+        const index = cell.coordinates.get(letter);
+
+        return index !== undefined && indices.includes(index);
     }
 
     // `for_each_pair(left, operat, right)`: the operation applied cell by cell
