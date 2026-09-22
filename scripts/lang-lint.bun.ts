@@ -27,6 +27,26 @@ type RequestCommentLine = {
     items: RequestCommentItem[];
 };
 
+// One coordinate written on a member line of a bracketed structure — the
+// `12 from P` of `(1 from I, 12 from P) = 65`. `width` is the field the index
+// number occupies: its digits plus the padding that follows them, not counting
+// the single separating space before `from`.
+type CoordinateUse = {
+    lineNumber: number;
+    column: number;
+    axis: string;
+    digits: number;
+    width: number;
+};
+
+// One top-level definition whose body is a brace-delimited structure: the
+// header `name = {` and everything down to the `}` in column 0.
+type StructureBlock = {
+    name: string;
+    firstLine: number;
+    lines: string[];
+};
+
 // The set of rule identifiers the linter can emit. Used both for reporting and
 // as the keys of the per-rule enable map in the config file.
 type RuleName =
@@ -36,7 +56,10 @@ type RuleName =
     | 'comment-alignment'
     | 'unresolved-call'
     | 'request-comment-pairing'
-    | 'request-comment-alignment';
+    | 'request-comment-alignment'
+    | 'index-padding'
+    | 'bracket-alignment'
+    | 'leaf-comment-alignment';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -125,6 +148,9 @@ class LangLinter {
                 'unresolved-call': true,
                 'request-comment-pairing': true,
                 'request-comment-alignment': true,
+                'index-padding': true,
+                'bracket-alignment': true,
+                'leaf-comment-alignment': true,
             },
         };
     }
@@ -252,6 +278,18 @@ class LangLinter {
         }
 
         this.checkRequestComments(file, lines);
+
+        if (this.config.rules['index-padding']) {
+            this.checkIndexPadding(file, lines);
+        }
+
+        if (this.config.rules['bracket-alignment']) {
+            this.checkBracketAlignment(file, lines);
+        }
+
+        if (this.config.rules['leaf-comment-alignment']) {
+            this.checkLeafCommentAlignment(file, lines);
+        }
     }
 
     // Rule `trailing-whitespace`: no spaces or tabs at the end of a line.
@@ -847,6 +885,212 @@ class LangLinter {
         }
 
         return best;
+    }
+
+    // Rule `index-padding`: the index number of a coordinate written inside a
+    // bracketed structure — the `12` of `12 from P` — is left-aligned in a
+    // field as wide as the widest index that axis reaches in the file. The
+    // padding is what makes every tuple on a nesting level the same width, so
+    // the closing `)` and the `=` behind it line up (`algorithm/CLAUDE.md`,
+    // "Index number padding"). The expected width is measured per axis and per
+    // file rather than per block: `P` is padded to 2 in blocks that happen to
+    // hold single-digit participants only, because the axis itself reaches 21.
+    // Only member lines count — a definition header such as
+    // `requests_i_j_k_l_queue(1  from R) = {` pads its index to line up with
+    // the family head above it, which is a different alignment.
+    private checkIndexPadding(file: string, lines: string[]): void {
+        const uses = this.collectCoordinateUses(lines);
+        const widest = new Map<string, number>();
+
+        for (const use of uses) {
+            widest.set(use.axis, Math.max(widest.get(use.axis) ?? 0, use.digits));
+        }
+
+        for (const use of uses) {
+            const expected = widest.get(use.axis) as number;
+
+            if (use.width === expected) {
+                continue;
+            }
+
+            this.add(
+                file,
+                use.lineNumber,
+                use.column,
+                'index-padding',
+                `index of '${use.axis}' padded to width ${use.width}, expected ${expected}`,
+            );
+        }
+    }
+
+    // Every `<index> from <Axis>` coordinate on a member line of a bracketed
+    // structure (bracket depth > 0 at the start of the line), with the field
+    // width its number occupies. Full-line comments are skipped: the request
+    // tables have their own alignment rule, and `where` blocks sit at depth 0.
+    private collectCoordinateUses(lines: string[]): CoordinateUse[] {
+        const uses: CoordinateUse[] = [];
+        const pattern = /(?<![\w])(\d+)( +)from ([A-Za-z_]\w*)/g;
+        let depth = 0;
+
+        lines.forEach((line, index) => {
+            const depthAtStart = depth;
+            depth = Math.max(0, depth + this.bracketDelta(line));
+
+            if (depthAtStart === 0 || /^\s*#/.test(line)) {
+                return;
+            }
+
+            const code = this.stripCode(line);
+
+            let match: RegExpExecArray | null;
+            while ((match = pattern.exec(code)) !== null) {
+                uses.push({
+                    lineNumber: index + 1,
+                    column: match.index + 1,
+                    axis: match[3],
+                    digits: match[1].length,
+                    // The single space that separates the field from `from` is
+                    // not padding, so it is not part of the field width.
+                    width: match[1].length + match[2].length - 1,
+                });
+            }
+        });
+
+        return uses;
+    }
+
+    // Rule `bracket-alignment`: a line that starts with a closing bracket is
+    // indented like the line that opened it, so each closing bracket sits under
+    // the start of the line it closes and the nesting stays readable at a
+    // glance (`algorithm/CLAUDE.md`, "Alignment"). Brackets closed on the same
+    // line they were opened on are not constrained by anything and are skipped.
+    private checkBracketAlignment(file: string, lines: string[]): void {
+        const openers: Array<{indent: number; lineNumber: number}> = [];
+
+        lines.forEach((line, index) => {
+            const code = this.stripCode(line);
+            const indent = code.length - code.trimStart().length;
+            const closesLine = /^\s*[)}\]]/.test(code);
+
+            for (const char of code) {
+                if (char === '(' || char === '{' || char === '[') {
+                    openers.push({indent, lineNumber: index + 1});
+                    continue;
+                }
+
+                if (char !== ')' && char !== '}' && char !== ']') {
+                    continue;
+                }
+
+                const opener = openers.pop();
+
+                if (!opener || opener.lineNumber === index + 1 || !closesLine) {
+                    continue;
+                }
+
+                if (indent !== opener.indent) {
+                    this.add(
+                        file,
+                        index + 1,
+                        indent + 1,
+                        'bracket-alignment',
+                        `closing bracket at column ${indent + 1}, expected ${opener.indent + 1} (opened on line ${opener.lineNumber})`,
+                    );
+                }
+
+                // Only the first closing bracket of a line starts that line.
+                break;
+            }
+        });
+    }
+
+    // Rule `leaf-comment-alignment`: the `#` of every commented leaf line of
+    // one structure shares a single column across the whole block, not just
+    // within its own innermost group (`algorithm/CLAUDE.md`, "Leaf line request
+    // number comments"). This is the block-scope counterpart of
+    // `comment-alignment`, which groups by member list and therefore accepts a
+    // block whose K-groups sit in different columns.
+    private checkLeafCommentAlignment(file: string, lines: string[]): void {
+        for (const block of this.structureBlocks(lines)) {
+            const run: AlignmentEntry[] = [];
+
+            block.lines.forEach((line, offset) => {
+                const column = this.inlineCommentColumn(line);
+
+                if (column === undefined || !LangLinter.isLeafLine(line)) {
+                    return;
+                }
+
+                const hashIndex = line.indexOf('#');
+                run.push({
+                    lineNumber: block.firstLine + offset,
+                    column,
+                    contentEnd: line.slice(0, hashIndex).replace(/\s+$/, '').length,
+                });
+            });
+
+            this.reportLeafAlignmentRun(file, block, run);
+        }
+    }
+
+    // Flag every leaf of a block whose `#` leaves the block's shared column.
+    // The column is anchored the same way `comment-alignment` anchors a member
+    // run: on the leaf with the most content before its comment.
+    private reportLeafAlignmentRun(file: string, block: StructureBlock, run: AlignmentEntry[]): void {
+        if (run.length < 2) {
+            return;
+        }
+
+        const expected = this.anchorColumn(run);
+
+        for (const entry of run) {
+            if (entry.column !== expected) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    entry.column,
+                    'leaf-comment-alignment',
+                    `comment '#' at column ${entry.column}, expected ${expected} for every leaf of '${block.name}'`,
+                );
+            }
+        }
+    }
+
+    // The top-level structures of a file: a definition whose header ends in
+    // `= {` down to the `}` that closes it in column 0. A file's structures do
+    // not nest at top level, so a flat scan is enough.
+    private structureBlocks(lines: string[]): StructureBlock[] {
+        const blocks: StructureBlock[] = [];
+
+        for (let start = 0; start < lines.length; start += 1) {
+            if (!/^[A-Za-z_].*=\s*\{\s*$/.test(lines[start])) {
+                continue;
+            }
+
+            let end = start + 1;
+            while (end < lines.length && !/^\}/.test(lines[end])) {
+                end += 1;
+            }
+
+            blocks.push({
+                name: lines[start].slice(0, lines[start].indexOf('=')).trim(),
+                firstLine: start + 1,
+                lines: lines.slice(start, Math.min(end + 1, lines.length)),
+            });
+
+            start = end;
+        }
+
+        return blocks;
+    }
+
+    // A leaf line of a structure: a coordinate tuple assigned a value rather
+    // than a nested group (`(1 from I, 12 from P) = 65,  # 011`).
+    private static isLeafLine(line: string): boolean {
+        const code = line.includes('#') ? line.slice(0, line.indexOf('#')) : line;
+        const trimmed = code.trim();
+
+        return trimmed.startsWith('(') && /\)\s*=/.test(trimmed) && !trimmed.endsWith('{');
     }
 
     // Record a single violation, unless its rule is disabled in the config.
