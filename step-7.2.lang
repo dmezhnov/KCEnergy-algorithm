@@ -73,7 +73,6 @@ normalized_i_j_subject_multiple(1 from R)(n) = filter_by_value(normalized_i_j_su
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
 
-
 # Субъекты, чья доля достигает или превышает предел (s̈_ijl >= δ × Ṡ_ij):
 # нарушение строгого неравенства s̈_ijl < δ × Ṡ_ij из Шага 7.2.
 normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1 from R)(n), ">=", normalized_i_j_threshold(1 from R)(n))
@@ -91,7 +90,6 @@ normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
                 l  for P from index # Индексы субъекта рынка
-
 
 # Из превысивших оставляем только НПЗ с несколькими субъектами (монопольные НПЗ
 # исключены фильтром по normalized_i_j_subject_multiple).

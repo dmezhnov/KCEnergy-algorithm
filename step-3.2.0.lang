@@ -7,7 +7,6 @@ requests_i_j_k_l_queue                                     from ("step-1.lang")
 
 #### Определяем количество НПЗ в запросах субъекта рынка (которые являются владельцами АЗС / которые обслуживаются в 1-ю очередь)
 
-
 # Матрица дефицитных запросов (запросы на дефицитный НПЗ) первой очереди
 requests_i_j_k_l_deficit = filter_by_pair(requests_i_j_k_l_queue(1 from R), contains, requests_i_j_deficit)
     where

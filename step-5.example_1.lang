@@ -628,7 +628,6 @@ estimated_i_j_k_l(4 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
         n of   index # Индекс матрицы
         R from index # Индексы очереди
 
-
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
 # PKOP, МТ: 2260
