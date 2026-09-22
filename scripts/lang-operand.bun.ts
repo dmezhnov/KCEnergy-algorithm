@@ -174,8 +174,10 @@ class OperandEvaluator {
 
         const cells = new Map<string, Cell>();
 
+        const readable = this.alongShared(source, against, where) ?? against;
+
         for (const [key, cell] of source.cells) {
-            const value = against.cells.get(this.index.coordinateKey(cell.coordinates, against.axes))?.value;
+            const value = readable.cells.get(this.index.coordinateKey(cell.coordinates, readable.axes))?.value;
 
             if (value === undefined) {
                 continue;
@@ -242,9 +244,9 @@ class OperandEvaluator {
     // `filter_by_coordinate(source, Tcoord(1), ..., Tcoord(N))`: on every axis
     // the arguments name, only the listed coordinates of that axis survive —
     // the coordinates of one axis are alternatives, the axes themselves are all
-    // required. An axis named by a single coordinate is fixed and leaves the
-    // matrix (the submatrix the call names carries it); an axis named by several
-    // keeps them and stays.
+    // required. The operation removes coordinates, never axes: an axis left
+    // with one coordinate is still an axis, and the `some(n from X)` of a
+    // family member is a separate notation, not this result.
     private filterByCoordinate(args: string[], where: string): Matrix | undefined {
         const source = this.evaluate(args[0], where);
 
@@ -267,8 +269,6 @@ class OperandEvaluator {
             kept.set(coordinate!.letter, [...(kept.get(coordinate!.letter) ?? []), coordinate!.index]);
         }
 
-        const removed = [...kept].filter(([, indices]) => indices.length === 1).map(([letter]) => letter);
-        const axes = source.axes.filter((letter) => !removed.includes(letter));
         const cells = new Map<string, Cell>();
 
         for (const cell of source.cells.values()) {
@@ -276,12 +276,10 @@ class OperandEvaluator {
                 continue;
             }
 
-            const coordinates: Coordinates = new Map([...cell.coordinates].filter(([letter]) => !removed.includes(letter)));
-
-            cells.set(this.index.coordinateKey(coordinates, axes), {coordinates, value: cell.value});
+            cells.set(this.index.coordinateKey(cell.coordinates, source.axes), cell);
         }
 
-        return {axes, cells, name: `filter_by_coordinate(${source.name}, ${args.slice(1).join(', ')})`};
+        return {axes: source.axes, cells, name: `filter_by_coordinate(${source.name}, ${args.slice(1).join(', ')})`};
     }
 
     // Whether a cell sits on one of the coordinates an axis was filtered by. A
@@ -315,8 +313,10 @@ class OperandEvaluator {
 
         const cells = new Map<string, Cell>();
 
+        const readable = this.alongShared(left, right, where) ?? right;
+
         for (const [key, cell] of left.cells) {
-            const other = right.cells.get(this.index.coordinateKey(cell.coordinates, right.axes))?.value ?? '0';
+            const other = readable.cells.get(this.index.coordinateKey(cell.coordinates, readable.axes))?.value ?? '0';
             const pair = this.pair(cell.value, other, where);
 
             if (!pair) {
@@ -411,18 +411,37 @@ class OperandEvaluator {
     // no shape — it produces an empty result whatever the other operand is, so
     // there is nothing to disagree about.
     private readableAlong(source: Matrix, other: Matrix, where: string): boolean {
-        if (!source.cells.size) {
-            return true;
+        return !source.cells.size || Boolean(this.alongShared(source, other, where));
+    }
+
+    // The second operand re-keyed on the axes both operands share. An axis only
+    // the second one carries is readable when it holds a single coordinate —
+    // `filter_by_coordinate` removes coordinates, not axes, so a filter down to
+    // one coordinate leaves a degenerate axis that adds nothing. An axis that
+    // keeps several coordinates would fold distinct cells onto one key, and is
+    // refused instead.
+    private alongShared(source: Matrix, other: Matrix, where: string): Matrix | undefined {
+        const extra = other.axes.filter((letter) => !source.axes.includes(letter));
+
+        if (!extra.length) {
+            return other;
         }
 
-        const missing = other.axes.filter((letter) => !source.axes.includes(letter));
+        const axes = other.axes.filter((letter) => source.axes.includes(letter));
+        const cells = new Map<string, Cell>();
 
-        if (missing.length) {
-            this.notes.push(`${where}: ${other.name} carries ${missing.join(', ')}, which ${source.name} does not`);
-            return false;
+        for (const cell of other.cells.values()) {
+            const key = this.index.coordinateKey(cell.coordinates, axes);
+
+            if (cells.has(key)) {
+                this.notes.push(`${where}: ${other.name} carries ${extra.join(', ')} with more than one coordinate, which ${source.name} does not`);
+                return undefined;
+            }
+
+            cells.set(key, cell);
         }
 
-        return true;
+        return {axes, cells, name: other.name};
     }
 
     // The number a reference stands for: a scalar the example files fix, or a

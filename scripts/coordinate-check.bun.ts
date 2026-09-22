@@ -150,7 +150,8 @@ class CoordinateChecker {
             return;
         }
 
-        const filtered = this.evaluator.evaluate(target.expression, where);
+        const computed = this.evaluator.evaluate(target.expression, where);
+        const filtered = computed && this.asMember(target.block, computed);
 
         if (!filtered || !this.sameShape(target.block, filtered, where)) {
             return;
@@ -170,8 +171,35 @@ class CoordinateChecker {
         }
     }
 
-    // The result is laid out on the source's axes less the fixed ones, which is
-    // the shape the kept cells come back on.
+    // A family member states its own coordinates in its name —
+    // `requests_i_j_k_l_queue(1 from R)` — and lays its leaves out without them.
+    // `filter_by_coordinate` removes coordinates, not axes, so the computed
+    // matrix still carries those axes; take the member out of it.
+    private asMember(block: Block, filtered: Matrix): Matrix {
+        const fixed = this.index.parseCoordinates(block.name);
+        const axes = filtered.axes.filter((letter) => !fixed.has(letter));
+
+        if (axes.length === filtered.axes.length) {
+            return filtered;
+        }
+
+        const cells = new Map<string, Cell>();
+
+        for (const cell of filtered.cells.values()) {
+            if ([...fixed].some(([letter, index]) => cell.coordinates.get(letter) !== index)) {
+                continue;
+            }
+
+            const coordinates = new Map([...cell.coordinates].filter(([letter]) => !fixed.has(letter)));
+
+            cells.set(this.index.coordinateKey(coordinates, axes), {coordinates, value: cell.value});
+        }
+
+        return {axes, cells, name: filtered.name};
+    }
+
+    // The result is laid out on the source's axes less the ones its own name
+    // fixes, which is the shape the kept cells come back on.
     private sameShape(block: Block, filtered: Matrix, where: string): boolean {
         for (const signature of block.signatures) {
             if (signature.join() !== filtered.axes.join()) {
