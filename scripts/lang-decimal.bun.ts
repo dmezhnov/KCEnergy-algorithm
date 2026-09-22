@@ -82,8 +82,28 @@ class Decimal {
         return Decimal.of(this.units / Decimal.power(this.scale - digits), digits);
     }
 
+    // The value rounded to `digits` fraction digits by the school rule: a half
+    // goes away from zero, which is what the example files call «по мат.
+    // правилам» (`round(2.652845270912387356) = 3`).
+    rounded(digits: number): Decimal {
+        if (this.scale <= digits) {
+            return this;
+        }
+
+        const step = Decimal.power(this.scale - digits);
+        const quotient = this.units / step;
+        const remainder = this.units % step;
+        const carry = 2n * (remainder < 0n ? -remainder : remainder) >= step ? (this.units < 0n ? -1n : 1n) : 0n;
+
+        return Decimal.of(quotient + carry, digits);
+    }
+
     min(other: Decimal): Decimal {
         return this.compare(other) <= 0 ? this : other;
+    }
+
+    max(other: Decimal): Decimal {
+        return this.compare(other) >= 0 ? this : other;
     }
 
     // Negative, zero or positive as this value is below, equal to or above the
