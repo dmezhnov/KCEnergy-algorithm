@@ -1,12 +1,10 @@
-for_each_pair, for_each_element, assign_matrix from ("matrix_operation.lang")
-requests_i_j_k_l_virtual                       from ("step-9.example_2.lang")
-requests_i_j_k_l_queue                         from ("step-1.example_2.lang")
-estimated_i_j_k_l_last                         from ("step-8.example_2.lang")
-normalized_i_j_k_l                             from ("step-6.example_2.lang")
+for_each_pair, assign_matrix from ("matrix_operation.lang")
+requests_i_j_k_l_queue       from ("step-1.example_2.lang")
+estimated_i_j_k_l_last       from ("step-8.example_2.lang")
+normalized_i_j_k_l           from ("step-6.example_2.lang")
 
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров — II очередь (пример 2)
-# Вход II очереди = только исходные Запросы 2-й очереди (R=2); виртуальные Запросы r̃ Шага 9a
-# в него не входят.
+# Вход II очереди = только исходные Запросы 2-й очереди (R=2).
 # Дальше generic-формы Шагов 4-6 строят (2 from R)-свёртки, estimated и normalized.
 # Доступные объёмы II очереди есть у всех трёх НПЗ: ПКОП (J=1: 10), АНПЗ (J=2: 390), ПНХЗ
 # (J=3: 1900) — в отличие от примера 1, ПКОП прошёл гейт Шага 9 с положительным остатком.
@@ -57,8 +55,8 @@ requests_i_j_k_l_corrected_queue(2 from R) = requests_i_j_k_l_queue(2 from R) = 
 #     АНПЗ #104, #111, #112, #113; ПНХЗ #105) -> s̈;
 #   - ячейки только II очереди (ПКОП #203, #204; АНПЗ #205, #206, #207, #208, #209;
 #     ПНХЗ #201, #202)                        -> ẗ;
-#   - общих ячеек нет: после отказа от виртуальных Запросов множества Субъектов I и II очередей
-#     не пересекаются, поэтому ни одна ячейка не получает s̈ + ẗ.
+#   - общих ячеек нет: множества Субъектов I и II очередей не пересекаются,
+#     поэтому ни одна ячейка не получает s̈ + ẗ.
 # for_each_pair(s̈, "+", ẗ) ведётся по координатам ЛЕВОГО операнда (s̈): теряет «только II»;
 # поэтому накрываем сумму на ẗ через assign_matrix — суммы перекрывают ẗ, а уникальные для II
 # очереди ячейки ẗ остаются.
@@ -103,49 +101,6 @@ estimated_i_j_k_l_total(2 from R) = assign_matrix(normalized_i_j_k_l(2 from R)(1
             },
             (1 from I, 3 from J, 4 from K) = {
                 (1 from I, 3 from J, 4 from K, 1  from P) = 600   # 105
-            }
-        }
-    }
-}
-    where
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-# Виртуальные Запросы после II очереди элиминируются (ẗ_request <- r̃ × 0 = 0) и далее не
-# используются. Зануляются ИМЕННО виртуальные Запросы Шага 9a, а не Запросы R=2: исходные
-# Запросы R=2 реальны, их остаток обрабатывается штатным механизмом следующих очередей.
-requests_i_j_k_l_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_virtual(2 from R), "*", 0) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 0   # 110
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 0   # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 0,  # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P) = 0,  # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 0   # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 0,  # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 0   # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 0,  # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 0,  # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 0,  # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 0   # 113
-            }
-        },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 0   # 105
             }
         }
     }
