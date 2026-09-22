@@ -92,7 +92,10 @@ type RuleName =
     | 'request-number-order'
     | 'import-alignment'
     | 'where-declaration-alignment'
-    | 'where-comment-alignment';
+    | 'where-comment-alignment'
+    | 'final-newline'
+    | 'import-source-order'
+    | 'blank-line-run';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -135,8 +138,9 @@ const BUILTIN_NAMES: ReadonlySet<string> = new Set([
 // cover comment whitespace, comment-column alignment, unresolved calls, the
 // two-line request comments, the padding and brackets of the nested request
 // structures, the aggregated leaf lines, the import header and the declarations
-// of `where` blocks; further rule groups are meant to be added as extra methods
-// on this class.
+// of `where` blocks, and the file-level layout (final newline, import source
+// order, blank lines); further rule groups are meant to be added as extra
+// methods on this class.
 class LangLinter {
     // A single rule violation, reported as `path:line:col: rule message`.
     private readonly problems: Array<{
@@ -192,6 +196,9 @@ class LangLinter {
                 'import-alignment': true,
                 'where-declaration-alignment': true,
                 'where-comment-alignment': true,
+                'final-newline': true,
+                'import-source-order': true,
+                'blank-line-run': true,
             },
         };
     }
@@ -351,6 +358,135 @@ class LangLinter {
         if (this.config.rules['where-comment-alignment']) {
             this.checkWhereCommentAlignment(file, lines);
         }
+
+        if (this.config.rules['final-newline']) {
+            this.checkFinalNewline(file, text, lines);
+        }
+
+        if (this.config.rules['import-source-order']) {
+            this.checkImportSourceOrder(file, lines);
+        }
+
+        if (this.config.rules['blank-line-run']) {
+            this.checkBlankLineRuns(file, text, lines);
+        }
+    }
+
+    // Rule `final-newline`: a file ends with a newline. An empty file has
+    // nothing to terminate and is left alone.
+    private checkFinalNewline(file: string, text: string, lines: string[]): void {
+        if (text.length === 0 || text.endsWith('\n')) {
+            return;
+        }
+
+        const last = lines[lines.length - 1];
+
+        this.add(
+            file,
+            lines.length,
+            last.length + 1,
+            'final-newline',
+            'file does not end with a newline',
+        );
+    }
+
+    // Rule `blank-line-run`: at most one blank line in a row. The files separate
+    // every definition, section comment and header from the next with a single
+    // blank line; the run is reported at its second line, the first one that is
+    // one too many.
+    private checkBlankLineRuns(file: string, text: string, lines: string[]): void {
+        // `split('\n')` leaves an empty last element for the newline that
+        // terminates the file: that one is the terminator, not a blank line.
+        const count = text.endsWith('\n') ? lines.length - 1 : lines.length;
+        let run = 0;
+
+        for (let index = 0; index < count; index++) {
+            if (lines[index].trim().length > 0) {
+                run = 0;
+                continue;
+            }
+
+            run += 1;
+
+            if (run === 2) {
+                this.add(
+                    file,
+                    index + 1,
+                    1,
+                    'blank-line-run',
+                    'more than one blank line in a row',
+                );
+            }
+        }
+    }
+
+    // Rule `import-source-order`: within an import header the `from core` lines
+    // come first, and the imports of one source stay together. A file's names
+    // are listed one per line, so several lines may share a source
+    // (`matrix_operation.lang` three times in `step-n-plus-1.lang`); what the
+    // rule forbids is interleaving them with another source's.
+    private checkImportSourceOrder(file: string, lines: string[]): void {
+        const header = this.importHeaderSources(lines);
+
+        if (!header) {
+            return; // Not an import header: this file has no sources to order.
+        }
+
+        const seen: string[] = [];
+
+        header.forEach((entry, position) => {
+            const previous = position > 0 ? header[position - 1].source : undefined;
+
+            if (entry.source === previous) {
+                return; // Still inside the run of one source.
+            }
+
+            if (seen.includes(entry.source)) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    1,
+                    'import-source-order',
+                    `imports of ${entry.source} are split by imports of another source`,
+                );
+            } else {
+                seen.push(entry.source);
+            }
+
+            if (entry.source === 'core' && seen.some((source) => source !== 'core')) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    1,
+                    'import-source-order',
+                    'a core import follows an import from a file',
+                );
+            }
+        });
+    }
+
+    // The sources of a file's import header, in the order the lines write them,
+    // or undefined when the leading block is not a header.
+    private importHeaderSources(
+        lines: string[],
+    ): Array<{lineNumber: number; source: string}> | undefined {
+        const header: Array<{lineNumber: number; source: string}> = [];
+
+        for (const [index, line] of lines.entries()) {
+            if (line.trim().length === 0) {
+                break;
+            }
+
+            const match = /^\S.*?\s+from\s+(core|\(".*?"\))\s*$/.exec(this.codeOf(line));
+
+            if (!match) {
+                return undefined;
+            }
+
+            header.push({lineNumber: index + 1, source: match[1]});
+        }
+
+        return header.length ? header : undefined;
     }
 
     // Rule `trailing-whitespace`: no spaces or tabs at the end of a line.
