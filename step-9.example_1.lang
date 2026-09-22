@@ -1,7 +1,5 @@
-filter_by_value, for_each_pair                  from ("matrix_operation.lang")
+filter_by_value                                 from ("matrix_operation.lang")
 available_i_j_new                               from ("step-11.example_1.lang")
-estimated_i_j_k_l_last                          from ("step-8.example_1.lang")
-requests_i_j_k_l_queue                          from ("step-1.example_1.lang")
 OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.example_1.lang")
 
 ### Шаг 9. Оставшиеся объёмы позволяют удовлетворить запросы Владельцев нефтебаз/резервуаров? (пример 1)
@@ -62,47 +60,6 @@ available_i_j(4 from R) = filter_by_value(available_i_j_new(3 from R), ">", MIN_
     where
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
-
-### Шаг 9a. Дополнительные («виртуальные») Запросы для второй очереди распределения
-# r̃_ijkl = r_ijkl − s̈_ijkl: изначально запрашиваемый объём первой очереди минус
-# нормированный объём, предоставленный в первой очереди (Шаги 3–7).
-# Изначально запрашиваемый объём — Запросы первой очереди из Шага 1: свёртка по
-# нефтебазам и условиям поставки сделана в Шаге -1.
-
-# Виртуальные Запросы второй очереди: r̃ = r − s̈ (изначальный Запрос минус предоставленный объём).
-requests_i_j_k_l_virtual(2 from R) = for_each_pair(requests_i_j_k_l_queue(1 from R), "-", estimated_i_j_k_l_last(1 from R)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) =  70 -  55 = 15    # 110
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 715 - 585 = 130   # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 230 -  65 = 165,  # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P) = 325 - 195 = 130,  # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 325 - 165 = 160   # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 150 -  75 = 75,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 200 -  80 = 120   # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = 100 -  30 = 70,   # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 100 -  30 = 70,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) =  50 -  20 = 30    # 113
-            }
-        }
-    }
-}
-    where
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
 
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ

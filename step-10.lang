@@ -1,10 +1,9 @@
-number                                         from core
-requests_i_j_k_l_virtual                       from ("step-9.lang")
-requests_i_j_k_l_queue                         from ("step-1.lang")
-estimated_i_j_k_l_last                         from ("step-8.lang")
-normalized_i_j_k_l                             from ("step-6.lang")
-for_each_pair, for_each_element, assign_matrix from ("matrix_operation.lang")
-axis, index, matrix, operation                 from ("matrix_types.lang")
+number                         from core
+requests_i_j_k_l_queue         from ("step-1.lang")
+estimated_i_j_k_l_last         from ("step-8.lang")
+normalized_i_j_k_l             from ("step-6.lang")
+for_each_pair, assign_matrix   from ("matrix_operation.lang")
+axis, index, matrix, operation from ("matrix_types.lang")
 
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров (II очередь)
 # Система выполняет шаги, аналогичные Шагам 4-6. Отдельная реализация не нужна:
@@ -12,8 +11,8 @@ axis, index, matrix, operation                 from ("matrix_types.lang")
 # исходные Запросы 2-й очереди (R=2).
 
 ### Обвязка входа II очереди (аналог входа Шага 4)
-# Вход II очереди = исходные Запросы 2-й очереди (R=2); виртуальные Запросы r̃ Шага 9a в него
-# не входят. Коррекции на проливы во II очереди нет. Это (2 from R)-определение заменяет
+# Вход II очереди = исходные Запросы 2-й очереди (R=2).
+# Коррекции на проливы во II очереди нет. Это (2 from R)-определение заменяет
 # обобщённый вход Шага 4 (его guard сужен до l0 > 2, поэтому коллизии для l0 = 2 нет); дальше
 # generic-формы Шагов 5-6 сами строят estimated/normalized для II очереди.
 
@@ -60,23 +59,6 @@ estimated_i_j_k_l_total(2 from R) = assign_matrix(normalized_i_j_k_l(2 from R)(1
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-
-# Виртуальные Запросы после II очереди элиминируются (ẗ_request <- 0) и далее не используются.
-# Зануляются ИМЕННО виртуальные Запросы Шага 9a, а не Запросы R=2: исходные Запросы R=2
-# реальны, их остаток обрабатывается штатным механизмом следующих очередей.
-requests_i_j_k_l_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_virtual(2 from R), "*", 0)
-    where
-        requests_i_j_k_l_virtual(2 from R)(i, j, l, k)       of number
-        requests_i_j_k_l_virtual_final(2 from R)(i, j, l, k) of number
-        requests_i_j_k_l_virtual(2 from R)       of matrix(Product, Refinery, Market_participant, Region)
-        requests_i_j_k_l_virtual_final(2 from R) of matrix(Product, Refinery, Market_participant, Region)
-        "*" from operation
-            where
-                Product, Refinery, Market_participant, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                l  for P  from index # Индексы субъекта рынка
-                k  for K  from index # Индексы региона
 
 ### Шаг 13a (III очередь) и Шаг 16a (IV очередь). Суммарное распределение по очередям I … l0
 # То же объединение-со-сложением, но накопительное: к итогу предыдущих очередей
