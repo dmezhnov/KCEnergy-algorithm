@@ -47,6 +47,18 @@ type StructureBlock = {
     lines: string[];
 };
 
+// One leaf of a block that shows its arithmetic inline
+// (`(1 from I, 1 from J) = 195 +  50 = 245`). `resultColumn` is the 1-based
+// column of the `=` that introduces the final value — the only `=` on a leaf
+// that carries no sum. `plusColumns` holds the 1-based columns of the `+` signs
+// of the sum, empty on a leaf that contributes a single request.
+type AggregatedLeaf = {
+    lineNumber: number;
+    contentEnd: number;
+    resultColumn: number;
+    plusColumns: number[];
+};
+
 // The set of rule identifiers the linter can emit. Used both for reporting and
 // as the keys of the per-rule enable map in the config file.
 type RuleName =
@@ -59,7 +71,10 @@ type RuleName =
     | 'request-comment-alignment'
     | 'index-padding'
     | 'bracket-alignment'
-    | 'leaf-comment-alignment';
+    | 'leaf-comment-alignment'
+    | 'sum-operand-alignment'
+    | 'sum-result-alignment'
+    | 'request-number-order';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -151,6 +166,9 @@ class LangLinter {
                 'index-padding': true,
                 'bracket-alignment': true,
                 'leaf-comment-alignment': true,
+                'sum-operand-alignment': true,
+                'sum-result-alignment': true,
+                'request-number-order': true,
             },
         };
     }
@@ -289,6 +307,14 @@ class LangLinter {
 
         if (this.config.rules['leaf-comment-alignment']) {
             this.checkLeafCommentAlignment(file, lines);
+        }
+
+        if (this.config.rules['sum-operand-alignment'] || this.config.rules['sum-result-alignment']) {
+            this.checkSumAlignment(file, lines);
+        }
+
+        if (this.config.rules['request-number-order']) {
+            this.checkRequestNumberOrder(file, lines);
         }
     }
 
@@ -1054,6 +1080,184 @@ class LangLinter {
                 );
             }
         }
+    }
+
+    // Rules `sum-operand-alignment` and `sum-result-alignment`: the aggregated
+    // leaf lines of one top-level block (`algorithm/CLAUDE.md`, "Aggregated Leaf
+    // Lines"). A block that shows no arithmetic is out of scope; in a block that
+    // shows some, the k-th `+` shares a column across every summed leaf, and the
+    // `=` that introduces the final value shares a column across every leaf —
+    // including the single-request leaves, which pad between `)` and `=` so
+    // their value lands under the totals.
+    private checkSumAlignment(file: string, lines: string[]): void {
+        for (const block of this.structureBlocks(lines)) {
+            const leaves = this.aggregatedLeaves(block);
+            const summed = leaves.filter((leaf) => leaf.plusColumns.length > 0);
+
+            if (summed.length === 0) {
+                continue;
+            }
+
+            if (this.config.rules['sum-operand-alignment']) {
+                this.checkOperandColumns(file, block, summed);
+            }
+
+            if (this.config.rules['sum-result-alignment']) {
+                this.checkResultColumn(file, block, leaves);
+            }
+        }
+    }
+
+    // Flag every summed leaf whose k-th `+` leaves the column the block's widest
+    // sum puts it in. Each operand position is checked on its own, so a leaf with
+    // fewer operands only has to line up the `+` signs it actually writes.
+    private checkOperandColumns(file: string, block: StructureBlock, summed: AggregatedLeaf[]): void {
+        const positions = Math.max(...summed.map((leaf) => leaf.plusColumns.length));
+
+        for (let position = 0; position < positions; position += 1) {
+            const run = summed
+                .filter((leaf) => leaf.plusColumns.length > position)
+                .map((leaf) => ({
+                    lineNumber: leaf.lineNumber,
+                    column: leaf.plusColumns[position],
+                    contentEnd: leaf.contentEnd,
+                }));
+
+            if (run.length < 2) {
+                continue;
+            }
+
+            const expected = this.anchorColumn(run);
+
+            for (const entry of run) {
+                if (entry.column !== expected) {
+                    this.add(
+                        file,
+                        entry.lineNumber,
+                        entry.column,
+                        'sum-operand-alignment',
+                        `operand ${position + 1} '+' at column ${entry.column}, expected ${expected} for every sum of '${block.name}'`,
+                    );
+                }
+            }
+        }
+    }
+
+    // Flag every leaf of an aggregated block whose final `=` leaves the shared
+    // column.
+    private checkResultColumn(file: string, block: StructureBlock, leaves: AggregatedLeaf[]): void {
+        const run = leaves.map((leaf) => ({
+            lineNumber: leaf.lineNumber,
+            column: leaf.resultColumn,
+            contentEnd: leaf.contentEnd,
+        }));
+
+        if (run.length < 2) {
+            return;
+        }
+
+        const expected = this.anchorColumn(run);
+
+        for (const entry of run) {
+            if (entry.column !== expected) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    entry.column,
+                    'sum-result-alignment',
+                    `result '=' at column ${entry.column}, expected ${expected} for every leaf of '${block.name}'`,
+                );
+            }
+        }
+    }
+
+    // The leaves of a block, each with the column of the `=` in front of its
+    // final value and the columns of the `+` signs of its sum. A leaf whose
+    // value is a nested structure or which carries no `=` at all is skipped.
+    private aggregatedLeaves(block: StructureBlock): AggregatedLeaf[] {
+        const leaves: AggregatedLeaf[] = [];
+
+        block.lines.forEach((line, offset) => {
+            if (!LangLinter.isLeafLine(line)) {
+                return;
+            }
+
+            const hashIndex = line.indexOf('#');
+            const code = hashIndex === -1 ? line : line.slice(0, hashIndex);
+            const close = this.matchingParen(code, code.indexOf('('));
+
+            if (close === -1) {
+                return;
+            }
+
+            const equals: number[] = [];
+            for (let index = close + 1; index < code.length; index += 1) {
+                if (code[index] === '=') {
+                    equals.push(index);
+                }
+            }
+
+            if (equals.length === 0) {
+                return;
+            }
+
+            const resultColumn = equals[equals.length - 1];
+            const plusColumns: number[] = [];
+
+            if (equals.length >= 2) {
+                for (let index = equals[0] + 1; index < resultColumn; index += 1) {
+                    if (code[index] === '+') {
+                        plusColumns.push(index + 1);
+                    }
+                }
+            }
+
+            leaves.push({
+                lineNumber: block.firstLine + offset,
+                contentEnd: code.replace(/\s+$/, '').length,
+                resultColumn: resultColumn + 1,
+                plusColumns,
+            });
+        });
+
+        return leaves;
+    }
+
+    // Rule `request-number-order`: the request numbers a leaf comment lists are
+    // sorted ascending, never in structural or discovery order
+    // (`algorithm/CLAUDE.md`, "Request-number order"). A comment may carry two
+    // number groups separated by `=` — the contributing requests on the left of
+    // the arithmetic and the aggregated ones on the right — and each group is
+    // ordered on its own.
+    private checkRequestNumberOrder(file: string, lines: string[]): void {
+        lines.forEach((line, index) => {
+            const hashIndex = line.indexOf('#');
+
+            if (this.inlineCommentColumn(line) === undefined || !LangLinter.isLeafLine(line)) {
+                return;
+            }
+
+            const comment = line.slice(hashIndex + 1);
+
+            if (!/^[\s\d+=]+$/.test(comment)) {
+                return;
+            }
+
+            for (const group of comment.split('=')) {
+                const numbers = (group.match(/\d+/g) ?? []).map(Number);
+                const stray = numbers.findIndex((number, position) => position > 0 && number < numbers[position - 1]);
+
+                if (stray > 0) {
+                    this.add(
+                        file,
+                        index + 1,
+                        hashIndex + 1,
+                        'request-number-order',
+                        `request numbers out of order in '${group.trim()}': ${numbers[stray]} follows ${numbers[stray - 1]}`,
+                    );
+                }
+            }
+        });
     }
 
     // The top-level structures of a file: a definition whose header ends in
