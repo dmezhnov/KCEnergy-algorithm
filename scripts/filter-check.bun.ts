@@ -2,13 +2,18 @@ import {Decimal} from './lang-decimal.bun.ts';
 import {ExampleIndex} from './lang-example.bun.ts';
 import type {Block, Leaf} from './lang-example.bun.ts';
 import {MatrixOperation} from './lang-operation.bun.ts';
+import {OperandEvaluator} from './lang-operand.bun.ts';
+import type {Cell, Matrix} from './lang-operand.bun.ts';
 
 // Checker for the `filter_by_pair` leaves of the `*.example_*.lang` files.
 //
 // Where a matrix is the result of `filter_by_pair(source, condit, condition)`,
-// every leaf it carries is a leaf of `source` that the condition keeps, with its
+// every leaf it carries is a cell of `source` that the condition keeps, with its
 // value copied over unchanged. Both operands are written down in the example
-// files, so this script re-derives the whole result and compares:
+// files — or computed from them by `OperandEvaluator`, which is how the
+// `filter_by_coordinate(ship_terms_count_by_requests_l0_*, First)` conditions of
+// `step-6.example_*.lang` are read — so this script re-derives the whole result
+// and compares:
 //
 //   * the set of leaves — exactly the cells of `source` that pass the condition,
 //   * the value of each of them, which must be the source value verbatim, and
@@ -35,6 +40,7 @@ const CONTAINS = MatrixOperation.CONTAINS;
 
 class FilterChecker {
     private index = new ExampleIndex();
+    private evaluator = new OperandEvaluator(this.index);
     private findings: string[] = [];
     private notes: string[] = [];
     private checkedBlocks = 0;
@@ -46,6 +52,7 @@ class FilterChecker {
 
         for (const suffix of EXAMPLE_SUFFIXES) {
             this.index = await ExampleIndex.load(root, suffix);
+            this.evaluator = new OperandEvaluator(this.index);
             this.notes.push(...this.index.diagnostics);
 
             for (const block of this.index.blockList) {
@@ -55,6 +62,8 @@ class FilterChecker {
                     this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
                 }
             }
+
+            this.notes.push(...this.evaluator.notes);
         }
 
         return this.report();
@@ -62,103 +71,78 @@ class FilterChecker {
 
     // Compare one `filter_by_pair` result with the two matrices it is made of.
     private checkBlock(block: Block, args: string[]): void {
+        const where = `${block.file}:${block.line}: ${block.name}`;
+
         if (args.length !== 3) {
-            this.findings.push(`${block.file}:${block.line}: ${block.name}: expected three arguments, got ${args.length}`);
+            this.findings.push(`${where}: expected three arguments, got ${args.length}`);
             return;
         }
 
         const [sourceReference, condition, conditionReference] = args;
 
         if (condition !== CONTAINS && !MatrixOperation.compares(condition)) {
-            this.notes.push(`${block.file}:${block.line}: ${block.name}: condition ${condition} is not implemented`);
+            this.notes.push(`${where}: condition ${condition} is not implemented`);
             return;
         }
 
-        const source = this.operand(block, sourceReference);
-        const against = this.operand(block, conditionReference);
+        const source = this.evaluator.evaluate(sourceReference, where);
+        const against = this.evaluator.evaluate(conditionReference, where);
 
         if (!source || !against) {
             return;
         }
 
-        const axes = this.operandAxes(block, source, against);
+        if (!source.cells.size) {
+            this.reportEmptySource(block, source, where);
+            return;
+        }
 
-        if (!axes) {
+        if (!this.readableAlong(source, against, where)) {
             return;
         }
 
         this.checkedBlocks += 1;
-        this.compareLeaves(block, source, against, axes, condition);
+        this.compareLeaves(block, source, against, condition, where);
     }
 
-    // The block an operand reference names. An operand that is a nested call, or
-    // a variable no example file expands, leaves nothing to read the values from.
-    private operand(block: Block, reference: string): Block | undefined {
-        const operand = this.index.resolve(reference);
-
-        if (!operand) {
-            this.notes.push(`${block.file}:${block.line}: ${block.name}: ${reference} is not an expanded variable`);
-        }
-
-        return operand;
-    }
-
-    // The axes of the two operands: the result is laid out on the source's axes,
-    // and the condition matrix is read along the axes it carries itself — an
-    // `I, J` condition selects whole `I, J, K, P` groups of the source.
-    private operandAxes(block: Block, source: Block, against: Block): {source: string[]; condition: string[]} | undefined {
-        if (source.signatures.length > 1 || against.signatures.length > 1) {
-            this.notes.push(`${block.file}:${block.line}: ${block.name}: an operand mixes leaf shapes; not checked`);
-            return undefined;
-        }
-
-        if (!source.leaves.length) {
-            this.reportEmptySource(block, source);
-            return undefined;
-        }
-
-        const axes = {source: source.signatures[0] ?? [], condition: against.signatures[0] ?? []};
-        const missing = axes.condition.filter((letter) => !axes.source.includes(letter));
+    // Whether the condition matrix can be read along the source: it is read on
+    // the axes it carries itself — an `I, J` condition selects whole `I, J, K, P`
+    // groups of the source — which must be axes the source carries as well.
+    private readableAlong(source: Matrix, against: Matrix, where: string): boolean {
+        const missing = against.axes.filter((letter) => !source.axes.includes(letter));
 
         if (missing.length) {
-            this.findings.push(`${block.file}:${block.line}: ${block.name}: ${against.name} carries ${missing.join(', ')}, which ${source.name} does not`);
-            return undefined;
+            this.findings.push(`${where}: ${against.name} carries ${missing.join(', ')}, which ${source.name} does not`);
+            return false;
         }
 
-        return axes;
+        return true;
     }
 
     // An empty source produces an empty result: there is nothing to filter, and
     // any leaf the result does carry has no source.
-    private reportEmptySource(block: Block, source: Block): void {
-        this.notes.push(`${block.file}:${block.line}: ${block.name}: ${source.name} is empty`);
+    private reportEmptySource(block: Block, source: Matrix, where: string): void {
+        this.notes.push(`${where}: ${source.name} is empty`);
 
         for (const leaf of block.leaves) {
             this.findings.push(`${block.file}:${leaf.line}: ${block.name}: ${source.name} is empty, so this leaf has no source`);
         }
     }
 
-    // Walk the leaves of the source, which are the only cells the result may
-    // carry, then report the result leaves that no source leaf accounts for.
-    private compareLeaves(
-        block: Block,
-        source: Block,
-        against: Block,
-        axes: {source: string[]; condition: string[]},
-        condition: string,
-    ): void {
-        const results = new Map(block.leaves.map((leaf) => [this.index.coordinateKey(leaf.coordinates, axes.source), leaf]));
+    // Walk the cells of the source, which are the only ones the result may
+    // carry, then report the result leaves that no source cell accounts for.
+    private compareLeaves(block: Block, source: Matrix, against: Matrix, condition: string, where: string): void {
+        const results = new Map(block.leaves.map((leaf) => [this.index.coordinateKey(leaf.coordinates, source.axes), leaf]));
 
-        for (const candidate of source.leaves) {
-            const key = this.index.coordinateKey(candidate.coordinates, axes.source);
+        for (const [key, cell] of source.cells) {
             const leaf = results.get(key);
             results.delete(key);
 
-            this.compareLeaf(block, key, leaf, candidate, against.values.get(this.index.coordinateKey(candidate.coordinates, axes.condition)), condition);
+            this.compareLeaf(block, key, leaf, cell, against.cells.get(this.index.coordinateKey(cell.coordinates, against.axes))?.value, condition, where);
         }
 
         for (const [key, leaf] of results) {
-            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: no leaf of ${source.name} produces ${key}`);
+            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: no cell of ${source.name} produces ${key}`);
         }
     }
 
@@ -169,11 +153,12 @@ class FilterChecker {
         block: Block,
         key: string,
         leaf: Leaf | undefined,
-        candidate: Leaf,
+        cell: Cell,
         conditionValue: string | undefined,
         condition: string,
+        where: string,
     ): void {
-        const kept = this.keeps(block, candidate, conditionValue, condition);
+        const kept = this.keeps(cell, conditionValue, condition, where);
 
         if (kept === undefined) {
             return;
@@ -181,22 +166,22 @@ class FilterChecker {
 
         if (!kept) {
             if (leaf) {
-                this.findings.push(`${block.file}:${leaf.line}: ${block.name}: ${this.render(candidate, conditionValue, condition)} is false, so ${key} should be filtered out`);
+                this.findings.push(`${block.file}:${leaf.line}: ${block.name}: ${this.render(cell, conditionValue, condition)} is false, so ${key} should be filtered out`);
             }
 
             return;
         }
 
         if (!leaf) {
-            this.findings.push(`${block.file}:${block.line}: ${block.name}: no leaf for ${key}, where ${this.render(candidate, conditionValue, condition)} holds`);
+            this.findings.push(`${where}: no leaf for ${key}, where ${this.render(cell, conditionValue, condition)} holds`);
             return;
         }
 
         this.checkedLeaves += 1;
-        this.compareComment(block, leaf, candidate, conditionValue, condition);
+        this.compareComment(block, leaf, cell, conditionValue, condition);
 
-        if (leaf.total !== candidate.total) {
-            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: states ${leaf.total}, ${candidate.total} is what ${candidate.text.trim()} carries`);
+        if (leaf.total !== cell.value) {
+            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: states ${leaf.total}, ${cell.value} is what the source carries`);
         }
     }
 
@@ -204,18 +189,18 @@ class FilterChecker {
     // kept by. The pair may be stated either way round — `245 > 10` and
     // `1200 < 1391.82926829268292674` are both in `step-5.example_2.lang` — and a
     // comment that states no comparison at all makes no claim to check.
-    private compareComment(block: Block, leaf: Leaf, candidate: Leaf, conditionValue: string | undefined, condition: string): void {
+    private compareComment(block: Block, leaf: Leaf, cell: Cell, conditionValue: string | undefined, condition: string): void {
         const shown = MatrixOperation.comparisonShown(leaf.text);
 
         if (!shown || condition === CONTAINS || conditionValue === undefined) {
             return;
         }
 
-        const straight = shown.left === candidate.total && shown.right === conditionValue && shown.operator === condition.replaceAll('"', '');
-        const mirrored = shown.left === conditionValue && shown.right === candidate.total && shown.operator === MatrixOperation.mirrored(condition);
+        const straight = shown.left === cell.value && shown.right === conditionValue && shown.operator === condition.replaceAll('"', '');
+        const mirrored = shown.left === conditionValue && shown.right === cell.value && shown.operator === MatrixOperation.mirrored(condition);
 
         if (!straight && !mirrored) {
-            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: comment states ${shown.left} ${shown.operator} ${shown.right}, the pair is ${this.render(candidate, conditionValue, condition)}`);
+            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: comment states ${shown.left} ${shown.operator} ${shown.right}, the pair is ${this.render(cell, conditionValue, condition)}`);
         }
     }
 
@@ -225,16 +210,16 @@ class FilterChecker {
     // spells out — «ПКОП без ячейки». Undefined marks a cell that cannot be
     // decided — a value that is not a number — which is reported here and then
     // left out of the comparison.
-    private keeps(block: Block, candidate: Leaf, conditionValue: string | undefined, condition: string): boolean | undefined {
+    private keeps(cell: Cell, conditionValue: string | undefined, condition: string, where: string): boolean | undefined {
         if (condition === CONTAINS || conditionValue === undefined) {
             return conditionValue !== undefined;
         }
 
-        const left = Decimal.parse(candidate.total);
+        const left = Decimal.parse(cell.value);
         const right = Decimal.parse(conditionValue);
 
         if (!left || !right) {
-            this.findings.push(`${block.file}:${block.line}: ${block.name}: ${this.render(candidate, conditionValue, condition)} is not a comparison of numbers`);
+            this.findings.push(`${where}: ${this.render(cell, conditionValue, condition)} is not a comparison of numbers`);
             return undefined;
         }
 
@@ -244,12 +229,12 @@ class FilterChecker {
     // The comparison one cell stands or falls by, spelled the way the example
     // files spell a condition. A cell the condition matrix does not carry reads
     // as absent rather than as a number.
-    private render(candidate: Leaf, conditionValue: string | undefined, condition: string): string {
+    private render(cell: Cell, conditionValue: string | undefined, condition: string): string {
         if (condition === CONTAINS) {
             return `${CONTAINS} ${conditionValue === undefined ? 'nothing' : conditionValue}`;
         }
 
-        return `${candidate.total} ${condition.replaceAll('"', '')} ${conditionValue ?? 'nothing'}`;
+        return `${cell.value} ${condition.replaceAll('"', '')} ${conditionValue ?? 'nothing'}`;
     }
 
     // Print what was checked, what could not be, and what disagrees.
