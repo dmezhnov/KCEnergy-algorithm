@@ -129,6 +129,7 @@ type RuleName =
     | 'unresolved-import'
     | 'unused-import'
     | 'unresolved-reference'
+    | 'unused-definition'
     | 'expression-mismatch';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
@@ -231,6 +232,8 @@ class LangLinter {
             this.lintFile(file);
         }
 
+        this.checkUnusedDefinitions(files);
+
         return this.report(files.length);
     }
 
@@ -261,6 +264,7 @@ class LangLinter {
                 'unresolved-import': true,
                 'unused-import': true,
                 'unresolved-reference': true,
+                'unused-definition': true,
                 'expression-mismatch': true,
             },
         };
@@ -1927,6 +1931,68 @@ class LangLinter {
                     `'${name}' is neither imported nor defined`,
                 );
             }
+        }
+    }
+
+    // Rule `unused-definition`: every top-level definition is read somewhere in
+    // the `.lang` tree — by another definition, by the import header of another
+    // file, or by the example that expands it. A mention in a comment does not
+    // count, the same way `unused-import` ignores comments, and neither does the
+    // implementation: the `*.bun.ts` side of the system is written against the
+    // spec rather than being part of it, so a primitive only its tasks call is
+    // still dead here.
+    //
+    // Only the LEADING identifier of a line in a file that defines the name is
+    // passed over: a top-level line and a `where` declaration both introduce the
+    // name rather than read it, while a second mention on the same line
+    // (`list.A = list("A")` in `lang.lang`) is a read. A name defined in two
+    // files — a step and the example expanding it — is therefore read by
+    // construction, which is what keeps the algorithm's terminal results out of
+    // the findings.
+    //
+    // This is a whole-tree rule: it runs once, after every file has been linted,
+    // because a definition's readers live in the other files.
+    private checkUnusedDefinitions(files: string[]): void {
+        const definitions = new Map<string, {file: string; lineNumber: number}>();
+
+        for (const file of files) {
+            for (const definition of this.topLevelDefinitions(this.linesOf(file) ?? [])) {
+                if (!definitions.has(definition.name)) {
+                    definitions.set(definition.name, {file, lineNumber: definition.lineNumber});
+                }
+            }
+        }
+
+        const read = new Set<string>();
+
+        for (const file of files) {
+            for (const line of this.linesOf(file) ?? []) {
+                let leading = true;
+
+                for (const match of this.stripCode(line).matchAll(/[A-Za-z_]\w*/g)) {
+                    const introduces = leading && definitions.get(match[0])?.file === file;
+
+                    leading = false;
+
+                    if (!introduces) {
+                        read.add(match[0]);
+                    }
+                }
+            }
+        }
+
+        for (const [name, definition] of definitions) {
+            if (read.has(name)) {
+                continue;
+            }
+
+            this.add(
+                definition.file,
+                definition.lineNumber,
+                1,
+                'unused-definition',
+                `'${name}' is defined and never read`,
+            );
         }
     }
 

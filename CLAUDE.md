@@ -196,6 +196,23 @@ Every imported name must also be **used in the body** of the importing file. A
 mention in a comment does not count: an import states what the definitions below
 are built from, and a comment builds nothing.
 
+## Every Definition Is Read
+
+A top-level definition must be read somewhere in the `.lang` tree: by another
+definition, by the import header of another file, or by the example that expands
+it (`unused-definition`). A definition nobody reads is dead code and is deleted,
+not kept "in case it is needed".
+
+- A mention **in a comment does not count**, the same way it does not count for
+  an imported name: a trace template naming a variable does not compute
+  anything.
+- The **implementation does not count either**. The `*.bun.ts` tasks are written
+  against this specification rather than being part of it, so an operation only
+  they call — as `new_empty` was — is still dead here.
+- A name that a step file and its example both define is read by construction:
+  the example expands what the step states. This is what keeps the algorithm's
+  terminal results (`requests_i_j_x_k_l_s_l0_q_final`) out of the findings.
+
 ## An Example Follows Its Step File
 
 A `step-N.example_K.lang` is the worked example of `step-N.lang`, and the

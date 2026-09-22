@@ -4,29 +4,6 @@ coordinate, axis, matrix, condition from ("matrix_types.lang")
 
 ## Служебные операции
 
-### - Создать пустую матрицу по координатам
-
-new_empty(Tcoords) = new_empty_matrix
-    where
-        new_empty_matrix of matrix(Tcoords)   # Пустая матрица по заданным осям
-        Tcoords = (1), ..., (n) of coordinate # Список координат
-
-### - Создать без оси
-new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without_axis
-    where
-        matrix_source                 of matrix(Taxis(1), ..., Taxis(n), axis_to_remove) # Исходная матрица с удаляемой осью
-        new_empty_matrix_without_axis of matrix(Taxis(1), ..., Taxis(n))                 # Результат без удаляемой оси
-            where
-                axis_to_remove        of axis # Удаляемая ось
-                Taxis = (1), ..., (n) of axis # Оставшиеся оси
-
-### - Копировать значения матрицы
-copy_values(matrix_source, copied_matrix) = copied_matrix2
-    where
-        matrix_source  of matrix # Источник значений
-        copied_matrix  of matrix # Приёмник (форма/координаты)
-        copied_matrix2 of matrix # Результат копирования значений
-
 ### - Объединить матрицы
 assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
     where
@@ -85,6 +62,8 @@ for_each_pair(matrix_source_1, operat, matrix_source_2) = matrix_result
         matrix_source_2 of  matrix                          # Правая матрица
         operat          of  operation                       # Операция поэлементно
         matrix_result   of  matrix(Taxis(1), ..., Taxis(A)) # Результат
+            where
+                Taxis = (1), ..., (A) of axis # Оси матриц
 
 ### - Количество координат по оси
 # Заменяет значение элеиента матрицы на количество координат по оси
