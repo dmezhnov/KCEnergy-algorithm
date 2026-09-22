@@ -18,9 +18,9 @@ operation                  from ("matrix_types.lang")
 # Суммарно предоставленный во II очереди объём по НПЗ (свёртка ẗ по региону и субъекту).
 estimated_i_j(2 from R) = sum_by_axes(normalized_i_j_k_l(2 from R)(1), Region, Market_participant) = {
     (1 from I) = {
-        (1 from I, 1 from J) =                    65 +   4 =  69,  # 203 + 204
+        (1 from I, 1 from J) =  65 +   4                   = 69,   # 203 + 204
         (1 from I, 2 from J) = 130 +  70 + 130 +  15 +  35 = 380,  # 205 + 206 + 207 + 208 + 209
-        (1 from I, 3 from J) =                    65 + 130 = 195   # 201 + 202
+        (1 from I, 3 from J) =  65 + 130                   = 195   # 201 + 202
     }
 }
     where
