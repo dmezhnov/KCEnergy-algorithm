@@ -64,12 +64,14 @@ type AggregatedLeaf = {
 // key: the keyword together with the category it declares, so a run of
 // `of number` lines is aligned independently of the `of matrix(…)` run that
 // follows it at the same indentation. `forKeyword` exists only on the index
-// declarations that name an index variable.
+// declarations that name an index variable, `comment` only on a declaration
+// that carries an inline comment.
 type WhereDeclaration = {
     indent: number;
     kind: string;
     keyword: AlignmentEntry;
     forKeyword?: AlignmentEntry;
+    comment?: AlignmentEntry;
 };
 
 // The set of rule identifiers the linter can emit. Used both for reporting and
@@ -89,7 +91,8 @@ type RuleName =
     | 'sum-result-alignment'
     | 'request-number-order'
     | 'import-alignment'
-    | 'where-declaration-alignment';
+    | 'where-declaration-alignment'
+    | 'where-comment-alignment';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -188,6 +191,7 @@ class LangLinter {
                 'request-number-order': true,
                 'import-alignment': true,
                 'where-declaration-alignment': true,
+                'where-comment-alignment': true,
             },
         };
     }
@@ -342,6 +346,10 @@ class LangLinter {
 
         if (this.config.rules['where-declaration-alignment']) {
             this.checkWhereDeclarationAlignment(file, lines);
+        }
+
+        if (this.config.rules['where-comment-alignment']) {
+            this.checkWhereCommentAlignment(file, lines);
         }
     }
 
@@ -1340,11 +1348,66 @@ class LangLinter {
     // its own: an `of number` run is immediately followed by an `of matrix(…)`
     // run whose keyword sits in a different column.
     private checkWhereDeclarationAlignment(file: string, lines: string[]): void {
-        let run: WhereDeclaration[] = [];
+        for (const run of this.whereDeclarationRuns(lines)) {
+            this.reportDeclarationRun(file, run);
+        }
+    }
+
+    // Rule `where-comment-alignment`: the inline comments of a `where` block
+    // line up their `#`, over the same runs the keyword rule aligns. This is
+    // the alignment `comment-alignment` deliberately leaves out — it only looks
+    // at the member lines of a bracketed list, and a `where` block is written
+    // outside brackets. A comment-less declaration splits the run: the files
+    // comment a block's declarations in stretches, and an uncommented line in
+    // the middle carries no column to agree with.
+    private checkWhereCommentAlignment(file: string, lines: string[]): void {
+        for (const run of this.whereDeclarationRuns(lines)) {
+            for (const stretch of LangLinter.commentedStretches(run)) {
+                this.reportKeywordRun(file, stretch, 'where-comment-alignment', "comment '#'");
+            }
+        }
+    }
+
+    // The maximal stretches of consecutive commented declarations within one
+    // run, as the alignment entries of their comments.
+    private static commentedStretches(run: WhereDeclaration[]): AlignmentEntry[][] {
+        const stretches: AlignmentEntry[][] = [];
+        let current: AlignmentEntry[] = [];
+
+        for (const declaration of run) {
+            if (declaration.comment) {
+                current.push(declaration.comment);
+                continue;
+            }
+
+            if (current.length) {
+                stretches.push(current);
+                current = [];
+            }
+        }
+
+        if (current.length) {
+            stretches.push(current);
+        }
+
+        return stretches;
+    }
+
+    // The declaration runs of a file: consecutive lines of one `where` block,
+    // at one indentation, declaring one category. Anything else — a blank line,
+    // a nested `where`, a guard, an expansion, a line outside every `where` —
+    // ends the current run. Shared by the two rules that align a `where` block,
+    // so both group their lines identically.
+    private whereDeclarationRuns(lines: string[]): WhereDeclaration[][] {
+        const runs: WhereDeclaration[][] = [];
         const whereIndents: number[] = [];
+        let run: WhereDeclaration[] = [];
 
         const flush = (): void => {
-            this.reportDeclarationRun(file, run);
+            if (run.length) {
+                runs.push(run);
+            }
+
             run = [];
         };
 
@@ -1377,6 +1440,8 @@ class LangLinter {
                 return;
             }
 
+            declaration.comment = this.commentEntry(line, index + 1);
+
             if (run.length && (run[0].kind !== declaration.kind || run[0].indent !== declaration.indent)) {
                 flush();
             }
@@ -1385,6 +1450,24 @@ class LangLinter {
         });
 
         flush();
+
+        return runs;
+    }
+
+    // The alignment entry of a line's inline comment, or undefined when it
+    // carries none.
+    private commentEntry(line: string, lineNumber: number): AlignmentEntry | undefined {
+        const column = this.inlineCommentColumn(line);
+
+        if (column === undefined) {
+            return undefined;
+        }
+
+        return {
+            lineNumber,
+            column,
+            contentEnd: line.slice(0, column - 1).replace(/\s+$/, '').length,
+        };
     }
 
     // Parse one line of a `where` block into a declaration, or undefined when
