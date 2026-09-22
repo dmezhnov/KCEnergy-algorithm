@@ -97,26 +97,45 @@ class FilterChecker {
             return;
         }
 
-        if (!this.readableAlong(source, against, where)) {
+        const readable = this.readableAlong(source, against, where);
+
+        if (!readable) {
             return;
         }
 
         this.checkedBlocks += 1;
-        this.compareLeaves(block, source, against, condition, where);
+        this.compareLeaves(block, source, readable, condition, where);
     }
 
-    // Whether the condition matrix can be read along the source: it is read on
-    // the axes it carries itself — an `I, J` condition selects whole `I, J, K, P`
-    // groups of the source — which must be axes the source carries as well.
-    private readableAlong(source: Matrix, against: Matrix, where: string): boolean {
-        const missing = against.axes.filter((letter) => !source.axes.includes(letter));
+    // The condition matrix as the source can read it: it is read on the axes it
+    // carries itself — an `I, J` condition selects whole `I, J, K, P` groups of
+    // the source — which must be axes the source carries as well. An axis only
+    // the condition carries is readable when it holds a single coordinate:
+    // `filter_by_coordinate` removes coordinates, not axes, so filtering down to
+    // one coordinate leaves a degenerate axis that says nothing. An axis holding
+    // several would fold distinct cells onto one key, and is refused.
+    private readableAlong(source: Matrix, against: Matrix, where: string): Matrix | undefined {
+        const extra = against.axes.filter((letter) => !source.axes.includes(letter));
 
-        if (missing.length) {
-            this.findings.push(`${where}: ${against.name} carries ${missing.join(', ')}, which ${source.name} does not`);
-            return false;
+        if (!extra.length) {
+            return against;
         }
 
-        return true;
+        const axes = against.axes.filter((letter) => source.axes.includes(letter));
+        const cells = new Map<string, Cell>();
+
+        for (const cell of against.cells.values()) {
+            const key = this.index.coordinateKey(cell.coordinates, axes);
+
+            if (cells.has(key)) {
+                this.findings.push(`${where}: ${against.name} carries ${extra.join(', ')}, which ${source.name} does not`);
+                return undefined;
+            }
+
+            cells.set(key, cell);
+        }
+
+        return {axes, cells, name: against.name};
     }
 
     // An empty source produces an empty result: there is nothing to filter, and
