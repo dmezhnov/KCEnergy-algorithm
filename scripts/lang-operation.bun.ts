@@ -35,6 +35,7 @@ const COMPARISONS: ReadonlyMap<string, (left: Decimal, right: Decimal) => boolea
     ['"<"', (left, right) => left.compare(right) < 0],
     ['"<="', (left, right) => left.compare(right) <= 0],
     ['"="', (left, right) => left.compare(right) === 0],
+    ['"!="', (left, right) => left.compare(right) !== 0],
 ]);
 
 // The condition each comparison mirrors into, for the leaves that state the pair
@@ -46,7 +47,14 @@ const MIRRORED: ReadonlyMap<string, string> = new Map([
     ['"<"', '>'],
     ['"<="', '>='],
     ['"="', '='],
+    ['"!="', '!='],
 ]);
+
+// The comparison a leaf may state in its comment, e.g. `# 2260 >= 1440`. A leaf
+// whose comment says anything else — a request number, most often — makes no
+// claim a checker can read. The longer operators come first, so that `>=` is
+// never read as a `>` with a stray character after it.
+const COMMENT_COMPARISON = /#\s*(-?\d+(?:\.\d+)?)\s*(!=|>=|<=|>|<|=)\s*(-?\d+(?:\.\d+)?)/;
 
 class MatrixOperation {
     static readonly DISPLAY_DIGITS = DISPLAY_DIGITS;
@@ -67,6 +75,14 @@ class MatrixOperation {
     // The operator a comparison turns into when its operands are swapped.
     static mirrored(condition: string): string | undefined {
         return MIRRORED.get(condition);
+    }
+
+    // The comparison a leaf states in its comment, or `undefined` for a comment
+    // that states none.
+    static comparisonShown(text: string): {left: string; operator: string; right: string} | undefined {
+        const shown = COMMENT_COMPARISON.exec(text);
+
+        return shown ? {left: shown[1], operator: shown[2], right: shown[3]} : undefined;
     }
 
     // Whether the pair satisfies the condition.

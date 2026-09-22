@@ -29,11 +29,6 @@ const EXAMPLE_SUFFIXES: readonly string[] = ['example_1', 'example_2'];
 // its leaves belong to the outer result, not to the filter.
 const FILTER_CALL = /^filter_by_pair\((.+)\)$/;
 
-// The comparison a leaf may state in its comment, e.g. `# 2260 >= 1440`. A leaf
-// whose comment says anything else — a request number, most often — is not
-// making a claim this checker can read.
-const COMMENT_COMPARISON = /#\s*(-?\d+(?:\.\d+)?)\s*(>=|<=|>|<|=)\s*(-?\d+(?:\.\d+)?)/;
-
 // The condition that keeps a cell when the condition matrix carries one at the
 // same coordinates at all, whatever value it holds.
 const CONTAINS = MatrixOperation.CONTAINS;
@@ -210,17 +205,17 @@ class FilterChecker {
     // `1200 < 1391.82926829268292674` are both in `step-5.example_2.lang` — and a
     // comment that states no comparison at all makes no claim to check.
     private compareComment(block: Block, leaf: Leaf, candidate: Leaf, conditionValue: string | undefined, condition: string): void {
-        const shown = COMMENT_COMPARISON.exec(leaf.text);
+        const shown = MatrixOperation.comparisonShown(leaf.text);
 
         if (!shown || condition === CONTAINS || conditionValue === undefined) {
             return;
         }
 
-        const straight = shown[1] === candidate.total && shown[3] === conditionValue && shown[2] === condition.replaceAll('"', '');
-        const mirrored = shown[1] === conditionValue && shown[3] === candidate.total && shown[2] === MatrixOperation.mirrored(condition);
+        const straight = shown.left === candidate.total && shown.right === conditionValue && shown.operator === condition.replaceAll('"', '');
+        const mirrored = shown.left === conditionValue && shown.right === candidate.total && shown.operator === MatrixOperation.mirrored(condition);
 
         if (!straight && !mirrored) {
-            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: comment states ${shown[1]} ${shown[2]} ${shown[3]}, the pair is ${this.render(candidate, conditionValue, condition)}`);
+            this.findings.push(`${block.file}:${leaf.line}: ${block.name}: comment states ${shown.left} ${shown.operator} ${shown.right}, the pair is ${this.render(candidate, conditionValue, condition)}`);
         }
     }
 
