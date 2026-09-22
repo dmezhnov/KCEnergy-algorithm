@@ -20,3 +20,7 @@ run = "echo No local dependencies"
 [tasks.list]
 description = "List all algorithm steps"
 run = "ls -1 *.lang | sort"
+
+[tasks.publish]
+description = "Merge the draft branch into main (this repository only)"
+run = "bun run ../scripts/publish.bun.ts"
