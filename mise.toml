@@ -9,6 +9,10 @@ run = "echo No tests configured"
 description = "Lint .lang files"
 run = "bun run scripts/lang-lint.bun.ts"
 
+[tasks.trace]
+description = "Check the trace strings of the example files (-- --write to regenerate them)"
+run = "bun run scripts/trace-gen.bun.ts"
+
 [tasks.save]
 description = "Save uncommitted changes"
 run = "bun run ../scripts/save.bun.ts"
