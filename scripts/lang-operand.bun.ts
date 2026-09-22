@@ -256,16 +256,21 @@ class OperandEvaluator {
 
         const fixed = args.slice(1).map((argument) => this.index.coordinate(argument, source.axes));
 
-        const unresolved = args.slice(1).filter((argument, position) => !fixed[position]);
+        // A coordinate the source does not carry keeps the cells that sit on it,
+        // of which there are none — it narrows nothing and is not an error. Only
+        // a name that is ambiguous where it is written has to be refused, since
+        // there is no telling which axis it would narrow.
+        const ambiguous = args.slice(1)
+            .filter((argument, position) => !fixed[position] && this.index.labels(argument).length > 1);
 
-        if (unresolved.length) {
-            this.notes.push(`${where}: ${unresolved.join(', ')} does not name one coordinate of ${source.name}`);
+        if (ambiguous.length) {
+            this.notes.push(`${where}: ${ambiguous.join(', ')} names a coordinate of more than one axis of ${source.name}`);
             return undefined;
         }
 
         const kept = new Map<string, number[]>();
 
-        for (const coordinate of fixed) {
+        for (const coordinate of fixed.filter(Boolean)) {
             kept.set(coordinate!.letter, [...(kept.get(coordinate!.letter) ?? []), coordinate!.index]);
         }
 

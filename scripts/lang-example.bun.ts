@@ -208,6 +208,15 @@ class ExampleIndex {
     // display name of a coordinate (`First` — `1 from R`) or the index and its
     // axis directly. A name two axes both carry fixes nothing and resolves to
     // nothing.
+    // Every axis that carries a label, for a caller that has to tell an unknown
+    // name apart from one two axes both answer to.
+    labels(text: string): {letter: string; index: number}[] {
+        return [...this.axesByName.values()]
+            .flatMap((axis) => [...axis.labels]
+                .filter(([, label]) => label === text.trim())
+                .map(([index]) => ({letter: axis.letter, index})));
+    }
+
     coordinate(text: string, carried?: string[]): {letter: string; index: number} | undefined {
         const written = [...text.trim().matchAll(COORDINATE_ITEM)];
 
