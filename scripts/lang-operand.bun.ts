@@ -37,6 +37,7 @@ const PRIMITIVES: ReadonlySet<string> = new Set([
     'filter_by_coordinate',
     'for_each_pair',
     'replace_coord',
+    'count_coordinates_by_axis',
 ]);
 
 class OperandEvaluator {
@@ -76,6 +77,10 @@ class OperandEvaluator {
 
         if (call[1] === 'replace_coord') {
             return this.replaceCoord(args, where);
+        }
+
+        if (call[1] === 'count_coordinates_by_axis') {
+            return this.countCoordinatesByAxis(args, where);
         }
 
         throw new Error(`unreachable: ${call[1]} is listed as a primitive but not evaluated`);
@@ -303,6 +308,46 @@ class OperandEvaluator {
         }
 
         return {axes, cells, name: `replace_coord(${source.name}, ${args[1]}, ${args[2]})`};
+    }
+
+    // `count_coordinates_by_axis(source, Axis)`: the source with one axis
+    // collapsed away, each remaining cell holding the number of coordinates the
+    // source carries along that axis. A group the source carries at all holds at
+    // least one cell, so a count is never zero.
+    private countCoordinatesByAxis(args: string[], where: string): Matrix | undefined {
+        if (args.length !== 2) {
+            this.notes.push(`${where}: count_coordinates_by_axis takes two arguments, got ${args.length}`);
+            return undefined;
+        }
+
+        const source = this.evaluate(args[0], where);
+        const counted = ExampleIndex.letterOf(args[1].trim());
+
+        if (!source || !counted) {
+            if (source) {
+                this.notes.push(`${where}: ${args[1]} is not a known axis`);
+            }
+
+            return undefined;
+        }
+
+        if (source.cells.size && !source.axes.includes(counted)) {
+            this.notes.push(`${where}: ${source.name} is laid out on ${source.axes.join(', ')}, which does not carry ${args[1]}`);
+            return undefined;
+        }
+
+        const axes = source.axes.filter((letter) => letter !== counted);
+        const counts = new Map<string, Cell>();
+
+        for (const cell of source.cells.values()) {
+            const coordinates: Coordinates = new Map([...cell.coordinates].filter(([letter]) => letter !== counted));
+            const key = this.index.coordinateKey(coordinates, axes);
+            const seen = Number(counts.get(key)?.value ?? '0');
+
+            counts.set(key, {coordinates, value: String(seen + 1)});
+        }
+
+        return {axes, cells: counts, name: `count_coordinates_by_axis(${source.name}, ${args[1]})`};
     }
 
     // Whether the second operand can be read along the first: a condition or a
