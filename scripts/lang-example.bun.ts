@@ -18,16 +18,32 @@ type Axis = {
 };
 
 // One leaf line of an expanded variable. `total` is the number the line states;
-// `expression` is the arithmetic it shows before that total (empty when the line
-// states a bare value), and `summands` splits that arithmetic on `+` for the
-// lines produced by a summation.
+// `stages` are the forms it shows the arithmetic in before that total — a leaf
+// may show two, first with the name of a constant and then with its value
+// (`1200 * OVERALL_REQUEST_CAPACITY_COEFFICIENT = 1200 * 1.2 = 1440`) —
+// `expression` is the first of them (empty when the line states a bare value),
+// and `summands` splits that arithmetic on `+` for the lines produced by a
+// summation.
 type Leaf = {
     coordinates: Coordinates;
     total: string;
+    stages: string[];
     expression: string;
     summands: string[];
     line: number;
     text: string;
+};
+
+// One scalar the example files fix: `RAIL_ROAD_MIN_TONNAGE of number = 65`, or
+// one that shows where its value comes from — `MIN_FCA_TONNAGE(1 from n) =
+// RAIL_ROAD_MIN_TONNAGE = 65`. The intermediate name is an alias of the same
+// number and is the one the leaves using it print, so `names` keeps the declared
+// name first and every alias after it.
+type Scalar = {
+    names: string[];
+    value: string;
+    file: string;
+    line: number;
 };
 
 // One expanded variable of an example file. `signatures` lists the distinct axis
@@ -77,6 +93,13 @@ const COORDINATE_ITEM = /(\d+)\s+from\s+([A-Za-z][A-Za-z0-9]*)/g;
 // alias definition such as `x_require_correct = x`.
 const ALIAS = /^[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))*$/;
 
+// A decimal literal, the whole of a scalar definition's last stage.
+const DECIMAL = /^-?\d+(?:\.\d+)?$/;
+
+// The type a declaration states, e.g. the ` of number` of
+// `RAIL_ROAD_MIN_TONNAGE of number = 65`.
+const DECLARED_TYPE = /\s+of\s+\S+$/;
+
 // How many alias definitions `resolve` follows before giving up.
 const ALIAS_HOPS = 8;
 
@@ -89,6 +112,7 @@ class ExampleIndex {
     readonly axesByName = new Map<string, Axis>();
     readonly blocks = new Map<string, Block>();
     readonly blockList: Block[] = [];
+    readonly scalars = new Map<string, Scalar>();
     readonly diagnostics: string[] = [];
 
     // Blocks by name and qualifier indices only, for references that spell a
@@ -167,6 +191,12 @@ class ExampleIndex {
             .map((group) => QUALIFIER_GROUP.exec(group[1])?.[1] ?? group[1]);
 
         return `${normalized.slice(0, opening)}(${groups.join(')(')})`;
+    }
+
+    // The scalar a reference names, for the primitives whose parameter is a
+    // number rather than a matrix.
+    scalar(reference: string): Scalar | undefined {
+        return this.scalars.get(this.normalizeKey(reference));
     }
 
     // Parse a coordinate tuple such as `1 from I, 4 from K, 12 from P`.
@@ -250,6 +280,10 @@ class ExampleIndex {
 
             let depth = this.braceBalance(line);
 
+            if (depth === 0) {
+                this.collectScalar(head, block.expression, file, index + 1);
+            }
+
             for (index += 1; depth > 0 && index < lines.length; index += 1) {
                 this.collectLeaf(lines[index], index + 1, block);
                 depth += this.braceBalance(lines[index]);
@@ -266,6 +300,34 @@ class ExampleIndex {
         const rest = line.slice(line.indexOf(' = ') + 3).trim();
 
         return rest.replace(/=\s*\{\}?\s*$/, '').replace(/\{\}?\s*$/, '').trim();
+    }
+
+    // Record one scalar definition — a top-level line that opens no body and
+    // ends in a number. A definition that ends in anything else (an axis
+    // enumeration, a matrix alias) fixes no value and is passed over.
+    private collectScalar(head: string, expression: string, file: string, line: number): void {
+        const stages = expression.split(/\s+#/)[0].split(/\s+=\s+/).map((stage) => stage.trim());
+        const value = stages[stages.length - 1];
+
+        if (!DECIMAL.test(value)) {
+            return;
+        }
+
+        const name = head.replace(DECLARED_TYPE, '').trim();
+        const scalar: Scalar = {
+            names: [name, ...stages.slice(0, -1).filter((stage) => ALIAS.test(stage))],
+            value,
+            file,
+            line,
+        };
+        const existing = this.scalars.get(this.normalizeKey(name));
+
+        if (existing && existing.value !== value) {
+            this.diagnostics.push(`${file}:${line}: ${name} is also fixed to ${existing.value} in ${existing.file}`);
+            return;
+        }
+
+        this.scalars.set(this.normalizeKey(name), scalar);
     }
 
     // Record one leaf line of an expanded variable, ignoring the group openers
@@ -287,12 +349,14 @@ class ExampleIndex {
             block.signatures.push(signature);
         }
 
-        const expression = parts.length > 1 ? parts[0] : '';
+        const stages = parts.slice(0, -1);
+        const expression = stages[0] ?? '';
 
         block.values.set(this.coordinateKey(coordinates, signature), total);
         block.leaves.push({
             coordinates,
             total,
+            stages,
             expression,
             summands: expression ? expression.split(/\s*\+\s*/).map((part) => part.trim()) : [],
             line: number,
@@ -335,4 +399,4 @@ class ExampleIndex {
 }
 
 export {ExampleIndex};
-export type {Axis, Block, Coordinates, Leaf};
+export type {Axis, Block, Coordinates, Leaf, Scalar};
