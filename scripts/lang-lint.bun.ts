@@ -74,6 +74,36 @@ type WhereDeclaration = {
     comment?: AlignmentEntry;
 };
 
+// One import of a file's header: the names it brings in, with the 1-based
+// column of each, and the source they come from (`core` or a file name).
+type ImportEntry = {
+    lineNumber: number;
+    names: Array<{text: string; column: number}>;
+    source: string;
+    sourceColumn: number;
+};
+
+// One top-level definition, reduced to what the cross-file rules compare: the
+// name it introduces and the right-hand side of its `=`, without the ` = {`
+// that opens an expansion. `expressionColumn` is the 1-based column that
+// right-hand side starts at.
+type TopLevelDefinition = {
+    name: string;
+    lineNumber: number;
+    expressionColumn: number;
+    expression: string;
+};
+
+// The call a defining expression makes: the primitive, how many arguments it
+// is given, and whether the argument list is an ellipsis
+// (`assign_matrix(a(1), ..., a(n))`), which an example expands to as many
+// arguments as its data set holds.
+type CallShape = {
+    primitive: string;
+    arity: number;
+    ellipsis: boolean;
+};
+
 // The set of rule identifiers the linter can emit. Used both for reporting and
 // as the keys of the per-rule enable map in the config file.
 type RuleName =
@@ -95,7 +125,11 @@ type RuleName =
     | 'where-comment-alignment'
     | 'final-newline'
     | 'import-source-order'
-    | 'blank-line-run';
+    | 'blank-line-run'
+    | 'unresolved-import'
+    | 'unused-import'
+    | 'unresolved-reference'
+    | 'expression-mismatch';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -134,6 +168,11 @@ const BUILTIN_NAMES: ReadonlySet<string> = new Set([
     'not_contains',
 ]);
 
+// The keywords a defining expression may contain that are not references to
+// anything: the `from` of `1 from R`, the `of` of a declaration, the `for` of
+// `i for I`. `unresolved-reference` skips them.
+const REFERENCE_KEYWORDS: ReadonlySet<string> = new Set(['from', 'of', 'for', 'where', 'or', 'and']);
+
 // This is the shared entry point for all `.lang` lint rules. The current rules
 // cover comment whitespace, comment-column alignment, unresolved calls, the
 // two-line request comments, the padding and brackets of the nested request
@@ -155,6 +194,24 @@ class LangLinter {
     // on) and replaced by `loadConfig()` at the start of `run()`.
     private config: LangLintConfig = LangLinter.defaultConfig();
 
+    // Files read for the cross-file rules, by absolute path. `null` marks a
+    // file that could not be read, so a missing import is reported once and
+    // never retried.
+    private readonly lineCache = new Map<string, string[] | null>();
+
+    // The exported names of the files the cross-file rules look into.
+    private readonly exportCache = new Map<string, Set<string> | null>();
+
+    // The coordinate vocabulary of the linted tree, filled by
+    // `collectVocabulary()` before the first file is linted.
+    private coordinateNames: ReadonlySet<string> = new Set<string>();
+
+    // The matrix operations of the linted tree — the names `matrix_operation.lang`
+    // exports, plus the built-in operators. Only a call to one of these is an
+    // operation `expression-mismatch` compares; `requests_i_j_k_l_queue(l0)` is
+    // an indexed matrix, not a call.
+    private primitiveNames: ReadonlySet<string> = new Set<string>();
+
     // Run the linter over the given paths (files or directories). With no
     // arguments, lints every `.lang` file in the current working directory.
     run(args: string[]): number {
@@ -167,6 +224,8 @@ class LangLinter {
             process.stderr.write('No .lang files found to lint.\n');
             return 1;
         }
+
+        this.collectVocabulary(files);
 
         for (const file of files) {
             this.lintFile(file);
@@ -199,6 +258,10 @@ class LangLinter {
                 'final-newline': true,
                 'import-source-order': true,
                 'blank-line-run': true,
+                'unresolved-import': true,
+                'unused-import': true,
+                'unresolved-reference': true,
+                'expression-mismatch': true,
             },
         };
     }
@@ -369,6 +432,22 @@ class LangLinter {
 
         if (this.config.rules['blank-line-run']) {
             this.checkBlankLineRuns(file, text, lines);
+        }
+
+        if (this.config.rules['unresolved-import']) {
+            this.checkUnresolvedImports(file, lines);
+        }
+
+        if (this.config.rules['unused-import']) {
+            this.checkUnusedImports(file, lines);
+        }
+
+        if (this.config.rules['unresolved-reference']) {
+            this.checkUnresolvedReferences(file, lines);
+        }
+
+        if (this.config.rules['expression-mismatch']) {
+            this.checkExpressionMismatch(file, lines);
         }
     }
 
@@ -1751,6 +1830,485 @@ class LangLinter {
         const trimmed = code.trim();
 
         return trimmed.startsWith('(') && /\)\s*=/.test(trimmed) && !trimmed.endsWith('{');
+    }
+
+    // Rule `unresolved-import`: the source named by an import line exists next
+    // to the importing file, and every name the line takes from it is exported
+    // by that file. This is the only rule that reads a second file; everything
+    // it needs is the other file's top-level lines.
+    private checkUnresolvedImports(file: string, lines: string[]): void {
+        for (const entry of this.importedNames(lines)) {
+            if (entry.source === 'core') {
+                continue;
+            }
+
+            const sourcePath = path.join(path.dirname(file), entry.source);
+            const exported = this.exportedNames(sourcePath);
+
+            if (!exported) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    entry.sourceColumn,
+                    'unresolved-import',
+                    `imported file '${entry.source}' does not exist`,
+                );
+                continue;
+            }
+
+            for (const name of entry.names) {
+                if (!exported.has(name.text)) {
+                    this.add(
+                        file,
+                        entry.lineNumber,
+                        name.column,
+                        'unresolved-import',
+                        `'${name.text}' is not defined in ${entry.source}`,
+                    );
+                }
+            }
+        }
+    }
+
+    // Rule `unused-import`: every imported name is mentioned in the body of the
+    // importing file. A mention in a comment does not count — an import states
+    // what the definitions below are built from, and a comment builds nothing.
+    private checkUnusedImports(file: string, lines: string[]): void {
+        const header = this.importedNames(lines);
+
+        if (!header.length) {
+            return;
+        }
+
+        const used = new Set<string>();
+
+        for (const line of lines.slice(header.length)) {
+            for (const match of this.stripCode(line).matchAll(/[A-Za-z_]\w*/g)) {
+                used.add(match[0]);
+            }
+        }
+
+        for (const entry of header) {
+            for (const name of entry.names) {
+                if (!used.has(name.text)) {
+                    this.add(
+                        file,
+                        entry.lineNumber,
+                        name.column,
+                        'unused-import',
+                        `'${name.text}' is imported but never used`,
+                    );
+                }
+            }
+        }
+    }
+
+    // Rule `unresolved-reference`: every name a top-level defining expression
+    // mentions resolves to something. This is `unresolved-call` widened from
+    // call position to bare references (`filter_by_pair(requests_i_j, ">=",
+    // threshold_i_j)` names two matrices and no function), which is where a
+    // renamed variable leaves a stale mention behind.
+    private checkUnresolvedReferences(file: string, lines: string[]): void {
+        const known = this.referenceScope(file, lines);
+
+        for (const definition of this.topLevelDefinitions(lines)) {
+            for (const match of definition.expression.matchAll(/[A-Za-z_]\w*/g)) {
+                const name = match[0];
+
+                if (REFERENCE_KEYWORDS.has(name) || known.has(name)) {
+                    continue;
+                }
+
+                this.add(
+                    file,
+                    definition.lineNumber,
+                    definition.expressionColumn + match.index,
+                    'unresolved-reference',
+                    `'${name}' is neither imported nor defined`,
+                );
+            }
+        }
+    }
+
+    // Rule `expression-mismatch`: a worked example defines each variable by the
+    // same expression as its step file — the same primitive with the same
+    // number of arguments. Only definitions the step file writes as a call are
+    // compared: a constant the example replaces by its value
+    // (`MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4`) states the same thing in the
+    // example's own terms, and the expansion blocks of a family carry no
+    // expression at all. A step call with an ellipsis argument
+    // (`f(x, a(1), ..., a(n))`) is expanded by the example into as many
+    // arguments as the data set has, so only its primitive is compared.
+    private checkExpressionMismatch(file: string, lines: string[]): void {
+        const stepPath = this.stepFileOf(file);
+
+        if (!stepPath) {
+            return;
+        }
+
+        const stepLines = this.linesOf(stepPath);
+
+        if (!stepLines) {
+            return;
+        }
+
+        const stepShapes = new Map<string, CallShape[]>();
+
+        for (const definition of this.topLevelDefinitions(stepLines)) {
+            const shape = this.callShape(definition.expression);
+
+            if (!shape) {
+                continue;
+            }
+
+            stepShapes.set(definition.name, [...(stepShapes.get(definition.name) ?? []), shape]);
+        }
+
+        const stepName = path.basename(stepPath);
+
+        for (const definition of this.topLevelDefinitions(lines)) {
+            const expected = stepShapes.get(definition.name);
+
+            if (!expected || this.isEmptyExpression(definition.expression)) {
+                continue;
+            }
+
+            const actual = this.callShape(definition.expression);
+
+            if (!actual) {
+                this.add(
+                    file,
+                    definition.lineNumber,
+                    definition.expressionColumn,
+                    'expression-mismatch',
+                    `'${definition.name}' does not call ${this.shapeList(expected)} as ${stepName} does`,
+                );
+                continue;
+            }
+
+            if (expected.some((shape) => this.shapesAgree(shape, actual))) {
+                continue;
+            }
+
+            this.add(
+                file,
+                definition.lineNumber,
+                definition.expressionColumn,
+                'expression-mismatch',
+                `'${definition.name}' calls ${this.describeShape(actual)}, ${stepName} calls ${this.shapeList(expected)}`,
+            );
+        }
+    }
+
+    // Whether a right-hand side says nothing an operation could be read out of:
+    // the expansion blocks of a family write none at all, and `= {}` — the
+    // empty matrix of a queue that distributed nothing — is a literal, not a
+    // call. Both are legitimate alternatives to the step's own expression.
+    private isEmptyExpression(expression: string): boolean {
+        const trimmed = expression.trim();
+
+        return trimmed.length === 0 || trimmed === '{}';
+    }
+
+    // Whether an example's call may stand for the step's. The primitive must be
+    // the same; the argument count is compared only when the step writes a
+    // fixed list, because an ellipsis stands for as many arguments as the
+    // example's data set holds.
+    private shapesAgree(expected: CallShape, actual: CallShape): boolean {
+        if (expected.primitive !== actual.primitive) {
+            return false;
+        }
+
+        return expected.ellipsis || expected.arity === actual.arity;
+    }
+
+    // `filter_by_coordinate/4`, for a diagnostic message.
+    private describeShape(shape: CallShape): string {
+        return `${shape.primitive}/${shape.ellipsis ? '…' : shape.arity}`;
+    }
+
+    // The shapes a step file offers for one name, as a diagnostic message. A
+    // name may carry several definitions — `MIN_NEXT_AVAIL_TONNAGE` has one per
+    // shipment term — and any of them may be the one the example expands.
+    private shapeList(shapes: CallShape[]): string {
+        return [...new Set(shapes.map((shape) => this.describeShape(shape)))].join(' or ');
+    }
+
+    // The operation a defining expression calls, its argument count, and
+    // whether the argument list contains an ellipsis. Undefined when the
+    // expression is not an operation call — a copy, a literal, an enumeration,
+    // or an indexed matrix such as `requests_i_j_k_l_queue(l0)`, which looks
+    // like a call and is not one.
+    private callShape(expression: string): CallShape | undefined {
+        const match = /^\s*([A-Za-z_]\w*)\s*\(/.exec(expression);
+
+        if (!match || !this.primitiveNames.has(match[1])) {
+            return undefined;
+        }
+
+        const open = expression.indexOf('(', match.index);
+        const close = this.matchingParen(expression, open);
+
+        if (close === -1) {
+            return undefined;
+        }
+
+        const args = this.splitTopLevel(expression.slice(open + 1, close));
+
+        return {
+            primitive: match[1],
+            arity: args.length,
+            ellipsis: args.some((argument) => argument.trim() === '...'),
+        };
+    }
+
+    // The step file a worked example belongs to: `step-2.example_1.lang` is the
+    // example of `step-2.lang`. Undefined for a file that is not an example.
+    private stepFileOf(file: string): string | undefined {
+        const base = path.basename(file);
+        const match = /^(.*)\.example_\d+\.lang$/.exec(base);
+
+        return match ? path.join(path.dirname(file), `${match[1]}.lang`) : undefined;
+    }
+
+    // The names a defining expression may mention: everything `unresolved-call`
+    // accepts, the built-in primitives, the coordinate vocabulary of the linted
+    // tree, and — for a worked example — the definitions of its step file, which
+    // is the vocabulary the example works in even where it does not expand a
+    // variable itself.
+    private referenceScope(file: string, lines: string[]): Set<string> {
+        const known = new Set<string>([...this.collectKnownNames(lines), ...BUILTIN_NAMES, ...this.coordinateNames]);
+        const stepPath = this.stepFileOf(file);
+        const stepExports = stepPath ? this.exportedNames(stepPath) : undefined;
+
+        if (stepExports) {
+            for (const name of stepExports) {
+                known.add(name);
+            }
+        }
+
+        return known;
+    }
+
+    // Every top-level definition of a file: the name it introduces and the
+    // right-hand side of its `=`, without the ` = {` that opens an expansion
+    // and without any inline comment.
+    private topLevelDefinitions(lines: string[]): TopLevelDefinition[] {
+        const definitions: TopLevelDefinition[] = [];
+
+        lines.forEach((line, index) => {
+            if (!/^[A-Za-z_]/.test(line)) {
+                return;
+            }
+
+            const code = this.stripCode(line).trimEnd();
+            const name = this.leadingIdentifier(code);
+            const equals = this.definingEquals(code);
+
+            if (!name || equals === -1) {
+                return;
+            }
+
+            let expression = code.slice(equals + 1);
+            const opener = expression.lastIndexOf('= {');
+
+            if (opener !== -1) {
+                expression = expression.slice(0, opener);
+            } else if (expression.trimEnd().endsWith('{')) {
+                expression = expression.slice(0, expression.lastIndexOf('{'));
+            }
+
+            definitions.push({
+                name,
+                lineNumber: index + 1,
+                expressionColumn: equals + 2,
+                expression,
+            });
+        });
+
+        return definitions;
+    }
+
+    // The index of the `=` that introduces a definition's body — the first one
+    // outside the brackets of the definition head, so the `=` of a default
+    // value inside a parameter list is not mistaken for it.
+    private definingEquals(code: string): number {
+        let depth = 0;
+
+        for (let index = 0; index < code.length; index += 1) {
+            const char = code[index];
+
+            if (char === '(' || char === '{' || char === '[') {
+                depth += 1;
+            } else if (char === ')' || char === '}' || char === ']') {
+                depth -= 1;
+            } else if (char === '=' && depth === 0) {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    // The names a file exports: the leading identifier of every line that starts
+    // in column 0 and introduces something — `name(args) = …`, `name of type`,
+    // `name from category`, `name = …`. Undefined when the file cannot be read.
+    private exportedNames(file: string): Set<string> | undefined {
+        const cached = this.exportCache.get(file);
+
+        if (cached !== undefined) {
+            return cached ?? undefined;
+        }
+
+        const lines = this.linesOf(file);
+
+        if (!lines) {
+            this.exportCache.set(file, null);
+            return undefined;
+        }
+
+        const names = new Set<string>();
+
+        for (const line of lines) {
+            const match = /^([A-Za-z_]\w*)\s*(\(|of\s|from\s|=)/.exec(this.stripCode(line));
+
+            if (match) {
+                names.add(match[1]);
+            }
+        }
+
+        this.exportCache.set(file, names);
+
+        return names;
+    }
+
+    // The lines of a file, read once and kept. Undefined when the file is
+    // missing — an unresolved import reports that itself.
+    private linesOf(file: string): string[] | undefined {
+        const cached = this.lineCache.get(file);
+
+        if (cached !== undefined) {
+            return cached ?? undefined;
+        }
+
+        let text: string;
+
+        try {
+            text = readFileSync(file, 'utf8');
+        } catch {
+            this.lineCache.set(file, null);
+            return undefined;
+        }
+
+        const lines = text.split('\n');
+        this.lineCache.set(file, lines);
+
+        return lines;
+    }
+
+    // The import header of a file: the leading block of `A, B from …` lines,
+    // with the column of every name and of the source. Empty when the leading
+    // block is not a header (`initial_data.example_*.lang` opens with an
+    // enumeration, `lang.lang` with the language's own axioms).
+    private importedNames(lines: string[]): ImportEntry[] {
+        const header: ImportEntry[] = [];
+
+        for (const [index, line] of lines.entries()) {
+            if (line.trim().length === 0) {
+                break;
+            }
+
+            const match = /^([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s+from\s+(core|\("(.*?)"\))\s*$/.exec(line);
+
+            if (!match) {
+                return [];
+            }
+
+            const names: Array<{text: string; column: number}> = [];
+            let search = 0;
+
+            for (const part of match[1].split(',')) {
+                const text = part.trim();
+                const column = line.indexOf(text, search) + 1;
+                search = column + text.length - 1;
+                names.push({text, column});
+            }
+
+            header.push({
+                lineNumber: index + 1,
+                names,
+                source: match[3] ?? 'core',
+                sourceColumn: line.indexOf(match[2]) + 1,
+            });
+        }
+
+        return header;
+    }
+
+    // The vocabulary the cross-file rules need, collected once over every file
+    // being linted rather than per file.
+    //
+    // Coordinates: the index letters the language declares in
+    // `matrix_types.lang` (`I of number = 1, …, N`) and the members of every
+    // top-level enumeration (`Queue = First, Second, …`,
+    // `stepNullAxes from Product = AI_92, …`). A coordinate is not a variable —
+    // a file names `FCA` or `R` without importing anything.
+    //
+    // Primitives: what `matrix_operation.lang` exports, plus the built-in
+    // operators.
+    private collectVocabulary(files: string[]): void {
+        const coordinates = new Set<string>();
+        const primitives = new Set<string>(BUILTIN_NAMES);
+
+        for (const file of files) {
+            if (path.basename(file) !== 'matrix_operation.lang') {
+                continue;
+            }
+
+            for (const name of this.exportedNames(file) ?? []) {
+                primitives.add(name);
+            }
+        }
+
+        this.primitiveNames = primitives;
+
+        for (const file of files) {
+            const lines = this.linesOf(file);
+
+            if (!lines) {
+                continue;
+            }
+
+            for (const line of lines) {
+                const code = this.stripCode(line);
+                const declaration = /^\s{4}([A-Za-z]\w*)\s+of\s+number\s*=/.exec(code);
+
+                if (declaration) {
+                    coordinates.add(declaration[1]);
+                    continue;
+                }
+
+                const enumeration = /^([A-Za-z_]\w*)\s*(?:(?:of|from)\s+\w+\s*)?=\s*([^={]+)$/.exec(code);
+
+                if (!enumeration || !enumeration[2].includes(',') || /[()]/.test(enumeration[2])) {
+                    continue;
+                }
+
+                const members = this.splitTopLevel(enumeration[2]).map((member) => member.trim());
+
+                if (!members.every((member) => /^[A-Za-z_]\w*$/.test(member))) {
+                    continue;
+                }
+
+                coordinates.add(enumeration[1]);
+
+                for (const member of members) {
+                    coordinates.add(member);
+                }
+            }
+        }
+
+        this.coordinateNames = coordinates;
     }
 
     // Record a single violation, unless its rule is disabled in the config.
