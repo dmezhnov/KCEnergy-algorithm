@@ -89,7 +89,7 @@ normalized_i_j_subject_multiple(1 from R)(1 from n) = filter_by_value(normalized
 normalized_i_j_l_over_threshold(1 from R)(1 from n) = filter_by_pair(normalized_i_j_l(1 from R)(1 from n), ">=", normalized_i_j_threshold(1 from R)(1 from n)) = {
     (1 from I) = {
         (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 1 from P) = 600  # 105
+            (1 from I, 3 from J, 1  from P) = 600  # 105
         }
     }
 }
