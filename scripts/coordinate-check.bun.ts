@@ -139,6 +139,14 @@ class CoordinateChecker {
             return;
         }
 
+        // A definition that states the call without writing its result out —
+        // `volumes_l_t_i_k_k0_i0_require_correct` of `step-0.example_*.lang`,
+        // whose result is the source itself — carries nothing to compare.
+        if (!target.block.leaves.length) {
+            this.notes.push(`${where}: ${target.block.name} states the call without expanding it`);
+            return;
+        }
+
         const source = this.evaluator.evaluate(args[0], where);
 
         if (!source) {

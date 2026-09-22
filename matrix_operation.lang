@@ -103,6 +103,8 @@ count_coordinates_by_axis(matrix_source, coord_to_count) = counted_matrix
 # Операция убирает координаты, а не оси: ось с единственной оставшейся
 # координатой — по-прежнему ось. Член семейства some(n from X) записывается
 # отдельно и этой операцией не порождается.
+# Координата, которой в матрице нет, оставляет те её элементы, что на ней
+# стоят, — то есть ни одного; это не ошибка, она просто ничего не добавляет.
 filter_by_coordinate(matrix_source, Tcoord(1), ..., Tcoord(N)) = matrix_by_coordinates
     where
         matrix_source of         matrix                # Исходная матрица
