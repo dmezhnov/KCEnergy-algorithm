@@ -89,6 +89,6 @@ available_i_j_new(l0) = for_each_pair(available_i_j_new(l0 - 1), "-", estimated_
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
 # НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(2 from R)(n)
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(i, j, k, l)
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(2 from R)(i, j, k, l)
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
 # резервуаров объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(2 from R)

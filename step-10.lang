@@ -42,14 +42,16 @@ requests_i_j_k_l_corrected_queue(2 from R) = requests_i_j_k_l_queue(2 from R)
 # for_each_pair(s̈, "+", ẗ) ведётся по координатам ЛЕВОГО операнда (s̈): покрывает «только I» и
 # «общие», но теряет «только II». Чтобы вернуть «только II», накрываем сумму на ẗ через
 # assign_matrix — суммы перекрывают исходные ẗ, а уникальные для II очереди ячейки ẗ остаются.
-estimated_i_j_k_l_total = assign_matrix(normalized_i_j_k_l(2 from R)(1), for_each_pair(estimated_i_j_k_l_last(1 from R), "+", normalized_i_j_k_l(2 from R)(1)))
+# Это база семейства estimated_i_j_k_l_total: следующие очереди (l0 > 2) накапливают итог
+# на ней (ниже).
+estimated_i_j_k_l_total(2 from R) = assign_matrix(normalized_i_j_k_l(2 from R)(1), for_each_pair(estimated_i_j_k_l_last(1 from R), "+", normalized_i_j_k_l(2 from R)(1)))
     where
-        estimated_i_j_k_l_last(1 from R)(i, j, k, l) of number
-        normalized_i_j_k_l(2 from R)(1)(i, j, k, l)  of number
-        estimated_i_j_k_l_total(i, j, k, l)          of number
-        estimated_i_j_k_l_last(1 from R) of matrix(Product, Refinery, Region, Market_participant)
-        normalized_i_j_k_l(2 from R)(1)  of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_total          of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_last(1 from R)(i, j, k, l)  of number
+        normalized_i_j_k_l(2 from R)(1)(i, j, k, l)   of number
+        estimated_i_j_k_l_total(2 from R)(i, j, k, l) of number
+        estimated_i_j_k_l_last(1 from R)  of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l(2 from R)(1)   of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_total(2 from R) of matrix(Product, Refinery, Region, Market_participant)
         "+" from operation
             where
                 n  of          index = 1 # Индекс матрицы нормирования (единственная итерация)
@@ -75,6 +77,36 @@ requests_i_j_k_l_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_vir
                 j  for J  from index # Индексы НПЗ
                 l  for P  from index # Индексы субъекта рынка
                 k  for K  from index # Индексы региона
+
+### Шаг 13a (III очередь) и Шаг 16a (IV очередь). Суммарное распределение по очередям I … l0
+# То же объединение-со-сложением, но накопительное: к итогу предыдущих очередей
+# (estimated_i_j_k_l_total(l0 - 1)) прибавляется нормированный объём очереди l0
+# (ü = normalized_i_j_k_l(l0)(1), Шаги 4-6 в обобщённой форме). Роль s̈ из Шага 10a здесь играет
+# накопленный итог, поэтому отдельной формулы на каждую очередь не нужно:
+#   - ячейки только прошлых очередей          -> итог как был;
+#   - ячейки только очереди l0                -> ü;
+#   - общие ячейки (Субъект получал и раньше) -> итог + ü.
+# Семейство estimated_i_j_k_l_total делится на непересекающиеся части: l0 = 2 (выше, база на
+# итоге I очереди) и l0 > 2 (здесь). Конкретные экземпляры приведены в step-10.example_N.lang:
+# l0 = 3 — Шаг 13a; l0 = 4 — Шаг 16a.
+estimated_i_j_k_l_total(l0) = assign_matrix(normalized_i_j_k_l(l0)(1), for_each_pair(estimated_i_j_k_l_total(l0 - 1), "+", normalized_i_j_k_l(l0)(1)))
+    where
+        l0 > 2 # Очереди III и далее; II очередь задана как (2 from R) выше
+        estimated_i_j_k_l_total(l0 - 1)(i, j, k, l) of number
+        normalized_i_j_k_l(l0)(1)(i, j, k, l)       of number
+        estimated_i_j_k_l_total(l0)(i, j, k, l)     of number
+        estimated_i_j_k_l_total(l0 - 1) of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_k_l(l0)(1)       of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l_total(l0)     of matrix(Product, Refinery, Region, Market_participant)
+        "+" from operation
+            where
+                l0 for R  from index # Индексы очереди
+                n  of          index = 1 # Индекс матрицы нормирования (единственная итерация)
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
@@ -110,4 +142,4 @@ requests_i_j_k_l_virtual_final(2 from R) = for_each_element(requests_i_j_k_l_vir
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
 # НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(2 from R)(n)
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(i, j, k, l)
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(2 from R)(i, j, k, l)

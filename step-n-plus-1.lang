@@ -499,7 +499,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
 # НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(2 from R)(n)
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(i, j, k, l)
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(2 from R)(i, j, k, l)
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
 # резервуаров объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(2 from R)
 # Шаг N + 1. Предоставленный по Запросу объем НП $Product(i) на НПЗ
