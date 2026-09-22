@@ -263,7 +263,7 @@ requests_ranked_front(m) = filter_by_pair(requests_i_j_x_k_l_s_l0_q, contains, f
         requests_rank             of matrix(Product, Refinery, Market_participant, Region, Queue, Request)
         requests_ranked_front(m)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         contains from condition
-        "=" from condition
+        "="      from condition
             where
                 m of index = 1, ..., D # Порядковые номера перебора
                 D of index = length(Request) # Количество Запросов

@@ -229,7 +229,7 @@ estimated_i_j_k_l_fca_coeff(1 from R)(n) = for_each_element(estimated_i_j_k_l_fc
     where
         estimated_i_j_k_l_fca_coeff(1 from R)(n)(i, j, k, l) of number
         estimated_i_j_k_l_fca(1 from R)(n)(i, j, k, l)       of number
-        RAIL_ROAD_MIN_TONNAGE                            of number
+        RAIL_ROAD_MIN_TONNAGE                                of number
         estimated_i_j_k_l_fca_coeff(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca(1 from R)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
@@ -326,7 +326,7 @@ estimated_i_j_k_l_fca_rounded(1 from R)(n) = for_each_element(estimated_i_j_k_l_
     where
         estimated_i_j_k_l_fca_rounded(1 from R)(n)(i, j, k, l)       of number
         estimated_i_j_k_l_fca_coeff_rounded(1 from R)(n)(i, j, k, l) of number
-        RAIL_ROAD_MIN_TONNAGE                                    of number
+        RAIL_ROAD_MIN_TONNAGE                                        of number
         estimated_i_j_k_l_fca_rounded(1 from R)(n)       of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_coeff_rounded(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
         "*" from operation
@@ -373,7 +373,7 @@ normalized_i_j_k_l_fca(1 from R)(n) = for_each_element(estimated_i_j_k_l_fca_rou
     where
         normalized_i_j_k_l_fca(1 from R)(n)(i, j, k, l)        of number
         estimated_i_j_k_l_fca_rounded(1 from R)(n)(i, j, k, l) of number
-        MIN_FCA_TONNAGE(n)                                 of number
+        MIN_FCA_TONNAGE(n)                                     of number
         normalized_i_j_k_l_fca(1 from R)(n)        of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_fca_rounded(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
         max from operation
@@ -461,7 +461,7 @@ estimated_i_j_k_l_exw_coeff(1 from R)(n) = for_each_element(estimated_i_j_k_l_ex
     where
         estimated_i_j_k_l_exw_coeff(1 from R)(n)(i, j, k, l) of number
         estimated_i_j_k_l_exw(1 from R)(n)(i, j, k, l)       of number
-        OIL_TERMINAL_STEP_TONNAGE                        of number
+        OIL_TERMINAL_STEP_TONNAGE                            of number
         estimated_i_j_k_l_exw_coeff(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw(1 from R)(n)       of matrix(Product, Refinery, Region, Market_participant)
         safe_divide from operation
@@ -556,7 +556,7 @@ estimated_i_j_k_l_exw_rounded(1 from R)(n) = for_each_element(estimated_i_j_k_l_
     where
         estimated_i_j_k_l_exw_coeff_rounded(1 from R)(n)(i, j, k, l) of number
         estimated_i_j_k_l_exw_rounded(1 from R)(n)(i, j, k, l)       of number
-        OIL_TERMINAL_STEP_TONNAGE                                of number
+        OIL_TERMINAL_STEP_TONNAGE                                    of number
         estimated_i_j_k_l_exw_coeff_rounded(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
         estimated_i_j_k_l_exw_rounded(1 from R)(n)       of matrix(Product, Refinery, Region, Market_participant)
         "*" from operation
@@ -630,7 +630,7 @@ normalized_i_j_k_l_exw(1 from R)(n) = MIN_EXW_TONNAGE
             where
                 normalized_i_j_k_l_exw(1 from R)(n)(i, j, k, l) of number
                 estimated_i_j_k_l_exw(1 from R)(n)(i, j, k, l)  of number
-                MIN_EXW_TONNAGE                             of  number
+                MIN_EXW_TONNAGE                                 of number
                     where
                         n  of          index # Индекс матрицы
                         Product, Refinery, Region, Market_participant from axis
@@ -644,7 +644,7 @@ normalized_i_j_k_l_exw(1 from R)(n) = for_each_element(estimated_i_j_k_l_exw_rou
             where
                 normalized_i_j_k_l_exw(1 from R)(n)(i, j, k, l)        of number
                 estimated_i_j_k_l_exw_rounded(1 from R)(n)(i, j, k, l) of number
-                MIN_EXW_TONNAGE                                    of number
+                MIN_EXW_TONNAGE                                        of number
                 normalized_i_j_k_l_exw(1 from R)(n)        of matrix(Product, Refinery, Region, Market_participant)
                 estimated_i_j_k_l_exw_rounded(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
                 max from operation

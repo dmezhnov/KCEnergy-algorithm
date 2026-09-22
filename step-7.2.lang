@@ -15,7 +15,7 @@ normalized_i_j_threshold(1 from R)(n) = for_each_element(normalized_i_j(1 from R
     where
         normalized_i_j_threshold(1 from R)(n)(i, j) of number
         normalized_i_j(1 from R)(n)(i, j)           of number
-        MAX_SUBJECT_SHARE_COEFFICIENT           of number
+        MAX_SUBJECT_SHARE_COEFFICIENT               of number
         normalized_i_j_threshold(1 from R)(n) of matrix(Product, Refinery)
         normalized_i_j(1 from R)(n)           of matrix(Product, Refinery)
         "*" from operation

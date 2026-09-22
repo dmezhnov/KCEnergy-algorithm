@@ -14,7 +14,7 @@ new_empty(Tcoords) = new_empty_matrix
 ### - Создать без оси
 new_empty_without_axis(matrix_source, axis_to_remove) = new_empty_matrix_without_axis
     where
-        matrix_source of                 matrix(Taxis(1), ..., Taxis(n), axis_to_remove) # Исходная матрица с удаляемой осью
+        matrix_source                 of matrix(Taxis(1), ..., Taxis(n), axis_to_remove) # Исходная матрица с удаляемой осью
         new_empty_matrix_without_axis of matrix(Taxis(1), ..., Taxis(n))                 # Результат без удаляемой оси
             where
                 axis_to_remove        of axis # Удаляемая ось
@@ -30,7 +30,7 @@ copy_values(matrix_source, copied_matrix) = copied_matrix2
 ### - Объединить матрицы
 assign_matrix(Tmatrix_source(1), ..., Tmatrix_source(n)) = new_assigned_matrix
     where
-        new_assigned_matrix of matrix(Tcoords(1), ..., Tcoords(n))
+        new_assigned_matrix            of matrix(Tcoords(1), ..., Tcoords(n))
         Tmatrix_source = (1), ..., (n) of matrix
             where
                 Tcoords = (1), ..., (n) of coordinate

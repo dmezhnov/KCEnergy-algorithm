@@ -59,6 +59,19 @@ type AggregatedLeaf = {
     plusColumns: number[];
 };
 
+// One declaration line of a `where` block — `name(i, j) of number`,
+// `Product, Refinery from axis`, `i  for I  from index`. `kind` is the grouping
+// key: the keyword together with the category it declares, so a run of
+// `of number` lines is aligned independently of the `of matrix(…)` run that
+// follows it at the same indentation. `forKeyword` exists only on the index
+// declarations that name an index variable.
+type WhereDeclaration = {
+    indent: number;
+    kind: string;
+    keyword: AlignmentEntry;
+    forKeyword?: AlignmentEntry;
+};
+
 // The set of rule identifiers the linter can emit. Used both for reporting and
 // as the keys of the per-rule enable map in the config file.
 type RuleName =
@@ -74,7 +87,9 @@ type RuleName =
     | 'leaf-comment-alignment'
     | 'sum-operand-alignment'
     | 'sum-result-alignment'
-    | 'request-number-order';
+    | 'request-number-order'
+    | 'import-alignment'
+    | 'where-declaration-alignment';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -116,8 +131,9 @@ const BUILTIN_NAMES: ReadonlySet<string> = new Set([
 // This is the shared entry point for all `.lang` lint rules. The current rules
 // cover comment whitespace, comment-column alignment, unresolved calls, the
 // two-line request comments, the padding and brackets of the nested request
-// structures, and the aggregated leaf lines; further rule groups are meant to be
-// added as extra methods on this class.
+// structures, the aggregated leaf lines, the import header and the declarations
+// of `where` blocks; further rule groups are meant to be added as extra methods
+// on this class.
 class LangLinter {
     // A single rule violation, reported as `path:line:col: rule message`.
     private readonly problems: Array<{
@@ -170,6 +186,8 @@ class LangLinter {
                 'sum-operand-alignment': true,
                 'sum-result-alignment': true,
                 'request-number-order': true,
+                'import-alignment': true,
+                'where-declaration-alignment': true,
             },
         };
     }
@@ -316,6 +334,14 @@ class LangLinter {
 
         if (this.config.rules['request-number-order']) {
             this.checkRequestNumberOrder(file, lines);
+        }
+
+        if (this.config.rules['import-alignment']) {
+            this.checkImportAlignment(file, lines);
+        }
+
+        if (this.config.rules['where-declaration-alignment']) {
+            this.checkWhereDeclarationAlignment(file, lines);
         }
     }
 
@@ -1259,6 +1285,216 @@ class LangLinter {
                 }
             }
         });
+    }
+
+    // Rule `import-alignment`: the import header of a file — the run of
+    // `name, name from ("file.lang")` lines that precedes the first blank line
+    // — writes every `from` in one column, one space behind the longest name
+    // list. A file whose first block is not a header has nothing to align
+    // (`initial_data.example_*.lang` opens with an enumeration, `lang.lang`
+    // with the language's own axioms).
+    private checkImportAlignment(file: string, lines: string[]): void {
+        const run: AlignmentEntry[] = [];
+
+        for (const [index, line] of lines.entries()) {
+            if (line.trim().length === 0) {
+                break;
+            }
+
+            const entry = this.importEntry(line, index + 1);
+
+            if (!entry) {
+                return; // Not an import header: this file has none to check.
+            }
+
+            run.push(entry);
+        }
+
+        this.reportKeywordRun(file, run, 'import-alignment', "import 'from'");
+    }
+
+    // The `from` of one import line, or undefined when the line is not an
+    // import. The source is either `core` or a quoted file name — a `from`
+    // binding inside a `where` block never uses those — and the whole line must
+    // be the import, so a stray line ends the header instead of joining it.
+    private importEntry(line: string, lineNumber: number): AlignmentEntry | undefined {
+        const match = /^(\S.*?)(\s+)from\s+(?:core|\(".*?"\))\s*$/.exec(this.codeOf(line));
+
+        if (!match) {
+            return undefined;
+        }
+
+        return {
+            lineNumber,
+            column: match[1].length + match[2].length + 1,
+            contentEnd: match[1].length,
+        };
+    }
+
+    // Rule `where-declaration-alignment`: the declarations of a `where` block
+    // line up their keyword. Within one run — consecutive lines of the same
+    // `where` block, at the same indentation, declaring the same category — the
+    // `of` of `name(i, j) of number` and the `from` of `Product, Refinery from
+    // axis` each share a column, as does the `for` of `i  for I  from index`.
+    // The category is part of the grouping because the files align each kind on
+    // its own: an `of number` run is immediately followed by an `of matrix(…)`
+    // run whose keyword sits in a different column.
+    private checkWhereDeclarationAlignment(file: string, lines: string[]): void {
+        let run: WhereDeclaration[] = [];
+        const whereIndents: number[] = [];
+
+        const flush = (): void => {
+            this.reportDeclarationRun(file, run);
+            run = [];
+        };
+
+        lines.forEach((line, index) => {
+            const code = this.codeOf(line);
+            const indent = line.length - line.trimStart().length;
+
+            if (line.trim().length === 0) {
+                whereIndents.length = 0; // A blank line ends the definition.
+                flush();
+                return;
+            }
+
+            while (whereIndents.length && indent <= whereIndents[whereIndents.length - 1]) {
+                whereIndents.pop();
+            }
+
+            if (/^\s*where\s*$/.test(code)) {
+                whereIndents.push(indent);
+                flush();
+                return;
+            }
+
+            const declaration = whereIndents.length
+                ? this.whereDeclaration(code, index + 1, indent)
+                : undefined;
+
+            if (!declaration) {
+                flush();
+                return;
+            }
+
+            if (run.length && (run[0].kind !== declaration.kind || run[0].indent !== declaration.indent)) {
+                flush();
+            }
+
+            run.push(declaration);
+        });
+
+        flush();
+    }
+
+    // Parse one line of a `where` block into a declaration, or undefined when
+    // it is not one. Two shapes declare: `<names> of <type>` and `<names> from
+    // <category>`, the category being a single bare word. The guards and
+    // expansions that also live in `where` blocks (`l0 > 2`,
+    // `is_empty(…) = true`, `a(1), …, a(N) => a(i)`) match neither, and a `from`
+    // written inside a name — the `(1 from R)` of `available_i_j(1 from R)` —
+    // never ends the line, so it is not mistaken for the keyword.
+    private whereDeclaration(code: string, lineNumber: number, indent: number): WhereDeclaration | undefined {
+        const ofMatch = /^(\s*\S.*?)(\s+)of\s+([A-Za-z_]\w*)(?:\(.*\))?\s*$/.exec(code);
+
+        if (ofMatch) {
+            return {
+                indent,
+                kind: `of ${ofMatch[3]}`,
+                keyword: this.keywordEntry(lineNumber, ofMatch[1], ofMatch[2]),
+            };
+        }
+
+        const fromMatch = /^(\s*\S.*?)(\s+)from\s+([A-Za-z_]\w*)\s*$/.exec(code);
+
+        if (!fromMatch) {
+            return undefined;
+        }
+
+        return {
+            indent,
+            kind: `from ${fromMatch[3]}`,
+            keyword: this.keywordEntry(lineNumber, fromMatch[1], fromMatch[2]),
+            forKeyword: this.forKeywordEntry(lineNumber, fromMatch[1]),
+        };
+    }
+
+    // The `for` of an index declaration (`i  for I  from index`), read off the
+    // part of the line that precedes its `from`. Absent on every other
+    // declaration, including the `R from index` that names no index variable.
+    private forKeywordEntry(lineNumber: number, names: string): AlignmentEntry | undefined {
+        const match = /^(\s*\S.*?)(\s+)for\s+\S+$/.exec(names);
+
+        return match ? this.keywordEntry(lineNumber, match[1], match[2]) : undefined;
+    }
+
+    // An alignment entry for a keyword, given the text in front of it and the
+    // gap between the two: the keyword's own 1-based column, and the column the
+    // content before it ends at.
+    private keywordEntry(lineNumber: number, before: string, gap: string): AlignmentEntry {
+        return {
+            lineNumber,
+            column: before.length + gap.length + 1,
+            contentEnd: before.length,
+        };
+    }
+
+    // Flag the declarations of a run whose keyword leaves the run's shared
+    // column. The `for` of the index declarations is checked on its own, over
+    // the subset of lines that write one — a run may mix `R from index` with
+    // `i  for I  from index`, and the files align those two by their `from`.
+    private reportDeclarationRun(file: string, run: WhereDeclaration[]): void {
+        if (run.length < 2) {
+            return;
+        }
+
+        const keyword = run[0].kind.split(' ')[0];
+
+        this.reportKeywordRun(
+            file,
+            run.map((declaration) => declaration.keyword),
+            'where-declaration-alignment',
+            `declaration '${keyword}'`,
+        );
+
+        const forEntries = run
+            .map((declaration) => declaration.forKeyword)
+            .filter((entry): entry is AlignmentEntry => entry !== undefined);
+
+        this.reportKeywordRun(file, forEntries, 'where-declaration-alignment', "declaration 'for'");
+    }
+
+    // Flag every entry of a run whose keyword deviates from the column the run
+    // shares. The expected column is anchored on the longest-content line, the
+    // same way `comment-alignment` anchors a comment run.
+    private reportKeywordRun(file: string, run: AlignmentEntry[], rule: RuleName, label: string): void {
+        if (run.length < 2) {
+            return;
+        }
+
+        const expected = this.anchorColumn(run);
+
+        for (const entry of run) {
+            if (entry.column !== expected) {
+                this.add(
+                    file,
+                    entry.lineNumber,
+                    entry.column,
+                    rule,
+                    `${label} not aligned (column ${entry.column}, expected ${expected})`,
+                );
+            }
+        }
+    }
+
+    // The code part of a line: everything before an inline comment. Unlike
+    // `stripCode` it keeps string literals intact, so a quoted import source and
+    // a `"=" from condition` operand can still be matched; the columns are the
+    // same either way.
+    private codeOf(line: string): string {
+        const hashIndex = line.indexOf('#');
+
+        return hashIndex === -1 ? line : line.slice(0, hashIndex);
     }
 
     // The top-level structures of a file: a definition whose header ends in
