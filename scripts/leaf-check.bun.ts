@@ -1,3 +1,4 @@
+import {Decimal} from './lang-decimal.bun.ts';
 import {ExampleIndex} from './lang-example.bun.ts';
 import type {Block, Leaf} from './lang-example.bun.ts';
 
@@ -164,52 +165,17 @@ class LeafChecker {
 
     // The exact sum of a group of leaves.
     private sum(members: Leaf[]): string {
-        return members.map((member) => member.total).reduce((left, right) => this.add(left, right), '0');
-    }
-
-    // Exact decimal addition: scale both operands to a common number of fraction
-    // digits and add as BigInt, so 20-significant-digit values keep every digit.
-    private add(left: string, right: string): string {
-        const scale = Math.max(this.fractionDigits(left), this.fractionDigits(right));
-
-        return this.unscale(this.scale(left, scale) + this.scale(right, scale), scale);
-    }
-
-    // How many digits a decimal value carries after its point.
-    private fractionDigits(value: string): number {
-        const point = value.indexOf('.');
-
-        return point < 0 ? 0 : value.length - point - 1;
-    }
-
-    // A decimal value as an integer of the given number of fraction digits.
-    private scale(value: string, scale: number): bigint {
-        const [whole, fraction = ''] = value.split('.');
-
-        return BigInt(whole + fraction.padEnd(scale, '0'));
-    }
-
-    // The inverse of `scale`, in the canonical form `normalize` produces.
-    private unscale(value: bigint, scale: number): string {
-        if (scale === 0) {
-            return value.toString();
-        }
-
-        const digits = value.toString().padStart(scale + 1, '0');
-
-        return this.normalize(`${digits.slice(0, -scale)}.${digits.slice(-scale)}`);
+        return members
+            .map((member) => Decimal.parse(member.total) ?? Decimal.ZERO)
+            .reduce((left, right) => left.plus(right), Decimal.ZERO)
+            .toString();
     }
 
     // One canonical spelling per value, so that `65`, `65.0` and `65.00` compare
-    // equal however the example file writes them.
+    // equal however the example file writes them. A value that is not a number
+    // is left as written, so that it can still be reported.
     private normalize(value: string): string {
-        if (!value.includes('.')) {
-            return value;
-        }
-
-        const trimmed = value.replace(/0+$/, '').replace(/\.$/, '');
-
-        return trimmed === '' || trimmed === '-' ? '0' : trimmed;
+        return Decimal.parse(value)?.toString() ?? value;
     }
 
     // Print what was checked, what could not be, and what disagrees.

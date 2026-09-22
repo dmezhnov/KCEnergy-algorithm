@@ -18,11 +18,13 @@ type Axis = {
 };
 
 // One leaf line of an expanded variable. `total` is the number the line states;
-// `summands` are the operands an aggregated line shows before its total (empty
-// when the line carries no arithmetic).
+// `expression` is the arithmetic it shows before that total (empty when the line
+// states a bare value), and `summands` splits that arithmetic on `+` for the
+// lines produced by a summation.
 type Leaf = {
     coordinates: Coordinates;
     total: string;
+    expression: string;
     summands: string[];
     line: number;
     text: string;
@@ -265,11 +267,14 @@ class ExampleIndex {
             block.signatures.push(signature);
         }
 
+        const expression = parts.length > 1 ? parts[0] : '';
+
         block.values.set(this.coordinateKey(coordinates, signature), total);
         block.leaves.push({
             coordinates,
             total,
-            summands: parts.length > 1 ? parts[0].split(/\s*\+\s*/).map((part) => part.trim()) : [],
+            expression,
+            summands: expression ? expression.split(/\s*\+\s*/).map((part) => part.trim()) : [],
             line: number,
             text: line,
         });
