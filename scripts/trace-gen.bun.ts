@@ -88,6 +88,17 @@ const TEMPLATE_HEADER = '## Трассировочная строка';
 // hold for this request.
 const ABSENT_VALUE = '—';
 
+// The queue axis. A trace line qualified by a queue reports what that queue
+// did, so it shows a value only for the requests of that queue: a request of
+// another queue carries nothing through it, even where the queue's coarser
+// (i, j) aggregates do hold a number for its refinery.
+const QUEUE_AXIS = 'R';
+
+// The variables a queue qualifier does NOT restrict: a cumulative total is what
+// the request itself has been given across every queue up to the named one, so
+// it is meaningful for a request of any queue (Steps 10a, 13a and 16a).
+const CUMULATIVE_VARIABLES = new Set(['estimated_i_j_k_l_total']);
+
 // The variable whose iteration count defines `n` for a queue: the normalisation
 // loop of Step 6 produces one `normalized_i_j_k_l(queue)(N from n)` per pass, so
 // the highest `N` present is the `n` the trace templates refer to.
@@ -394,6 +405,10 @@ class TraceGenerator {
             return undefined;
         }
 
+        if (!this.belongsToQueue(name, qualifiers, request)) {
+            return undefined;
+        }
+
         for (const signature of block.signatures) {
             if (signature.every((letter) => request.has(letter))) {
                 const value = block.leaves.get(this.coordinateKey(request, signature));
@@ -405,6 +420,25 @@ class TraceGenerator {
         }
 
         return undefined;
+    }
+
+    // Whether a request takes part in the queue a reference is qualified by.
+    // A reference without a queue qualifier — Steps 1 to 3, which run before the
+    // queues are split — applies to every request, and so does a cumulative one.
+    private belongsToQueue(name: string, qualifiers: string[], request: Coordinates): boolean {
+        if (CUMULATIVE_VARIABLES.has(name)) {
+            return true;
+        }
+
+        for (const qualifier of qualifiers) {
+            const fixed = QUALIFIER_GROUP.exec(qualifier);
+
+            if (fixed && fixed[2] === QUEUE_AXIS) {
+                return request.get(QUEUE_AXIS) === Number(fixed[1]);
+            }
+        }
+
+        return true;
     }
 
     // Turn a reference's parenthesised groups into the qualifiers that identify
