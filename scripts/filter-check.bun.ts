@@ -1,6 +1,7 @@
 import {Decimal} from './lang-decimal.bun.ts';
 import {ExampleIndex} from './lang-example.bun.ts';
 import type {Block, Leaf} from './lang-example.bun.ts';
+import {MatrixOperation} from './lang-operation.bun.ts';
 
 // Checker for the `filter_by_pair` leaves of the `*.example_*.lang` files.
 //
@@ -28,34 +29,14 @@ const EXAMPLE_SUFFIXES: readonly string[] = ['example_1', 'example_2'];
 // its leaves belong to the outer result, not to the filter.
 const FILTER_CALL = /^filter_by_pair\((.+)\)$/;
 
-// The condition that keeps a cell when the condition matrix carries one at the
-// same coordinates at all, whatever value it holds.
-const CONTAINS = 'contains';
-
 // The comparison a leaf may state in its comment, e.g. `# 2260 >= 1440`. A leaf
 // whose comment says anything else — a request number, most often — is not
 // making a claim this checker can read.
 const COMMENT_COMPARISON = /#\s*(-?\d+(?:\.\d+)?)\s*(>=|<=|>|<|=)\s*(-?\d+(?:\.\d+)?)/;
 
-// The condition each comparison mirrors into, for the leaves that state the pair
-// the other way round: `filter_by_pair(x, ">", y)` keeps a cell either as
-// `x > y` or as `y < x`, and the example files use both spellings.
-const MIRRORED: ReadonlyMap<string, string> = new Map([
-    ['">"', '<'],
-    ['">="', '<='],
-    ['"<"', '>'],
-    ['"<="', '>='],
-    ['"="', '='],
-]);
-
-// The comparisons a condition can spell, each as the example files write it.
-const COMPARISONS: ReadonlyMap<string, (left: Decimal, right: Decimal) => boolean> = new Map([
-    ['">"', (left, right) => left.compare(right) > 0],
-    ['">="', (left, right) => left.compare(right) >= 0],
-    ['"<"', (left, right) => left.compare(right) < 0],
-    ['"<="', (left, right) => left.compare(right) <= 0],
-    ['"="', (left, right) => left.compare(right) === 0],
-]);
+// The condition that keeps a cell when the condition matrix carries one at the
+// same coordinates at all, whatever value it holds.
+const CONTAINS = MatrixOperation.CONTAINS;
 
 class FilterChecker {
     private index = new ExampleIndex();
@@ -93,7 +74,7 @@ class FilterChecker {
 
         const [sourceReference, condition, conditionReference] = args;
 
-        if (condition !== CONTAINS && !COMPARISONS.has(condition)) {
+        if (condition !== CONTAINS && !MatrixOperation.compares(condition)) {
             this.notes.push(`${block.file}:${block.line}: ${block.name}: condition ${condition} is not implemented`);
             return;
         }
@@ -236,7 +217,7 @@ class FilterChecker {
         }
 
         const straight = shown[1] === candidate.total && shown[3] === conditionValue && shown[2] === condition.replaceAll('"', '');
-        const mirrored = shown[1] === conditionValue && shown[3] === candidate.total && shown[2] === MIRRORED.get(condition);
+        const mirrored = shown[1] === conditionValue && shown[3] === candidate.total && shown[2] === MatrixOperation.mirrored(condition);
 
         if (!straight && !mirrored) {
             this.findings.push(`${block.file}:${leaf.line}: ${block.name}: comment states ${shown[1]} ${shown[2]} ${shown[3]}, the pair is ${this.render(candidate, conditionValue, condition)}`);
@@ -254,12 +235,6 @@ class FilterChecker {
             return conditionValue !== undefined;
         }
 
-        const compare = COMPARISONS.get(condition);
-
-        if (!compare) {
-            throw new Error(`unreachable: ${condition} is accepted but not compared`);
-        }
-
         const left = Decimal.parse(candidate.total);
         const right = Decimal.parse(conditionValue);
 
@@ -268,7 +243,7 @@ class FilterChecker {
             return undefined;
         }
 
-        return compare(left, right);
+        return MatrixOperation.compare(condition, left, right);
     }
 
     // The comparison one cell stands or falls by, spelled the way the example

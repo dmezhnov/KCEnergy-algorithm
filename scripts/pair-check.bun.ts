@@ -1,6 +1,7 @@
 import {Decimal} from './lang-decimal.bun.ts';
 import {ExampleIndex} from './lang-example.bun.ts';
 import type {Block, Leaf} from './lang-example.bun.ts';
+import {MatrixOperation} from './lang-operation.bun.ts';
 
 // Checker for the `for_each_pair` leaves of the `*.example_*.lang` files.
 //
@@ -23,10 +24,6 @@ import type {Block, Leaf} from './lang-example.bun.ts';
 // The two example data sets the algorithm files carry.
 const EXAMPLE_SUFFIXES: readonly string[] = ['example_1', 'example_2'];
 
-// How many fraction digits the example files keep. A quotient or a product that
-// does not terminate sooner is cut to this many digits, towards zero.
-const DISPLAY_DIGITS = 18;
-
 // A `for_each_pair` definition: the two operand references and the operation.
 const PAIR_CALL = /^for_each_pair\((.+)\)$/;
 
@@ -35,17 +32,6 @@ const INFIX_LEAF = /^(-?\d+(?:\.\d+)?)\s+([-+*/])\s+(-?\d+(?:\.\d+)?)$/;
 
 // A leaf that displays a named operation, e.g. `min(70, 83.333333333333333333)`.
 const CALL_LEAF = /^([a-z_]+)\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)$/;
-
-// How each operation is spelled in a leaf line: an infix operator, or the name
-// of the call the leaf shows. `safe_divide` prints as a plain division.
-const LEAF_SPELLING: ReadonlyMap<string, string> = new Map([
-    ['"+"', '+'],
-    ['"-"', '-'],
-    ['"*"', '*'],
-    ['"/"', '/'],
-    ['safe_divide', '/'],
-    ['min', 'min'],
-]);
 
 class PairChecker {
     private index = new ExampleIndex();
@@ -82,7 +68,7 @@ class PairChecker {
         }
 
         const [leftReference, operation, rightReference] = args;
-        const spelling = LEAF_SPELLING.get(operation);
+        const spelling = MatrixOperation.spelling(operation);
 
         if (!spelling) {
             this.notes.push(`${block.file}:${block.line}: ${block.name}: operation ${operation} is not implemented`);
@@ -199,7 +185,7 @@ class PairChecker {
             return;
         }
 
-        const expected = this.apply(left, operation, right);
+        const expected = MatrixOperation.apply(left, operation, right);
 
         if (!expected) {
             this.findings.push(`${block.file}:${leaf?.line ?? block.line}: ${block.name}: ${this.render(left, right, spelling)} divides by zero`);
@@ -262,36 +248,6 @@ class PairChecker {
         const right = Decimal.parse(shown[3]);
 
         return left && right ? {left, right, spelling} : undefined;
-    }
-
-    // The operation itself. Undefined marks a division by zero that the operation
-    // does not define away, which the caller reports.
-    private apply(left: Decimal, operation: string, right: Decimal): Decimal | undefined {
-        if (operation === '"+"') {
-            return left.plus(right);
-        }
-
-        if (operation === '"-"') {
-            return left.minus(right);
-        }
-
-        if (operation === '"*"') {
-            return left.times(right).truncated(DISPLAY_DIGITS);
-        }
-
-        if (operation === 'min') {
-            return left.min(right);
-        }
-
-        if (operation === 'safe_divide' && right.isZero()) {
-            return Decimal.ZERO;
-        }
-
-        if (operation === 'safe_divide' || operation === '"/"') {
-            return left.dividedBy(right, DISPLAY_DIGITS);
-        }
-
-        throw new Error(`unreachable: ${operation} is spelled but not applied`);
     }
 
     // The arithmetic of one leaf, spelled the way the example files spell it.
