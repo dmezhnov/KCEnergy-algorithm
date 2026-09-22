@@ -114,9 +114,10 @@ const BUILTIN_NAMES: ReadonlySet<string> = new Set([
 ]);
 
 // This is the shared entry point for all `.lang` lint rules. The current rules
-// cover comment whitespace, comment-column alignment, unresolved calls and the
-// two-line request comments; further rule groups (structure padding, aggregated
-// leaf lines) are meant to be added as extra methods on this class.
+// cover comment whitespace, comment-column alignment, unresolved calls, the
+// two-line request comments, the padding and brackets of the nested request
+// structures, and the aggregated leaf lines; further rule groups are meant to be
+// added as extra methods on this class.
 class LangLinter {
     // A single rule violation, reported as `path:line:col: rule message`.
     private readonly problems: Array<{
