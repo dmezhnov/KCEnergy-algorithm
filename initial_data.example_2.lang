@@ -111,7 +111,7 @@ Request = ( # Z
 
 Queue = ( # R
     First,  # 1 from R
-    Second, # 3 from R
+    Second, # 2 from R
     Third,  # 3 from R
     Fourth  # 4 from R
 )

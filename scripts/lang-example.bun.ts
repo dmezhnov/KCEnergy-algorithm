@@ -90,8 +90,12 @@ const LEAF_LINE = /^\s+\(([^()]*)\)\s*=\s*(.*)$/;
 const COORDINATE_ITEM = /(\d+)\s+from\s+([A-Za-z][A-Za-z0-9]*)/g;
 
 // A bare variable reference, optionally qualified — the right-hand side of an
-// alias definition such as `x_require_correct = x`.
-const ALIAS = /^[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))*$/;
+// alias definition such as `x_require_correct = x`. A qualifier holds one index
+// (`(1 from R)`, `(last_n)`), never a list: the comma and the quote are what
+// separate a reference from a call such as
+// `for_each_pair(share, "*", moving_average)`, which is not an alias of
+// anything.
+const ALIAS = /^[A-Za-z_][A-Za-z0-9_]*(?:\([^(),"]*\))*$/;
 
 // A decimal literal, the whole of a scalar definition's last stage.
 const DECIMAL = /^-?\d+(?:\.\d+)?$/;
@@ -197,6 +201,26 @@ class ExampleIndex {
     // number rather than a matrix.
     scalar(reference: string): Scalar | undefined {
         return this.scalars.get(this.normalizeKey(reference));
+    }
+
+    // The coordinate a name stands for, as `filter_by_coordinate(..., First,
+    // FCA)` and `replace_coord(..., 1 from R, Second)` spell one: either the
+    // display name of a coordinate (`First` — `1 from R`) or the index and its
+    // axis directly. A name two axes both carry fixes nothing and resolves to
+    // nothing.
+    coordinate(text: string): {letter: string; index: number} | undefined {
+        const written = [...text.trim().matchAll(COORDINATE_ITEM)];
+
+        if (written.length === 1) {
+            return {letter: written[0][2], index: Number(written[0][1])};
+        }
+
+        const matches = [...this.axesByName.values()]
+            .flatMap((axis) => [...axis.labels]
+                .filter(([, label]) => label === text.trim())
+                .map(([index]) => ({letter: axis.letter, index})));
+
+        return matches.length === 1 ? matches[0] : undefined;
     }
 
     // Parse a coordinate tuple such as `1 from I, 4 from K, 12 from P`.

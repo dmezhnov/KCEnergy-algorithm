@@ -14,8 +14,8 @@ description = "Check the trace strings of the example files (-- --write to regen
 run = "bun run scripts/trace-gen.bun.ts"
 
 [tasks.leaves]
-description = "Re-compute the sum_by_axes, for_each_pair, filter_by_pair and for_each_element leaves of the example files from their own inputs"
-run = ["bun run scripts/leaf-check.bun.ts", "bun run scripts/pair-check.bun.ts", "bun run scripts/filter-check.bun.ts", "bun run scripts/element-check.bun.ts"]
+description = "Re-compute the sum_by_axes, for_each_pair, filter_by_pair, for_each_element and assign_matrix leaves of the example files from their own inputs"
+run = ["bun run scripts/leaf-check.bun.ts", "bun run scripts/pair-check.bun.ts", "bun run scripts/filter-check.bun.ts", "bun run scripts/element-check.bun.ts", "bun run scripts/assign-check.bun.ts"]
 
 [tasks.save]
 description = "Save uncommitted changes"
