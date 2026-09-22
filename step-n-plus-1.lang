@@ -492,6 +492,8 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
+# Шаг 9. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для II очереди,
+# МТ: available_i_j(2 from R)
 # Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_virtual(2 from R)
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП $Product(i) на
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(2 from R)(i, j)
