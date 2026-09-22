@@ -1,11 +1,10 @@
-length, number                                                   from core
-requests_i_j_x_k_l_s_l0_q                                        from ("initial_data.example_2.lang")
-estimated_i_j_k_l_last                                           from ("step-8.example_2.lang")
-normalized_i_j_k_l                                               from ("step-6.example_2.lang")
-axis, condition, coordinate, index, operation                    from ("matrix_types.lang")
-assign_matrix, count_coordinates_by_axis, filter_by_coordinate   from ("matrix_operation.lang")
-filter_by_pair, filter_by_value, for_each_element, for_each_pair from ("matrix_operation.lang")
-replace_coord, sum_by_axes                                       from ("matrix_operation.lang")
+requests_i_j_x_k_l_s_l0_q                       from ("initial_data.example_2.lang")
+estimated_i_j_k_l_last                          from ("step-8.example_2.lang")
+normalized_i_j_k_l                              from ("step-6.example_2.lang")
+index                                           from ("matrix_types.lang")
+assign_matrix, count_coordinates_by_axis        from ("matrix_operation.lang")
+filter_by_pair, for_each_element, for_each_pair from ("matrix_operation.lang")
+replace_coord, sum_by_axes                      from ("matrix_operation.lang")
 
 ### Дополнительный шаг алгоритма (Шаг N + 1) — пример 2
 # Предоставленный коллекции (i, j, k, l) в очереди l0 объём раскладывается обратно по её

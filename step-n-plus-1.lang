@@ -2,7 +2,7 @@ length, number                                                   from core
 requests_i_j_x_k_l_s_l0_q                                        from ("initial_data.lang")
 estimated_i_j_k_l_last                                           from ("step-8.lang")
 normalized_i_j_k_l                                               from ("step-6.lang")
-axis, condition, coordinate, index, operation                    from ("matrix_types.lang")
+axis, condition, index, operation                                from ("matrix_types.lang")
 assign_matrix, count_coordinates_by_axis, filter_by_coordinate   from ("matrix_operation.lang")
 filter_by_pair, filter_by_value, for_each_element, for_each_pair from ("matrix_operation.lang")
 replace_coord, sum_by_axes                                       from ("matrix_operation.lang")
