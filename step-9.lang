@@ -46,9 +46,9 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
     where
         available_i_j_new(1 from R)(i, j) of number
         MIN_NEXT_AVAIL_TONNAGE(1 from R)  of number
-        available_i_j(2 from R)(i, j)    of number
+        available_i_j(2 from R)(i, j)     of number
         available_i_j_new(1 from R) of matrix(Product, Refinery)
-        available_i_j(2 from R)    of matrix(Product, Refinery)
+        available_i_j(2 from R)     of matrix(Product, Refinery)
         ">" from condition
             where
                 Product, Refinery from axis

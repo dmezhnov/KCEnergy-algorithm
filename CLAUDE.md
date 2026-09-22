@@ -160,3 +160,51 @@ contributes:
 - As elsewhere, all `#` comments line up in one column per block — 2 spaces
   after the longest leaf line. Contributing request numbers are 3 digits, so the
   `+` inside the comments also align automatically.
+
+## Import Headers
+
+A file opens with its imports, one per line, and every `from` sits in the same
+column — one space behind the longest name list:
+
+```
+sum_by_axes                      from ("matrix_operation.lang")
+requests_i_j_k_l_corrected       from ("step-3.2.2.example_2.lang")
+requests_i_j_k_l_corrected_queue from ("step-10.example_2.lang")
+```
+
+The header ends at the first blank line. Not every file has one:
+`initial_data.example_*.lang` opens with an enumeration and `lang.lang` with the
+language's own axioms — those have nothing to align.
+
+## `where` Declarations
+
+Inside a `where` block the declarations line up their keyword. A run is the
+consecutive lines of one block, at one indentation, declaring **one** category;
+each run is aligned on its own, which is why an `of number` run and the
+`of matrix(...)` run below it normally sit in different columns:
+
+```
+    where
+        ship_terms_count_by_requests_l0(i, j, k, l, l0) of number
+        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)        of number
+        ship_terms_count_by_requests_l0 of matrix(Product, Refinery, Region, Market_participant, Queue)
+        requests_i_j_k_l_s_l0           of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        "=" from condition
+            where
+                Product, Refinery, Region, Market_participant, Queue from axis
+                i  for I  from index # Индексы нефпродукта
+                l0 for R  from index # Индексы очереди
+```
+
+- The keyword is `of` (`<names> of <type>`) or `from` (`<names> from
+  <category>`); the `for` of `i  for I  from index` is aligned too, over the
+  lines of the run that write one. A run may mix `R from index` with
+  `i  for I  from index` — those align by their `from`.
+- A `from` written inside a name — the `(1 from R)` of `available_i_j(1 from R)`
+  — is not the keyword, and the guards and expansions that also live in `where`
+  blocks (`l0 > 2`, `is_empty(...) = true`, `a(1), ..., a(N) => a(i)`) are not
+  declarations at all.
+- Padding **after** the keyword is free: `n  of          index` pads so that its
+  `index` ends where the `from index` of the lines below does, which is what
+  lines up their `#` comments. The rule fixes the column of the keyword, not of
+  the type behind it.

@@ -1,6 +1,6 @@
 requests_i_j_x_k_l_s_l0_q from ("initial_data.lang")
-axis, index, matrix     from ("matrix_types.lang")
-sum_by_axes             from ("matrix_operation.lang")
+axis, index, matrix       from ("matrix_types.lang")
+sum_by_axes               from ("matrix_operation.lang")
 
 ### Агрегация Запросов в группу обслуживания
 # Запросы, у которых совпали вид НП, НПЗ, регион поставки, субъект рынка и очередь,
