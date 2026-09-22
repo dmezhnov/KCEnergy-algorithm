@@ -13,6 +13,20 @@ type AlignmentEntry = {
     contentEnd: number;
 };
 
+// One item of a request comment — a value on the index line or a name on the
+// description line — with the 1-based column its first character occupies.
+type RequestCommentItem = {
+    text: string;
+    column: number;
+};
+
+// One parsed line of a two-line request comment: the request number it carries
+// and the items of its table row.
+type RequestCommentLine = {
+    number: string;
+    items: RequestCommentItem[];
+};
+
 // The set of rule identifiers the linter can emit. Used both for reporting and
 // as the keys of the per-rule enable map in the config file.
 type RuleName =
@@ -20,7 +34,9 @@ type RuleName =
     | 'space-before-comment'
     | 'space-after-hash'
     | 'comment-alignment'
-    | 'unresolved-call';
+    | 'unresolved-call'
+    | 'request-comment-pairing'
+    | 'request-comment-alignment';
 
 // Linter configuration, loaded from `.lang-lint.json` at the project root. Each
 // rule can be switched off independently; a disabled rule produces no findings.
@@ -60,9 +76,9 @@ const BUILTIN_NAMES: ReadonlySet<string> = new Set([
 ]);
 
 // This is the shared entry point for all `.lang` lint rules. The current rules
-// cover comment whitespace and comment-column alignment; further rule groups
-// (request-comment alignment, structure padding, aggregated leaf lines) are
-// meant to be added as extra methods on this class.
+// cover comment whitespace, comment-column alignment, unresolved calls and the
+// two-line request comments; further rule groups (structure padding, aggregated
+// leaf lines) are meant to be added as extra methods on this class.
 class LangLinter {
     // A single rule violation, reported as `path:line:col: rule message`.
     private readonly problems: Array<{
@@ -107,6 +123,8 @@ class LangLinter {
                 'space-after-hash': true,
                 'comment-alignment': true,
                 'unresolved-call': true,
+                'request-comment-pairing': true,
+                'request-comment-alignment': true,
             },
         };
     }
@@ -232,6 +250,8 @@ class LangLinter {
         if (this.config.rules['unresolved-call']) {
             this.checkUnresolvedCalls(file, lines);
         }
+
+        this.checkRequestComments(file, lines);
     }
 
     // Rule `trailing-whitespace`: no spaces or tabs at the end of a line.
@@ -319,6 +339,191 @@ class LangLinter {
         });
 
         flush();
+    }
+
+    // Rules `request-comment-pairing` and `request-comment-alignment`: the
+    // two-line comment that documents one request (or one volume row). The pair
+    // is an index line followed by a description line carrying the same number:
+    //   # 001   1 from I,   1 from C, ...   1 from R - 130
+    //   # 001  (AI_92,      FCA,      ...    First)
+    // Each value on the index line must start in the same column as the name
+    // that documents it on the line below, so the two lines read as one table.
+    private checkRequestComments(file: string, lines: string[]): void {
+        lines.forEach((line, index) => {
+            const indexLine = LangLinter.parseRequestIndexLine(line);
+
+            if (indexLine) {
+                this.checkIndexLineFollowedByDescription(file, index, lines, indexLine);
+                return;
+            }
+
+            const descriptionLine = LangLinter.parseRequestDescriptionLine(line);
+
+            if (descriptionLine) {
+                this.checkDescriptionLinePrecededByIndex(file, index, lines, descriptionLine);
+            }
+        });
+    }
+
+    // Half of `request-comment-pairing`: an index line must be followed by the
+    // description line of the same request, and the two must then line up.
+    private checkIndexLineFollowedByDescription(
+        file: string,
+        index: number,
+        lines: string[],
+        indexLine: RequestCommentLine,
+    ): void {
+        const next = index + 1 < lines.length ? lines[index + 1] : '';
+        const descriptionLine = LangLinter.parseRequestDescriptionLine(next);
+
+        if (!descriptionLine) {
+            this.add(
+                file,
+                index + 1,
+                1,
+                'request-comment-pairing',
+                `request ${indexLine.number} has no description line below its index line`,
+            );
+            return;
+        }
+
+        if (descriptionLine.number !== indexLine.number) {
+            this.add(
+                file,
+                index + 2,
+                1,
+                'request-comment-pairing',
+                `description line is numbered ${descriptionLine.number} but documents request ${indexLine.number}`,
+            );
+            return;
+        }
+
+        this.checkRequestColumns(file, index + 2, indexLine, descriptionLine);
+    }
+
+    // The other half of `request-comment-pairing`: a description line that no
+    // index line introduces. The aligned case is reported from the index line,
+    // so here only the orphan is flagged.
+    private checkDescriptionLinePrecededByIndex(
+        file: string,
+        index: number,
+        lines: string[],
+        descriptionLine: RequestCommentLine,
+    ): void {
+        const previous = index > 0 ? lines[index - 1] : '';
+
+        if (LangLinter.parseRequestIndexLine(previous)) {
+            return;
+        }
+
+        this.add(
+            file,
+            index + 1,
+            1,
+            'request-comment-pairing',
+            `description line for request ${descriptionLine.number} has no index line above it`,
+        );
+    }
+
+    // Rule `request-comment-alignment`: value `n` of the index line and name `n`
+    // of the description line must start in the same column. A differing number
+    // of items is reported on its own, because column-by-column comparison would
+    // then blame every column past the first missing one.
+    private checkRequestColumns(
+        file: string,
+        lineNumber: number,
+        indexLine: RequestCommentLine,
+        descriptionLine: RequestCommentLine,
+    ): void {
+        if (indexLine.items.length !== descriptionLine.items.length) {
+            this.add(
+                file,
+                lineNumber,
+                1,
+                'request-comment-alignment',
+                `request ${indexLine.number} documents ${descriptionLine.items.length} name(s) for ${indexLine.items.length} value(s)`,
+            );
+            return;
+        }
+
+        indexLine.items.forEach((value, position) => {
+            const name = descriptionLine.items[position];
+
+            if (name.column === value.column) {
+                return;
+            }
+
+            this.add(
+                file,
+                lineNumber,
+                name.column,
+                'request-comment-alignment',
+                `'${name.text}' starts at column ${name.column} but documents '${value.text}' at column ${value.column}`,
+            );
+        });
+    }
+
+    // Parse an index line `# NNN   <value>, <value>, ... - <total>`. The
+    // trailing ` - <total>` is the request volume rather than a column of the
+    // table, so it is dropped before the items are split out.
+    private static parseRequestIndexLine(line: string): RequestCommentLine | undefined {
+        const match = /^# (\d+)(\s+)(\d+ from [A-Za-z].*)$/.exec(line);
+
+        if (!match) {
+            return undefined;
+        }
+
+        const body = match[3].replace(/\s+-\s+\d+\s*$/, '');
+        const offset = 2 + match[1].length + match[2].length;
+
+        return {
+            number: match[1],
+            items: LangLinter.splitAtColumns(body, offset),
+        };
+    }
+
+    // Parse a description line `# NNN  (<name>, <name>, ...)`. The opening `(`
+    // belongs to the line's prefix, so the first name's column is the column
+    // just past it.
+    private static parseRequestDescriptionLine(line: string): RequestCommentLine | undefined {
+        const match = /^# (\d+)(\s+)\((.*)\)\s*$/.exec(line);
+
+        if (!match) {
+            return undefined;
+        }
+
+        const offset = 2 + match[1].length + match[2].length + 1;
+
+        return {
+            number: match[1],
+            items: LangLinter.splitAtColumns(match[3], offset),
+        };
+    }
+
+    // Split a comma-separated body into its items, recording the 1-based column
+    // at which each item's first non-space character sits. `offset` is the
+    // 0-based position of the body within its line.
+    private static splitAtColumns(body: string, offset: number): RequestCommentItem[] {
+        const items: RequestCommentItem[] = [];
+        let start = 0;
+
+        for (let i = 0; i <= body.length; i += 1) {
+            if (i < body.length && body[i] !== ',') {
+                continue;
+            }
+
+            const segment = body.slice(start, i);
+            const text = segment.trim();
+
+            if (text.length) {
+                const lead = segment.length - segment.trimStart().length;
+                items.push({text, column: offset + start + lead + 1});
+            }
+
+            start = i + 1;
+        }
+
+        return items;
     }
 
     // Rule `unresolved-call`: every identifier used in call position (`name(`)

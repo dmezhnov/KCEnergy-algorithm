@@ -4,6 +4,8 @@
     "space-before-comment": true,
     "space-after-hash": true,
     "comment-alignment": true,
-    "unresolved-call": true
+    "unresolved-call": true,
+    "request-comment-pairing": true,
+    "request-comment-alignment": true
   }
 }
