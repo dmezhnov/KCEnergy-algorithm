@@ -185,6 +185,50 @@ convention forbids is interleaving them with another source's. The order of the
 file sources among themselves is free — it follows the step order of the
 algorithm, not the alphabet.
 
+### What a header may name
+
+Every name an import line takes from a file must be **defined by that file** —
+`unresolved-import` resolves the source next to the importing file and looks for
+a top-level line that introduces the name (`name(args) = …`, `name of <type>`,
+`name from <category>`, `name = …`).
+
+Every imported name must also be **used in the body** of the importing file. A
+mention in a comment does not count: an import states what the definitions below
+are built from, and a comment builds nothing.
+
+## An Example Follows Its Step File
+
+A `step-N.example_K.lang` is the worked example of `step-N.lang`, and the
+vocabulary of the step is the vocabulary of the example — a name the step file
+defines may be referenced by the example even where the example does not expand
+it (`requests_i_j_x_k_l_s_l0_q_allocated` in `step-n-plus-1.example_*.lang`).
+
+Where both files define the same variable, the example applies the **same matrix
+operation with the same number of arguments**. Three shapes are legitimately
+different and are not compared:
+
+- an **expansion of a family** carries no expression at all — the call is
+  written once on the family head (`requests_i_j_k_l_queue(l0 for  R) = …`) and
+  the expansions below it only hold leaves;
+- `= {}` — the empty matrix of a queue that distributed nothing — is a literal,
+  not a call;
+- a step call with an **ellipsis** argument (`assign_matrix(a(1), ..., a(n))`)
+  is expanded by the example into as many arguments as its data set holds, so
+  only the primitive is compared, not the arity.
+
+A constant the example replaces by its value
+(`MIN_NEXT_AVAIL_TONNAGE(1 from R) = 4` against the step's
+`= OIL_TERMINAL_MIN_TONNAGE`) is outside the rule too: only definitions the step
+writes as a call to a matrix operation are compared.
+
+### Coordinates are not variables
+
+The index letters of `matrix_types.lang` (`I`, `R`, `Z`, …) and the members of
+every top-level enumeration (`Queue = First, Second, …`,
+`stepNullAxes from Product = AI_92, …`) form one vocabulary shared by the whole
+tree: a file writes `FCA` or `1 from R` without importing anything. Only
+variables are resolved per file.
+
 ## File-Level Layout
 
 - **Every file ends with a newline.**

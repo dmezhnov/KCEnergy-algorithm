@@ -1,8 +1,8 @@
-number, indexOf                  from core
-requests_i_j_k_l_corrected       from ("step-3.2.2.lang")
-requests_i_j_k_l_queue           from ("step-1.lang")
-sum_by_axes                      from ("matrix_operation.lang")
-axis, matrix, index              from ("matrix_types.lang")
+number                     from core
+requests_i_j_k_l_corrected from ("step-3.2.2.lang")
+requests_i_j_k_l_queue     from ("step-1.lang")
+sum_by_axes                from ("matrix_operation.lang")
+axis, matrix, index        from ("matrix_types.lang")
 
 ### Итоговый суммарный объем Запросов (после корректировок в дефиците)
 

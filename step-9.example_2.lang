@@ -1,6 +1,5 @@
-filter_by_value                                 from ("matrix_operation.lang")
-available_i_j_new                               from ("step-11.example_2.lang")
-OIL_TERMINAL_MIN_TONNAGE, RAIL_ROAD_MIN_TONNAGE from ("initial_data.example_2.lang")
+filter_by_value   from ("matrix_operation.lang")
+available_i_j_new from ("step-11.example_2.lang")
 
 ### Шаг 9. Оставшиеся объёмы позволяют удовлетворить запросы Владельцев нефтебаз/резервуаров? (пример 2)
 # Остаток первой очереди v2 = available_i_j_new(1 from R) = { 10, 390, 1900 }.
