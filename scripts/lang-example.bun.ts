@@ -97,6 +97,10 @@ const COORDINATE_ITEM = /(\d+)\s+from\s+([A-Za-z][A-Za-z0-9]*)/g;
 // anything.
 const ALIAS = /^[A-Za-z_][A-Za-z0-9_]*(?:\([^(),"]*\))*$/;
 
+// A `where` line placing one or more coordinates on an axis, e.g.
+// `AI_92, AI_95, AI_98, Diesel from Product`.
+const COORDINATE_DECLARATION = /^\s+([A-Za-z_][A-Za-z0-9_]*(?:\s*,\s*[A-Za-z_][A-Za-z0-9_]*)*)\s+from\s+([A-Za-z_][A-Za-z0-9_]*)\s*$/;
+
 // A decimal literal, the whole of a scalar definition's last stage.
 const DECIMAL = /^-?\d+(?:\.\d+)?$/;
 
@@ -113,6 +117,10 @@ const ALIAS_HOPS = 8;
 const QUALIFIER_GROUP = /^(\d+)(?:\s+from\s+[A-Za-z][A-Za-z0-9]*)?$/;
 
 class ExampleIndex {
+    // The axis a coordinate name is declared on, null where two `where` blocks
+    // disagree.
+    private readonly declaredAxis = new Map<string, string | null>();
+
     readonly axesByName = new Map<string, Axis>();
     readonly blocks = new Map<string, Block>();
     readonly blockList: Block[] = [];
@@ -230,8 +238,13 @@ class ExampleIndex {
                 .map(([index]) => ({letter: axis.letter, index})));
 
         // `AI_92` labels both `Product` and `Product_category`; a caller that
-        // knows which axes its matrix carries resolves the name against those.
-        const narrowed = carried ? matches.filter((match) => carried.includes(match.letter)) : matches;
+        // knows which axes its matrix carries resolves the name against those,
+        // and a `where` block that states the axis settles what is left.
+        const carriedOnly = carried ? matches.filter((match) => carried.includes(match.letter)) : matches;
+        const declared = this.declaredAxis.get(text.trim());
+        const narrowed = carriedOnly.length > 1 && declared
+            ? carriedOnly.filter((match) => match.letter === declared)
+            : carriedOnly;
 
         return narrowed.length === 1 ? narrowed[0] : undefined;
     }
@@ -291,9 +304,32 @@ class ExampleIndex {
         }
     }
 
+    // The axis a `where` block states for a coordinate — `AI_92, AI_95, AI_98,
+    // Diesel from Product`. `AI_92` labels both `Product` and `Product_category`,
+    // and this is how an example says which one it writes. A name two `where`
+    // blocks place on different axes is left ambiguous.
+    private parseDeclarations(text: string): void {
+        for (const line of text.split('\n')) {
+            const declaration = COORDINATE_DECLARATION.exec(line);
+            const axis = declaration && this.axesByName.get(declaration[2]);
+
+            if (!axis) {
+                continue;
+            }
+
+            for (const name of declaration[1].split(',').map((part) => part.trim())) {
+                const known = this.declaredAxis.get(name);
+
+                this.declaredAxis.set(name, known === undefined || known === axis.letter ? axis.letter : null);
+            }
+        }
+    }
+
     // Read every top-level expanded variable of one example file. A definition
     // starts in column 0 and its body runs to the line that closes its braces.
     private parseBlocks(text: string, file: string): void {
+        this.parseDeclarations(text);
+
         const lines = text.split('\n');
 
         for (let index = 0; index < lines.length; index += 1) {
