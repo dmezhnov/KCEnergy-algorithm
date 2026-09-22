@@ -114,6 +114,26 @@ class ExampleIndex {
         return AXIS_LETTERS.get(axisName);
     }
 
+    // Split the arguments of a call, keeping a nested call in one piece.
+    static splitArguments(text: string): string[] {
+        const args: string[] = [];
+        let depth = 0;
+        let current = '';
+
+        for (const character of text) {
+            if (character === ',' && depth === 0) {
+                args.push(current.trim());
+                current = '';
+                continue;
+            }
+
+            depth += character === '(' ? 1 : character === ')' ? -1 : 0;
+            current += character;
+        }
+
+        return [...args, current.trim()];
+    }
+
     // The block a reference names, following alias definitions (`a = b`) until
     // one of them is actually expanded.
     resolve(reference: string): Block | undefined {

@@ -66,7 +66,7 @@ class PairChecker {
                 const call = PAIR_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, this.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
                 }
             }
         }
@@ -297,26 +297,6 @@ class PairChecker {
     // The arithmetic of one leaf, spelled the way the example files spell it.
     private render(left: Decimal, right: Decimal, spelling: string): string {
         return spelling === 'min' ? `min(${left}, ${right})` : `${left} ${spelling} ${right}`;
-    }
-
-    // Split the arguments of a call, keeping a nested call in one piece.
-    private splitArguments(text: string): string[] {
-        const args: string[] = [];
-        let depth = 0;
-        let current = '';
-
-        for (const character of text) {
-            if (character === ',' && depth === 0) {
-                args.push(current.trim());
-                current = '';
-                continue;
-            }
-
-            depth += character === '(' ? 1 : character === ')' ? -1 : 0;
-            current += character;
-        }
-
-        return [...args, current.trim()];
     }
 
     // Print what was checked, what could not be, and what disagrees.
