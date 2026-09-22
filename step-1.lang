@@ -26,7 +26,6 @@ requests_i_j_k_l_queue(l0) = filter_by_coordinate(requests_i_j_k_l_l0, l0)
                         l  for P  from index # Индексы субъекта рынка
                         l0 for R  from index # Индексы очереди
 
-
 # Заявки субъектов рынка за рассматриваемый период обслуживаемые в первую очередь
 requests_i_j_k_l_queue(1 from R) = filter_by_coordinate(requests_i_j_k_l_l0, First)
     where
@@ -79,7 +78,6 @@ requests_i_j_k = sum_by_axes(requests_i_j_k_l, Market_participant)
                         l  for P  from index # Индексы субъекта рынка
                         L         from index # Количество субъектов рынка
                         N         from index # Количество нефпродуктов
-
 
 # Матрица объемов в запросах от всех субъектов ранка, размерами N x M
 requests_i_j = sum_by_axes(requests_i_j_k_l, Region, Market_participant)

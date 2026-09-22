@@ -139,7 +139,6 @@ volumes_l_t_i_k_positive = filter_by_value(volumes_l_t_i_k, ">", 0) = {
         P from index # Индексы субъекта рынка
         Y from index # Индексы месяца и года
 
-
 matrix_of_activity = count_coordinates_by_axis(volumes_l_t_i_k_positive, Month_and_year) = {
     (1 from I) = {
         (1 from I, 1 from K) = {

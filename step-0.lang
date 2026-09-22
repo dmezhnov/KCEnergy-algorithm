@@ -28,7 +28,6 @@ volumes_l_t_i_k_k0_i0_require_correct = filter_by_coordinate(volumes_l_t_i_k_k0_
                 k0 for K0 from index # Индексы района
                 i0 for I0 from index # Индексы категории нефпродукта
 
-
 volumes_l_t_i_k_k0 = sum_by_axes(volumes_l_t_i_k_k0_i0_require_correct, Product_category)
     where
         volumes_l_t_i_k_k0_i0_require_correct(l, t, i, k, k0, i0) of  number # Объем пролива

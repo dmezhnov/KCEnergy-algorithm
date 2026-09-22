@@ -176,6 +176,22 @@ The header ends at the first blank line. Not every file has one:
 `initial_data.example_*.lang` opens with an enumeration and `lang.lang` with the
 language's own axioms — those have nothing to align.
 
+### Order of the sources
+
+The `from core` imports come first, and the imports of one source stay
+together. A name is imported on its own line, so one source may take several
+lines (`matrix_operation.lang` three times in `step-n-plus-1.lang`); what the
+convention forbids is interleaving them with another source's. The order of the
+file sources among themselves is free — it follows the step order of the
+algorithm, not the alphabet.
+
+## File-Level Layout
+
+- **Every file ends with a newline.**
+- **At most one blank line in a row.** One blank line separates a definition,
+  a section comment or the import header from what follows; two in a row are a
+  typo, not a wider section break.
+
 ## `where` Declarations
 
 Inside a `where` block the declarations line up their keyword. A run is the

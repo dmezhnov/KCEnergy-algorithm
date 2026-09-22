@@ -385,7 +385,6 @@ normalized_i_j_k_l_fca(1 from R)(n) = for_each_element(estimated_i_j_k_l_fca_rou
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
 
-
 # n-я матрица предварительных расчетных объемов НП l0-й очереди, для поставки с нефтебаз: группы с
 # единственным условием поставки EXW и группы с обоими условиями, выбравшие EXW по вагонной норме
 estimated_i_j_k_l_exw(l0)(n) = assign_matrix(filter_by_pair(estimated_i_j_k_l_single(l0)(n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, l0, EXW)), filter_by_value(estimated_i_j_k_l_multiple(l0)(n), "<", RAIL_ROAD_MIN_TONNAGE))
@@ -655,7 +654,6 @@ normalized_i_j_k_l_exw(1 from R)(n) = for_each_element(estimated_i_j_k_l_exw_rou
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
                         l  for P  from index # Индексы субъекта рынка
-
 
 # n-я матрица нормированных объемов НП l0-й очереди: ветки FCA и EXW не пересекаются,
 # у каждой группы обслуживания ровно одно выбранное условие поставки
