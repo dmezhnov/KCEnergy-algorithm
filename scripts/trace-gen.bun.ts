@@ -1,6 +1,9 @@
 // Bun has no path helpers of its own; everything else below uses the Bun API.
 import path from 'node:path';
 
+import {ExampleIndex} from './lang-example.bun.ts';
+import type {Coordinates} from './lang-example.bun.ts';
+
 // Generator for the trace-string sections of the `*.example_*.lang` files.
 //
 // Every `step-*.lang` ends with one (or, in `step-2.lang`, two) trace-string
@@ -19,29 +22,6 @@ import path from 'node:path';
 //   bun run scripts/trace-gen.bun.ts            # check, exit 1 on any difference
 //   bun run scripts/trace-gen.bun.ts --write    # rewrite the trace sections
 
-// One coordinate of a request: axis letter (`I`, `J`, `K`, `P`, `R`, `Z`, ...)
-// to the 1-based index along that axis.
-type Coordinates = Map<string, number>;
-
-// An axis enumeration from `initial_data.example_N.lang`: its letter and the
-// display name of each coordinate, as the trace strings print it.
-type Axis = {
-    name: string;
-    letter: string;
-    labels: Map<number, string>;
-};
-
-// One expanded variable of an example file. `signatures` lists the distinct
-// axis-letter sets its leaves use — normally one, but an `assign_matrix` result
-// can mix shapes — and `leaves` maps a coordinate key to the value text exactly
-// as the example file spells it.
-type Block = {
-    key: string;
-    signatures: string[][];
-    leaves: Map<string, string>;
-    source: string;
-};
-
 // A rendered template line, with whether its variable reference resolved to a
 // value. The flag drives the deficit/profit alternation (see `renderRequest`).
 type RenderedLine = {
@@ -52,18 +32,6 @@ type RenderedLine = {
 
 // The two example data sets the algorithm files carry.
 const EXAMPLE_SUFFIXES: readonly string[] = ['example_1', 'example_2'];
-
-// Header of an axis enumeration, e.g. `Refinery = ( # J`.
-const AXIS_HEADER = /^([A-Za-z_][A-Za-z0-9_]*) = \(\s*#\s*([A-Za-z][A-Za-z0-9]*)\s*$/;
-
-// One coordinate of an axis enumeration, e.g. `PKOP, # ПКОП - 1 from J`.
-const AXIS_ITEM = /^\s+([^\s,#]+)\s*,?\s*#.*?(\d+)\s+from\s+([A-Za-z][A-Za-z0-9]*)\s*$/;
-
-// A leaf line of an expanded variable, e.g. `(1 from I, 1 from J) = 1440,`.
-const LEAF_LINE = /^\s+\(([^()]*)\)\s*=\s*(.*)$/;
-
-// One `N from Axis` item of a coordinate tuple.
-const COORDINATE_ITEM = /(\d+)\s+from\s+([A-Za-z][A-Za-z0-9]*)/g;
 
 // A variable or axis reference inside a template line: an optional `$`, a name,
 // and one or more parenthesised groups — `$Product(i)`,
@@ -107,8 +75,7 @@ const ITERATION_COUNTER = 'normalized_i_j_k_l';
 // This is the shared entry point for generating and checking the trace-string
 // sections of the example files.
 class TraceGenerator {
-    private axesByName = new Map<string, Axis>();
-    private blocks = new Map<string, Block>();
+    private index = new ExampleIndex();
     private requests: Coordinates[] = [];
     private diagnostics: string[] = [];
 
@@ -160,128 +127,25 @@ class TraceGenerator {
     // Load one data set: its axis enumerations, every expanded variable of every
     // example file, and the request table that drives the trace order.
     private async loadExample(root: string, suffix: string): Promise<void> {
-        this.axesByName = new Map();
-        this.blocks = new Map();
+        this.index = await ExampleIndex.load(root, suffix);
         this.requests = [];
-
-        const files = [...new Bun.Glob(`*.${suffix}.lang`).scanSync(root)].sort();
-
-        for (const file of files) {
-            const text = await Bun.file(path.join(root, file)).text();
-            this.parseAxes(text);
-            this.parseBlocks(text, file);
-        }
+        this.diagnostics.push(...this.index.diagnostics);
 
         this.collectRequests(suffix);
-    }
-
-    // Read the axis enumerations — `Refinery = ( # J` and its coordinate lines.
-    private parseAxes(text: string): void {
-        const lines = text.split('\n');
-
-        for (let index = 0; index < lines.length; index += 1) {
-            const header = AXIS_HEADER.exec(lines[index]);
-
-            if (!header) {
-                continue;
-            }
-
-            const axis: Axis = {name: header[1], letter: header[2], labels: new Map()};
-
-            for (index += 1; index < lines.length && !lines[index].startsWith(')'); index += 1) {
-                const item = AXIS_ITEM.exec(lines[index]);
-
-                if (item && item[3] === axis.letter) {
-                    axis.labels.set(Number(item[2]), item[1]);
-                }
-            }
-
-            this.axesByName.set(axis.name, axis);
-        }
-    }
-
-    // Read every top-level expanded variable of one example file. A definition
-    // starts in column 0 and its body runs to the line that closes its braces.
-    private parseBlocks(text: string, file: string): void {
-        const lines = text.split('\n');
-
-        for (let index = 0; index < lines.length; index += 1) {
-            const line = lines[index];
-
-            if (!line || line.startsWith('#') || /^\s/.test(line) || !line.includes(' = ')) {
-                continue;
-            }
-
-            const key = this.normalizeKey(line.slice(0, line.indexOf(' = ')).trim());
-            const block: Block = {key, signatures: [], leaves: new Map(), source: file};
-
-            let depth = this.braceBalance(line);
-
-            for (index += 1; depth > 0 && index < lines.length; index += 1) {
-                this.collectLeaf(lines[index], block);
-                depth += this.braceBalance(lines[index]);
-            }
-
-            index -= 1;
-            this.addBlock(block);
-        }
-    }
-
-    // Record one leaf line of an expanded variable, ignoring the group openers
-    // (`(1 from I) = {`) that only introduce a nesting level.
-    private collectLeaf(line: string, block: Block): void {
-        const leaf = LEAF_LINE.exec(line);
-
-        if (!leaf || leaf[2].trimEnd().endsWith('{')) {
-            return;
-        }
-
-        const coordinates = this.parseCoordinates(leaf[1]);
-        const signature = [...coordinates.keys()].sort();
-
-        if (!block.signatures.some((known) => known.join() === signature.join())) {
-            block.signatures.push(signature);
-        }
-
-        block.leaves.set(this.coordinateKey(coordinates, signature), this.leafValue(leaf[2]));
-    }
-
-    // The value a leaf line states: its trailing comment and list comma dropped,
-    // and — where the line shows its arithmetic — only the total kept.
-    private leafValue(text: string): string {
-        const withoutComment = text.split(/\s+#/)[0].trim().replace(/,$/, '').trim();
-        const lastEquals = withoutComment.lastIndexOf(' = ');
-
-        return lastEquals < 0 ? withoutComment : withoutComment.slice(lastEquals + 3).trim();
-    }
-
-    // Store a block, reporting the ambiguity if two example files expand the
-    // same name and qualifiers — a lookup could not then pick between them.
-    private addBlock(block: Block): void {
-        const existing = this.blocks.get(block.key);
-
-        if (existing) {
-            this.diagnostics.push(
-                `${block.source}: ${block.key} is also expanded in ${existing.source}; trace values are ambiguous`,
-            );
-            return;
-        }
-
-        this.blocks.set(block.key, block);
     }
 
     // Build the request list from the input matrix, ordered the way the example
     // files print their traces: by queue, then by request number.
     private collectRequests(suffix: string): void {
-        const table = this.blocks.get('requests_i_j_x_k_l_s_l0_q');
+        const table = this.index.blocks.get('requests_i_j_x_k_l_s_l0_q');
 
         if (!table) {
             this.diagnostics.push(`${suffix}: requests_i_j_x_k_l_s_l0_q is not expanded; no traces can be rendered`);
             return;
         }
 
-        this.requests = [...table.leaves.keys()]
-            .map((key) => this.coordinatesFromKey(key))
+        this.requests = [...table.values.keys()]
+            .map((key) => this.index.coordinatesFromKey(key))
             .sort((left, right) => (left.get('R') ?? 0) - (right.get('R') ?? 0) || (left.get('Z') ?? 0) - (right.get('Z') ?? 0));
     }
 
@@ -374,7 +238,7 @@ class TraceGenerator {
         let resolved = true;
 
         const text = line.replace(REFERENCE, (match, _dollar: string, name: string, groups: string) => {
-            const axis = this.axesByName.get(name);
+            const axis = this.index.axesByName.get(name);
 
             if (axis) {
                 return this.coordinateLabel(name, request) ?? match;
@@ -397,8 +261,8 @@ class TraceGenerator {
     // referenced block whose coordinates are the request's own.
     private lookupValue(name: string, groups: string, request: Coordinates): string | undefined {
         const qualifiers = this.resolveQualifiers(name, groups);
-        const key = this.normalizeKey(name + qualifiers.map((qualifier) => `(${qualifier})`).join(''));
-        const block = this.blocks.get(key);
+        const key = this.index.normalizeKey(name + qualifiers.map((qualifier) => `(${qualifier})`).join(''));
+        const block = this.index.blocks.get(key);
 
         if (!block) {
             this.diagnostics.push(`${key} is referenced by a trace template but not expanded in any example file`);
@@ -411,7 +275,7 @@ class TraceGenerator {
 
         for (const signature of block.signatures) {
             if (signature.every((letter) => request.has(letter))) {
-                const value = block.leaves.get(this.coordinateKey(request, signature));
+                const value = block.values.get(this.index.coordinateKey(request, signature));
 
                 if (value !== undefined) {
                     return value;
@@ -469,10 +333,10 @@ class TraceGenerator {
     // The `n` of the trace templates for one queue: how many normalisation
     // passes Step 6 ran, i.e. the highest iteration the loop's result carries.
     private iterationCount(qualifiers: string[]): number {
-        const prefix = this.normalizeKey(ITERATION_COUNTER + qualifiers.map((qualifier) => `(${qualifier})`).join(''));
+        const prefix = this.index.normalizeKey(ITERATION_COUNTER + qualifiers.map((qualifier) => `(${qualifier})`).join(''));
         let count = 1;
 
-        for (let iteration = 1; this.blocks.has(`${prefix}(${iteration} from n)`); iteration += 1) {
+        for (let iteration = 1; this.index.blocks.has(`${prefix}(${iteration} from n)`); iteration += 1) {
             count = iteration;
         }
 
@@ -512,47 +376,10 @@ class TraceGenerator {
 
     // The display name of a request's coordinate along one axis.
     private coordinateLabel(axisName: string, request: Coordinates): string | undefined {
-        const axis = this.axesByName.get(axisName);
+        const axis = this.index.axesByName.get(axisName);
         const index = axis && request.get(axis.letter);
 
         return index === undefined ? undefined : axis?.labels.get(index);
-    }
-
-    // Parse a coordinate tuple such as `1 from I, 4 from K, 12 from P`.
-    private parseCoordinates(text: string): Coordinates {
-        const coordinates: Coordinates = new Map();
-
-        for (const item of text.matchAll(COORDINATE_ITEM)) {
-            coordinates.set(item[2], Number(item[1]));
-        }
-
-        return coordinates;
-    }
-
-    // The lookup key of one leaf: its coordinates along the given axes only.
-    private coordinateKey(coordinates: Coordinates, signature: string[]): string {
-        return signature.map((letter) => `${letter}=${coordinates.get(letter)}`).join(';');
-    }
-
-    // The inverse of `coordinateKey`, used to read the request table back.
-    private coordinatesFromKey(key: string): Coordinates {
-        return new Map(key.split(';').map((part) => {
-            const [letter, index] = part.split('=');
-            return [letter, Number(index)] as const;
-        }));
-    }
-
-    // Collapse the index padding the example files use (`12 from P`, `1  from P`)
-    // so that a reference and its definition produce the same key.
-    private normalizeKey(text: string): string {
-        return text.replace(/\s+/g, ' ').replace(/\(\s*/g, '(').replace(/\s*\)/g, ')');
-    }
-
-    // The net number of braces a line opens.
-    private braceBalance(line: string): number {
-        const code = line.split(/\s+#/)[0];
-
-        return (code.match(/\{/g) ?? []).length - (code.match(/\}/g) ?? []).length;
     }
 
     // Print the diagnostics collected along the way and return the exit code.

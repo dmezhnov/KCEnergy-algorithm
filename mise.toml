@@ -13,6 +13,10 @@ run = "bun run scripts/lang-lint.bun.ts"
 description = "Check the trace strings of the example files (-- --write to regenerate them)"
 run = "bun run scripts/trace-gen.bun.ts"
 
+[tasks.leaves]
+description = "Re-compute the sum_by_axes leaves of the example files from their own inputs"
+run = "bun run scripts/leaf-check.bun.ts"
+
 [tasks.save]
 description = "Save uncommitted changes"
 run = "bun run ../scripts/save.bun.ts"
