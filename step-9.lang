@@ -137,4 +137,3 @@ estimated_i_j_k_l_final = assign_matrix(estimated_i_j_k_l_last(1), ..., estimate
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
-# Шаг 9а. Сформирован дополнительный Запрос объема, МТ: requests_i_j_k_l_virtual(2 from R)
