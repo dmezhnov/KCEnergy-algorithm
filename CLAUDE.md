@@ -23,9 +23,9 @@ the matching names in the description line.
 
 ## `requests_i_j_x_k_l_s_l0_q` Structure
 
-The nested structure is grouped by `(I, C) -> J -> K -> P -> R -> Z`. Multiple
-requests that share the same `(I, C, J, K, P, R)` path are listed together as
-several `Z` leaves under one node.
+The nested structure is grouped by `(I, C) -> J -> X -> K -> P -> R -> Z`.
+Multiple requests that share the same `(I, C, J, X, K, P, R)` path are listed
+together as several `Z` leaves under one node.
 
 ### Index number padding
 
@@ -37,8 +37,15 @@ a space), matching the existing `from Y` convention in the `volumes` structure:
 13 from P    # two digits
 ```
 
-Only `P` (1–21) and `Z` (1–39) reach two digits, so only they are padded; the
-other indices are always single-digit.
+Only `P` (1–21), `Z` (1–39) and `Y` reach two digits, so only they are padded;
+the other indices are always single-digit.
+
+The width belongs to the **axis across the whole file**, not to the block: a
+block that happens to hold single-digit participants only still writes
+`1  from P`, because `P` itself reaches 21. Definition headers are outside the
+rule — `requests_i_j_k_l_queue(1  from R)` in `step-1.example_*.lang` pads its
+index to line up with the family head `(l0 for  R)` above it, which is a
+different alignment.
 
 ### Alignment
 
@@ -46,7 +53,7 @@ other indices are always single-digit.
   closing `)` of the tuple and the `=` before the final number line up.
 - Closing brackets align per nesting level — each closing bracket sits under the
   start of the line that opened it (root `}` at column 0, `(I, C)` at column 4,
-  `J` at 8, `K` at 12, `P` at 16, `R` at 20).
+  `J` at 8, `X` at 12, `K` at 16, `P` at 20, `R` at 24).
 
 ### Leaf line request number comments
 
