@@ -208,3 +208,21 @@ each run is aligned on its own, which is why an `of number` run and the
   `index` ends where the `from index` of the lines below does, which is what
   lines up their `#` comments. The rule fixes the column of the keyword, not of
   the type behind it.
+
+### Comments inside a `where` block
+
+The inline comments of a `where` block line up their `#` over the same runs the
+keyword uses — one block, one indentation, one category. Almost everywhere the
+declarations of a run are the same width, so a single space before `#` already
+lines them up; where they are not, the shorter lines pad up to the longest one:
+
+```
+        volumes_l_t_i_k_positive of matrix(Market_participant, Product, Region, Month_and_year) # Проливы только за активные месяцы
+        matrix_of_activity       of matrix(Market_participant, Product, Region)                 # Число активных месяцев
+```
+
+- A declaration **without** a comment splits the run: a block is commented in
+  stretches, and each stretch lines up on its own.
+- A declaration whose type carries an initializer (`m of index = 1, ..., D`) is
+  not one of these runs — neither rule of this section sees it, the same way the
+  keyword rule does not.
