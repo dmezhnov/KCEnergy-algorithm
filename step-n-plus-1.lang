@@ -1,7 +1,8 @@
 length, number                                                   from core
 requests_i_j_x_k_l_s_l0_q                                        from ("initial_data.lang")
+estimated_i_j_k_l                                                from ("step-7.2.lang")
 estimated_i_j_k_l_last                                           from ("step-8.lang")
-normalized_i_j_k_l                                               from ("step-6.lang")
+normalized_i_j_k_l, requests_i_j_k_l_s_l0_chosen                 from ("step-6.lang")
 axis, condition, index, operation                                from ("matrix_types.lang")
 assign_matrix, count_coordinates_by_axis, filter_by_coordinate   from ("matrix_operation.lang")
 filter_by_pair, filter_by_value, for_each_element, for_each_pair from ("matrix_operation.lang")
@@ -27,9 +28,11 @@ replace_coord, sum_by_axes                                       from ("matrix_o
 # заказчика, лист «ПКОП»: Запрос 3900 при нормированном объёме 2665 получил 2665, Запрос
 # 1040 при 455 получил 455).
 #
-# Условие поставки Шаг (N + 1) не учитывает: выбор условия сделан в Шаге 6 выбором нормы
-# (вагонная норма для FCA, норма нефтебазы для EXW), и отказ Запросам другого условия
-# получается сам собой — более крупные Запросы забирают остаток первыми.
+# Условие поставки выбрано в Шаге 6 на всю коллекцию: распределение меньше вагонной нормы —
+# EXW, иначе FCA; коллекция с единственным заявленным условием — по нему. Раскладка идёт только
+# по Запросам выбранного условия, а Запросы другого условия отказываются и получают 0: без
+# этого более крупный Запрос невыбранного условия мог бы забрать объём, нормированный под
+# выбранное.
 #
 # Отказ показан нулём в ячейке Запроса: ячейка остаётся в матрице, а её значение равно 0.
 
@@ -54,14 +57,58 @@ distributed_i_j_k_l_l0 = assign_matrix(replace_coord(estimated_i_j_k_l_last(1 fr
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
 
+# Условие поставки, выбранное в Шаге 6 для каждой коллекции (i, j, k, l) в очереди l0: ячейки
+# агрегированных Запросов выбранного условия. Для реальной I очереди выбор берётся из последней
+# итерации нормирования — той, что дала объём Шага 8, для виртуальных очередей — из
+# единственной.
+requests_i_j_k_l_s_l0_served = assign_matrix(requests_i_j_k_l_s_l0_chosen(1 from R)(last_n), requests_i_j_k_l_s_l0_chosen(2 from R)(1), requests_i_j_k_l_s_l0_chosen(3 from R)(1), requests_i_j_k_l_s_l0_chosen(4 from R)(1))
+    where
+        requests_i_j_k_l_s_l0_chosen(1 from R)(last_n)(i, j, k, l, s, l0) of number
+        requests_i_j_k_l_s_l0_chosen(l0)(1)(i, j, k, l, s, l0)            of number
+        requests_i_j_k_l_s_l0_served(i, j, k, l, s, l0)                   of number
+        requests_i_j_k_l_s_l0_chosen(1 from R)(last_n) of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_k_l_s_l0_chosen(l0)(1)            of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_k_l_s_l0_served                   of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+            where
+                last_n of index = length(estimated_i_j_k_l(1 from R)) # Индекс последней итерации нормирования I очереди
+                Product, Refinery, Region, Market_participant, Ship_terms, Queue from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                s  for C  from index # Индексы условий поставки
+                l0 for R  from index # Индексы очереди
+
+# Раскладываемые Запросы: только Запросы выбранного в коллекции условия поставки. Запросы
+# другого условия в перебор не попадают, а в итоге Шага остаются с нулём.
+requests_i_j_x_k_l_s_l0_q_served = filter_by_pair(requests_i_j_x_k_l_s_l0_q, contains, requests_i_j_k_l_s_l0_served)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)        of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_l0_served(i, j, k, l, s, l0)           of number
+        requests_i_j_x_k_l_s_l0_q_served(i, j, x, k, l, l0, s, q) of number # Раскладываемый объем НП
+        requests_i_j_x_k_l_s_l0_q        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_served     of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_x_k_l_s_l0_q_served of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        contains from condition
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
 # q-й Запрос: его запрашиваемый объём в разрезе нефтебазы и условия поставки, на
 # которые он подан (ось Request снята выбором координаты).
-requests_front(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, q)
+requests_front(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q_served, q)
     where
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
-        requests_front(q)(i, j, x, k, l, l0, s)            of number
-        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_front(q)         of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
+        requests_i_j_x_k_l_s_l0_q_served(i, j, x, k, l, l0, s, q) of number # Раскладываемый объем НП
+        requests_front(q)(i, j, x, k, l, l0, s)                   of number
+        requests_i_j_x_k_l_s_l0_q_served of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front(q)                of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
             where
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
@@ -198,14 +245,14 @@ requests_rank = assign_matrix(requests_rank_q(1), ..., requests_rank_q(D))
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Количество Запросов в коллекции: у Запроса ровно одна нефтебаза и одно условие
-# поставки, поэтому достаточно посчитать координаты оси Request и свернуть эти две оси.
-requests_count = sum_by_axes(count_coordinates_by_axis(requests_i_j_x_k_l_s_l0_q, Request), Terminal, Ship_terms)
+# Количество раскладываемых Запросов в коллекции: у Запроса ровно одна нефтебаза и одно
+# условие поставки, поэтому достаточно посчитать координаты оси Request и свернуть эти две оси.
+requests_count = sum_by_axes(count_coordinates_by_axis(requests_i_j_x_k_l_s_l0_q_served, Request), Terminal, Ship_terms)
     where
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number
-        requests_count(i, j, l, k, l0)                     of number # Количество Запросов коллекции
-        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_count            of matrix(Product, Refinery, Market_participant, Region, Queue)
+        requests_i_j_x_k_l_s_l0_q_served(i, j, x, k, l, l0, s, q) of number
+        requests_count(i, j, l, k, l0)                            of number # Количество Запросов коллекции
+        requests_i_j_x_k_l_s_l0_q_served of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_count                   of matrix(Product, Refinery, Market_participant, Region, Queue)
             where
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
@@ -254,14 +301,14 @@ requests_remainder(1) = distributed_i_j_k_l_l0
                 l0 for R  from index # Индексы очереди
 
 # m-й по порядку перебора Запрос каждой коллекции с его запрашиваемым объёмом.
-requests_ranked_front(m) = filter_by_pair(requests_i_j_x_k_l_s_l0_q, contains, filter_by_value(requests_rank, "=", m))
+requests_ranked_front(m) = filter_by_pair(requests_i_j_x_k_l_s_l0_q_served, contains, filter_by_value(requests_rank, "=", m))
     where
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number
-        requests_rank(i, j, l, k, l0, q)                   of number
-        requests_ranked_front(m)(i, j, x, k, l, l0, s, q)  of number
-        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_rank             of matrix(Product, Refinery, Market_participant, Region, Queue, Request)
-        requests_ranked_front(m)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_x_k_l_s_l0_q_served(i, j, x, k, l, l0, s, q) of number
+        requests_rank(i, j, l, k, l0, q)                          of number
+        requests_ranked_front(m)(i, j, x, k, l, l0, s, q)         of number
+        requests_i_j_x_k_l_s_l0_q_served of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_rank                    of matrix(Product, Refinery, Market_participant, Region, Queue, Request)
+        requests_ranked_front(m)         of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         contains from condition
         "="      from condition
             where
