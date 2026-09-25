@@ -8,8 +8,9 @@ count_coordinates_by_axis, for_each_element, assign_matrix                 from 
 # После агрегации (Шаг −1) в группе обслуживания может быть заявлено одно условие поставки или
 # оба сразу. Если условие одно — группа нормируется по нему, как и до агрегации. Если заявлены
 # оба — условие выбирается по вагонной норме (65 МТ): объём меньше нормы нормируется по условию
-# EXW (с нефтебазы), не меньше — по условию FCA (с НПЗ). Отказа здесь нет: объёмы Запросов
-# невыбранного условия обнуляются при разагрегации в Шаге n+1.
+# EXW (с нефтебазы), не меньше — по условию FCA (с НПЗ). Выбор записывается матрицей
+# requests_i_j_k_l_s_l0_chosen: Шаг (N + 1) раскладывает объём группы только по Запросам
+# выбранного условия, а Запросы невыбранного условия отказывает — они получают 0.
 
 # Количество условий поставки, заявленных в группе обслуживания.
 ship_terms_count_by_requests_l0 = count_coordinates_by_axis(requests_i_j_k_l_s_l0, Ship_terms) = {
@@ -257,7 +258,7 @@ ship_terms_count_by_requests_l0_multiple = filter_by_value(ship_terms_count_by_r
 # — для нефтебаз (EXW) — до кратности шагу вывоза (5 МТ), но не ниже минимальной нормы (4 МТ).
 # Оба условия поставки заявлены только в группе (ПКОП J=1, Ulytau K=4, Participant_A P=1):
 # её предварительный объём 14.509769561026899064 МТ меньше вагонной нормы (65 МТ), поэтому
-# группа нормируется по условию EXW — Запрос #001 (FCA) обнулится в Шаге n+1.
+# группа нормируется по условию EXW — Запрос #001 (FCA) будет отказан в Шаге (N + 1).
 
 # Предварительные расчётные объёмы первой очереди у групп с единственным условием поставки.
 estimated_i_j_k_l_single(1 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(1 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_single, First)) = {
@@ -659,6 +660,100 @@ normalized_i_j_k_l(1 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(1 
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
+# Запросы первой очереди по выбранному условию поставки: у групп, нормированных по FCA, — их
+# Запросы FCA, у нормированных по EXW — Запросы EXW. Шаг (N + 1) раскладывает объём группы
+# только по этим Запросам.
+requests_i_j_k_l_s_l0_chosen(1 from R)(1 from n) = assign_matrix(filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA), contains, normalized_i_j_k_l_fca(1 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW), contains, normalized_i_j_k_l_exw(1 from R)(1 from n))) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 1 from J, 1 from K, 7  from P, 1 from R, 2 from C) = 70   # 110
+                    }
+                }
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from J, 3 from K, 2  from P, 1 from R, 1 from C) = 715  # 106
+                    }
+                }
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 100  # 102
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 1 from C) = 325  # 108
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 2 from C) = 325  # 109
+                    }
+                }
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 1  from P, 1 from R, 2 from C) = 150  # 103
+                    }
+                },
+                (1 from I, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 3  from P, 1 from R, 2 from C) = 200  # 107
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 400  # 104
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 7  from P, 1 from R, 2 from C) = 100  # 111
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 18 from P, 1 from R, 2 from C) = 100  # 112
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 19 from P, 1 from R, 2 from C) = 50   # 113
+                    }
+                }
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 3 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 600  # 105
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
 ### Шаг 6 для II очереди: нормирование предварительных объёмов (2 from R) (n = 1).
 # Обслуживаемые во II очереди Запросы: с НПЗ (FCA) — #203 (ПКОП, J=1), #205, #207 (АНПЗ, J=2),
 # #201, #202 (ПНХЗ, J=3); с нефтебаз (EXW) — #204 (ПКОП, J=1), #206, #208, #209 (АНПЗ, J=2).
@@ -1016,6 +1111,81 @@ normalized_i_j_k_l(2 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(2 
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
+# Запросы II очереди по выбранному условию поставки: у групп, нормированных по FCA, — их
+# Запросы FCA, у нормированных по EXW — Запросы EXW. Шаг (N + 1) раскладывает объём группы
+# только по этим Запросам.
+requests_i_j_k_l_s_l0_chosen(2 from R)(1 from n) = assign_matrix(filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Second, FCA), contains, normalized_i_j_k_l_fca(2 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Second, EXW), contains, normalized_i_j_k_l_exw(2 from R)(1 from n))) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 1 from J, 1 from K, 15 from P, 2 from R, 2 from C) = 50   # 204
+                    }
+                }
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from J, 3 from K, 14 from P, 2 from R, 1 from C) = 195  # 203
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 16 from P) = {
+                    (1 from I, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 16 from P, 2 from R, 1 from C) = 130  # 205
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 17 from P) = {
+                    (1 from I, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 17 from P, 2 from R, 2 from C) = 70   # 206
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 20 from P) = {
+                    (1 from I, 2 from J, 4 from K, 20 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 20 from P, 2 from R, 1 from C) = 130  # 207
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 21 from P) = {
+                    (1 from I, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 21 from P, 2 from R, 2 from C) = 15   # 208
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 22 from P) = {
+                    (1 from I, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 22 from P, 2 from R, 2 from C) = 35   # 209
+                    }
+                }
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 8  from P) = {
+                    (1 from I, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                        (1 from I, 3 from J, 2 from K, 8  from P, 2 from R, 1 from C) = 65   # 201
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 9  from P) = {
+                    (1 from I, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                        (1 from I, 3 from J, 2 from K, 9  from P, 2 from R, 1 from C) = 130  # 202
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
 ### Шаг 6 для III очереди (ГМК): нормирование предварительных объёмов (3 from R) (n = 1).
 # Обслуживаемые Запросы — только ПНХЗ (J=3): с НПЗ (FCA) — #301 (K=2, P=10); с нефтебаз (EXW) —
 # #302 (K=6, P=11). FCA нормируется до кратности вагонной норме (65 МТ), EXW — до кратности шагу
@@ -1243,6 +1413,38 @@ normalized_i_j_k_l(3 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(3 
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
+# Запросы III очереди по выбранному условию поставки: у групп, нормированных по FCA, — их
+# Запросы FCA, у нормированных по EXW — Запросы EXW. Шаг (N + 1) раскладывает объём группы
+# только по этим Запросам.
+requests_i_j_k_l_s_l0_chosen(3 from R)(1 from n) = assign_matrix(filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Third, FCA), contains, normalized_i_j_k_l_fca(3 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Third, EXW), contains, normalized_i_j_k_l_exw(3 from R)(1 from n))) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 10 from P) = {
+                    (1 from I, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                        (1 from I, 3 from J, 2 from K, 10 from P, 3 from R, 1 from C) = 195  # 301
+                    }
+                }
+            },
+            (1 from I, 3 from J, 6 from K) = {
+                (1 from I, 3 from J, 6 from K, 11 from P) = {
+                    (1 from I, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                        (1 from I, 3 from J, 6 from K, 11 from P, 3 from R, 2 from C) = 250  # 302
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
 ### Шаг 6 для IV очереди (иные Субъекты рынка): нормирование предварительных объёмов (4 from R) (n = 1).
 # Обслуживаемые Запросы — только ПНХЗ (J=3), все на условиях FCA (с НПЗ): #401 (K=2, P=4), #402
 # (K=2, P=5), #403 (K=2, P=6). Поставок с нефтебаз (EXW) в IV очереди нет. Профицит: предварительные
@@ -1437,6 +1639,41 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
         J  from index # Индексы НПЗ
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+
+# Запросы IV очереди по выбранному условию поставки: у групп, нормированных по FCA, — их
+# Запросы FCA, у нормированных по EXW — Запросы EXW. Шаг (N + 1) раскладывает объём группы
+# только по этим Запросам.
+requests_i_j_k_l_s_l0_chosen(4 from R)(1 from n) = assign_matrix(filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Fourth, FCA), contains, normalized_i_j_k_l_fca(4 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, Fourth, EXW), contains, normalized_i_j_k_l_exw(4 from R)(1 from n))) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 4  from P) = {
+                    (1 from I, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 4  from P, 4 from R, 1 from C) = 260  # 401
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 5  from P) = {
+                    (1 from I, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 5  from P, 4 from R, 1 from C) = 520  # 402
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 6  from P) = {
+                    (1 from I, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 6  from P, 4 from R, 1 from C) = 715  # 403
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
 
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
