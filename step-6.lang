@@ -242,7 +242,7 @@ estimated_i_j_k_l_fca_coeff(1 from R)(n) = for_each_element(estimated_i_j_k_l_fc
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
 
-# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
+# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вниз. Количество знаков после запятой - 0
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП l0-й очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(l0)(n), round, 0)
     where
@@ -275,7 +275,7 @@ estimated_i_j_k_l_fca_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_
                 k  for K  from index      # Индексы региона
                 l  for P  from index      # Индексы субъекта рынка
 
-# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
+# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вниз. Количество знаков после запятой - 0
 # n-я матрица округленных коэффициентов, для расчета нормированных объемов НП первой очереди, для поставки с НПЗ
 estimated_i_j_k_l_fca_coeff_rounded(1 from R)(n) = for_each_element(estimated_i_j_k_l_fca_coeff(1 from R)(n), round, 0)
     where
@@ -473,7 +473,7 @@ estimated_i_j_k_l_exw_coeff(1 from R)(n) = for_each_element(estimated_i_j_k_l_ex
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
 
-# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
+# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вниз. Количество знаков после запятой - 0
 estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_exw_coeff(l0)(n), round, 0)
     where
         estimated_i_j_k_l_exw_coeff(l0)(n)(i, j, k, l)         of number
@@ -505,7 +505,7 @@ estimated_i_j_k_l_exw_coeff_rounded(l0)(n) = for_each_element(estimated_i_j_k_l_
                 k  for K  from index      # Индексы региона
                 l  for P  from index      # Индексы субъекта рынка
 
-# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вверх. Количество знаков после запятой - 0
+# Округляем до целого числа по мат. правилам, если n = 1 (первая итерация), иначе округление вниз. Количество знаков после запятой - 0
 estimated_i_j_k_l_exw_coeff_rounded(1 from R)(n) = for_each_element(estimated_i_j_k_l_exw_coeff(1 from R)(n), round, 0)
     where
         estimated_i_j_k_l_exw_coeff(1 from R)(n)(i, j, k, l)         of number
