@@ -1,5 +1,5 @@
-length, number             from core
-estimated_i_j_k_l          from ("step-7.2.example_1.lang")
+number                     from core
+normalized_i_j_k_l_refined from ("step-7.2.example_1.lang")
 available_i_j              from ("initial_data.example_1.lang")
 for_each_pair, sum_by_axes from ("matrix_operation.lang")
 operation                  from ("matrix_types.lang")
@@ -7,63 +7,21 @@ operation                  from ("matrix_types.lang")
 ### Шаг 8. Оставшийся после распределения Владельцам АЗС объём НП (пример 1)
 # Остатки по (Product, Refinery) после распределения первой очереди (Владельцы АЗС):
 # доступный объём v0 минус суммарно предоставленный Владельцам АЗС (свёртка s̈ по k, l).
-# Цикл нормирования первой очереди сошёлся на n = 1, поэтому последняя принятая матрица
-# предварительных расчётных объёмов совпадает с нормированной матрицей Шага 6.
-
-# Последняя матрица предварительных расчётных объёмов НП первой очереди (s̈).
-estimated_i_j_k_l_last(1 from R) = estimated_i_j_k_l(1 from R)(last_n) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 55    # 110
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 585   # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 65,   # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P) = 195,  # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 165   # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 75,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 80    # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30,   # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20    # 113
-            }
-        }
-    }
-}
-    where
-        estimated_i_j_k_l_last(1 from R)(i, l, j, k)    of number
-        estimated_i_j_k_l(1 from R)(last_n)(i, l, j, k) of number
-        estimated_i_j_k_l(1 from R)      of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_k_l_last(1 from R) of matrix(Product, Refinery, Market_participant, Region)
-            where
-                last_n    of   index = length(estimated_i_j_k_l(1 from R)) # индекс последней матрицы предварительных расчётных объёмов НП
-                Product, Market_participant, Refinery, Region from axis
-                i  for I  from index # Индексы нефпродукта
-                l  for P  from index # Индексы субъекта рынка
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
+# s̈ — уточнённая матрица первой очереди Шага 7.2. Урезанных групп нет, поэтому она совпадает
+# с нормированной матрицей Шага 6.
 
 # Суммарно предоставленный Владельцам АЗС объём по НПЗ (свёртка s̈ по региону и субъекту).
-estimated_i_j_last(1 from R) = sum_by_axes(estimated_i_j_k_l_last(1 from R), Region, Market_participant) = {
+estimated_i_j_last(1 from R) = sum_by_axes(normalized_i_j_k_l_refined(1 from R), Region, Market_participant) = {
     (1 from I) = {
         (1 from I, 1 from J) =  55 + 585 +  65 + 195 + 165 +  75 +  80 = 1220,  # 101 + 102 + 103 + 106 + 107 + 108 + 109 + 110
         (1 from I, 2 from J) =  30 +  30 +  20                         = 80     # 111 + 112 + 113
     }
 }
     where
-        estimated_i_j_k_l_last(1 from R)(i, j, l, k) of number
-        estimated_i_j_last(1 from R)(i, j)           of number
-        estimated_i_j_k_l_last(1 from R) of matrix(Product, Refinery, Market_participant, Region)
-        estimated_i_j_last(1 from R)     of matrix(Product, Refinery)
+        normalized_i_j_k_l_refined(1 from R)(i, j, l, k) of number
+        estimated_i_j_last(1 from R)(i, j)               of number
+        normalized_i_j_k_l_refined(1 from R) of matrix(Product, Refinery, Market_participant, Region)
+        estimated_i_j_last(1 from R)         of matrix(Product, Refinery)
             where
                 Product, Market_participant, Refinery, Region from axis
                 i  for I  from index # Индексы нефпродукта
@@ -116,7 +74,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 65
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -143,7 +101,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 65
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -170,7 +128,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 65
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -197,7 +155,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 65
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -224,7 +182,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 75
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -251,7 +209,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 140
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.114754098360655737
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 75
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -278,7 +236,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 585
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.479508196721311475
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Shimkent, МТ: —
+# PKOP в регион Shimkent, МТ: 585
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -305,7 +263,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 80
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.065573770491803278
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 80
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -332,7 +290,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.159836065573770491
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -359,7 +317,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.159836065573770491
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -386,7 +344,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.159836065573770491
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -413,7 +371,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.159836065573770491
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -440,7 +398,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.159836065573770491
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -467,7 +425,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 165
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.135245901639344262
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 165
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -494,7 +452,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 165
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.135245901639344262
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 165
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -521,7 +479,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 165
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.135245901639344262
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 165
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -548,7 +506,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 165
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.135245901639344262
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 165
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -575,7 +533,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 165
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.135245901639344262
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 165
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -602,7 +560,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # PKOP по запросам Субъекта рынка, МТ: 55
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.045081967213114754
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Almaty, МТ: —
+# PKOP в регион Almaty, МТ: 55
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ PKOP, МТ: -20
 
@@ -629,7 +587,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # ANPZ по запросам Субъекта рынка, МТ: 30
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.375
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 30
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ ANPZ, МТ: 420
 
@@ -656,7 +614,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # ANPZ по запросам Субъекта рынка, МТ: 30
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.375
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 30
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ ANPZ, МТ: 420
 
@@ -683,7 +641,7 @@ available_i_j_new(1 from R) = for_each_pair(available_i_j(1 from R), "-", estima
 # ANPZ по запросам Субъекта рынка, МТ: 20
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.25
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 20
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # AI_92 на НПЗ ANPZ, МТ: 420
 

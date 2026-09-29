@@ -151,7 +151,8 @@ class OperandEvaluator {
 
     // `filter_by_pair(source, condit, matrix_condition)`: the cells of the
     // source the condition keeps, with their values copied over. A cell the
-    // condition matrix does not carry is dropped whatever the condition.
+    // condition matrix does not carry is dropped, unless the condition is
+    // `not_contains`, which keeps exactly those.
     private filterByPair(args: string[], where: string): Matrix | undefined {
         if (args.length !== 3) {
             this.notes.push(`${where}: filter_by_pair takes three arguments, got ${args.length}`);
@@ -167,7 +168,7 @@ class OperandEvaluator {
 
         const condition = args[1];
 
-        if (condition !== MatrixOperation.CONTAINS && !MatrixOperation.compares(condition)) {
+        if (condition !== MatrixOperation.CONTAINS && condition !== MatrixOperation.NOT_CONTAINS && !MatrixOperation.compares(condition)) {
             this.notes.push(`${where}: condition ${condition} is not implemented`);
             return undefined;
         }
@@ -178,6 +179,14 @@ class OperandEvaluator {
 
         for (const [key, cell] of source.cells) {
             const value = readable.cells.get(this.index.coordinateKey(cell.coordinates, readable.axes))?.value;
+
+            if (condition === MatrixOperation.NOT_CONTAINS) {
+                if (value === undefined) {
+                    cells.set(key, cell);
+                }
+
+                continue;
+            }
 
             if (value === undefined) {
                 continue;

@@ -1,14 +1,24 @@
-MAX_SUBJECT_SHARE_COEFFICIENT                                                                              from ("initial_data.lang")
-normalized_i_j_k_l                                                                                         from ("step-6.lang")
-normalized_i_j_l, normalized_i_j                                                                           from ("step-7.1.lang")
-for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis, filter_by_value, assign_matrix from ("matrix_operation.lang")
-condition, axis, index                                                                                     from ("matrix_types.lang")
+MAX_SUBJECT_SHARE_COEFFICIENT                                                    from ("initial_data.lang")
+RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE       from ("initial_data.lang")
+requests_i_j_k_l_s_l0                                                            from ("step-minus-1.lang")
+normalized_i_j_k_l, requests_i_j_k_l_s_l0_chosen                                 from ("step-6.lang")
+ship_terms_count_by_requests_l0_single, ship_terms_count_by_requests_l0_multiple from ("step-6.lang")
+normalized_i_j_l, normalized_i_j                                                 from ("step-7.1.lang")
+for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis       from ("matrix_operation.lang")
+filter_by_value, filter_by_coordinate, assign_matrix                             from ("matrix_operation.lang")
+condition, axis, index                                                           from ("matrix_types.lang")
 
 #### Уточненный нормированный объем НП
 # Сравниваем долю субъекта с предельной долей и, при необходимости,
-# применяем понижающий коэффициент к его объёмам; затем переходим к повторному
-# нормированию (Шаг 6). Если все Запросы с НПЗ подал единственный Субъект рынка,
-# правило Шага 7 не соблюдается — такой НПЗ исключается из проверки.
+# применяем понижающий коэффициент к его объёмам. Если все Запросы с НПЗ подал единственный
+# Субъект рынка, правило Шага 7 не соблюдается — такой НПЗ исключается из проверки.
+#
+# Проверка делается один раз, против суммарного объёма НПЗ до урезания (Ṡ_ij матрицы Шага 6):
+# урезанный объём между субъектами не перераспределяется, поэтому проверка против уменьшившегося
+# итога урезала бы субъекта снова и снова. Урезанные объёмы нормируются здесь же, без возврата к
+# Шагу 6, и округляются вниз: округление по мат. правилам могло бы вернуть объём за предел.
+# Условие поставки урезанной группы с обоими условиями выбирается заново по правилу Шага 6, по
+# урезанному объёму.
 
 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
 normalized_i_j_threshold(1 from R)(n) = for_each_element(normalized_i_j(1 from R)(n), "*", MAX_SUBJECT_SHARE_COEFFICIENT)
@@ -159,38 +169,277 @@ normalized_i_j_k_l_corrected(1 from R)(n) = for_each_pair(normalized_i_j_k_l_lim
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
 
-estimated_i_j_k_l(1 from R)(n + 1) = assign_matrix(normalized_i_j_k_l(1 from R)(n), normalized_i_j_k_l_corrected(1 from R)(n))
+# Урезанные объёмы групп обслуживания, в которых заявлено единственное условие поставки
+normalized_i_j_k_l_corrected_single(1 from R)(n) = filter_by_pair(normalized_i_j_k_l_corrected(1 from R)(n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_single, First))
     where
-        is_empty( normalized_i_j_k_l_corrected(1 from R)(n) ) = false
+        normalized_i_j_k_l_corrected_single(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k)        of number
+        ship_terms_count_by_requests_l0_single(i, j, k, l, l0)       of number
+        normalized_i_j_k_l_corrected_single(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected(1 from R)(n)        of matrix(Product, Market_participant, Refinery, Region)
+        ship_terms_count_by_requests_l0_single           of matrix(Product, Refinery, Region, Market_participant, Queue)
+        contains from condition
             where
-                estimated_i_j_k_l(1 from R)(n + 1)(i, l, j, k)        of number
-                normalized_i_j_k_l(1 from R)(n)(i, l, j, k)           of number
-                normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k) of number
-                estimated_i_j_k_l(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region)
-                normalized_i_j_k_l(1 from R)(n)           of matrix(Product, Market_participant, Refinery, Region)
-                normalized_i_j_k_l_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+                First from Queue
                     where
                         n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region from axis
+                        Product, Market_participant, Refinery, Region, Queue from axis
                         i  for I  from index # Индексы нефпродукта
                         l  for P  from index # Индексы субъекта рынка
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
-estimated_i_j_k_l(1 from R)(n + 1) = {}
+                        l0 for R  from index # Индексы очереди
+
+# Урезанные объёмы групп обслуживания, в которых заявлены оба условия поставки
+normalized_i_j_k_l_corrected_multiple(1 from R)(n) = filter_by_pair(normalized_i_j_k_l_corrected(1 from R)(n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_multiple, First))
     where
-        is_empty( normalized_i_j_k_l_corrected(1 from R)(n) ) = true
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k)          of number
+        ship_terms_count_by_requests_l0_multiple(i, j, k, l, l0)       of number
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected(1 from R)(n)          of matrix(Product, Market_participant, Refinery, Region)
+        ship_terms_count_by_requests_l0_multiple           of matrix(Product, Refinery, Region, Market_participant, Queue)
+        contains from condition
             where
-                estimated_i_j_k_l(1 from R)(n + 1)(i, l, j, k)        of number
-                normalized_i_j_k_l_corrected(1 from R)(n)(i, l, j, k) of number
-                estimated_i_j_k_l(1 from R)(n + 1)        of matrix(Product, Market_participant, Refinery, Region)
-                normalized_i_j_k_l_corrected(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+                First from Queue
                     where
                         n  of          index # Индекс матрицы
-                        Product, Market_participant, Refinery, Region from axis
+                        Product, Market_participant, Refinery, Region, Queue from axis
                         i  for I  from index # Индексы нефпродукта
                         l  for P  from index # Индексы субъекта рынка
                         j  for J  from index # Индексы НПЗ
                         k  for K  from index # Индексы региона
+                        l0 for R  from index # Индексы очереди
+
+# Урезанные объёмы для поставки с НПЗ: группы с единственным условием поставки FCA и группы
+# с обоими условиями, у которых урезанный объём не меньше вагонной нормы. Условие поставки
+# выбирается заново по правилу Шага 6: урезание могло опустить объём группы ниже нормы
+normalized_i_j_k_l_corrected_fca(1 from R)(n) = assign_matrix(filter_by_pair(normalized_i_j_k_l_corrected_single(1 from R)(n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA)), filter_by_value(normalized_i_j_k_l_corrected_multiple(1 from R)(n), ">=", RAIL_ROAD_MIN_TONNAGE))
+    where
+        normalized_i_j_k_l_corrected_fca(1 from R)(n)(i, l, j, k)      of number
+        normalized_i_j_k_l_corrected_single(1 from R)(n)(i, l, j, k)   of number
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n)(i, l, j, k) of number
+        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)                       of number
+        RAIL_ROAD_MIN_TONNAGE                                          of number
+        normalized_i_j_k_l_corrected_fca(1 from R)(n)      of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_single(1 from R)(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        requests_i_j_k_l_s_l0                              of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        FCA from coordinate
+        contains, ">=" from condition
+            where
+                First from Queue
+                    where
+                        n  of          index # Индекс матрицы
+                        Product, Market_participant, Refinery, Region, Ship_terms, Queue from axis
+                        i  for I  from index # Индексы нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        j  for J  from index # Индексы НПЗ
+                        k  for K  from index # Индексы региона
+                        s  for C  from index # Индексы условия поставки
+                        l0 for R  from index # Индексы очереди
+
+# Коэффициенты для нормирования урезанных объёмов с НПЗ
+normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_fca(1 from R)(n), safe_divide, RAIL_ROAD_MIN_TONNAGE)
+    where
+        normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected_fca(1 from R)(n)(i, l, j, k)       of number
+        RAIL_ROAD_MIN_TONNAGE                                           of number
+        normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_fca(1 from R)(n)       of matrix(Product, Market_participant, Refinery, Region)
+        safe_divide from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Округляем вниз, до целого числа вагонов: округление по мат. правилам могло бы вернуть
+# объём за предел доли
+normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n), floor, 0)
+    where
+        normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n)(i, l, j, k)         of number
+        normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_fca_coeff(1 from R)(n)         of matrix(Product, Market_participant, Refinery, Region)
+        floor from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Нормированные урезанные объёмы с НПЗ. Меньше одного вагона округляется до 0: минимальная
+# вагонная норма здесь не подставляется, иначе объём снова превысил бы предел
+normalized_i_j_k_l_refined_fca(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n), "*", RAIL_ROAD_MIN_TONNAGE)
+    where
+        normalized_i_j_k_l_refined_fca(1 from R)(n)(i, l, j, k)                 of number
+        normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n)(i, l, j, k) of number
+        RAIL_ROAD_MIN_TONNAGE                                                   of number
+        normalized_i_j_k_l_refined_fca(1 from R)(n)                 of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        "*" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Урезанные объёмы для поставки с нефтебаз: группы с единственным условием поставки EXW и
+# группы с обоими условиями, у которых урезанный объём меньше вагонной нормы
+normalized_i_j_k_l_corrected_exw(1 from R)(n) = assign_matrix(filter_by_pair(normalized_i_j_k_l_corrected_single(1 from R)(n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW)), filter_by_value(normalized_i_j_k_l_corrected_multiple(1 from R)(n), "<", RAIL_ROAD_MIN_TONNAGE))
+    where
+        normalized_i_j_k_l_corrected_exw(1 from R)(n)(i, l, j, k)      of number
+        normalized_i_j_k_l_corrected_single(1 from R)(n)(i, l, j, k)   of number
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n)(i, l, j, k) of number
+        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)                       of number
+        RAIL_ROAD_MIN_TONNAGE                                          of number
+        normalized_i_j_k_l_corrected_exw(1 from R)(n)      of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_single(1 from R)(n)   of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_multiple(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        requests_i_j_k_l_s_l0                              of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        EXW from coordinate
+        contains, "<" from condition
+            where
+                First from Queue
+                    where
+                        n  of          index # Индекс матрицы
+                        Product, Market_participant, Refinery, Region, Ship_terms, Queue from axis
+                        i  for I  from index # Индексы нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        j  for J  from index # Индексы НПЗ
+                        k  for K  from index # Индексы региона
+                        s  for C  from index # Индексы условия поставки
+                        l0 for R  from index # Индексы очереди
+
+# Коэффициенты для нормирования урезанных объёмов с нефтебаз
+normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_exw(1 from R)(n), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
+    where
+        normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected_exw(1 from R)(n)(i, l, j, k)       of number
+        OIL_TERMINAL_STEP_TONNAGE                                       of number
+        normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_exw(1 from R)(n)       of matrix(Product, Market_participant, Refinery, Region)
+        safe_divide from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Округляем вниз, до целого числа шагов вывоза
+normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n), floor, 0)
+    where
+        normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n)(i, l, j, k) of number
+        normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n)(i, l, j, k)         of number
+        normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_exw_coeff(1 from R)(n)         of matrix(Product, Market_participant, Refinery, Region)
+        floor from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n) = for_each_element(normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n), "*", OIL_TERMINAL_STEP_TONNAGE)
+    where
+        normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n)(i, l, j, k)       of number
+        normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n)(i, l, j, k) of number
+        OIL_TERMINAL_STEP_TONNAGE                                               of number
+        normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n)       of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        "*" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Нормированные урезанные объёмы с нефтебаз. Объём ниже минимальной нормы нефтебазы
+# отгрузить нельзя, а поднять его до нормы — значит снова превысить предел, поэтому он
+# обнуляется
+normalized_i_j_k_l_refined_exw(1 from R)(n) = assign_matrix(for_each_element(filter_by_value(normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n), "<", OIL_TERMINAL_MIN_TONNAGE), "*", 0), filter_by_value(normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n), ">=", OIL_TERMINAL_MIN_TONNAGE))
+    where
+        normalized_i_j_k_l_refined_exw(1 from R)(n)(i, l, j, k)           of number
+        normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n)(i, l, j, k) of number
+        OIL_TERMINAL_MIN_TONNAGE                                          of number
+        normalized_i_j_k_l_refined_exw(1 from R)(n)           of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_corrected_exw_rounded(1 from R)(n) of matrix(Product, Market_participant, Refinery, Region)
+        "*" from operation
+        "<", ">=" from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Уточнённая нормированная матрица первой очереди: матрица Шага 6, в которой объёмы
+# урезанных групп заменены их нормированными значениями. Ветки FCA и EXW не пересекаются,
+# и обе покрывают только урезанные группы. Это итог I очереди, который читают Шаги 8, 10 и
+# (N + 1)
+normalized_i_j_k_l_refined(1 from R) = assign_matrix(normalized_i_j_k_l(1 from R)(1), normalized_i_j_k_l_refined_fca(1 from R)(1), normalized_i_j_k_l_refined_exw(1 from R)(1))
+    where
+        normalized_i_j_k_l_refined(1 from R)(i, l, j, k)        of number
+        normalized_i_j_k_l(1 from R)(1)(i, l, j, k)             of number
+        normalized_i_j_k_l_refined_fca(1 from R)(1)(i, l, j, k) of number
+        normalized_i_j_k_l_refined_exw(1 from R)(1)(i, l, j, k) of number
+        normalized_i_j_k_l_refined(1 from R)        of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l(1 from R)(1)             of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_refined_fca(1 from R)(1) of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_refined_exw(1 from R)(1) of matrix(Product, Market_participant, Refinery, Region)
+            where
+                n  of          index = 1 # Индекс матрицы (единственный проход Шага 7.2)
+                Product, Market_participant, Refinery, Region from axis
+                i  for I  from index # Индексы нефпродукта
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+
+# Запросы групп обслуживания первой очереди по условию поставки, выбранному после
+# уточнения: у неурезанных групп выбор Шага 6 остаётся, у урезанных он сделан заново —
+# по урезанному объёму. Прежний выбор урезанной группы снимается целиком, иначе при смене
+# условия в матрице остались бы Запросы обоих условий
+requests_i_j_k_l_s_l0_chosen_refined(1 from R) = assign_matrix(filter_by_pair(requests_i_j_k_l_s_l0_chosen(1 from R)(1), not_contains, normalized_i_j_k_l_corrected(1 from R)(1)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA), contains, normalized_i_j_k_l_refined_fca(1 from R)(1)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW), contains, normalized_i_j_k_l_refined_exw(1 from R)(1)))
+    where
+        requests_i_j_k_l_s_l0_chosen_refined(1 from R)(i, j, k, l, s, l0) of number
+        requests_i_j_k_l_s_l0_chosen(1 from R)(1)(i, j, k, l, s, l0)      of number
+        normalized_i_j_k_l_corrected(1 from R)(1)(i, l, j, k)             of number
+        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)                          of number
+        normalized_i_j_k_l_refined_fca(1 from R)(1)(i, l, j, k)           of number
+        normalized_i_j_k_l_refined_exw(1 from R)(1)(i, l, j, k)           of number
+        requests_i_j_k_l_s_l0_chosen_refined(1 from R) of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_k_l_s_l0_chosen(1 from R)(1)      of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        normalized_i_j_k_l_corrected(1 from R)(1)      of matrix(Product, Market_participant, Refinery, Region)
+        requests_i_j_k_l_s_l0                          of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        normalized_i_j_k_l_refined_fca(1 from R)(1)    of matrix(Product, Market_participant, Refinery, Region)
+        normalized_i_j_k_l_refined_exw(1 from R)(1)    of matrix(Product, Market_participant, Refinery, Region)
+        FCA, EXW from coordinate
+        contains, not_contains from condition
+            where
+                First from Queue
+                    where
+                        n  of          index = 1 # Индекс матрицы (единственный проход Шага 7.2)
+                        Product, Market_participant, Refinery, Region, Ship_terms, Queue from axis
+                        i  for I  from index # Индексы нефпродукта
+                        l  for P  from index # Индексы субъекта рынка
+                        j  for J  from index # Индексы НПЗ
+                        k  for K  from index # Индексы региона
+                        s  for C  from index # Индексы условия поставки
+                        l0 for R  from index # Индексы очереди
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
@@ -216,4 +465,4 @@ estimated_i_j_k_l(1 from R)(n + 1) = {}
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
 # Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
+# $Refinery(j) в регион $Region(k), МТ: normalized_i_j_k_l_refined(1 from R)

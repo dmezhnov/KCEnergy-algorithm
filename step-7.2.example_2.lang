@@ -1,12 +1,16 @@
-MAX_SUBJECT_SHARE_COEFFICIENT                                                               from ("initial_data.example_2.lang")
-normalized_i_j_k_l                                                                          from ("step-6.example_2.lang")
-normalized_i_j_l, normalized_i_j                                                            from ("step-7.1.example_2.lang")
-for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis, filter_by_value from ("matrix_operation.lang")
+MAX_SUBJECT_SHARE_COEFFICIENT                                                    from ("initial_data.example_2.lang")
+RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE       from ("initial_data.example_2.lang")
+requests_i_j_k_l_s_l0                                                            from ("step-minus-1.example_2.lang")
+normalized_i_j_k_l, requests_i_j_k_l_s_l0_chosen                                 from ("step-6.example_2.lang")
+ship_terms_count_by_requests_l0_single, ship_terms_count_by_requests_l0_multiple from ("step-6.example_2.lang")
+normalized_i_j_l, normalized_i_j                                                 from ("step-7.1.example_2.lang")
+for_each_element, filter_by_pair, for_each_pair, count_coordinates_by_axis       from ("matrix_operation.lang")
+filter_by_value, filter_by_coordinate, assign_matrix                             from ("matrix_operation.lang")
 
 ### Шаг 7.2. Уточнение нормированных объёмов НП первой очереди по предельной доле
 # Сравниваем долю каждого Субъекта рынка на каждом НПЗ с предельной долей
 # (δ × Ṡ_ij, δ = 50%). Если доля субъекта превышает предел, его объёмы
-# понижаются и матрица перенормируется (возврат к Шагу 6); иначе расчёт сходится.
+# понижаются и нормируются здесь же, округлением вниз; иначе остаётся матрица Шага 6.
 # Особый случай: на НПЗ-3 все Запросы подал единственный Субъект рынка (P1, 100%),
 # поэтому правило Шага 7 для него не соблюдается — НПЗ-3 исключается из проверки.
 
@@ -135,17 +139,237 @@ normalized_i_j_k_l_corrected(1 from R)(1 from n) = for_each_pair(normalized_i_j_
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
 
-# Набор коррекций пуст (монополист исключён, остальные в пределах лимита), поэтому
-# итерация сходится: Шаг 7.2 возвращает пустую матрицу estimated, цикл завершается.
-estimated_i_j_k_l(1 from R)(2 from n) = {}
+# Урезанных групп нет, поэтому пусто и их разбиение по числу условий поставки, и всё нормирование ниже.
+normalized_i_j_k_l_corrected_single(1 from R)(1 from n) = filter_by_pair(normalized_i_j_k_l_corrected(1 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_single, First)) = {}
     where
-        is_empty( normalized_i_j_k_l_corrected(1 from R)(1 from n) ) = true
-            where
-                n  of   index # Индекс матрицы
-                I  from index # Индексы нефпродукта
-                J  from index # Индексы НПЗ
-                K  from index # Индексы региона
-                P  from index # Индексы субъекта рынка
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
+normalized_i_j_k_l_corrected_multiple(1 from R)(1 from n) = filter_by_pair(normalized_i_j_k_l_corrected(1 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_multiple, First)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
+normalized_i_j_k_l_corrected_fca(1 from R)(1 from n) = assign_matrix(filter_by_pair(normalized_i_j_k_l_corrected_single(1 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA)), filter_by_value(normalized_i_j_k_l_corrected_multiple(1 from R)(1 from n), ">=", RAIL_ROAD_MIN_TONNAGE)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
+normalized_i_j_k_l_corrected_fca_coeff(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_fca(1 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_fca_coeff(1 from R)(1 from n), floor, 0) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_refined_fca(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_fca_coeff_rounded(1 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_corrected_exw(1 from R)(1 from n) = assign_matrix(filter_by_pair(normalized_i_j_k_l_corrected_single(1 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW)), filter_by_value(normalized_i_j_k_l_corrected_multiple(1 from R)(1 from n), "<", RAIL_ROAD_MIN_TONNAGE)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
+
+normalized_i_j_k_l_corrected_exw_coeff(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_exw(1 from R)(1 from n), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_exw_coeff(1 from R)(1 from n), floor, 0) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_corrected_exw_rounded(1 from R)(1 from n) = for_each_element(normalized_i_j_k_l_corrected_exw_coeff_rounded(1 from R)(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+normalized_i_j_k_l_refined_exw(1 from R)(1 from n) = assign_matrix(for_each_element(filter_by_value(normalized_i_j_k_l_corrected_exw_rounded(1 from R)(1 from n), "<", OIL_TERMINAL_MIN_TONNAGE), "*", 0), filter_by_value(normalized_i_j_k_l_corrected_exw_rounded(1 from R)(1 from n), ">=", OIL_TERMINAL_MIN_TONNAGE)) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Урезанных групп нет, поэтому уточнённая матрица первой очереди совпадает с нормированной
+# матрицей Шага 6.
+normalized_i_j_k_l_refined(1 from R) = assign_matrix(normalized_i_j_k_l(1 from R)(1 from n), normalized_i_j_k_l_refined_fca(1 from R)(1 from n), normalized_i_j_k_l_refined_exw(1 from R)(1 from n)) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P) = 60    # 110
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P) = 585   # 106
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = 15,   # 101 + 102
+                (1 from I, 1 from J, 4 from K, 12 from P) = 195,  # 108
+                (1 from I, 1 from J, 4 from K, 13 from P) = 170   # 109
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P) = 80,   # 103
+                (1 from I, 1 from J, 5 from K, 3  from P) = 85    # 107
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 1  from P) = 30,   # 104
+                (1 from I, 2 from J, 4 from K, 7  from P) = 30,   # 111
+                (1 from I, 2 from J, 4 from K, 18 from P) = 30,   # 112
+                (1 from I, 2 from J, 4 from K, 19 from P) = 20    # 113
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = 600   # 105
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Условие поставки ни одной группы не пересматривалось: выбор совпадает с выбором Шага 6.
+requests_i_j_k_l_s_l0_chosen_refined(1 from R) = assign_matrix(filter_by_pair(requests_i_j_k_l_s_l0_chosen(1 from R)(1 from n), not_contains, normalized_i_j_k_l_corrected(1 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA), contains, normalized_i_j_k_l_refined_fca(1 from R)(1 from n)), filter_by_pair(filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW), contains, normalized_i_j_k_l_refined_exw(1 from R)(1 from n))) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 1 from J, 1 from K, 7  from P, 1 from R, 2 from C) = 70   # 110
+                    }
+                }
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from J, 3 from K, 2  from P, 1 from R, 1 from C) = 715  # 106
+                    }
+                }
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 100  # 102
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 1 from C) = 325  # 108
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 2 from C) = 325  # 109
+                    }
+                }
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 1  from P, 1 from R, 2 from C) = 150  # 103
+                    }
+                },
+                (1 from I, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 3  from P, 1 from R, 2 from C) = 200  # 107
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 400  # 104
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 7  from P, 1 from R, 2 from C) = 100  # 111
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 18 from P, 1 from R, 2 from C) = 100  # 112
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 19 from P, 1 from R, 2 from C) = 50   # 113
+                    }
+                }
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 3 from J, 4 from K, 1  from P, 1 from R, 2 from C) = 600  # 105
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        C  from index # Индексы условия поставки
 
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -170,7 +394,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 15
 
 ## Трассировочная строка для запроса № 002:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -195,7 +419,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 15
 
 ## Трассировочная строка для запроса № 003:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -220,7 +444,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 15
 
 ## Трассировочная строка для запроса № 004:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -245,7 +469,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 15
 
 ## Трассировочная строка для запроса № 005:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -270,7 +494,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 80
 
 ## Трассировочная строка для запроса № 006:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -295,7 +519,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 95
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.079831932773109243
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 80
 
 ## Трассировочная строка для запроса № 007:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -320,7 +544,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # ANPZ по запросам Субъекта рынка, МТ: 30
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.272727272727272727
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 30
 
 ## Трассировочная строка для запроса № 008:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -345,7 +569,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PNHZ по запросам Субъекта рынка, МТ: 600
 # Шаг 7.2. Доля Субъекта рынка, единиц: 1
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PNHZ в регион Ulytau, МТ: —
+# PNHZ в регион Ulytau, МТ: 600
 
 ## Трассировочная строка для запроса № 009:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -370,7 +594,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 585
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.491596638655462184
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Shimkent, МТ: —
+# PKOP в регион Shimkent, МТ: 585
 
 ## Трассировочная строка для запроса № 010:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -395,7 +619,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 85
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.071428571428571428
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Zhambyl, МТ: —
+# PKOP в регион Zhambyl, МТ: 85
 
 ## Трассировочная строка для запроса № 011:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -420,7 +644,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.163865546218487394
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 
 ## Трассировочная строка для запроса № 012:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -445,7 +669,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.163865546218487394
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 
 ## Трассировочная строка для запроса № 013:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -470,7 +694,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.163865546218487394
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 
 ## Трассировочная строка для запроса № 014:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -495,7 +719,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.163865546218487394
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 
 ## Трассировочная строка для запроса № 015:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -520,7 +744,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 195
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.163865546218487394
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 195
 
 ## Трассировочная строка для запроса № 016:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -545,7 +769,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 170
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.142857142857142857
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 170
 
 ## Трассировочная строка для запроса № 017:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -570,7 +794,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 170
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.142857142857142857
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 170
 
 ## Трассировочная строка для запроса № 018:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -595,7 +819,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 170
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.142857142857142857
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 170
 
 ## Трассировочная строка для запроса № 019:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -620,7 +844,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 170
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.142857142857142857
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 170
 
 ## Трассировочная строка для запроса № 020:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -645,7 +869,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 170
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.142857142857142857
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Ulytau, МТ: —
+# PKOP в регион Ulytau, МТ: 170
 
 ## Трассировочная строка для запроса № 021:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -670,7 +894,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # PKOP по запросам Субъекта рынка, МТ: 60
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.05042016806722689
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# PKOP в регион Almaty, МТ: —
+# PKOP в регион Almaty, МТ: 60
 
 ## Трассировочная строка для запроса № 022:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -695,7 +919,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # ANPZ по запросам Субъекта рынка, МТ: 30
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.272727272727272727
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 30
 
 ## Трассировочная строка для запроса № 029:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -720,7 +944,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # ANPZ по запросам Субъекта рынка, МТ: 30
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.272727272727272727
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 30
 
 ## Трассировочная строка для запроса № 030:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -745,7 +969,7 @@ estimated_i_j_k_l(1 from R)(2 from n) = {}
 # ANPZ по запросам Субъекта рынка, МТ: 20
 # Шаг 7.2. Доля Субъекта рынка, единиц: 0.181818181818181818
 # Шаг 7.2. Уточненный нормированный объем НП AI_92 на НПЗ
-# ANPZ в регион Ulytau, МТ: —
+# ANPZ в регион Ulytau, МТ: 20
 
 ## Трассировочная строка для запроса № 023:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ

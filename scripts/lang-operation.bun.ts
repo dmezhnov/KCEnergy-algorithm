@@ -17,6 +17,10 @@ const DISPLAY_DIGITS = 18;
 // same coordinates at all, whatever value it holds.
 const CONTAINS = 'contains';
 
+// Its complement: keeps a cell when the condition matrix carries none at the
+// same coordinates.
+const NOT_CONTAINS = 'not_contains';
+
 // How each operation is spelled in a leaf line: an infix operator, or the name
 // of the call the leaf shows. `safe_divide` prints as a plain division.
 const LEAF_SPELLING: ReadonlyMap<string, string> = new Map([
@@ -59,6 +63,7 @@ const COMMENT_COMPARISON = /#\s*(-?\d+(?:\.\d+)?)\s*(!=|>=|<=|>|<|=)\s*(-?\d+(?:
 class MatrixOperation {
     static readonly DISPLAY_DIGITS = DISPLAY_DIGITS;
     static readonly CONTAINS = CONTAINS;
+    static readonly NOT_CONTAINS = NOT_CONTAINS;
 
     // How a leaf line spells an operation, or `undefined` for one no checker
     // implements yet.
