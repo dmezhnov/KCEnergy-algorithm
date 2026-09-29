@@ -1,7 +1,6 @@
 length, number                                                   from core
 requests_i_j_x_k_l_s_l0_q                                        from ("initial_data.lang")
-estimated_i_j_k_l                                                from ("step-7.2.lang")
-estimated_i_j_k_l_last                                           from ("step-8.lang")
+normalized_i_j_k_l_refined, requests_i_j_k_l_s_l0_chosen_refined from ("step-7.2.lang")
 normalized_i_j_k_l, requests_i_j_k_l_s_l0_chosen                 from ("step-6.lang")
 axis, condition, index, operation                                from ("matrix_types.lang")
 assign_matrix, count_coordinates_by_axis, filter_by_coordinate   from ("matrix_operation.lang")
@@ -37,17 +36,17 @@ replace_coord, sum_by_axes                                       from ("matrix_o
 # Отказ показан нулём в ячейке Запроса: ячейка остаётся в матрице, а её значение равно 0.
 
 # Итоговый объём, предоставленный коллекции (i, j, k, l) в очереди l0. Для реальной
-# I очереди это объём после уточнения Шага 7.2 (Шаг 8), для виртуальных очередей —
+# I очереди это объём после уточнения Шага 7.2, для виртуальных очередей —
 # нормированный объём Шага 6 (Шаги 7-8 к ним не применяются). Координата очереди,
 # снятая индексом семейства, возвращается в матрицу осью Queue.
-distributed_i_j_k_l_l0 = assign_matrix(replace_coord(estimated_i_j_k_l_last(1 from R), 1 from R, First), replace_coord(normalized_i_j_k_l(2 from R)(1), 2 from R, Second), replace_coord(normalized_i_j_k_l(3 from R)(1), 3 from R, Third), replace_coord(normalized_i_j_k_l(4 from R)(1), 4 from R, Fourth))
+distributed_i_j_k_l_l0 = assign_matrix(replace_coord(normalized_i_j_k_l_refined(1 from R), 1 from R, First), replace_coord(normalized_i_j_k_l(2 from R)(1), 2 from R, Second), replace_coord(normalized_i_j_k_l(3 from R)(1), 3 from R, Third), replace_coord(normalized_i_j_k_l(4 from R)(1), 4 from R, Fourth))
     where
-        estimated_i_j_k_l_last(1 from R)(i, j, l, k) of number
-        normalized_i_j_k_l(l0)(1)(i, j, l, k)        of number
-        distributed_i_j_k_l_l0(i, j, l, k, l0)       of number
-        estimated_i_j_k_l_last(1 from R) of matrix(Product, Refinery, Market_participant, Region)
-        normalized_i_j_k_l(l0)(1)        of matrix(Product, Refinery, Market_participant, Region)
-        distributed_i_j_k_l_l0           of matrix(Product, Refinery, Market_participant, Region, Queue)
+        normalized_i_j_k_l_refined(1 from R)(i, j, l, k) of number
+        normalized_i_j_k_l(l0)(1)(i, j, l, k)            of number
+        distributed_i_j_k_l_l0(i, j, l, k, l0)           of number
+        normalized_i_j_k_l_refined(1 from R) of matrix(Product, Refinery, Market_participant, Region)
+        normalized_i_j_k_l(l0)(1)            of matrix(Product, Refinery, Market_participant, Region)
+        distributed_i_j_k_l_l0               of matrix(Product, Refinery, Market_participant, Region, Queue)
             where
                 n of index = 1 # Индекс матрицы нормирования (единственная итерация виртуальной очереди)
                 Product, Refinery, Market_participant, Region, Queue from axis # Оси
@@ -57,20 +56,20 @@ distributed_i_j_k_l_l0 = assign_matrix(replace_coord(estimated_i_j_k_l_last(1 fr
                 l  for P  from index # Индексы субъекта рынка
                 l0 for R  from index # Индексы очереди
 
-# Условие поставки, выбранное в Шаге 6 для каждой коллекции (i, j, k, l) в очереди l0: ячейки
-# агрегированных Запросов выбранного условия. Для реальной I очереди выбор берётся из последней
-# итерации нормирования — той, что дала объём Шага 8, для виртуальных очередей — из
-# единственной.
-requests_i_j_k_l_s_l0_served = assign_matrix(requests_i_j_k_l_s_l0_chosen(1 from R)(last_n), requests_i_j_k_l_s_l0_chosen(2 from R)(1), requests_i_j_k_l_s_l0_chosen(3 from R)(1), requests_i_j_k_l_s_l0_chosen(4 from R)(1))
+# Условие поставки, выбранное для каждой коллекции (i, j, k, l) в очереди l0: ячейки
+# агрегированных Запросов выбранного условия. Для реальной I очереди выбор берётся после
+# уточнения Шага 7.2 (урезанная коллекция выбирает условие заново), для виртуальных очередей —
+# из Шага 6.
+requests_i_j_k_l_s_l0_served = assign_matrix(requests_i_j_k_l_s_l0_chosen_refined(1 from R), requests_i_j_k_l_s_l0_chosen(2 from R)(1), requests_i_j_k_l_s_l0_chosen(3 from R)(1), requests_i_j_k_l_s_l0_chosen(4 from R)(1))
     where
-        requests_i_j_k_l_s_l0_chosen(1 from R)(last_n)(i, j, k, l, s, l0) of number
+        requests_i_j_k_l_s_l0_chosen_refined(1 from R)(i, j, k, l, s, l0) of number
         requests_i_j_k_l_s_l0_chosen(l0)(1)(i, j, k, l, s, l0)            of number
         requests_i_j_k_l_s_l0_served(i, j, k, l, s, l0)                   of number
-        requests_i_j_k_l_s_l0_chosen(1 from R)(last_n) of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
+        requests_i_j_k_l_s_l0_chosen_refined(1 from R) of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
         requests_i_j_k_l_s_l0_chosen(l0)(1)            of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
         requests_i_j_k_l_s_l0_served                   of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
             where
-                last_n of index = length(estimated_i_j_k_l(1 from R)) # Индекс последней итерации нормирования I очереди
+                n of index = 1 # Индекс матрицы нормирования (единственная итерация)
                 Product, Refinery, Region, Market_participant, Ship_terms, Queue from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -536,7 +535,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
 # Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
 # Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
+# $Refinery(j) в регион $Region(k), МТ: normalized_i_j_k_l_refined(1 from R)
 # Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
 # $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
 # Шаг 9. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для II очереди,
