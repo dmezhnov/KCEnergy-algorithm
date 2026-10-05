@@ -1084,26 +1084,73 @@ normalized_i_j_k_l(1 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q
         Z  from index # Индексы запросов
 
 ### Шаг 6 для II очереди: нормирование предварительных объёмов (2 from R) (n = 1).
-# Обслуживаемые во II очереди Запросы: с НПЗ (FCA) — #205 (АНПЗ, J=2), #201, #202 (ПНХЗ, J=3);
-# с нефтебаз (EXW) — #206, #208, #209 (АНПЗ, J=2). Нормируются обе ветки:
-# FCA — до кратности вагонной норме (65 МТ); EXW — до кратности шагу вывоза (5 МТ). Все объёмы
-# уже кратны и не ниже минимальных норм, поэтому остаются без изменений.
+# Каждый Запрос II очереди нормируется по собственному условию поставки, как и в I очереди:
+# FCA — до кратности вагонной норме (65 МТ), EXW — до кратности шагу вывоза (5 МТ). Объёмы
+# АНПЗ (J=2) и ПНХЗ (J=3) уже кратны и не меняются; урезанный долей объём #026 ПКОП
+# (7.14285714285714285) округляется до 5. Запрос #025 без объёма Шага 5а остаётся с нулём.
 
-# Предварительные расчётные объёмы II очереди у групп с единственным условием поставки.
-estimated_i_j_k_l_single(2 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(2 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_single, Second)) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 209
+# Запросы II очереди, получившие объём в Шаге 5а.
+estimated_i_j_x_k_l_s_l0_q_positive(2 from R)(1 from n) = filter_by_value(estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n), ">", 0) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130                  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130   # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65                   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130                  # 024
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 7.14285714285714285  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1111,33 +1158,42 @@ estimated_i_j_k_l_single(2 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Предварительные расчётные объёмы II очереди у групп с обоими условиями поставки — пусто
-# (в каждой группе заявлено единственное условие).
-estimated_i_j_k_l_multiple(2 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(2 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_multiple, Second)) = {}
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-# Предварительные расчётные объёмы II очереди, для поставки с НПЗ: группы с единственным
-# условием поставки FCA и группы с обоими условиями, где объём не ниже вагонной нормы (65 МТ).
-estimated_i_j_k_l_fca(2 from R)(1 from n) = assign_matrix(filter_by_pair(estimated_i_j_k_l_single(2 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, Second, FCA)), filter_by_value(estimated_i_j_k_l_multiple(2 from R)(1 from n), ">=", RAIL_ROAD_MIN_TONNAGE)) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130  # 205
+# Предварительные объёмы Запросов с НПЗ (FCA).
+estimated_i_j_x_k_l_s_l0_q_fca(2 from R)(1 from n) = filter_by_coordinate(estimated_i_j_x_k_l_s_l0_q_positive(2 from R)(1 from n), FCA) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,  # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130  # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                        }
+                    }
+                }
             }
         }
     }
@@ -1145,22 +1201,42 @@ estimated_i_j_k_l_fca(2 from R)(1 from n) = assign_matrix(filter_by_pair(estimat
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Коэффициенты для нормирования объёмов с НПЗ: делим на вагонную норму.
-estimated_i_j_k_l_fca_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca(2 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130 / RAIL_ROAD_MIN_TONNAGE = 130 / 65 = 2  # 205
+estimated_i_j_x_k_l_s_l0_q_fca_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca(2 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130 / RAIL_ROAD_MIN_TONNAGE = 130 / 65 = 2  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65 / RAIL_ROAD_MIN_TONNAGE = 65 / 65 = 1,   # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130 / RAIL_ROAD_MIN_TONNAGE = 130 / 65 = 2  # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65 / RAIL_ROAD_MIN_TONNAGE = 65 / 65 = 1    # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130 / RAIL_ROAD_MIN_TONNAGE = 130 / 65 = 2  # 024
+                        }
+                    }
+                }
             }
         }
     }
@@ -1168,22 +1244,42 @@ estimated_i_j_k_l_fca_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Округляем коэффициенты до целого по мат. правилам (n = 1).
-estimated_i_j_k_l_fca_coeff_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff(2 from R)(1 from n), round, 0) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = round(2) = 2   # 205
+estimated_i_j_x_k_l_s_l0_q_fca_coeff_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_coeff(2 from R)(1 from n), round, 0) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = round(2) = 2  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = round(1) = 1,  # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = round(2) = 2   # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = round(1) = 1  # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = round(2) = 2  # 024
+                        }
+                    }
+                }
             }
         }
     }
@@ -1191,22 +1287,42 @@ estimated_i_j_k_l_fca_coeff_rounded(2 from R)(1 from n) = for_each_element(estim
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Нормированные кратные объёмы с НПЗ: умножаем коэффициенты на вагонную норму.
-estimated_i_j_k_l_fca_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(2 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 2 * RAIL_ROAD_MIN_TONNAGE = 2 * 65 = 130  # 205
+estimated_i_j_x_k_l_s_l0_q_fca_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_coeff_rounded(2 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 2 * RAIL_ROAD_MIN_TONNAGE = 2 * 65 = 130  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65,  # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 2 * RAIL_ROAD_MIN_TONNAGE = 2 * 65 = 130  # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 2 * RAIL_ROAD_MIN_TONNAGE = 2 * 65 = 130  # 024
+                        }
+                    }
+                }
             }
         }
     }
@@ -1214,22 +1330,42 @@ estimated_i_j_k_l_fca_rounded(2 from R)(1 from n) = for_each_element(estimated_i
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Нормированные объёмы НП II очереди, для поставки с НПЗ: не ниже вагонной нормы.
-normalized_i_j_k_l_fca(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_rounded(2 from R)(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = max(130, RAIL_ROAD_MIN_TONNAGE) = max(130, 65) = 130  # 205
+# Нормированные объёмы Запросов с НПЗ: не ниже вагонной нормы.
+normalized_i_j_x_k_l_s_l0_q_fca(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_rounded(2 from R)(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = max(130, RAIL_ROAD_MIN_TONNAGE) = max(130, 65) = 130  # 027
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = max(65, RAIL_ROAD_MIN_TONNAGE) = max(65, 65) = 65,    # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = max(130, RAIL_ROAD_MIN_TONNAGE) = max(130, 65) = 130  # 202
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = max(65, RAIL_ROAD_MIN_TONNAGE) = max(65, 65) = 65     # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = max(130, RAIL_ROAD_MIN_TONNAGE) = max(130, 65) = 130  # 024
+                        }
+                    }
+                }
             }
         }
     }
@@ -1237,19 +1373,47 @@ normalized_i_j_k_l_fca(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Предварительные расчётные объёмы II очереди, для поставки с нефтебаз: группы с единственным
-# условием поставки EXW и группы с обоими условиями, где объём меньше вагонной нормы (65 МТ).
-estimated_i_j_k_l_exw(2 from R)(1 from n) = assign_matrix(filter_by_pair(estimated_i_j_k_l_single(2 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, Second, EXW)), filter_by_value(estimated_i_j_k_l_multiple(2 from R)(1 from n), "<", RAIL_ROAD_MIN_TONNAGE)) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15,  # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35   # 209
+# Предварительные объёмы Запросов с нефтебаз (EXW).
+estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n) = filter_by_coordinate(estimated_i_j_x_k_l_s_l0_q_positive(2 from R)(1 from n), EXW) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 7.14285714285714285  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1257,18 +1421,61 @@ estimated_i_j_k_l_exw(2 from R)(1 from n) = assign_matrix(filter_by_pair(estimat
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Коэффициенты для нормирования объёмов с нефтебаз: делим на шаг вывоза.
-estimated_i_j_k_l_exw_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw(2 from R)(1 from n), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14,  # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15 / OIL_TERMINAL_STEP_TONNAGE = 15 / 5 = 3,   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35 / OIL_TERMINAL_STEP_TONNAGE = 35 / 5 = 7    # 209
+# Запросы с нефтебаз, чей объём меньше минимальной нормы (4 МТ), — таких нет.
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(2 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Коэффициенты для нормирования объёмов с нефтебаз (не ниже минимальной нормы): делим на
+# шаг вывоза.
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(2 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 7.14285714285714285 / OIL_TERMINAL_STEP_TONNAGE = 7.14285714285714285 / 5 = 1.42857142857142857  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70 / OIL_TERMINAL_STEP_TONNAGE = 70 / 5 = 14                                                     # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15 / OIL_TERMINAL_STEP_TONNAGE = 15 / 5 = 3                                                      # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35 / OIL_TERMINAL_STEP_TONNAGE = 35 / 5 = 7                                                      # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1276,18 +1483,47 @@ estimated_i_j_k_l_exw_coeff(2 from R)(1 from n) = for_each_element(estimated_i_j
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Округляем коэффициенты до целого по мат. правилам (n = 1).
-estimated_i_j_k_l_exw_coeff_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff(2 from R)(1 from n), round, 0) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 17 from P) = round(14) = 14,  # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = round(3) = 3,    # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = round(7) = 7     # 209
+estimated_i_j_x_k_l_s_l0_q_exw_coeff_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_exw_coeff(2 from R)(1 from n), round, 0) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = round(1.42857142857142857) = 1  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = round(14) = 14                  # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = round(3) = 3                    # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = round(7) = 7                    # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1295,18 +1531,47 @@ estimated_i_j_k_l_exw_coeff_rounded(2 from R)(1 from n) = for_each_element(estim
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Нормированные кратные объёмы с нефтебаз: умножаем коэффициенты на шаг вывоза.
-estimated_i_j_k_l_exw_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(2 from R)(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 17 from P) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15,    # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 7 * OIL_TERMINAL_STEP_TONNAGE = 7 * 5 = 35     # 209
+estimated_i_j_x_k_l_s_l0_q_exw_rounded(2 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_exw_coeff_rounded(2 from R)(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 1 * OIL_TERMINAL_STEP_TONNAGE = 1 * 5 = 5     # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 14 * OIL_TERMINAL_STEP_TONNAGE = 14 * 5 = 70  # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15    # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 7 * OIL_TERMINAL_STEP_TONNAGE = 7 * 5 = 35    # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1314,18 +1579,47 @@ estimated_i_j_k_l_exw_rounded(2 from R)(1 from n) = for_each_element(estimated_i
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Нормированные объёмы НП II очереди, для поставки с нефтебаз: не ниже минимальной нормы.
-normalized_i_j_k_l_exw(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_rounded(2 from R)(1 from n), max, MIN_EXW_TONNAGE(1 from n)) = {
-    (1 from I) = {
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 17 from P) = max(70, OIL_TERMINAL_MIN_TONNAGE) = max(70, 4) = 70,  # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = max(15, OIL_TERMINAL_MIN_TONNAGE) = max(15, 4) = 15,  # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = max(35, OIL_TERMINAL_MIN_TONNAGE) = max(35, 4) = 35   # 209
+# Нормированные объёмы Запросов с нефтебаз: поднятые до шага вывоза и кратные шагу.
+normalized_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n) = assign_matrix(normalized_i_j_x_k_l_s_l0_q_exw_minimum(2 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_exw_rounded(2 from R)(1 from n)) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 5   # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70  # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15  # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35  # 039
+                        }
+                    }
+                }
             }
         }
     }
@@ -1333,25 +1627,125 @@ normalized_i_j_k_l_exw(2 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Нормированные объёмы НП II очереди (матрица II очереди): объединяем НПЗ (FCA) и нефтебазы (EXW).
-normalized_i_j_k_l(2 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(2 from R)(1 from n), normalized_i_j_k_l_exw(2 from R)(1 from n)) = {
+# Нормированные объёмы всех Запросов II очереди; Запрос без объёма остаётся с нулём.
+normalized_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n), "*", 0), "+", assign_matrix(normalized_i_j_x_k_l_s_l0_q_fca(2 from R)(1 from n), normalized_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n))) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0    # 025
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы НП II очереди по коллекциям: сумма по Запросам коллекции.
+normalized_i_j_k_l(2 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(2 from R)(1 from n), Terminal, Queue, Ship_terms, Request) = {
     (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = 5     # 026 = 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = 0     # 025 = 203
+            }
+        },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 209
+                (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 027 = 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 028 = 206
+                (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 038 = 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 039 = 209
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130   # 202
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 023 = 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130   # 024 = 202
             }
         }
     }
@@ -1359,9 +1753,13 @@ normalized_i_j_k_l(2 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(2 
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 ### Шаг 6 для III очереди (ГМК): нормирование предварительных объёмов (3 from R) (n = 1).
 # Обслуживаемые Запросы — только ПНХЗ (J=3): с НПЗ (FCA) — #301 (K=2, P=10); с нефтебаз (EXW) —
