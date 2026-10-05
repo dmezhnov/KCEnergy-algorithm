@@ -641,8 +641,11 @@ requests_i_j_x_k_l_s_l0_q_exw_exact = filter_by_value(filter_by_coordinate(reque
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
+# На первой итерации норму получает EXW-Запрос с любым ненулевым объёмом Шага 5а.
+MIN_EXW_EXACT_TONNAGE(1 from n) = 0
+
 # Запросы с нефтебаз, заявленные ровно на минимальную норму (4 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(1 from n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -1382,7 +1385,7 @@ estimated_i_j_x_k_l_s_l0_q_exw_rounded(2 from R)(1 from n) = for_each_element(es
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, заявленные ровно на минимальную норму (4 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_exact(2 from R)(1 from n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_exact(2 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -1873,7 +1876,7 @@ estimated_i_j_x_k_l_s_l0_q_exw_rounded(3 from R)(1 from n) = for_each_element(es
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, заявленные ровно на минимальную норму (4 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_exact(3 from R)(1 from n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_exact(3 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -2338,7 +2341,7 @@ estimated_i_j_x_k_l_s_l0_q_exw_rounded(4 from R)(1 from n) = for_each_element(es
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, заявленные ровно на минимальную норму (4 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_exact(4 from R)(1 from n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_exact(4 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
