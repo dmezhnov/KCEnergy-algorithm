@@ -1,88 +1,305 @@
-requests_i_j_x_k_l_s_l0_q       from ("initial_data.example_1.lang")
-index                           from ("matrix_types.lang")
-for_each_element, for_each_pair from ("matrix_operation.lang")
+length                      from core
+estimated_i_j_k_l           from ("step-7.2.example_1.lang")
+normalized_i_j_x_k_l_s_l0_q from ("step-6.example_1.lang")
+assign_matrix               from ("matrix_operation.lang")
 
 ### Дополнительный шаг алгоритма (Шаг N + 1) — пример 1
-# Объём, предоставленный каждой коллекции (i, j, k, l) по итогам всех очередей, раскладывается
-# обратно по её фактически поданным Запросам в хронологическом порядке (по возрастанию номера
-# Запроса q, независимо от очереди, нефтебазы и условия поставки). Каждый Запрос получает
-# min(Запрос; остаток): удовлетворяется полностью, пока остаток не меньше Запроса, иначе
-# забирает весь остаток; Запросы после обнуления остатка получают 0.
+# Сборка итога: объём по каждому фактически поданному Запросу уже посчитан по очередям —
+# Шаг 5а разложил объём коллекции по её Запросам, Шаг 6 нормировал каждый Запрос по его
+# условию поставки. Шаг (N + 1) только собирает нормированные матрицы Запросов всех очередей
+# в одну; номер Запроса уникален во всех очередях, поэтому матрицы очередей не пересекаются.
 #
-# В примере 36 Запросов и 24 коллекций. Нетривиально раскладываются
-# 4 коллекции, где Субъект подал несколько Запросов:
-# — (1 from I, 1 from J, 4 from K, 1 from P), предоставлено 65: #001 130 -> 65, #002 25 -> 0, #003 35 -> 0, #004 40 -> 0;
-# — (1 from I, 1 from J, 4 from K, 12 from P), предоставлено 195: #011 65 -> 65, #012 65 -> 65, #013 65 -> 65, #014 65 -> 0, #015 65 -> 0;
-# — (1 from I, 1 from J, 4 from K, 13 from P), предоставлено 165: #016 65 -> 65, #017 65 -> 65, #018 65 -> 35, #019 65 -> 0, #020 65 -> 0;
-# — (1 from I, 1 from J, 5 from K, 1 from P), предоставлено 75: #005 75 -> 75, #006 75 -> 0;
-# в остальных коллекциях Запрос единственный и получает весь предоставленный объём.
-#
-# Нулевой объём получают 9 Запросов: #002, #003, #004, #006, #014, #015, #019, #020, #025.
-# Из них #025 — Запрос коллекции, которой не досталось объёма ни в одной очереди.
-#
-# Семейства по Запросам (requests_front(q), requests_allocated(q), requests_remainder(q),
-# requests_allocated_q(q), q = 1 … D) не расписаны Запрос за Запросом: их итог виден в
-# итоговой матрице ниже. Матрица requests_i_j_x_k_l_s_l0_q_allocated отличается от итоговой
-# только отсутствием нулевых ячеек Запросов коллекций, не обслуженных ни в одной очереди.
+# В примере 36 Запросов. Нулевой объём получают 9 Запросов: #003, #004, #006, #013, #014,
+# #015, #019, #020 (I очередь: объёма коллекции не хватило в Шаге 5а) и #025 (II очередь:
+# урезанный долей объём ПКОП меньше вагонной нормы).
 
-# Остаток в момент достижения первого Запроса коллекции — весь объём, предоставленный
-# коллекции по итогам всех очередей: estimated_i_j_k_l_final = estimated_i_j_k_l_total(4 from R),
-# матрица Шага 16a (step-10.example_1.lang).
-requests_remainder(1 from Z) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 55    # 110
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 585   # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 65,   # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P) = 195,  # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 165   # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 75,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 80    # 107
+# Нормированные объёмы по Запросам I очереди — последняя итерация цикла Шагов 6-7.2. Шаг 7.2
+# ничего не урезал (estimated_i_j_k_l(1 from R)(2 from n) = {}), поэтому last_n = 1.
+requests_i_j_x_k_l_s_l0_q_allocated(1 from R) = normalized_i_j_x_k_l_s_l0_q(1 from R)(last_n) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R, 1  from Z) = 65   # 001
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 55   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 10,  # 002
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,   # 003
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 4  from Z) = 0    # 004
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 35,  # 018
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 19 from Z) = 0,   # 019
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 20 from Z) = 0    # 020
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 0    # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 80   # 010
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 6  from P) = 195,  # 404
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30,   # 111
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20,   # 113
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15,   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35    # 209
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        estimated_i_j_k_l(1 from R) of matrix(Product, Refinery, Region, Market_participant)
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+            where
+                last_n of index = length(estimated_i_j_k_l(1 from R)) - 1 # Индекс последней итерации нормирования
+
+# Нормированные объёмы по Запросам II очереди: единственная итерация нормирования — первая.
+requests_i_j_x_k_l_s_l0_q_allocated(2 from R) = normalized_i_j_x_k_l_s_l0_q(2 from R)(1) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0    # 025
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 4  from P) = 260,  # 401
-                (1 from I, 3 from J, 2 from K, 5  from P) = 520,  # 402
-                (1 from I, 3 from J, 2 from K, 6  from P) = 715,  # 403
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,   # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130,  # 202
-                (1 from I, 3 from J, 2 from K, 10 from P) = 195   # 301
-            },
-            (1 from I, 3 from J, 6 from K) = {
-                (1 from I, 3 from J, 6 from K, 11 from P) = 250   # 302
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                        }
+                    }
+                }
             }
         }
     }
 }
     where
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы по Запросам III очереди.
+requests_i_j_x_k_l_s_l0_q_allocated(3 from R) = normalized_i_j_x_k_l_s_l0_q(3 from R)(1) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы по Запросам IV очереди.
+requests_i_j_x_k_l_s_l0_q_allocated(4 from R) = normalized_i_j_x_k_l_s_l0_q(4 from R)(1) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Итог Шага (N + 1): объём, предоставленный по каждому фактически поданному Запросу.
-# Отказанный Запрос остаётся в матрице с нулём.
-requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_k_l_s_l0_q, "*", 0), "+", requests_i_j_x_k_l_s_l0_q_allocated) = {
+# Запрос, которому не досталось объёма, уже стоит в матрице своей очереди с нулём.
+requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_allocated(1 from R), requests_i_j_x_k_l_s_l0_q_allocated(2 from R), requests_i_j_x_k_l_s_l0_q_allocated(3 from R), requests_i_j_x_k_l_s_l0_q_allocated(4 from R)) = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
             (1 from I, 1 from C, 1 from J, 4 from X) = {
@@ -108,7 +325,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
                         }
@@ -121,7 +338,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 195  # 037
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
                         }
                     },
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
@@ -187,7 +404,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
                 (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
-                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 0,   # 002
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 10,  # 002
                             (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,   # 003
                             (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 4  from Z) = 0    # 004
                         }
@@ -321,7 +538,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 65
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 75
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -332,7 +549,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 65
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 75
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 65
 
@@ -381,7 +598,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 65
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 75
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -392,9 +609,9 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 65
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 75
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# PKOP, МТ: 0
+# PKOP, МТ: 10
 
 ## Трассировочная строка для запроса № 003:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -441,7 +658,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 65
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 75
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -452,7 +669,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 65
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 75
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 0
 
@@ -501,7 +718,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 65
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 75
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -512,7 +729,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 65
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 75
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 0
 
@@ -801,7 +1018,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 195
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 130
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -812,7 +1029,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 65
 
@@ -861,7 +1078,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 195
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 130
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -872,7 +1089,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 65
 
@@ -921,7 +1138,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 195
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 130
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -932,9 +1149,9 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# PKOP, МТ: 65
+# PKOP, МТ: 0
 
 ## Трассировочная строка для запроса № 014:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -981,7 +1198,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 195
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 130
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -992,7 +1209,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 0
 
@@ -1041,7 +1258,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 195
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 130
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -1052,7 +1269,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Ulytau, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 0
 
@@ -1761,7 +1978,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Shimkent, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Shimkent, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: —
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 0
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -1772,7 +1989,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Shimkent, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Shimkent, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: —
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 0
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 0
 
@@ -1821,7 +2038,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Almaty, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Almaty, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: —
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 5
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -1832,7 +2049,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # PKOP в регион Almaty, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Almaty, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: —
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 5
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
 # PKOP, МТ: 5
 
@@ -2431,7 +2648,7 @@ requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_
 # Шаг 5. Очередь IV. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 169.99999999999999996
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ ANPZ в регион  Ulytau, МТ: 195
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
+# НПЗ ANPZ в регион  Ulytau, МТ: 130
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# ANPZ, МТ: 195
+# ANPZ, МТ: 130
