@@ -46,8 +46,9 @@ const COORDINATE_CALL = /^filter_by_coordinate\((.+)\)$/;
 const FAMILY_HEAD = /^([A-Za-z_][A-Za-z0-9_]*)\(([A-Za-z_][A-Za-z0-9_]*) for ([A-Za-z][A-Za-z0-9]*)\)$/;
 
 // One expanded result and the call that produces it, with the index variable of
-// a family definition already substituted.
-type Target = {block: Block; expression: string};
+// a family definition already substituted. `member` marks an expansion of a
+// family, whose name states the coordinate the call fixes.
+type Target = {block: Block; expression: string; member: boolean};
 
 class CoordinateChecker {
     private index = new ExampleIndex();
@@ -85,7 +86,7 @@ class CoordinateChecker {
         const family = FAMILY_HEAD.exec(this.index.normalizeKey(block.name));
 
         if (!family) {
-            return [{block, expression: block.expression}];
+            return [{block, expression: block.expression, member: false}];
         }
 
         const expansions = this.expansionsOf(family[1], family[3]);
@@ -97,6 +98,7 @@ class CoordinateChecker {
         return expansions.map((expansion) => ({
             block: expansion.block,
             expression: this.substitute(block.expression, family[2], `${expansion.index} from ${family[3]}`),
+            member: true,
         }));
     }
 
@@ -159,7 +161,7 @@ class CoordinateChecker {
         }
 
         const computed = this.evaluator.evaluate(target.expression, where);
-        const filtered = computed && this.asMember(target.block, computed);
+        const filtered = computed && (target.member ? this.asMember(target.block, computed) : computed);
 
         if (!filtered || !this.sameShape(target.block, filtered, where)) {
             return;
@@ -181,6 +183,9 @@ class CoordinateChecker {
 
     // A family member states its own coordinates in its name —
     // `requests_i_j_k_l_queue(1 from R)` — and lays its leaves out without them.
+    // A result outside a family keeps every axis: the `(1 from R)` of
+    // `estimated_i_j_x_k_l_s_l0_q_fca(1 from R)(1 from n)` names the queue its
+    // source was built for, not a coordinate this call fixes.
     // `filter_by_coordinate` removes coordinates, not axes, so the computed
     // matrix still carries those axes; take the member out of it.
     private asMember(block: Block, filtered: Matrix): Matrix {
