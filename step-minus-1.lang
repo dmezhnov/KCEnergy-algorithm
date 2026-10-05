@@ -4,41 +4,20 @@ sum_by_axes               from ("matrix_operation.lang")
 
 ### Агрегация Запросов в группу обслуживания
 # Запросы, у которых совпали вид НП, НПЗ, регион поставки, субъект рынка и очередь,
-# обслуживаются как один Запрос независимо от условия поставки: ось Ship_terms
-# сворачивается здесь же, вместе с осью Request. Условие поставки выбирается один раз
-# на всю группу в Шаге 6 (по вагонной норме) и возвращается на отдельные Запросы
-# в Шаге n+1.
+# образуют одну коллекцию: Шаги 1–5 распределяют объём коллекциям независимо от условия
+# поставки, поэтому ось Ship_terms сворачивается здесь же, вместе с осью Request.
+# Отдельные Запросы возвращаются в Шаге 5а: объём коллекции раскладывается по её Запросам
+# в хронологическом порядке, и Шаг 6 нормирует каждый Запрос по его собственному условию
+# поставки.
 # Ось Terminal сворачивается вместе с Ship_terms: нефтебаза однозначно определена
 # условием поставки (FCA — Without_term, EXW — нефтебаза НПЗ), поэтому без неё
-# группа не склеится. Ни один шаг по нефтебазам не ветвится — раньше ось просто
-# ехала пассажиром до свёртки в Шагах 4 и 10.
+# группа не склеится. Ни один шаг по коллекциям не ветвится по нефтебазам — ось
+# возвращается вместе с Запросами в Шаге 5а.
 requests_i_j_k_l_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request, Ship_terms, Terminal)
     where
         requests_i_j_k_l_l0(i, j, k, l, l0)                of number
         requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
         requests_i_j_k_l_l0       of matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-            where
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
-
-# Условия поставки, заявленные в группе: та же свёртка, но ось Ship_terms сохранена.
-# Шагу 6 правило вагонной нормы нужно применять только там, где в группе заявлены оба
-# условия; если условие одно, группа нормируется по нему, как и до агрегации. Значения
-# здесь — объёмы по каждому условию, а сама матрица отвечает на вопрос «какие условия
-# заявлены в группе».
-requests_i_j_k_l_s_l0 = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Request, Terminal)
-    where
-        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)           of number
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
-        requests_i_j_k_l_s_l0     of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
         requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
             where

@@ -1,0 +1,818 @@
+length, number                                                              from core
+RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE, requests_i_j_x_k_l_s_l0_q from ("initial_data.lang")
+requests_i_j_k_l_queue                                                      from ("step-1.lang")
+estimated_i_j_k_l                                                           from ("step-5.lang")
+estimated_i_j_k_l                                                           from ("step-7.2.lang")
+axis, index, matrix, operation, condition                                   from ("matrix_types.lang")
+filter_by_coordinate, filter_by_value, filter_by_pair, for_each_pair        from ("matrix_operation.lang")
+for_each_element, assign_matrix, sum_by_axes                                from ("matrix_operation.lang")
+
+### Разбиение объёма коллекции по Запросам (Шаг 5а)
+# Объём, предварительно предоставленный коллекции (Product, Refinery, Region,
+# Market_participant) в l0-й очереди на n-й итерации (Шаг 5 при n = 1, Шаг 7.2 при n + 1),
+# раскладывается по её Запросам этой очереди, чтобы Шаг 6 нормировал каждый Запрос по его
+# собственному условию поставки. Ось Request упорядочена по времени подачи (более ранний
+# Запрос — меньший номер).
+#
+# 1. Распределяемый объём коллекции — меньшее из её объёма и суммы её Запросов очереди.
+# 2. Первый проход: Запросы первого условия поставки в хронологическом порядке получают
+#    min(Запрос; остаток), округлённый вниз до кратного шагу первого условия.
+# 3. Второй проход: Запросы второго условия в хронологическом порядке получают
+#    min(Запрос; остаток) без округления, начиная с остатка после первого прохода.
+# 4. Остаток после второго прохода не достаётся никому.
+# 5. Ничья: если недобор (остаток после второго прохода) равен перебору (шаг первого
+#    условия минус остаток после первого прохода), первый незавершённый Запрос первого
+#    условия получает ещё один шаг — если с ним не превысит запрошенного; иначе ничья не
+#    применяется вовсе (следующие Запросы не рассматриваются). Если шаг выдан, все Запросы
+#    второго условия этой коллекции получают 0.
+
+# Первым распределяется условие поставки с большим шагом: вагонная норма НПЗ (FCA)
+# против шага нормы нефтебазы (EXW)
+FIRST_SHIP_TERMS = FCA
+    where
+        RAIL_ROAD_MIN_TONNAGE >= OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                FIRST_SHIP_TERMS, FCA from Ship_terms
+FIRST_SHIP_TERMS = EXW
+    where
+        RAIL_ROAD_MIN_TONNAGE < OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                FIRST_SHIP_TERMS, EXW from Ship_terms
+
+# Второе условие поставки — оставшееся
+SECOND_SHIP_TERMS = EXW
+    where
+        RAIL_ROAD_MIN_TONNAGE >= OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                SECOND_SHIP_TERMS, EXW from Ship_terms
+SECOND_SHIP_TERMS = FCA
+    where
+        RAIL_ROAD_MIN_TONNAGE < OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                SECOND_SHIP_TERMS, FCA from Ship_terms
+
+# Шаг первого условия поставки, МТ
+FIRST_STEP_TONNAGE = RAIL_ROAD_MIN_TONNAGE
+    where
+        RAIL_ROAD_MIN_TONNAGE >= OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                FIRST_STEP_TONNAGE                               of number
+FIRST_STEP_TONNAGE = OIL_TERMINAL_STEP_TONNAGE
+    where
+        RAIL_ROAD_MIN_TONNAGE < OIL_TERMINAL_STEP_TONNAGE
+            where
+                RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE of number
+                FIRST_STEP_TONNAGE                               of number
+
+# q-й Запрос l0-й очереди, если он подан на первое условие поставки (иначе пусто)
+requests_front_first(l0)(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, l0, FIRST_SHIP_TERMS, q)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)   of number
+        requests_front_first(l0)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front_first(l0)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        l0 from Queue
+        FIRST_SHIP_TERMS from Ship_terms
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# q-й Запрос первой очереди, если он подан на первое условие поставки (иначе пусто)
+requests_front_first(1 from R)(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, First, FIRST_SHIP_TERMS, q)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)         of number
+        requests_front_first(1 from R)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q         of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front_first(1 from R)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        First from Queue
+        FIRST_SHIP_TERMS from Ship_terms
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# q-й Запрос l0-й очереди, если он подан на второе условие поставки (иначе пусто)
+requests_front_second(l0)(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, l0, SECOND_SHIP_TERMS, q)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)    of number
+        requests_front_second(l0)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q    of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front_second(l0)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        l0 from Queue
+        SECOND_SHIP_TERMS from Ship_terms
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# q-й Запрос первой очереди, если он подан на второе условие поставки (иначе пусто)
+requests_front_second(1 from R)(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, First, SECOND_SHIP_TERMS, q)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)          of number
+        requests_front_second(1 from R)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q          of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_front_second(1 from R)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        First from Queue
+        SECOND_SHIP_TERMS from Ship_terms
+            where
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Распределяемый объём коллекции l0-й очереди на n-й итерации: не больше суммы её Запросов
+estimated_i_j_k_l_bounded(l0)(n) = for_each_pair(estimated_i_j_k_l(l0)(n), min, requests_i_j_k_l_queue(l0))
+    where
+        estimated_i_j_k_l_bounded(l0)(n)(i, j, k, l) of number
+        estimated_i_j_k_l(l0)(n)(i, j, k, l)         of number
+        requests_i_j_k_l_queue(l0)(i, j, k, l)       of number
+        estimated_i_j_k_l_bounded(l0)(n) of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l(l0)(n)         of matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_k_l_queue(l0)       of matrix(Product, Refinery, Region, Market_participant)
+        min from operation
+            where
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+
+# Распределяемый объём коллекции первой очереди на n-й итерации: не больше суммы её Запросов
+estimated_i_j_k_l_bounded(1 from R)(n) = for_each_pair(estimated_i_j_k_l(1 from R)(n), min, requests_i_j_k_l_queue(1 from R))
+    where
+        estimated_i_j_k_l_bounded(1 from R)(n)(i, j, k, l) of number
+        estimated_i_j_k_l(1 from R)(n)(i, j, k, l)         of number
+        requests_i_j_k_l_queue(1 from R)(i, j, k, l)       of number
+        estimated_i_j_k_l_bounded(1 from R)(n) of matrix(Product, Refinery, Region, Market_participant)
+        estimated_i_j_k_l(1 from R)(n)         of matrix(Product, Refinery, Region, Market_participant)
+        requests_i_j_k_l_queue(1 from R)       of matrix(Product, Refinery, Region, Market_participant)
+        min from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+
+# Первый проход: остаток в момент достижения первого Запроса — весь распределяемый объём
+requests_remainder_first(l0)(n)(1 from Z) = estimated_i_j_k_l_bounded(l0)(n)
+    where
+        estimated_i_j_k_l_bounded(l0)(n)(i, j, k, l)          of number
+        requests_remainder_first(l0)(n)(1 from Z)(i, j, k, l) of number
+        estimated_i_j_k_l_bounded(l0)(n)          of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_first(l0)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+            where
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Первый проход: остаток в момент достижения первого Запроса — весь распределяемый объём
+requests_remainder_first(1 from R)(n)(1 from Z) = estimated_i_j_k_l_bounded(1 from R)(n)
+    where
+        estimated_i_j_k_l_bounded(1 from R)(n)(i, j, k, l)          of number
+        requests_remainder_first(1 from R)(n)(1 from Z)(i, j, k, l) of number
+        estimated_i_j_k_l_bounded(1 from R)(n)          of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_first(1 from R)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Объём, выделенный q-му Запросу первого условия: min(Запрос; остаток), округлённый вниз
+# до кратного шагу первого условия поставки
+requests_allocated_first(l0)(n)(q) = for_each_element(for_each_element(for_each_element(for_each_pair(requests_front_first(l0)(q), min, requests_remainder_first(l0)(n)(q)), safe_divide, FIRST_STEP_TONNAGE), floor, 0), "*", FIRST_STEP_TONNAGE)
+    where
+        requests_front_first(l0)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_remainder_first(l0)(n)(q)(i, j, k, l)              of number
+        requests_allocated_first(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        FIRST_STEP_TONNAGE                                          of number
+        requests_front_first(l0)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_first(l0)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_first(l0)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min, safe_divide, floor, "*" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объём, выделенный q-му Запросу первого условия: min(Запрос; остаток), округлённый вниз
+# до кратного шагу первого условия поставки
+requests_allocated_first(1 from R)(n)(q) = for_each_element(for_each_element(for_each_element(for_each_pair(requests_front_first(1 from R)(q), min, requests_remainder_first(1 from R)(n)(q)), safe_divide, FIRST_STEP_TONNAGE), floor, 0), "*", FIRST_STEP_TONNAGE)
+    where
+        requests_front_first(1 from R)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_remainder_first(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_allocated_first(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        FIRST_STEP_TONNAGE                                                of number
+        requests_front_first(1 from R)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_first(1 from R)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_first(1 from R)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min, safe_divide, floor, "*" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Остаток для следующего Запроса первого прохода
+requests_remainder_first(l0)(n)(q + 1) = for_each_pair(requests_remainder_first(l0)(n)(q), "-", sum_by_axes(requests_allocated_first(l0)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_remainder_first(l0)(n)(q)(i, j, k, l)              of number
+        requests_allocated_first(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_remainder_first(l0)(n)(q + 1)(i, j, k, l)          of number
+        requests_remainder_first(l0)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_first(l0)(n)(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_first(l0)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        "-" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Остаток для следующего Запроса первого прохода
+requests_remainder_first(1 from R)(n)(q + 1) = for_each_pair(requests_remainder_first(1 from R)(n)(q), "-", sum_by_axes(requests_allocated_first(1 from R)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_remainder_first(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_allocated_first(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_remainder_first(1 from R)(n)(q + 1)(i, j, k, l)          of number
+        requests_remainder_first(1 from R)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_first(1 from R)(n)(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_first(1 from R)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        "-" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Второй проход начинается с остатка, оставшегося после первого
+requests_remainder_second(l0)(n)(1 from Z) = requests_remainder_first(l0)(n)(D + 1)
+    where
+        requests_remainder_first(l0)(n)(D + 1)(i, j, k, l)     of number
+        requests_remainder_second(l0)(n)(1 from Z)(i, j, k, l) of number
+        requests_remainder_first(l0)(n)(D + 1)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(l0)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+            where
+                D of index = length(Request) # Количество Запросов
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Второй проход начинается с остатка, оставшегося после первого
+requests_remainder_second(1 from R)(n)(1 from Z) = requests_remainder_first(1 from R)(n)(D + 1)
+    where
+        requests_remainder_first(1 from R)(n)(D + 1)(i, j, k, l)     of number
+        requests_remainder_second(1 from R)(n)(1 from Z)(i, j, k, l) of number
+        requests_remainder_first(1 from R)(n)(D + 1)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(1 from R)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Объём, выделенный q-му Запросу второго условия: min(Запрос; остаток), без округления
+requests_allocated_second(l0)(n)(q) = for_each_pair(requests_front_second(l0)(q), min, requests_remainder_second(l0)(n)(q))
+    where
+        requests_front_second(l0)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_remainder_second(l0)(n)(q)(i, j, k, l)              of number
+        requests_allocated_second(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_front_second(l0)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(l0)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_second(l0)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объём, выделенный q-му Запросу второго условия: min(Запрос; остаток), без округления
+requests_allocated_second(1 from R)(n)(q) = for_each_pair(requests_front_second(1 from R)(q), min, requests_remainder_second(1 from R)(n)(q))
+    where
+        requests_front_second(1 from R)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_remainder_second(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_allocated_second(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_front_second(1 from R)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(1 from R)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_second(1 from R)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Остаток для следующего Запроса второго прохода; остаток после последнего не достаётся никому
+requests_remainder_second(l0)(n)(q + 1) = for_each_pair(requests_remainder_second(l0)(n)(q), "-", sum_by_axes(requests_allocated_second(l0)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_remainder_second(l0)(n)(q)(i, j, k, l)              of number
+        requests_allocated_second(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_remainder_second(l0)(n)(q + 1)(i, j, k, l)          of number
+        requests_remainder_second(l0)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_second(l0)(n)(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(l0)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        "-" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Остаток для следующего Запроса второго прохода; остаток после последнего не достаётся никому
+requests_remainder_second(1 from R)(n)(q + 1) = for_each_pair(requests_remainder_second(1 from R)(n)(q), "-", sum_by_axes(requests_allocated_second(1 from R)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_remainder_second(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_allocated_second(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_remainder_second(1 from R)(n)(q + 1)(i, j, k, l)          of number
+        requests_remainder_second(1 from R)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_allocated_second(1 from R)(n)(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(1 from R)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        "-" from operation
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Ничья: недобор (остаток после второго прохода) равен перебору (шаг первого условия
+# минус остаток после первого прохода), то есть сумма двух остатков равна шагу. Коллекции
+# с ничьей получают запас в один шаг (значение отобранной ячейки и есть шаг), остальные — нет
+requests_bonus_remainder(l0)(n)(1 from Z) = filter_by_value(for_each_pair(requests_remainder_first(l0)(n)(D + 1), "+", requests_remainder_second(l0)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
+    where
+        requests_remainder_first(l0)(n)(D + 1)(i, j, k, l)    of number
+        requests_remainder_second(l0)(n)(D + 1)(i, j, k, l)   of number
+        requests_bonus_remainder(l0)(n)(1 from Z)(i, j, k, l) of number
+        FIRST_STEP_TONNAGE                                    of number
+        requests_remainder_first(l0)(n)(D + 1)    of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(l0)(n)(D + 1)   of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_remainder(l0)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+        "+" from operation
+        "=" from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Ничья: недобор (остаток после второго прохода) равен перебору (шаг первого условия
+# минус остаток после первого прохода), то есть сумма двух остатков равна шагу. Коллекции
+# с ничьей получают запас в один шаг (значение отобранной ячейки и есть шаг), остальные — нет
+requests_bonus_remainder(1 from R)(n)(1 from Z) = filter_by_value(for_each_pair(requests_remainder_first(1 from R)(n)(D + 1), "+", requests_remainder_second(1 from R)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
+    where
+        requests_remainder_first(1 from R)(n)(D + 1)(i, j, k, l)    of number
+        requests_remainder_second(1 from R)(n)(D + 1)(i, j, k, l)   of number
+        requests_bonus_remainder(1 from R)(n)(1 from Z)(i, j, k, l) of number
+        FIRST_STEP_TONNAGE                                          of number
+        requests_remainder_first(1 from R)(n)(D + 1)    of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(1 from R)(n)(D + 1)   of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_remainder(1 from R)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+        "+" from operation
+        "=" from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                q  for Z  from index # Индексы запросов
+
+# Третий проход: q-й Запрос первого условия, получивший меньше запрошенного, если запас
+# его коллекции ещё не израсходован. Значение — недостающий до Запроса объём
+requests_bonus_reached(l0)(n)(q) = filter_by_pair(filter_by_value(for_each_pair(requests_front_first(l0)(q), "-", requests_allocated_first(l0)(n)(q)), ">", 0), contains, requests_bonus_remainder(l0)(n)(q))
+    where
+        requests_front_first(l0)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_allocated_first(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_remainder(l0)(n)(q)(i, j, k, l)              of number
+        requests_bonus_reached(l0)(n)(q)(i, j, x, k, l, l0, s, q)   of number
+        requests_front_first(l0)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_allocated_first(l0)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(l0)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_reached(l0)(n)(q)   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "-" from operation
+        ">", contains from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Третий проход: q-й Запрос первого условия, получивший меньше запрошенного, если запас
+# его коллекции ещё не израсходован. Значение — недостающий до Запроса объём
+requests_bonus_reached(1 from R)(n)(q) = filter_by_pair(filter_by_value(for_each_pair(requests_front_first(1 from R)(q), "-", requests_allocated_first(1 from R)(n)(q)), ">", 0), contains, requests_bonus_remainder(1 from R)(n)(q))
+    where
+        requests_front_first(1 from R)(q)(i, j, x, k, l, l0, s, q)        of number
+        requests_allocated_first(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_remainder(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_bonus_reached(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)   of number
+        requests_front_first(1 from R)(q)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_allocated_first(1 from R)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(1 from R)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_reached(1 from R)(n)(q)   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "-" from operation
+        ">", contains from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Дополнительный шаг q-му Запросу: только если шаг помещается в недостающий объём,
+# иначе ничья не применяется (запас всё равно израсходован этим Запросом)
+requests_bonus_allocated(l0)(n)(q) = for_each_pair(filter_by_value(requests_bonus_reached(l0)(n)(q), ">=", FIRST_STEP_TONNAGE), min, requests_bonus_remainder(l0)(n)(q))
+    where
+        requests_bonus_reached(l0)(n)(q)(i, j, x, k, l, l0, s, q)   of number
+        requests_bonus_remainder(l0)(n)(q)(i, j, k, l)              of number
+        requests_bonus_allocated(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        FIRST_STEP_TONNAGE                                          of number
+        requests_bonus_reached(l0)(n)(q)   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(l0)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_allocated(l0)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min from operation
+        ">=" from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Дополнительный шаг q-му Запросу: только если шаг помещается в недостающий объём,
+# иначе ничья не применяется (запас всё равно израсходован этим Запросом)
+requests_bonus_allocated(1 from R)(n)(q) = for_each_pair(filter_by_value(requests_bonus_reached(1 from R)(n)(q), ">=", FIRST_STEP_TONNAGE), min, requests_bonus_remainder(1 from R)(n)(q))
+    where
+        requests_bonus_reached(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)   of number
+        requests_bonus_remainder(1 from R)(n)(q)(i, j, k, l)              of number
+        requests_bonus_allocated(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        FIRST_STEP_TONNAGE                                                of number
+        requests_bonus_reached(1 from R)(n)(q)   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(1 from R)(n)(q) of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_allocated(1 from R)(n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        min from operation
+        ">=" from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запас коллекции расходуется первым же незавершённым Запросом первого условия
+requests_bonus_remainder(l0)(n)(q + 1) = filter_by_pair(requests_bonus_remainder(l0)(n)(q), not_contains, sum_by_axes(requests_bonus_reached(l0)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_bonus_remainder(l0)(n)(q)(i, j, k, l)            of number
+        requests_bonus_reached(l0)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_remainder(l0)(n)(q + 1)(i, j, k, l)        of number
+        requests_bonus_remainder(l0)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_reached(l0)(n)(q)       of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(l0)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        not_contains from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запас коллекции расходуется первым же незавершённым Запросом первого условия
+requests_bonus_remainder(1 from R)(n)(q + 1) = filter_by_pair(requests_bonus_remainder(1 from R)(n)(q), not_contains, sum_by_axes(requests_bonus_reached(1 from R)(n)(q), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_bonus_remainder(1 from R)(n)(q)(i, j, k, l)            of number
+        requests_bonus_reached(1 from R)(n)(q)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_remainder(1 from R)(n)(q + 1)(i, j, k, l)        of number
+        requests_bonus_remainder(1 from R)(n)(q)     of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_reached(1 from R)(n)(q)       of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_bonus_remainder(1 from R)(n)(q + 1) of matrix(Product, Refinery, Region, Market_participant)
+        not_contains from condition
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Дополнительные шаги ничьей по Запросам l0-й очереди
+estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n) = assign_matrix(requests_bonus_allocated(l0)(n)(1), ..., requests_bonus_allocated(l0)(n)(D))
+    where
+        requests_bonus_allocated(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_allocated(l0)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Дополнительные шаги ничьей по Запросам первой очереди
+estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n) = assign_matrix(requests_bonus_allocated(1 from R)(n)(1), ..., requests_bonus_allocated(1 from R)(n)(D))
+    where
+        requests_bonus_allocated(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_bonus_allocated(1 from R)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объёмы Запросов первого условия поставки l0-й очереди: оба прохода и шаг ничьей
+estimated_i_j_x_k_l_s_l0_q_first(l0)(n) = for_each_pair(assign_matrix(requests_allocated_first(l0)(n)(1), ..., requests_allocated_first(l0)(n)(D)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n))
+    where
+        requests_allocated_first(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_x_k_l_s_l0_q_first(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_allocated_first(l0)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_first(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "+" from operation
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объёмы Запросов первого условия поставки первой очереди: оба прохода и шаг ничьей
+estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n) = for_each_pair(assign_matrix(requests_allocated_first(1 from R)(n)(1), ..., requests_allocated_first(1 from R)(n)(D)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n))
+    where
+        requests_allocated_first(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_allocated_first(1 from R)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "+" from operation
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объёмы Запросов второго условия поставки l0-й очереди: в коллекциях, где применена ничья,
+# Запросы второго условия ничего не получают
+estimated_i_j_x_k_l_s_l0_q_second(l0)(n) = filter_by_pair(assign_matrix(requests_allocated_second(l0)(n)(1), ..., requests_allocated_second(l0)(n)(D)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_allocated_second(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n)(i, j, x, k, l, l0, s, q)  of number
+        estimated_i_j_x_k_l_s_l0_q_second(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_allocated_second(l0)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_second(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        not_contains from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Объёмы Запросов второго условия поставки первой очереди: в коллекциях, где применена ничья,
+# Запросы второго условия ничего не получают
+estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n) = filter_by_pair(assign_matrix(requests_allocated_second(1 from R)(n)(1), ..., requests_allocated_second(1 from R)(n)(D)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_allocated_second(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n)(i, j, x, k, l, l0, s, q)  of number
+        estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        requests_allocated_second(1 from R)(n)(q)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        not_contains from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# n-я матрица предварительных расчетных объемов НП l0-й очереди по Запросам. Запрос, которому
+# не досталось объёма, остаётся в матрице с нулём: обнулённые Запросы очереди задают нули,
+# выделенные объёмы прибавляются к ним
+estimated_i_j_x_k_l_s_l0_q(l0)(n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, l0), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(l0)(n), estimated_i_j_x_k_l_s_l0_q_second(l0)(n)))
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)                of number
+        estimated_i_j_x_k_l_s_l0_q_first(l0)(n)(i, j, x, k, l, l0, s, q)  of number
+        estimated_i_j_x_k_l_s_l0_q_second(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q)        of number
+        requests_i_j_x_k_l_s_l0_q                of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_first(l0)(n)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_second(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q(l0)(n)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "*", "+" from operation
+        l0 from Queue
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# n-я матрица предварительных расчетных объемов НП первой очереди по Запросам. Запрос, которому
+# не досталось объёма, остаётся в матрице с нулём: обнулённые Запросы очереди задают нули,
+# выделенные объёмы прибавляются к ним
+estimated_i_j_x_k_l_s_l0_q(1 from R)(n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, First), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n), estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n)))
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)                      of number
+        estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n)(i, j, x, k, l, l0, s, q)  of number
+        estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_x_k_l_s_l0_q(1 from R)(n)(i, j, x, k, l, l0, s, q)        of number
+        requests_i_j_x_k_l_s_l0_q                      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n)  of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q(1 from R)(n)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        "*", "+" from operation
+        First from Queue
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
