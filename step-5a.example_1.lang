@@ -379,7 +379,7 @@ estimated_i_j_k_l_bounded(2 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(
 # — (3 from J, 2 from K, 9  from P): FCA #024 130 -> 130.
 # Остаток 27.857142857142857115 в коллекции (1 from J, 3 from K, 14 from P) не достаётся никому:
 # Запросов EXW в ней нет. Ничьей нет ни в одной коллекции: сумма остатков после первого и
-# второго проходов нигде не равна 65 МТ (27.857142857142857115 в коллекции #025, 0 в остальных).
+# второго проходов нигде не равна 65 МТ (55.714285714285714230 в коллекции #025, 0 в остальных).
 
 # Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу II очереди.
 estimated_i_j_x_k_l_s_l0_q_bonus(2 from R)(1 from n) = assign_matrix(requests_bonus_allocated(2 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(2 from R)(1 from n)(39 from Z)) = {}

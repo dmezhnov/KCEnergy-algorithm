@@ -97,8 +97,7 @@ requests_i_j_corrected(1 from R) = sum_by_axes(requests_i_j_l_corrected(1 from R
 ### Шаг 4 для II очереди: те же свёртки на исходных Запросах R=2 ((2 from R)).
 # Вход — requests_i_j_k_l_corrected_queue(2 from R) (= Запросы R=2, step-10.example_2.lang).
 # Коррекции на проливы во II очереди нет. Все объёмы целочисленные. ПКОП (J=1) прошёл гейт
-# Шага 9 с остатком 10 МТ, поэтому во II очереди он обслуживается (в примере 1 он выбыл с
-# отрицательным остатком).
+# Шага 9 с остатком 75 МТ, поэтому во II очереди он обслуживается.
 
 # Свёртка по регионам (K): объём по (i, j, l).
 requests_i_j_l_corrected(2 from R) = sum_by_axes(requests_i_j_k_l_corrected_queue(2 from R), Region) = {
