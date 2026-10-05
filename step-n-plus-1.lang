@@ -1,50 +1,27 @@
-length, number                                        from core
-requests_i_j_x_k_l_s_l0_q                             from ("initial_data.lang")
-estimated_i_j_k_l_final                               from ("step-10.lang")
-axis, index, operation                                from ("matrix_types.lang")
-assign_matrix, filter_by_coordinate, for_each_element from ("matrix_operation.lang")
-for_each_pair, replace_coord, sum_by_axes             from ("matrix_operation.lang")
+length, number                 from core
+estimated_i_j_k_l              from ("step-7.2.lang")
+normalized_i_j_x_k_l_s_l0_q    from ("step-6.lang")
+axis, index, matrix            from ("matrix_types.lang")
+assign_matrix                  from ("matrix_operation.lang")
 
 ### Дополнительный шаг алгоритма (Шаг N + 1)
-# Объём, предоставленный каждой коллекции (Product, Refinery, Region, Market_participant) по
-# итогам всех очередей распределения, раскладывается обратно по её фактически поданным
-# Запросам в хронологическом порядке. Ось Request считается упорядоченной по времени подачи
-# (более ранний Запрос — меньший номер), номер Запроса уникален во всех очередях, поэтому
-# координаты очереди, нефтебазы и условия поставки просто следуют за Запросом.
-#
-# Шаг −1 объединил Запросы Субъекта рынка по нефтебазам (ось Terminal) и условиям поставки
-# (ось Ship_terms), поэтому коллекция — это (i, j, k, l): в её хронологический перебор
-# попадают Запросы всех очередей, нефтебаз и условий поставки.
-#
-# Каждый Запрос q либо удовлетворяется полностью (если остаток не меньше Запроса), либо
-# получает весь остаток; остаток уменьшается на выделенный объём, и обработка переходит к
-# следующему Запросу, пока остаток не обнулится. Запросы после обнуления получают 0.
+# Сборка итога: объём по каждому фактически поданному Запросу уже посчитан по очередям —
+# Шаг 5а разложил объём коллекции по её Запросам, Шаг 6 нормировал каждый Запрос по его
+# условию поставки. Шаг (N + 1) только собирает эти матрицы всех очередей в одну.
+# Номер Запроса уникален во всех очередях, поэтому матрицы очередей не пересекаются.
 
-# Остаток (нераспределённый объём коллекции) в момент достижения первого Запроса —
-# весь объём, предоставленный коллекции по итогам всех очередей.
-requests_remainder(1 from Z) = estimated_i_j_k_l_final
+# Нормированные объёмы по Запросам I очереди — последняя итерация цикла Шагов 6-7.2,
+# та же, что Шаг 8 берёт для коллекций. Последний член estimated_i_j_k_l — пустая
+# матрица, которой Шаг 7.2 завершает цикл, поэтому last_n на единицу меньше его длины.
+requests_i_j_x_k_l_s_l0_q_allocated(1 from R) = normalized_i_j_x_k_l_s_l0_q(1 from R)(last_n)
     where
-        estimated_i_j_k_l_final(i, j, k, l)      of number
-        requests_remainder(1 from Z)(i, j, k, l) of number
-        estimated_i_j_k_l_final      of matrix(Product, Refinery, Region, Market_participant)
-        requests_remainder(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_x_k_l_s_l0_q(1 from R)(last_n)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q_allocated(1 from R)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_k_l(1 from R)                   of matrix(Product, Refinery, Region, Market_participant)
+        normalized_i_j_x_k_l_s_l0_q(1 from R)(last_n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_x_k_l_s_l0_q_allocated(1 from R) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
             where
-                Product, Refinery, Region, Market_participant, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                q  for Z  from index # Индексы запросов
-
-# q-й Запрос: его запрашиваемый объём в разрезе нефтебазы, очереди и условия поставки, на
-# которые он подан (ось Request снята выбором координаты).
-requests_front(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, q)
-    where
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
-        requests_front(q)(i, j, x, k, l, l0, s)            of number
-        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_front(q)         of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
-            where
+                last_n of index = length(estimated_i_j_k_l(1 from R)) - 1 # Индекс последней итерации нормирования
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -55,78 +32,16 @@ requests_front(q) = filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, q)
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Объём, выделенный q-му Запросу: min(Запрос; остаток). Если остаток не меньше Запроса,
-# результат равен Запросу (полное удовлетворение), иначе — остатку (частичное).
-requests_allocated(q) = for_each_pair(requests_front(q), min, requests_remainder(q))
+# Нормированные объёмы по Запросам II очереди и далее: цикла Шагов 6-7.2 у них нет,
+# единственная итерация нормирования — первая.
+requests_i_j_x_k_l_s_l0_q_allocated(l0) = normalized_i_j_x_k_l_s_l0_q(l0)(1)
     where
-        requests_front(q)(i, j, x, k, l, l0, s)     of number
-        requests_remainder(q)(i, j, k, l)           of number
-        requests_allocated(q)(i, j, x, k, l, l0, s) of number
-        requests_front(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
-        requests_remainder(q) of matrix(Product, Refinery, Region, Market_participant)
-        requests_allocated(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
-        min from operation
+        l0 > 1 # Очереди II и далее; I очередь задана как (1 from R) выше
+        normalized_i_j_x_k_l_s_l0_q(l0)(1)(i, j, x, k, l, l0, s, q)      of number
+        requests_i_j_x_k_l_s_l0_q_allocated(l0)(i, j, x, k, l, l0, s, q) of number
+        normalized_i_j_x_k_l_s_l0_q(l0)(1)      of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_x_k_l_s_l0_q_allocated(l0) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
             where
-                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
-
-# Остаток для следующего Запроса: текущий остаток минус только что выделенный объём
-# (нефтебаза, очередь и условие поставки выделения суммируются до формы коллекции).
-requests_remainder(q + 1) = for_each_pair(requests_remainder(q), "-", sum_by_axes(requests_allocated(q), Terminal, Queue, Ship_terms))
-    where
-        requests_remainder(q)(i, j, k, l)           of number
-        requests_allocated(q)(i, j, x, k, l, l0, s) of number
-        requests_remainder(q + 1)(i, j, k, l)       of number
-        requests_remainder(q)     of matrix(Product, Refinery, Region, Market_participant)
-        requests_allocated(q)     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
-        requests_remainder(q + 1) of matrix(Product, Refinery, Region, Market_participant)
-        "-" from operation
-            where
-                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
-
-# Возвращаем выделению координату Запроса q, чтобы выделения разных Запросов одной
-# коллекции не сливались.
-requests_allocated_q(q) = replace_coord(requests_allocated(q), q, q from Request)
-    where
-        requests_allocated(q)(i, j, x, k, l, l0, s)      of number
-        requests_allocated_q(q)(i, j, x, k, l, l0, s, q) of number
-        requests_allocated(q)   of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms)
-        requests_allocated_q(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-            where
-                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
-                i  for I  from index # Индексы нефпродукта
-                j  for J  from index # Индексы НПЗ
-                x  for X  from index # Индексы нефтебаз
-                k  for K  from index # Индексы региона
-                l  for P  from index # Индексы субъекта рынка
-                l0 for R  from index # Индексы очереди
-                s  for C  from index # Индексы условий поставки
-                q  for Z  from index # Индексы запросов
-
-# Выделения всех Запросов в одной матрице.
-requests_i_j_x_k_l_s_l0_q_allocated = assign_matrix(requests_allocated_q(1), ..., requests_allocated_q(D))
-    where
-        requests_allocated_q(q)(i, j, x, k, l, l0, s, q)             of number
-        requests_i_j_x_k_l_s_l0_q_allocated(i, j, x, k, l, l0, s, q) of number
-        requests_allocated_q(q)             of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_x_k_l_s_l0_q_allocated of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-            where
-                D of index = length(Request) # Количество Запросов
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
@@ -138,19 +53,16 @@ requests_i_j_x_k_l_s_l0_q_allocated = assign_matrix(requests_allocated_q(1), ...
                 q  for Z  from index # Индексы запросов
 
 # Итог Шага (N + 1): объём, предоставленный по каждому фактически поданному Запросу.
-# Запрос, которому не досталось объёма, остаётся в матрице с нулём — обнуление исходной
-# матрицы Запросов задаёт нули во всех ячейках, а выделенные объёмы прибавляются к ним.
-requests_i_j_x_k_l_s_l0_q_final = for_each_pair(for_each_element(requests_i_j_x_k_l_s_l0_q, "*", 0), "+", requests_i_j_x_k_l_s_l0_q_allocated)
+# Запрос, которому не досталось объёма, уже стоит в матрице своей очереди с нулём (Шаги 5а и 6
+# возвращают нулевые Запросы), поэтому отдельная нулевая база не нужна.
+requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_allocated(1), ..., requests_i_j_x_k_l_s_l0_q_allocated(L))
     where
-        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)           of number
-        requests_i_j_x_k_l_s_l0_q_allocated(i, j, x, k, l, l0, s, q) of number
-        requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q)     of number # Предоставленный объем НП
-        requests_i_j_x_k_l_s_l0_q           of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_x_k_l_s_l0_q_allocated of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        requests_i_j_x_k_l_s_l0_q_final     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
-        "*" from operation
-        "+" from operation
+        requests_i_j_x_k_l_s_l0_q_allocated(l0)(i, j, x, k, l, l0, s, q) of number
+        requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q)         of number # Предоставленный объем НП
+        requests_i_j_x_k_l_s_l0_q_allocated(l0) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_x_k_l_s_l0_q_final         of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
             where
+                L of index = length(Queue) # Количество очередей
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
