@@ -394,9 +394,12 @@ estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n) = filter_by_coordinate(estima
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
+# Минимальный объём с нефтебазы на первой итерации равен одному шагу вывоза.
+MIN_EXW_TONNAGE(1 from n) = OIL_TERMINAL_STEP_TONNAGE = 5
+
 # Запросы с нефтебаз, чей объём меньше одного шага вывоза (5 МТ), поднимаются до одного шага
 # вывоза (5 МТ): #006 (2.59572417418733019).
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {
     (1 from I, 2 from C) = {
         (1 from I, 2 from C, 1 from J) = {
             (1 from I, 2 from C, 1 from J, 2 from X) = {
@@ -424,7 +427,7 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(1 from n) = for_each_element(f
 
 # Коэффициенты для нормирования объёмов с нефтебаз (не меньше одного шага вывоза): делим на
 # шаг вывоза.
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
     (1 from I, 2 from C) = {
         (1 from I, 2 from C, 1 from J) = {
             (1 from I, 2 from C, 1 from J, 2 from X) = {
@@ -1357,7 +1360,7 @@ estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n) = filter_by_coordinate(estima
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, чей объём меньше одного шага вывоза (5 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(2 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(2 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -1371,7 +1374,7 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(2 from R)(1 from n) = for_each_element(f
 
 # Коэффициенты для нормирования объёмов с нефтебаз (не меньше одного шага вывоза): делим на
 # шаг вывоза.
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(2 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(2 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(2 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
     (1 from I, 2 from C) = {
         (1 from I, 2 from C, 1 from J) = {
             (1 from I, 2 from C, 1 from J, 2 from X) = {
@@ -1917,7 +1920,7 @@ estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n) = filter_by_coordinate(estima
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, чей объём меньше одного шага вывоза (5 МТ), — таких нет.
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(3 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(3 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -1931,7 +1934,7 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(3 from R)(1 from n) = for_each_element(f
 
 # Коэффициенты для нормирования объёмов с нефтебаз (не меньше одного шага вывоза): делим на
 # шаг вывоза.
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(3 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(3 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(3 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
     (1 from I, 2 from C) = {
         (1 from I, 2 from C, 3 from J) = {
             (1 from I, 2 from C, 3 from J, 3 from X) = {
@@ -2357,7 +2360,7 @@ estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n) = filter_by_coordinate(estima
         Z  from index # Индексы запросов
 
 # Запросы с нефтебаз, чей объём меньше одного шага вывоза (5 МТ), — пусто.
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(4 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(4 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
@@ -2371,7 +2374,7 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(4 from R)(1 from n) = for_each_element(f
 
 # Коэффициенты для нормирования объёмов с нефтебаз (не меньше одного шага вывоза): делим на
 # шаг вывоза.
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(4 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {}
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(4 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(4 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта

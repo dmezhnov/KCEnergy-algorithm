@@ -17,8 +17,8 @@ assign_matrix, sum_by_axes, filter_by_pair                                 from 
 # Нулевые Запросы Шага 5а не нормируются и остаются с нулём.
 # После контроля доли (Шаг 7) возможно повторное нормирование: первая итерация (n = 1)
 # нормирует разбиение результата Шага 5, каждая следующая — разбиение урезанной матрицы
-# Шага 7.2 (n + 1); на них округление идёт вниз, вагонной нормы как минимума нет, а правила
-# EXW о минимальной норме и одном шаге действуют на каждой итерации.
+# Шага 7.2 (n + 1); на них округление идёт вниз, а минимальных норм нет — кроме Запроса,
+# заявленного ровно на минимальную норму нефтебазы: он получает её на каждой итерации.
 # Шаги 7–11 работают с коллекциями (Product, Refinery, Region, Market_participant), поэтому
 # нормированные объёмы Запросов в конце шага суммируются обратно по коллекциям.
 
@@ -426,12 +426,27 @@ normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(n) = for_each_element(for_each_e
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Запросы l0-й очереди с поставкой с нефтебаз, объём которых меньше одного шага нормы
-# нефтебазы: получают один шаг
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(l0)(n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE)
+# Минимальный объём с нефтебазы — один шаг нормы нефтебазы; на повторных итерациях (n > 1)
+# минимума нет
+MIN_EXW_TONNAGE(n) = OIL_TERMINAL_STEP_TONNAGE
+    where
+        OIL_TERMINAL_STEP_TONNAGE of number
+        MIN_EXW_TONNAGE(n)        of number
+            where
+                n of index = 1
+MIN_EXW_TONNAGE(n) = 0
+    where
+        MIN_EXW_TONNAGE(n) of number
+            where
+                n of index != 1
+
+# Запросы l0-й очереди с поставкой с нефтебаз, объём которых меньше минимального объёма:
+# получают один шаг нормы нефтебазы
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(l0)(n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), "<", MIN_EXW_TONNAGE(n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)(i, j, x, k, l, l0, s, q)          of number
         normalized_i_j_x_k_l_s_l0_q_exw_minimum(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_TONNAGE(n)                                                      of number
         OIL_TERMINAL_STEP_TONNAGE                                               of number
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)          of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         normalized_i_j_x_k_l_s_l0_q_exw_minimum(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
@@ -449,12 +464,13 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(l0)(n) = for_each_element(for_each_eleme
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Запросы первой очереди с поставкой с нефтебаз, объём которых меньше одного шага нормы
-# нефтебазы: получают один шаг
-normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), "<", OIL_TERMINAL_STEP_TONNAGE), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE)
+# Запросы первой очереди с поставкой с нефтебаз, объём которых меньше минимального объёма:
+# получают один шаг нормы нефтебазы
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), "<", MIN_EXW_TONNAGE(n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)(i, j, x, k, l, l0, s, q)          of number
         normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_TONNAGE(n)                                                            of number
         OIL_TERMINAL_STEP_TONNAGE                                                     of number
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)          of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
@@ -473,10 +489,11 @@ normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(n) = for_each_element(for_each
                 q  for Z  from index # Индексы запросов
 
 # n-я матрица коэффициентов, для расчета нормированных объемов НП l0-й очереди, для поставки с нефтебаз
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(l0)(n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(l0)(n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), ">=", MIN_EXW_TONNAGE(n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)(i, j, x, k, l, l0, s, q)       of number
         estimated_i_j_x_k_l_s_l0_q_exw_coeff(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_TONNAGE(n)                                                   of number
         OIL_TERMINAL_STEP_TONNAGE                                            of number
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)       of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         estimated_i_j_x_k_l_s_l0_q_exw_coeff(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
@@ -495,10 +512,11 @@ estimated_i_j_x_k_l_s_l0_q_exw_coeff(l0)(n) = for_each_element(filter_by_value(e
                 q  for Z  from index # Индексы запросов
 
 # n-я матрица коэффициентов, для расчета нормированных объемов НП первой очереди, для поставки с нефтебаз
-estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), ">=", OIL_TERMINAL_STEP_TONNAGE), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), ">=", MIN_EXW_TONNAGE(n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)(i, j, x, k, l, l0, s, q)       of number
         estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_TONNAGE(n)                                                         of number
         OIL_TERMINAL_STEP_TONNAGE                                                  of number
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)       of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
