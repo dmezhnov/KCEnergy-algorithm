@@ -17,8 +17,9 @@ assign_matrix, sum_by_axes, filter_by_pair                                 from 
 # Нулевые Запросы Шага 5а не нормируются и остаются с нулём.
 # После контроля доли (Шаг 7) возможно повторное нормирование: первая итерация (n = 1)
 # нормирует разбиение результата Шага 5, каждая следующая — разбиение урезанной матрицы
-# Шага 7.2 (n + 1); на них округление идёт вниз, а минимальных норм нет — кроме Запроса,
-# заявленного ровно на минимальную норму нефтебазы: он получает её на каждой итерации.
+# Шага 7.2 (n + 1); на них округление идёт вниз, а минимальных норм нет. Запрос, заявленный
+# ровно на минимальную норму нефтебазы, получает её на каждой итерации, если Шаг 5а выделил
+# ему всю норму; меньшая часть нормы на повторной итерации даёт 0.
 # Шаги 7–11 работают с коллекциями (Product, Refinery, Region, Market_participant), поэтому
 # нормированные объёмы Запросов в конце шага суммируются обратно по коллекциям.
 
@@ -378,18 +379,37 @@ requests_i_j_x_k_l_s_l0_q_exw_exact = filter_by_value(filter_by_coordinate(reque
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
+# Наименьший объём Шага 5а, при котором EXW-Запрос, заявленный ровно на минимальную норму
+# нефтебазы, получает её. На первой итерации — любой ненулевой: недостающее добирается до нормы.
+# На повторных (n > 1) — только вся норма: Запрос, которому после урезания Шагом 7.2 досталась
+# лишь часть нормы, получает 0 (округлением вниз до шага), иначе добор снова превысил бы предел
+# доли и цикл Шагов 6–7.2 не завершился бы. Шаг 5а раскладывает объём коллекции в порядке
+# подачи, поэтому без объёма остаются самые поздние Запросы.
+MIN_EXW_EXACT_TONNAGE(n) = 0
+    where
+        MIN_EXW_EXACT_TONNAGE(n) of number
+            where
+                n of index = 1
+MIN_EXW_EXACT_TONNAGE(n) = OIL_TERMINAL_MIN_TONNAGE
+    where
+        OIL_TERMINAL_MIN_TONNAGE of number
+        MIN_EXW_EXACT_TONNAGE(n) of number
+            where
+                n of index != 1
+
 # EXW-Запросы l0-й очереди, заявленные ровно на минимальную норму нефтебазы: нормируются до неё
-normalized_i_j_x_k_l_s_l0_q_exw_exact(l0)(n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE)
+normalized_i_j_x_k_l_s_l0_q_exw_exact(l0)(n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(l0)(n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)(i, j, x, k, l, l0, s, q)        of number
         requests_i_j_x_k_l_s_l0_q_exw_exact(i, j, x, k, l, l0, s, q)          of number
         normalized_i_j_x_k_l_s_l0_q_exw_exact(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_EXACT_TONNAGE(n)                                              of number
         OIL_TERMINAL_MIN_TONNAGE                                              of number
         estimated_i_j_x_k_l_s_l0_q_exw(l0)(n)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         requests_i_j_x_k_l_s_l0_q_exw_exact          of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         normalized_i_j_x_k_l_s_l0_q_exw_exact(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         "*", "+" from operation
-        contains from condition
+        contains, ">=" from condition
             where
                 n  of          index # Индекс матрицы
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
@@ -403,17 +423,18 @@ normalized_i_j_x_k_l_s_l0_q_exw_exact(l0)(n) = for_each_element(for_each_element
                 q  for Z  from index # Индексы запросов
 
 # EXW-Запросы первой очереди, заявленные ровно на минимальную норму нефтебазы: нормируются до неё
-normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(n) = for_each_element(for_each_element(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE)
+normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(n) = for_each_element(for_each_element(filter_by_value(filter_by_pair(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n), contains, requests_i_j_x_k_l_s_l0_q_exw_exact), ">=", MIN_EXW_EXACT_TONNAGE(n)), "*", 0), "+", OIL_TERMINAL_MIN_TONNAGE)
     where
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)(i, j, x, k, l, l0, s, q)        of number
         requests_i_j_x_k_l_s_l0_q_exw_exact(i, j, x, k, l, l0, s, q)                of number
         normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(n)(i, j, x, k, l, l0, s, q) of number
+        MIN_EXW_EXACT_TONNAGE(n)                                                    of number
         OIL_TERMINAL_MIN_TONNAGE                                                    of number
         estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(n)        of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         requests_i_j_x_k_l_s_l0_q_exw_exact                of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         normalized_i_j_x_k_l_s_l0_q_exw_exact(1 from R)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         "*", "+" from operation
-        contains from condition
+        contains, ">=" from condition
             where
                 n  of          index # Индекс матрицы
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
