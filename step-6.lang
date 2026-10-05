@@ -724,6 +724,6 @@ normalized_i_j_k_l(1 from R)(n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(1 from
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
 # Шаг 5а. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n)
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(1 from R)(n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(1 from R)(n)
