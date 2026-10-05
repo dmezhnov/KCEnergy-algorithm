@@ -71,8 +71,10 @@ available_i_j(2 from R) = filter_by_value(available_i_j_new(1 from R), ">", MIN_
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
+# Шаг 5а. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(1 from R)(n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ

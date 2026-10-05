@@ -89,8 +89,10 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
 # Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
+# Шаг 5а. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(1 from R)(n)
 # Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(1 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
 # $Refinery(j), МТ: normalized_i_j(1 from R)(n)
 # Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
@@ -106,8 +108,10 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(2 from R)(i, j)
 # Шаг 5. Очередь II. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
+# Шаг 5а. Очередь II. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(2 from R)(n)
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(2 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(2 from R)(n)
 # Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(2 from R)(i, j, k, l)
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
 # резервуаров объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(2 from R)
@@ -117,8 +121,10 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(3 from R)(i, j)
 # Шаг 5. Очередь III. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(3 from R)(1 from n)
+# Шаг 5а. Очередь III. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(3 from R)(n)
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(3 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(3 from R)(n)
 # Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: estimated_i_j_k_l_total(3 from R)(i, j, k, l)
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(3 from R)
@@ -128,8 +134,10 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # НПЗ $Refinery(j), МТ: requests_i_j_corrected(4 from R)(i, j)
 # Шаг 5. Очередь IV. Предварительный расчетный объем НП $Product(i) на НПЗ
 # $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(4 from R)(1 from n)
+# Шаг 5а. Очередь IV. Предварительный расчетный объем НП $Product(i) на НПЗ
+# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(4 from R)(n)
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) в регион  $Region(k), МТ: normalized_i_j_k_l(4 from R)(n)
+# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(4 from R)(n)
 # Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: estimated_i_j_k_l_total(4 from R)(i, j, k, l)
 # Шаг N + 1. Предоставленный по Запросу объем НП $Product(i) на НПЗ
 # $Refinery(j), МТ: requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q)
