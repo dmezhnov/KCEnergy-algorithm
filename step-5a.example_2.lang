@@ -369,3 +369,275 @@ estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n) = for_each_pair(for_each_element(
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
+### Шаг 5а. Разбиение объёма коллекции по Запросам — II очередь (пример 2)
+# Те же правила для II очереди (Владельцы нефтебаз/резервуаров, n = 1). В каждой коллекции
+# II очереди ровно один Запрос, поэтому разбиение сводится к первому проходу (FCA, вниз до
+# кратного 65) или ко второму (EXW, без округления).
+
+# Распределяемый объём коллекции II очереди: меньшее из предварительного расчётного объёма и
+# суммы её Запросов. Урезаны долей только коллекции ПКОП (J=1), остальные равны Запросу.
+estimated_i_j_k_l_bounded(2 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(2 from R)(1 from n), min, requests_i_j_k_l_queue(2 from R)) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 15 from P) = min(15.3061224489795918, 50)   = 15.3061224489795918   # 204
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 14 from P) = min(59.69387755102040802, 195) = 59.69387755102040802  # 203
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 16 from P) = min(130, 130)                  = 130,                  # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = min(70, 70)                    = 70,                   # 206
+                (1 from I, 2 from J, 4 from K, 20 from P) = min(130, 130)                  = 130,                  # 207
+                (1 from I, 2 from J, 4 from K, 21 from P) = min(15, 15)                    = 15,                   # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = min(35, 35)                    = 35                    # 209
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 8  from P) = min(65, 65)                    = 65,                   # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = min(130, 130)                  = 130                   # 202
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Семейства по Запросам II очереди (q = 1 … 39, n = 1) не расписаны Запрос за Запросом: их итог
+# виден в матрицах ниже. По коллекциям (запрошено -> выделено):
+# — (1 from J, 1 from K, 15 from P): EXW #026 50 -> 15.3061224489795918;
+# — (1 from J, 3 from K, 14 from P): FCA #025 195 -> 0 (59.69387755102040802 < 65 — ни одного шага);
+# — (2 from J, 4 from K, 16 from P): FCA #027 130 -> 130;
+# — (2 from J, 4 from K, 17 from P): EXW #028 70 -> 70;
+# — (2 from J, 4 from K, 20 from P): FCA #031 130 -> 130;
+# — (2 from J, 4 from K, 21 from P): EXW #038 15 -> 15;
+# — (2 from J, 4 from K, 22 from P): EXW #039 35 -> 35;
+# — (3 from J, 2 from K, 8  from P): FCA #023 65 -> 65;
+# — (3 from J, 2 from K, 9  from P): FCA #024 130 -> 130.
+# Остаток 59.69387755102040802 в коллекции (1 from J, 3 from K, 14 from P) не достаётся никому:
+# Запросов EXW в ней нет. Ничьей нет ни в одной коллекции: сумма остатков после первого и
+# второго проходов нигде не равна 65 МТ (119.38775510204081604 в коллекции #025, 0 в остальных).
+
+# Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу II очереди.
+estimated_i_j_x_k_l_s_l0_q_bonus(2 from R)(1 from n) = assign_matrix(requests_bonus_allocated(2 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(2 from R)(1 from n)(39 from Z)) = {}
+    where
+        requests_bonus_allocated(2 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов первого условия поставки (FCA) II очереди после первого прохода.
+estimated_i_j_x_k_l_s_l0_q_first(2 from R)(1 from n) = for_each_pair(assign_matrix(requests_allocated_first(2 from R)(1 from n)(1 from Z), ..., requests_allocated_first(2 from R)(1 from n)(39 from Z)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(2 from R)(1 from n)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0    # 025
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                        }
+                    },
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P, 2 from R, 31 from Z) = 130  # 031
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        requests_allocated_first(2 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов второго условия поставки (EXW) II очереди после второго прохода.
+estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n) = filter_by_pair(assign_matrix(requests_allocated_second(2 from R)(1 from n)(1 from Z), ..., requests_allocated_second(2 from R)(1 from n)(39 from Z)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(2 from R)(1 from n), Terminal, Queue, Ship_terms, Request)) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 15.3061224489795918  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        requests_allocated_second(2 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Предварительный расчётный объём каждого Запроса II очереди (n = 1). Запрос #025, которому не
+# досталось объёма, остаётся в матрице с нулём.
+estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, Second), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(2 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n))) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0                    # 025
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130                  # 027
+                        }
+                    },
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P, 2 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 20 from P, 2 from R, 31 from Z) = 130                  # 031
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65                   # 023
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130                  # 024
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 15.3061224489795918  # 026
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
