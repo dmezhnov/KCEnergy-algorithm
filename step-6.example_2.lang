@@ -1,15 +1,18 @@
 RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.example_2.lang")
 estimated_i_j_k_l                                                          from ("step-5.example_2.lang")
+estimated_i_j_x_k_l_s_l0_q                                                 from ("step-5a.example_2.lang")
 requests_i_j_k_l_s_l0                                                      from ("step-minus-1.example_2.lang")
 filter_by_coordinate, filter_by_value, filter_by_pair                      from ("matrix_operation.lang")
 count_coordinates_by_axis, for_each_element, assign_matrix                 from ("matrix_operation.lang")
+for_each_pair, sum_by_axes                                                 from ("matrix_operation.lang")
 
 ### Шаг 6. Выбор условия поставки для групп обслуживания
 # После агрегации (Шаг −1) в группе обслуживания может быть заявлено одно условие поставки или
 # оба сразу. Если условие одно — группа нормируется по нему, как и до агрегации. Если заявлены
 # оба — условие выбирается по вагонной норме (65 МТ): объём меньше нормы нормируется по условию
 # EXW (с нефтебазы), не меньше — по условию FCA (с НПЗ). Отказа здесь нет: объёмы Запросов
-# невыбранного условия обнуляются при разагрегации в Шаге n+1.
+# невыбранного условия обнуляются при разагрегации в Шаге n+1. Выбор читают только II–IV
+# очереди: I очередь нормируется по Запросам (раздел ниже).
 
 # Количество условий поставки, заявленных в группе обслуживания.
 ship_terms_count_by_requests_l0 = count_coordinates_by_axis(requests_i_j_k_l_s_l0, Ship_terms) = {
@@ -252,43 +255,110 @@ ship_terms_count_by_requests_l0_multiple = filter_by_value(ship_terms_count_by_r
         R from index # Индексы очереди
 
 ### Шаг 6. Нормирование предварительно предоставленных объёмов НП первой очереди
-# Округляем предварительные объёмы до нормированных (первая итерация, n = 1):
-# — для НПЗ (FCA) — до кратности вагонной норме (65 МТ), мат. округлением;
-# — для нефтебаз (EXW) — до кратности шагу вывоза (5 МТ), но не ниже минимальной нормы (4 МТ).
-# Оба условия поставки заявлены только в группе (ПКОП J=1, Ulytau K=4, Participant_A P=1):
-# её предварительный объём 14.509769561026899064 МТ меньше вагонной нормы (65 МТ), поэтому
-# группа нормируется по условию EXW — Запрос #001 (FCA) обнулится в Шаге n+1.
+# Каждый Запрос нормируется по собственному условию поставки (первая итерация, n = 1):
+# — FCA (с НПЗ) — до кратности вагонной норме (65 МТ), мат. округлением, но не ниже нормы;
+# — EXW (с нефтебаз) — до кратности шагу вывоза (5 МТ), мат. округлением; объём меньше
+#   минимальной нормы (4 МТ) поднимается до одного шага вывоза.
+# Запросы без объёма Шага 5а (#001, #003, #004, #013, #014, #015, #019, #020) не нормируются и
+# остаются с нулём. Нормированный объём коллекции — сумма нормированных объёмов её Запросов.
 
-# Предварительные расчётные объёмы первой очереди у групп с единственным условием поставки.
-estimated_i_j_k_l_single(1 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(1 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_single, First)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 60.35222991325681237    # 110
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 616.454919828266012065  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = 172.4349426093051782,   # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 172.4349426093051782    # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 77.59572417418733019,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 86.2174713046525891     # 107
+# Запросы I очереди, получившие объём в Шаге 5а.
+estimated_i_j_x_k_l_s_l0_q_positive(1 from R)(1 from n) = filter_by_value(estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n), ">", 0) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585                    # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,                    # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65                     # 012
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 60.35222991325681237   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 14.509769561026899064  # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,                    # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,                    # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 42.4349426093051782    # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,                    # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 2.59572417418733019    # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 86.2174713046525891    # 010
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 29.26829268292682925,   # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30,                     # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30,                     # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20                      # 113
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 29.26829268292682925   # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30                     # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30                     # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20                     # 030
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 600                     # 105
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 600                    # 008
+                        }
+                    }
+                }
             }
         }
     }
@@ -296,16 +366,34 @@ estimated_i_j_k_l_single(1 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Предварительные расчётные объёмы первой очереди у групп, где заявлены оба условия поставки.
-estimated_i_j_k_l_multiple(1 from R)(1 from n) = filter_by_pair(estimated_i_j_k_l(1 from R)(1 from n), contains, filter_by_coordinate(ship_terms_count_by_requests_l0_multiple, First)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 14.509769561026899064  # 101 + 102
+# Предварительные объёмы Запросов с НПЗ (FCA).
+estimated_i_j_x_k_l_s_l0_q_fca(1 from R)(1 from n) = filter_by_coordinate(estimated_i_j_x_k_l_s_l0_q_positive(1 from R)(1 from n), FCA) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65   # 012
+                        }
+                    }
+                }
             }
         }
     }
@@ -313,40 +401,34 @@ estimated_i_j_k_l_multiple(1 from R)(1 from n) = filter_by_pair(estimated_i_j_k_
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
-
-# Предварительные расчётные объёмы первой очереди, для поставки с НПЗ: группы с единственным
-# условием поставки FCA и группы с обоими условиями, где объём не ниже вагонной нормы (65 МТ).
-estimated_i_j_k_l_fca(1 from R)(1 from n) = assign_matrix(filter_by_pair(estimated_i_j_k_l_single(1 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, FCA)), filter_by_value(estimated_i_j_k_l_multiple(1 from R)(1 from n), ">=", RAIL_ROAD_MIN_TONNAGE)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 616.454919828266012065  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = 172.4349426093051782    # 108
-            }
-        }
-    }
-}
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Коэффициенты для нормирования объёмов с НПЗ: делим на вагонную норму.
-estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca(1 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 616.454919828266012065 / RAIL_ROAD_MIN_TONNAGE = 616.454919828266012065 / 65 = 9.483921843511784801  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = 172.4349426093051782 / RAIL_ROAD_MIN_TONNAGE = 172.4349426093051782 / 65 = 2.652845270912387356      # 108
+estimated_i_j_x_k_l_s_l0_q_fca_coeff(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca(1 from R)(1 from n), safe_divide, RAIL_ROAD_MIN_TONNAGE) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585 / RAIL_ROAD_MIN_TONNAGE = 585 / 65 = 9  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65 / RAIL_ROAD_MIN_TONNAGE = 65 / 65 = 1,   # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65 / RAIL_ROAD_MIN_TONNAGE = 65 / 65 = 1    # 012
+                        }
+                    }
+                }
             }
         }
     }
@@ -354,19 +436,34 @@ estimated_i_j_k_l_fca_coeff(1 from R)(1 from n) = for_each_element(estimated_i_j
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Округляем коэффициенты до целого по мат. правилам (n = 1).
-estimated_i_j_k_l_fca_coeff_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff(1 from R)(1 from n), round, 0) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = round(9.483921843511784801) = 9  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = round(2.652845270912387356) = 3  # 108
+estimated_i_j_x_k_l_s_l0_q_fca_coeff_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_coeff(1 from R)(1 from n), round, 0) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = round(9) = 9   # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = round(1) = 1,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = round(1) = 1   # 012
+                        }
+                    }
+                }
             }
         }
     }
@@ -374,19 +471,34 @@ estimated_i_j_k_l_fca_coeff_rounded(1 from R)(1 from n) = for_each_element(estim
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Нормированные кратные объёмы с НПЗ: умножаем коэффициенты на вагонную норму.
-estimated_i_j_k_l_fca_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_coeff_rounded(1 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 9 * RAIL_ROAD_MIN_TONNAGE = 9 * 65 = 585  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = 3 * RAIL_ROAD_MIN_TONNAGE = 3 * 65 = 195  # 108
+estimated_i_j_x_k_l_s_l0_q_fca_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_coeff_rounded(1 from R)(1 from n), "*", RAIL_ROAD_MIN_TONNAGE) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 9 * RAIL_ROAD_MIN_TONNAGE = 9 * 65 = 585  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 1 * RAIL_ROAD_MIN_TONNAGE = 1 * 65 = 65   # 012
+                        }
+                    }
+                }
             }
         }
     }
@@ -394,23 +506,37 @@ estimated_i_j_k_l_fca_rounded(1 from R)(1 from n) = for_each_element(estimated_i
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Минимальный объём с НПЗ на первой итерации равен вагонной норме.
 MIN_FCA_TONNAGE(1 from n) = RAIL_ROAD_MIN_TONNAGE = 65
 
-# Request 101 rounds down to zero multiples, so the max-branch lifts it to the wagon norm.
-# Нормированные объёмы НП первой очереди, для поставки с НПЗ: не ниже вагонной нормы.
-normalized_i_j_k_l_fca(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_fca_rounded(1 from R)(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = max(585, RAIL_ROAD_MIN_TONNAGE) = max(585, 65) = 585  # 106
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 12 from P) = max(195, RAIL_ROAD_MIN_TONNAGE) = max(195, 65) = 195  # 108
+# Нормированные объёмы Запросов с НПЗ: не ниже вагонной нормы.
+normalized_i_j_x_k_l_s_l0_q_fca(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_fca_rounded(1 from R)(1 from n), max, MIN_FCA_TONNAGE(1 from n)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = max(585, RAIL_ROAD_MIN_TONNAGE) = max(585, 65) = 585  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = max(65, RAIL_ROAD_MIN_TONNAGE) = max(65, 65) = 65,    # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = max(65, RAIL_ROAD_MIN_TONNAGE) = max(65, 65) = 65     # 012
+                        }
+                    }
+                }
             }
         }
     }
@@ -418,38 +544,90 @@ normalized_i_j_k_l_fca(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Предварительные расчётные объёмы первой очереди, для поставки с нефтебаз: группы с единственным
-# условием поставки EXW и группы с обоими условиями, где объём меньше вагонной нормы (65 МТ).
-estimated_i_j_k_l_exw(1 from R)(1 from n) = assign_matrix(filter_by_pair(estimated_i_j_k_l_single(1 from R)(1 from n), contains, filter_by_coordinate(requests_i_j_k_l_s_l0, First, EXW)), filter_by_value(estimated_i_j_k_l_multiple(1 from R)(1 from n), "<", RAIL_ROAD_MIN_TONNAGE)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 60.35222991325681237    # 110
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 14.509769561026899064,  # 101 + 102
-                (1 from I, 1 from J, 4 from K, 13 from P) = 172.4349426093051782    # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 77.59572417418733019,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 86.2174713046525891     # 107
+# Предварительные объёмы Запросов с нефтебаз (EXW).
+estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n) = filter_by_coordinate(estimated_i_j_x_k_l_s_l0_q_positive(1 from R)(1 from n), EXW) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 60.35222991325681237   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 14.509769561026899064  # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,                    # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,                    # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 42.4349426093051782    # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,                    # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 2.59572417418733019    # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 86.2174713046525891    # 010
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 29.26829268292682925,   # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30,                     # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30,                     # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20                      # 113
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 29.26829268292682925   # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30                     # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30                     # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20                     # 030
+                        }
+                    }
+                }
             }
         },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 600                     # 105
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 600                    # 008
+                        }
+                    }
+                }
             }
         }
     }
@@ -457,155 +635,30 @@ estimated_i_j_k_l_exw(1 from R)(1 from n) = assign_matrix(filter_by_pair(estimat
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
-
-# Коэффициенты для нормирования объёмов с нефтебаз: делим на шаг вывоза.
-estimated_i_j_k_l_exw_coeff(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw(1 from R)(1 from n), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 60.35222991325681237 / OIL_TERMINAL_STEP_TONNAGE  = 60.35222991325681237 / 5  = 12.070445982651362474   # 110
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 14.509769561026899064 / OIL_TERMINAL_STEP_TONNAGE = 14.509769561026899064 / 5 = 2.901953912205379812,   # 101 + 102
-                (1 from I, 1 from J, 4 from K, 13 from P) = 172.4349426093051782 / OIL_TERMINAL_STEP_TONNAGE  = 172.4349426093051782 / 5  = 34.48698852186103564    # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 77.59572417418733019 / OIL_TERMINAL_STEP_TONNAGE  = 77.59572417418733019 / 5  = 15.519144834837466038,  # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 86.2174713046525891 / OIL_TERMINAL_STEP_TONNAGE = 86.2174713046525891 / 5 = 17.24349426093051782        # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 29.26829268292682925 / OIL_TERMINAL_STEP_TONNAGE = 29.26829268292682925 / 5 = 5.85365853658536585,      # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6,                                                            # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6,                                                            # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20 / OIL_TERMINAL_STEP_TONNAGE = 20 / 5 = 4                                                             # 113
-            }
-        },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 600 / OIL_TERMINAL_STEP_TONNAGE = 600 / 5 = 120                                                         # 105
-            }
-        }
-    }
-}
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-# Округляем коэффициенты до целого по мат. правилам (n = 1).
-estimated_i_j_k_l_exw_coeff_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff(1 from R)(1 from n), round, 0) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = round(12.070445982651362474) = 12   # 110
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = round(2.901953912205379812) = 3,    # 101 + 102
-                (1 from I, 1 from J, 4 from K, 13 from P) = round(34.48698852186103564) = 34    # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = round(15.519144834837466038) = 16,  # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = round(17.24349426093051782) = 17    # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = round(5.85365853658536585)  = 6,    # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = round(6) = 6,                       # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = round(6) = 6,                       # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = round(4) = 4                        # 113
-            }
-        },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = round(120) = 120                    # 105
-            }
-        }
-    }
-}
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
-
-# Нормированные кратные объёмы с нефтебаз: умножаем коэффициенты на шаг вывоза.
-estimated_i_j_k_l_exw_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_coeff_rounded(1 from R)(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 12 * OIL_TERMINAL_STEP_TONNAGE = 12 * 5 = 60     # 110
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15,      # 101 + 102
-                (1 from I, 1 from J, 4 from K, 13 from P) = 34 * OIL_TERMINAL_STEP_TONNAGE = 34 * 5 = 170    # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 16 * OIL_TERMINAL_STEP_TONNAGE = 16 * 5 = 80,    # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 17 * OIL_TERMINAL_STEP_TONNAGE = 17 * 5 = 85     # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30,      # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30,      # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30,      # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 4 * OIL_TERMINAL_STEP_TONNAGE = 4 * 5 = 20       # 113
-            }
-        },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 120 * OIL_TERMINAL_STEP_TONNAGE = 120 * 5 = 600  # 105
-            }
-        }
-    }
-}
-    where
-        n  of   index # Индекс матрицы
-        I  from index # Индексы нефпродукта
-        J  from index # Индексы НПЗ
-        K  from index # Индексы региона
-        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 # Минимальный объём с нефтебазы на первой итерации равен минимальной норме.
 MIN_EXW_TONNAGE(1 from n) = OIL_TERMINAL_MIN_TONNAGE = 4
 
-# All preliminary EXW volumes are >= minimal norm, so the max-branch applies.
-# Нормированные объёмы НП первой очереди, для поставки с нефтебаз: не ниже минимальной нормы.
-normalized_i_j_k_l_exw(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_exw_rounded(1 from R)(1 from n), max, MIN_EXW_TONNAGE(1 from n)) = {
-    (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = max(60, OIL_TERMINAL_MIN_TONNAGE) = max(60, 4) = 60     # 110
-            },
-            (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = max(15, OIL_TERMINAL_MIN_TONNAGE) = max(15, 4) = 15,    # 101 + 102
-                (1 from I, 1 from J, 4 from K, 13 from P) = max(170, OIL_TERMINAL_MIN_TONNAGE) = max(170, 4) = 170  # 109
-            },
-            (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = max(80, OIL_TERMINAL_MIN_TONNAGE) = max(80, 4) = 80,    # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = max(85, OIL_TERMINAL_MIN_TONNAGE) = max(85, 4) = 85     # 107
-            }
-        },
-        (1 from I, 2 from J) = {
-            (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = max(30, OIL_TERMINAL_MIN_TONNAGE) = max(30, 4) = 30,    # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = max(30, OIL_TERMINAL_MIN_TONNAGE) = max(30, 4) = 30,    # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = max(30, OIL_TERMINAL_MIN_TONNAGE) = max(30, 4) = 30,    # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = max(20, OIL_TERMINAL_MIN_TONNAGE) = max(20, 4) = 20     # 113
-            }
-        },
-        (1 from I, 3 from J) = {
-            (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = max(600, OIL_TERMINAL_MIN_TONNAGE) = max(600, 4) = 600  # 105
+# Запросы с нефтебаз, чей объём меньше минимальной нормы (4 МТ), поднимаются до одного шага
+# вывоза (5 МТ): #006 (2.59572417418733019).
+normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(1 from n) = for_each_element(for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), "<", MIN_EXW_TONNAGE(1 from n)), "*", 0), "+", OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 2.59572417418733019 * 0 + OIL_TERMINAL_STEP_TONNAGE = 0 + 5 = 5  # 006
+                        }
+                    }
+                }
             }
         }
     }
@@ -613,41 +666,531 @@ normalized_i_j_k_l_exw(1 from R)(1 from n) = for_each_element(estimated_i_j_k_l_
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
-# Нормированные объёмы НП первой очереди (матрица первой очереди): объединяем НПЗ (FCA) и нефтебазы (EXW).
-normalized_i_j_k_l(1 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(1 from R)(1 from n), normalized_i_j_k_l_exw(1 from R)(1 from n)) = {
+# Коэффициенты для нормирования объёмов с нефтебаз (не ниже минимальной нормы): делим на
+# шаг вывоза.
+estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(1 from n) = for_each_element(filter_by_value(estimated_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n), ">=", MIN_EXW_TONNAGE(1 from n)), safe_divide, OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 60.35222991325681237 / OIL_TERMINAL_STEP_TONNAGE = 60.35222991325681237 / 5 = 12.070445982651362474   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 14.509769561026899064 / OIL_TERMINAL_STEP_TONNAGE = 14.509769561026899064 / 5 = 2.901953912205379812  # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65 / OIL_TERMINAL_STEP_TONNAGE = 65 / 5 = 13,                                                         # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65 / OIL_TERMINAL_STEP_TONNAGE = 65 / 5 = 13,                                                         # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 42.4349426093051782 / OIL_TERMINAL_STEP_TONNAGE = 42.4349426093051782 / 5 = 8.48698852186103564       # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75 / OIL_TERMINAL_STEP_TONNAGE = 75 / 5 = 15                                                          # 005
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 86.2174713046525891 / OIL_TERMINAL_STEP_TONNAGE = 86.2174713046525891 / 5 = 17.24349426093051782      # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 29.26829268292682925 / OIL_TERMINAL_STEP_TONNAGE = 29.26829268292682925 / 5 = 5.85365853658536585     # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6                                                           # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30 / OIL_TERMINAL_STEP_TONNAGE = 30 / 5 = 6                                                           # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20 / OIL_TERMINAL_STEP_TONNAGE = 20 / 5 = 4                                                           # 030
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 600 / OIL_TERMINAL_STEP_TONNAGE = 600 / 5 = 120                                                       # 008
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Округляем коэффициенты до целого по мат. правилам (n = 1).
+estimated_i_j_x_k_l_s_l0_q_exw_coeff_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_exw_coeff(1 from R)(1 from n), round, 0) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = round(12.070445982651362474) = 12  # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = round(2.901953912205379812) = 3    # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = round(13) = 13,                    # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = round(13) = 13,                    # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = round(8.48698852186103564) = 8     # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = round(15) = 15                     # 005
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = round(17.24349426093051782) = 17   # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = round(5.85365853658536585) = 6     # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = round(6) = 6                       # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = round(6) = 6                       # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = round(4) = 4                       # 030
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = round(120) = 120                   # 008
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные кратные объёмы с нефтебаз: умножаем коэффициенты на шаг вывоза.
+estimated_i_j_x_k_l_s_l0_q_exw_rounded(1 from R)(1 from n) = for_each_element(estimated_i_j_x_k_l_s_l0_q_exw_coeff_rounded(1 from R)(1 from n), "*", OIL_TERMINAL_STEP_TONNAGE) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 12 * OIL_TERMINAL_STEP_TONNAGE = 12 * 5 = 60     # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 3 * OIL_TERMINAL_STEP_TONNAGE = 3 * 5 = 15       # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 13 * OIL_TERMINAL_STEP_TONNAGE = 13 * 5 = 65,    # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 13 * OIL_TERMINAL_STEP_TONNAGE = 13 * 5 = 65,    # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 8 * OIL_TERMINAL_STEP_TONNAGE = 8 * 5 = 40       # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 15 * OIL_TERMINAL_STEP_TONNAGE = 15 * 5 = 75     # 005
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 17 * OIL_TERMINAL_STEP_TONNAGE = 17 * 5 = 85     # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30       # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30       # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 6 * OIL_TERMINAL_STEP_TONNAGE = 6 * 5 = 30       # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 4 * OIL_TERMINAL_STEP_TONNAGE = 4 * 5 = 20       # 030
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 120 * OIL_TERMINAL_STEP_TONNAGE = 120 * 5 = 600  # 008
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы Запросов с нефтебаз: поднятые до шага вывоза и кратные шагу.
+normalized_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n) = assign_matrix(normalized_i_j_x_k_l_s_l0_q_exw_minimum(1 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_exw_rounded(1 from R)(1 from n)) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 60   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 15   # 002
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 40   # 018
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 5    # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 85   # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 30   # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 600  # 008
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы всех Запросов I очереди; Запросы без объёма остаются с нулём.
+normalized_i_j_x_k_l_s_l0_q(1 from R)(1 from n) = for_each_pair(for_each_element(estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n), "*", 0), "+", assign_matrix(normalized_i_j_x_k_l_s_l0_q_fca(1 from R)(1 from n), normalized_i_j_x_k_l_s_l0_q_exw(1 from R)(1 from n))) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R, 1  from Z) = 0    # 001
+                        }
+                    },
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 2 from X) = {
+                (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 7  from P, 1 from R, 21 from Z) = 60   # 021
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 4 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 2  from Z) = 15,  # 002
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,   # 003
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 1  from P, 1 from R, 4  from Z) = 0    # 004
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 18 from Z) = 40,  # 018
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 19 from Z) = 0,   # 019
+                            (1 from I, 2 from C, 1 from J, 2 from X, 4 from K, 13 from P, 1 from R, 20 from Z) = 0    # 020
+                        }
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 2 from X, 5 from K) = {
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 1  from P, 1 from R, 6  from Z) = 5    # 006
+                        }
+                    },
+                    (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P) = {
+                        (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R) = {
+                            (1 from I, 2 from C, 1 from J, 2 from X, 5 from K, 3  from P, 1 from R, 10 from Z) = 85   # 010
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 1 from X) = {
+                (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 1  from P, 1 from R, 7  from Z) = 30   # 007
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
+                        }
+                    },
+                    (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P) = {
+                        (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R) = {
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
+                        }
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 4 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 4 from K, 1  from P, 1 from R, 8  from Z) = 600  # 008
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Нормированные объёмы НП первой очереди по коллекциям: сумма по Запросам коллекции.
+normalized_i_j_k_l(1 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(1 from R)(1 from n), Terminal, Queue, Ship_terms, Request) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 7  from P) = 60    # 110
+                (1 from I, 1 from J, 1 from K, 7  from P)                = 60    # 021 = 110
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 2  from P) = 585   # 106
+                (1 from I, 1 from J, 3 from K, 2  from P)                = 585   # 009 = 106
             },
             (1 from I, 1 from J, 4 from K) = {
-                (1 from I, 1 from J, 4 from K, 1  from P) = 15,   # 101 + 102
-                (1 from I, 1 from J, 4 from K, 12 from P) = 195,  # 108
-                (1 from I, 1 from J, 4 from K, 13 from P) = 170   # 109
+                (1 from I, 1 from J, 4 from K, 1  from P)                = 15,   # 001 + 002 + 003 + 004 = 101 + 102
+                (1 from I, 1 from J, 4 from K, 12 from P) = 65 + 65      = 130,  # 011 + 012 + 013 + 014 + 015 = 108
+                (1 from I, 1 from J, 4 from K, 13 from P) = 65 + 65 + 40 = 170   # 016 + 017 + 018 + 019 + 020 = 109
             },
             (1 from I, 1 from J, 5 from K) = {
-                (1 from I, 1 from J, 5 from K, 1  from P) = 80,   # 103
-                (1 from I, 1 from J, 5 from K, 3  from P) = 85    # 107
+                (1 from I, 1 from J, 5 from K, 1  from P) = 75 +  5      = 80,   # 005 + 006 = 103
+                (1 from I, 1 from J, 5 from K, 3  from P)                = 85    # 010 = 107
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 1  from P) = 30,   # 104
-                (1 from I, 2 from J, 4 from K, 7  from P) = 30,   # 111
-                (1 from I, 2 from J, 4 from K, 18 from P) = 30,   # 112
-                (1 from I, 2 from J, 4 from K, 19 from P) = 20    # 113
+                (1 from I, 2 from J, 4 from K, 1  from P)                = 30,   # 007 = 104
+                (1 from I, 2 from J, 4 from K, 7  from P)                = 30,   # 022 = 111
+                (1 from I, 2 from J, 4 from K, 18 from P)                = 30,   # 029 = 112
+                (1 from I, 2 from J, 4 from K, 19 from P)                = 20    # 030 = 113
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 4 from K) = {
-                (1 from I, 3 from J, 4 from K, 1  from P) = 600   # 105
+                (1 from I, 3 from J, 4 from K, 1  from P)                = 600   # 008 = 105
             }
         }
     }
@@ -655,9 +1198,13 @@ normalized_i_j_k_l(1 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(1 
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
         J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
         K  from index # Индексы региона
         P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 ### Шаг 6 для II очереди: нормирование предварительных объёмов (2 from R) (n = 1).
 # Обслуживаемые во II очереди Запросы: с НПЗ (FCA) — #203 (ПКОП, J=1), #205, #207 (АНПЗ, J=2),
@@ -1454,7 +2001,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 14.509769561026899064
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 15
 
@@ -1474,7 +2021,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 14.509769561026899064
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 14.509769561026899064
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 15
 
@@ -1494,7 +2041,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 14.509769561026899064
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 15
 
@@ -1514,7 +2061,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 14.509769561026899064
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 15
 
@@ -1534,7 +2081,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Zhambyl, МТ: 77.59572417418733019
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 75
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Zhambyl, МТ: 80
 
@@ -1554,7 +2101,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Zhambyl, МТ: 77.59572417418733019
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 2.59572417418733019
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Zhambyl, МТ: 80
 
@@ -1574,7 +2121,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 29.26829268292682925
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# ANPZ по Запросу, МТ: —
+# ANPZ по Запросу, МТ: 29.26829268292682925
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ ANPZ в регион  Ulytau, МТ: 30
 
@@ -1594,7 +2141,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PNHZ в регион Ulytau, МТ: 600
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PNHZ по Запросу, МТ: —
+# PNHZ по Запросу, МТ: 600
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PNHZ в регион  Ulytau, МТ: 600
 
@@ -1614,7 +2161,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Shimkent, МТ: 616.454919828266012065
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 585
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Shimkent, МТ: 585
 
@@ -1634,7 +2181,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Zhambyl, МТ: 86.2174713046525891
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 86.2174713046525891
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Zhambyl, МТ: 85
 
@@ -1654,9 +2201,9 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 65
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP в регион  Ulytau, МТ: 195
+# НПЗ PKOP в регион  Ulytau, МТ: 130
 
 ## Трассировочная строка для запроса № 012:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -1674,9 +2221,9 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 65
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP в регион  Ulytau, МТ: 195
+# НПЗ PKOP в регион  Ulytau, МТ: 130
 
 ## Трассировочная строка для запроса № 013:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -1694,9 +2241,9 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP в регион  Ulytau, МТ: 195
+# НПЗ PKOP в регион  Ulytau, МТ: 130
 
 ## Трассировочная строка для запроса № 014:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -1714,9 +2261,9 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP в регион  Ulytau, МТ: 195
+# НПЗ PKOP в регион  Ulytau, МТ: 130
 
 ## Трассировочная строка для запроса № 015:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -1734,9 +2281,9 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP в регион  Ulytau, МТ: 195
+# НПЗ PKOP в регион  Ulytau, МТ: 130
 
 ## Трассировочная строка для запроса № 016:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -1754,7 +2301,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 65
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 170
 
@@ -1774,7 +2321,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 65
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 170
 
@@ -1794,7 +2341,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 42.4349426093051782
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 170
 
@@ -1814,7 +2361,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 170
 
@@ -1834,7 +2381,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Ulytau, МТ: 172.4349426093051782
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Ulytau, МТ: 170
 
@@ -1854,7 +2401,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP в регион Almaty, МТ: 60.35222991325681237
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: —
+# PKOP по Запросу, МТ: 60.35222991325681237
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP в регион  Almaty, МТ: 60
 
@@ -1874,7 +2421,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 30
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# ANPZ по Запросу, МТ: —
+# ANPZ по Запросу, МТ: 30
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ ANPZ в регион  Ulytau, МТ: 30
 
@@ -1894,7 +2441,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 30
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# ANPZ по Запросу, МТ: —
+# ANPZ по Запросу, МТ: 30
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ ANPZ в регион  Ulytau, МТ: 30
 
@@ -1914,7 +2461,7 @@ normalized_i_j_k_l(4 from R)(1 from n) = assign_matrix(normalized_i_j_k_l_fca(4 
 # Шаг 5. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 20
 # Шаг 5а. Предварительный расчетный объем НП AI_92 на НПЗ
-# ANPZ по Запросу, МТ: —
+# ANPZ по Запросу, МТ: 20
 # Шаг 6. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ ANPZ в регион  Ulytau, МТ: 20
 
