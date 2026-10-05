@@ -49,11 +49,14 @@ type Scalar = {
 // One expanded variable of an example file. `signatures` lists the distinct axis
 // letter sets its leaves use — normally one, but an `assign_matrix` result can
 // mix shapes — `values` maps a coordinate key to the leaf total, and `leaves`
-// keeps every leaf in file order for the tools that report on lines.
+// keeps every leaf in file order for the tools that report on lines. `empty`
+// marks a definition that writes its result out as the empty matrix (` = {}`),
+// which states a result, unlike a definition that writes no body at all.
 type Block = {
     key: string;
     name: string;
     expression: string;
+    empty: boolean;
     signatures: string[][];
     values: Map<string, string>;
     leaves: Leaf[];
@@ -344,6 +347,7 @@ class ExampleIndex {
                 key: this.normalizeKey(head),
                 name: head,
                 expression: this.definingExpression(line),
+                empty: /=\s*\{\}\s*$/.test(line),
                 signatures: [],
                 values: new Map(),
                 leaves: [],

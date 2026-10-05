@@ -144,8 +144,15 @@ class CoordinateChecker {
         // An example states what a call computes: a definition that writes the
         // call without its result leaves nothing to check against, and that is
         // the finding, not a reason to pass the block over.
-        if (!target.block.leaves.length) {
+        if (!target.block.leaves.length && !target.block.empty) {
             this.findings.push(`${where}: ${target.block.name} states the call without writing out its result`);
+            return;
+        }
+
+        // A result written out as ` = {}` claims the call selects nothing: the
+        // call must agree.
+        if (!target.block.leaves.length) {
+            this.checkEmptyResult(target, where);
             return;
         }
 
@@ -169,6 +176,23 @@ class CoordinateChecker {
 
         this.checkedBlocks += 1;
         this.compareLeaves(target.block, source, filtered, where);
+    }
+
+    // Compare a result written out as the empty matrix with what the call
+    // selects from its source.
+    private checkEmptyResult(target: Target, where: string): void {
+        const computed = this.evaluator.evaluate(target.expression, where);
+
+        if (!computed) {
+            return;
+        }
+
+        if (computed.cells.size) {
+            this.findings.push(`${where}: written as {}, but the call selects ${computed.cells.size} cell(s)`);
+            return;
+        }
+
+        this.checkedBlocks += 1;
     }
 
     // An empty source produces an empty result: there is nothing to filter, and
