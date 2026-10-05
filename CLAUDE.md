@@ -180,7 +180,7 @@ language's own axioms — those have nothing to align.
 
 The `from core` imports come first, and the imports of one source stay
 together. A name is imported on its own line, so one source may take several
-lines (`matrix_operation.lang` three times in `step-n-plus-1.lang`); what the
+lines (`matrix_operation.lang` twice in `step-6.lang`); what the
 convention forbids is interleaving them with another source's. The order of the
 file sources among themselves is free — it follows the step order of the
 algorithm, not the alphabet.
@@ -262,15 +262,16 @@ each run is aligned on its own, which is why an `of number` run and the
 
 ```
     where
-        ship_terms_count_by_requests_l0(i, j, k, l, l0) of number
-        requests_i_j_k_l_s_l0(i, j, k, l, s, l0)        of number
-        ship_terms_count_by_requests_l0 of matrix(Product, Refinery, Region, Market_participant, Queue)
-        requests_i_j_k_l_s_l0           of matrix(Product, Refinery, Region, Market_participant, Ship_terms, Queue)
-        "=" from condition
+        estimated_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q)          of number
+        estimated_i_j_x_k_l_s_l0_q_positive(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_x_k_l_s_l0_q(l0)(n)          of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_x_k_l_s_l0_q_positive(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        ">" from condition
             where
-                Product, Refinery, Region, Market_participant, Queue from axis
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
                 i  for I  from index # Индексы нефпродукта
-                l0 for R  from index # Индексы очереди
+                ...
 ```
 
 - The keyword is `of` (`<names> of <type>`) or `from` (`<names> from

@@ -1,4 +1,4 @@
-length, number                 from core
+number                         from core
 requests_i_j_k_l_queue         from ("step-1.lang")
 estimated_i_j_k_l_last         from ("step-8.lang")
 normalized_i_j_k_l             from ("step-6.lang")
@@ -89,23 +89,6 @@ estimated_i_j_k_l_total(l0) = assign_matrix(normalized_i_j_k_l(l0)(1), for_each_
                 j  for J  from index # Индексы НПЗ
                 k  for K  from index # Индексы региона
                 l  for P  from index # Индексы субъекта рынка
-
-# Итог распределения по всем очередям: накопленный объём коллекции (i, j, k, l) после
-# последней очереди. Его раскладывает по Запросам Шаг (N + 1).
-estimated_i_j_k_l_final = estimated_i_j_k_l_total(last_n)
-    where
-        estimated_i_j_k_l_total(l0)(i, j, k, l) of number
-        estimated_i_j_k_l_final(i, j, k, l)     of number
-        estimated_i_j_k_l_total(l0) of matrix(Product, Refinery, Region, Market_participant)
-        estimated_i_j_k_l_final     of matrix(Product, Refinery, Region, Market_participant)
-            where
-                last_n of     index = length(Queue) # Индекс последней очереди
-                l0 for R from index # Индексы очереди
-                Product, Refinery, Region, Market_participant, Queue from axis
-                i  for I from index # Индексы нефпродукта
-                j  for J from index # Индексы НПЗ
-                k  for K from index # Индексы региона
-                l  for P from index # Индексы субъекта рынка
 
 ## Трассировочная строка для запроса № Request(q):
 # Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
