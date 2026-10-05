@@ -73,10 +73,10 @@ normalized_i_j_subject_multiple(1 from R)(1 from n) = filter_by_value(normalized
         I  from index # Индексы нефпродукта
         J  from index # Индексы НПЗ
 
-# Субъекты, чья доля достигает/превышает предел (s̈_ijl >= δ × v_0ij). Ни один не достигает:
+# Субъекты, чья доля превышает предел (s̈_ijl > δ × v_0ij). Ни один не превышает:
 # (1, 1) порог 600: P2 = 585, P12 = 195, P13 = 165, P1 = 140, P3 = 80, P7 = 55 — все < 600;
 # (1, 2) порог 250: P7 = 30, P18 = 30, P19 = 20 — все < 250.
-normalized_i_j_l_over_threshold(1 from R)(1 from n) = filter_by_pair(normalized_i_j_l(1 from R)(1 from n), ">=", normalized_i_j_threshold(1 from R)(1 from n)) = {}
+normalized_i_j_l_over_threshold(1 from R)(1 from n) = filter_by_pair(normalized_i_j_l(1 from R)(1 from n), ">", normalized_i_j_threshold(1 from R)(1 from n)) = {}
     where
         n  of   index # Индекс матрицы
         I  from index # Индексы нефпродукта

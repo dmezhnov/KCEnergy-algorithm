@@ -7,7 +7,9 @@ condition, axis, index                                                          
 #### Уточненный нормированный объем НП
 # Сравниваем долю субъекта с предельной долей и, при необходимости,
 # применяем понижающий коэффициент к его объёмам; затем переходим к повторному
-# нормированию (Шаг 6). Если все Запросы с НПЗ подал единственный Субъект рынка,
+# нормированию (Шаг 6) и снова к Шагу 7. Цикл завершается, когда урезать нечего:
+# повторное нормирование округляет вниз, поэтому урезанный объём не возвращается выше
+# предела, а объём, равный пределу, допустим. Если все Запросы с НПЗ подал единственный Субъект рынка,
 # правило Шага 7 не соблюдается — такой НПЗ исключается из проверки.
 
 # Шаги 7-8 применяются только к реальной I очереди; виртуальные II и III очереди распределяются в Шагах 4-6 (step-10/step-13) и сюда не попадают
@@ -74,9 +76,10 @@ normalized_i_j_subject_multiple(1 from R)(n) = filter_by_value(normalized_i_j_su
                 i  for I from index # Индексы нефпродукта
                 j  for J from index # Индексы НПЗ
 
-# Субъекты, чья доля достигает или превышает предел (s̈_ijl >= δ × v_0ij):
-# нарушение строгого неравенства s̈_ijl < δ × v_0ij из Шага 7.2.
-normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1 from R)(n), ">=", normalized_i_j_threshold(1 from R)(n))
+# Субъекты, чья доля превышает предел (s̈_ijl > δ × v_0ij): нарушение неравенства
+# s̈_ijl <= δ × v_0ij из Шага 7.2. Равенство допустимо — иначе урезанный ровно до
+# предела объём, кратный вагонной норме, урезался бы снова и цикл не завершился бы.
+normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1 from R)(n), ">", normalized_i_j_threshold(1 from R)(n))
     where
         normalized_i_j_l_over_threshold(1 from R)(n)(i, j, l) of number
         normalized_i_j_l(1 from R)(n)(i, j, l)                of number
@@ -84,7 +87,7 @@ normalized_i_j_l_over_threshold(1 from R)(n) = filter_by_pair(normalized_i_j_l(1
         normalized_i_j_l_over_threshold(1 from R)(n) of matrix(Product, Refinery, Market_participant)
         normalized_i_j_l(1 from R)(n)                of matrix(Product, Refinery, Market_participant)
         normalized_i_j_threshold(1 from R)(n)        of matrix(Product, Refinery)
-        ">=" from condition
+        ">" from condition
             where
                 n  of         index # Индекс матрицы
                 Product, Refinery, Market_participant from axis

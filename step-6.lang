@@ -1,6 +1,7 @@
 number                                                                     from core
 RAIL_ROAD_MIN_TONNAGE, OIL_TERMINAL_MIN_TONNAGE, OIL_TERMINAL_STEP_TONNAGE from ("initial_data.lang")
 estimated_i_j_k_l                                                          from ("step-5.lang")
+estimated_i_j_k_l                                                          from ("step-7.2.lang")
 requests_i_j_k_l_s_l0                                                      from ("step-minus-1.lang")
 axis, index, matrix, operation, coordinate, condition                      from ("matrix_types.lang")
 filter_by_coordinate, filter_by_value, filter_by_pair                      from ("matrix_operation.lang")
@@ -10,7 +11,8 @@ count_coordinates_by_axis, for_each_element, assign_matrix                 from 
 # Нормируем (округляем) предварительно предоставленные объёмы по правилам:
 # — для НПЗ — до кратности вагонной норме (по умолчанию 65 МТ) вверх/вниз по правилам 0.5;
 # — для нефтебаз — до не ниже минимальной нормы и кратности шагу вывоза.
-# После контроля доли (Шаг 7) возможно повторное нормирование.
+# После контроля доли (Шаг 7) возможно повторное нормирование: первая итерация (n = 1)
+# нормирует результат Шага 5, каждая следующая — урезанную матрицу Шага 7.2 (n + 1).
 
 # Условие поставки выбирается на всю группу обслуживания, а не на отдельный Запрос: после
 # агрегации (Шаг −1) в группе может быть заявлено одно условие поставки или оба сразу.
