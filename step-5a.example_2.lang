@@ -641,3 +641,282 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
+
+### Шаг 5а. Разбиение объёма коллекции по Запросам — III очередь (пример 2)
+# Те же правила для III очереди (Субъекты рынка из состава ГМК, n = 1). В каждой коллекции
+# III очереди ровно один Запрос, поэтому разбиение сводится к первому проходу (FCA, вниз до
+# кратного 65) или ко второму (EXW, без округления).
+
+# Распределяемый объём коллекции III очереди: меньшее из предварительного расчётного объёма и
+# суммы её Запросов. Профицитный ПНХЗ (J=3) удовлетворяет Запросы полностью — оба равны Запросу.
+estimated_i_j_k_l_bounded(3 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(3 from R)(1 from n), min, requests_i_j_k_l_queue(3 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 10 from P) = min(195, 195) = 195  # 301
+            },
+            (1 from I, 3 from J, 6 from K) = {
+                (1 from I, 3 from J, 6 from K, 11 from P) = min(250, 250) = 250  # 302
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Семейства по Запросам III очереди (q = 1 … 39, n = 1) не расписаны Запрос за Запросом: их
+# итог виден в матрицах ниже. По коллекциям (запрошено -> выделено):
+# — (3 from J, 2 from K, 10 from P): FCA #032 195 -> 195;
+# — (3 from J, 6 from K, 11 from P): EXW #033 250 -> 250.
+# Остатков нет, ничьей нет ни в одной коллекции: сумма остатков после первого и второго
+# проходов равна 0.
+
+# Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу III очереди.
+estimated_i_j_x_k_l_s_l0_q_bonus(3 from R)(1 from n) = assign_matrix(requests_bonus_allocated(3 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(3 from R)(1 from n)(39 from Z)) = {}
+    where
+        requests_bonus_allocated(3 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов первого условия поставки (FCA) III очереди после первого прохода.
+estimated_i_j_x_k_l_s_l0_q_first(3 from R)(1 from n) = for_each_pair(assign_matrix(requests_allocated_first(3 from R)(1 from n)(1 from Z), ..., requests_allocated_first(3 from R)(1 from n)(39 from Z)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(3 from R)(1 from n)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        requests_allocated_first(3 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов второго условия поставки (EXW) III очереди после второго прохода.
+estimated_i_j_x_k_l_s_l0_q_second(3 from R)(1 from n) = filter_by_pair(assign_matrix(requests_allocated_second(3 from R)(1 from n)(1 from Z), ..., requests_allocated_second(3 from R)(1 from n)(39 from Z)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(3 from R)(1 from n), Terminal, Queue, Ship_terms, Request)) = {
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        requests_allocated_second(3 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Предварительный расчётный объём каждого Запроса III очереди (n = 1). Все Запросы получили объём.
+estimated_i_j_x_k_l_s_l0_q(3 from R)(1 from n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, Third), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(3 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_second(3 from R)(1 from n))) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                        }
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 3 from X) = {
+                (1 from I, 2 from C, 3 from J, 3 from X, 6 from K) = {
+                    (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P) = {
+                        (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R) = {
+                            (1 from I, 2 from C, 3 from J, 3 from X, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+### Шаг 5а. Разбиение объёма коллекции по Запросам — IV очередь (пример 2)
+# Те же правила для IV очереди (иные Субъекты рынка, n = 1). В каждой коллекции IV очереди
+# ровно один Запрос, и все они поданы на условии FCA, поэтому разбиение сводится к первому
+# проходу (вниз до кратного 65); второй проход пуст.
+
+# Распределяемый объём коллекции IV очереди: меньшее из предварительного расчётного объёма и
+# суммы её Запросов. Профицитный ПНХЗ (J=3) удовлетворяет Запросы полностью — оба равны Запросу.
+estimated_i_j_k_l_bounded(4 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(4 from R)(1 from n), min, requests_i_j_k_l_queue(4 from R)) = {
+    (1 from I) = {
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 4  from P) = min(260, 260) = 260,  # 401
+                (1 from I, 3 from J, 2 from K, 5  from P) = min(520, 520) = 520,  # 402
+                (1 from I, 3 from J, 2 from K, 6  from P) = min(715, 715) = 715   # 403
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+
+# Семейства по Запросам IV очереди (q = 1 … 39, n = 1) не расписаны Запрос за Запросом: их
+# итог виден в матрицах ниже. По коллекциям (запрошено -> выделено):
+# — (3 from J, 2 from K, 4  from P): FCA #034 260 -> 260;
+# — (3 from J, 2 from K, 5  from P): FCA #035 520 -> 520;
+# — (3 from J, 2 from K, 6  from P): FCA #036 715 -> 715.
+# Остатков нет, ничьей нет ни в одной коллекции: сумма остатков после первого и второго
+# проходов равна 0.
+
+# Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу IV очереди.
+estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n) = assign_matrix(requests_bonus_allocated(4 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(4 from R)(1 from n)(39 from Z)) = {}
+    where
+        requests_bonus_allocated(4 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов первого условия поставки (FCA) IV очереди после первого прохода.
+estimated_i_j_x_k_l_s_l0_q_first(4 from R)(1 from n) = for_each_pair(assign_matrix(requests_allocated_first(4 from R)(1 from n)(1 from Z), ..., requests_allocated_first(4 from R)(1 from n)(39 from Z)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        requests_allocated_first(4 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Объёмы Запросов второго условия поставки (EXW) IV очереди — пусто: Запросов EXW в IV очереди нет.
+estimated_i_j_x_k_l_s_l0_q_second(4 from R)(1 from n) = filter_by_pair(assign_matrix(requests_allocated_second(4 from R)(1 from n)(1 from Z), ..., requests_allocated_second(4 from R)(1 from n)(39 from Z)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n), Terminal, Queue, Ship_terms, Request)) = {}
+    where
+        requests_allocated_second(4 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Предварительный расчётный объём каждого Запроса IV очереди (n = 1). Все Запросы получили объём.
+estimated_i_j_x_k_l_s_l0_q(4 from R)(1 from n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, Fourth), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(4 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_second(4 from R)(1 from n))) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 4 from X) = {
+                (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                        }
+                    },
+                    (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
+                        (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        X  from index # Индексы нефтебаз
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
