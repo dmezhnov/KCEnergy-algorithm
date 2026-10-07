@@ -219,8 +219,8 @@ estimated_i_j_k_l(1 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
 
 ### Шаг 5 для II очереди: предварительный расчётный объём ((2 from R)).
 # Дефицитные НПЗ (ПКОП J=1, АНПЗ J=2) и профицитный (ПНХЗ J=3). ПКОП прошёл гейт Шага 9 с
-# остатком 75 МТ, но спрос II очереди 245 > 75 — превышение, доступное распределяется
-# пропорционально Запросам (доля 75/245). АНПЗ: 380 <= 390 — Запросы удовлетворяются полностью.
+# остатком 10 МТ, но спрос II очереди 245 > 10 — превышение, доступное распределяется
+# пропорционально Запросам (доля 10/245). АНПЗ: 380 <= 390 — Запросы удовлетворяются полностью.
 # Профицитный ПНХЗ (195 <= 1900) — тоже полностью.
 
 # Скорректированные Запросы II очереди для дефицитных НПЗ (ПКОП J=1, АНПЗ J=2).
@@ -249,7 +249,7 @@ requests_i_j_corrected_surplus(2 from R) = filter_by_pair(requests_i_j_corrected
 # Запросы дефицитных НПЗ II очереди, превышающие доступный объём (ПКОП J=1).
 requests_i_j_corrected_exceed(2 from R) = filter_by_pair(requests_i_j_corrected_deficit(2 from R), ">", available_i_j(2 from R)) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 245  # 245 > 75 -> 203 + 204
+        (1 from I, 1 from J) = 245  # 245 > 10 -> 203 + 204
     }
 }
     where
@@ -319,7 +319,7 @@ requests_i_j_k_l_corrected_not_exceed(2 from R) = filter_by_pair(requests_i_j_k_
 # Доля доступного объёма от запрошенного для превышенных НПЗ II очереди (ПКОП J=1).
 estimated_i_j_exceed_share(2 from R) = for_each_pair(available_i_j(2 from R), safe_divide, requests_i_j_corrected_exceed(2 from R)) = {
     (1 from I) = {
-        (1 from I, 1 from J) = 75 / 245 = 0.306122448979591836
+        (1 from I, 1 from J) = 10 / 245 = 0.040816326530612244
     }
 }
     where
@@ -332,10 +332,10 @@ estimated_i_j_k_l_exceed(2 from R) = for_each_pair(requests_i_j_k_l_corrected_ex
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 15 from P) = 50 * 0.306122448979591836 = 15.3061224489795918    # 204
+                (1 from I, 1 from J, 1 from K, 15 from P) = 50 * 0.040816326530612244 = 2.0408163265306122    # 204
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 14 from P) = 195 * 0.306122448979591836 = 59.69387755102040802  # 203
+                (1 from I, 1 from J, 3 from K, 14 from P) = 195 * 0.040816326530612244 = 7.95918367346938758  # 203
             }
         }
     }
@@ -379,25 +379,25 @@ estimated_i_j_k_l(2 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 15 from P) = 15.3061224489795918   # 204
+                (1 from I, 1 from J, 1 from K, 15 from P) = 2.0408163265306122   # 204
             },
             (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 14 from P) = 59.69387755102040802  # 203
+                (1 from I, 1 from J, 3 from K, 14 from P) = 7.95918367346938758  # 203
             }
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = 130,                  # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = 70,                   # 206
-                (1 from I, 2 from J, 4 from K, 20 from P) = 130,                  # 207
-                (1 from I, 2 from J, 4 from K, 21 from P) = 15,                   # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = 35                    # 209
+                (1 from I, 2 from J, 4 from K, 16 from P) = 130,                 # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = 70,                  # 206
+                (1 from I, 2 from J, 4 from K, 20 from P) = 130,                 # 207
+                (1 from I, 2 from J, 4 from K, 21 from P) = 15,                  # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = 35                   # 209
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = 65,                   # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = 130                   # 202
+                (1 from I, 3 from J, 2 from K, 8  from P) = 65,                  # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = 130                  # 202
             }
         }
     }
@@ -413,7 +413,8 @@ estimated_i_j_k_l(2 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
 ### Шаг 5 для III очереди (ГМК): предварительный расчётный объём ((3 from R)).
 # Дефицитных НПЗ в III очереди нет — обслуживается только профицитный ПНХЗ (J=3): спрос 445 <=
 # доступного 1705 (Шаг 12). Ветка «превышение» пуста, Запросы #301 и #302 удовлетворяются полностью.
-# ПКОП (J=1) и АНПЗ (J=2) гейт Шага 12 прошли (остатки 60 и 10), но Запросов R=3 на них нет.
+# АНПЗ (J=2) гейт Шага 12 прошёл (остаток 10), ПКОП (J=1) с остатком -60 — нет; Запросов R=3 на
+# них в любом случае нет.
 
 # Скорректированные Запросы III очереди для дефицитных НПЗ — в III очереди нет.
 requests_i_j_corrected_deficit(3 from R) = filter_by_pair(requests_i_j_corrected(3 from R), contains, requests_i_j_deficit) = {}
@@ -540,9 +541,9 @@ estimated_i_j_k_l(3 from R)(1 from n) = assign_matrix(estimated_i_j_k_l_not_exce
 ### Шаг 16 для IV очереди (иные Субъекты рынка): предварительный расчётный объём ((4 from R)).
 # Профицит: ПНХЗ (J=3) в Периоде профицита (Шаг 2) — Запросы #401, #402, #403 удовлетворяются в
 # полном объёме (1495), несмотря на меньший доступный объём (1260, Шаг 15). Понижающий коэффициент
-# к профицитному НПЗ не применяется (условие Шага 5: дефицит И превышение). ПКОП (J=1) и АНПЗ
-# (J=2) гейт Шага 15 прошли (остатки 60 и 10), но Запросов R=4 на них нет, поэтому IV очередь
-# идёт только с ПНХЗ.
+# к профицитному НПЗ не применяется (условие Шага 5: дефицит И превышение). АНПЗ (J=2) гейт
+# Шага 15 прошёл (остаток 10), ПКОП (J=1) с остатком -60 — нет; Запросов R=4 на них в любом
+# случае нет, поэтому IV очередь идёт только с ПНХЗ.
 
 # Скорректированные Запросы IV очереди для дефицитных НПЗ — в IV очереди нет.
 requests_i_j_corrected_deficit(4 from R) = filter_by_pair(requests_i_j_corrected(4 from R), contains, requests_i_j_deficit) = {}
