@@ -19,12 +19,17 @@ for_each_element, assign_matrix, sum_by_axes                                from
 #    min(Запрос; остаток), округлённый вниз до кратного шагу первого условия.
 # 3. Второй проход: Запросы второго условия в хронологическом порядке получают
 #    min(Запрос; остаток) без округления, начиная с остатка после первого прохода.
-# 4. Остаток после второго прохода не достаётся никому.
+# 4. Остаток после второго прохода не достаётся никому (если Запросов второго условия в
+#    коллекции нет — см. п. 6).
 # 5. Ничья: если недобор (остаток после второго прохода) равен перебору (шаг первого
 #    условия минус остаток после первого прохода), первый незавершённый Запрос первого
 #    условия получает ещё один шаг — если с ним не превысит запрошенного; иначе ничья не
 #    применяется вовсе (следующие Запросы не рассматриваются). Если шаг выдан, все Запросы
 #    второго условия этой коллекции получают 0.
+# 6. Если ничья не применилась и Запросов второго условия в коллекции нет, остаток после
+#    проходов без округления (округляет Шаг 6) получает первый незавершённый Запрос первого
+#    условия — если ещё один шаг не превысит запрошенного; иначе остаток не достаётся никому
+#    (следующие Запросы не рассматриваются).
 
 # Первым распределяется условие поставки с большим шагом: вагонная норма НПЗ (FCA)
 # против шага нормы нефтебазы (EXW)
@@ -437,17 +442,65 @@ requests_remainder_second(1 from R)(n)(q + 1) = for_each_pair(requests_remainder
 # Ничья: недобор (остаток после второго прохода) равен перебору (шаг первого условия
 # минус остаток после первого прохода), то есть сумма двух остатков равна шагу. Коллекции
 # с ничьей получают запас в один шаг (значение отобранной ячейки и есть шаг), остальные — нет
-requests_bonus_remainder(l0)(n)(1 from Z) = filter_by_value(for_each_pair(requests_remainder_first(l0)(n)(D + 1), "+", requests_remainder_second(l0)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
+requests_tie_remainder(l0)(n) = filter_by_value(for_each_pair(requests_remainder_first(l0)(n)(D + 1), "+", requests_remainder_second(l0)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
     where
-        requests_remainder_first(l0)(n)(D + 1)(i, j, k, l)    of number
-        requests_remainder_second(l0)(n)(D + 1)(i, j, k, l)   of number
-        requests_bonus_remainder(l0)(n)(1 from Z)(i, j, k, l) of number
-        FIRST_STEP_TONNAGE                                    of number
-        requests_remainder_first(l0)(n)(D + 1)    of matrix(Product, Refinery, Region, Market_participant)
-        requests_remainder_second(l0)(n)(D + 1)   of matrix(Product, Refinery, Region, Market_participant)
-        requests_bonus_remainder(l0)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_first(l0)(n)(D + 1)(i, j, k, l)  of number
+        requests_remainder_second(l0)(n)(D + 1)(i, j, k, l) of number
+        requests_tie_remainder(l0)(n)(i, j, k, l)           of number
+        FIRST_STEP_TONNAGE                                  of number
+        requests_remainder_first(l0)(n)(D + 1)  of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(l0)(n)(D + 1) of matrix(Product, Refinery, Region, Market_participant)
+        requests_tie_remainder(l0)(n)           of matrix(Product, Refinery, Region, Market_participant)
         "+" from operation
         "=" from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                l0 for R  from index # Индексы очереди
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+
+# Остаток коллекции без Запросов второго условия поставки, где ничья не применилась: весь
+# остаток после проходов (без округления — округляет Шаг 6) становится запасом. Ничья, не
+# применённая из-за превышения Запроса, сюда не попадает: тот же Запрос не принял бы и остаток
+requests_rest_remainder(l0)(n) = filter_by_pair(filter_by_pair(filter_by_value(requests_remainder_second(l0)(n)(D + 1), ">", 0), not_contains, requests_tie_remainder(l0)(n)), not_contains, sum_by_axes(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, l0, SECOND_SHIP_TERMS), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)  of number
+        requests_remainder_second(l0)(n)(D + 1)(i, j, k, l) of number
+        requests_tie_remainder(l0)(n)(i, j, k, l)           of number
+        requests_rest_remainder(l0)(n)(i, j, k, l)          of number
+        requests_i_j_x_k_l_s_l0_q               of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(l0)(n)(D + 1) of matrix(Product, Refinery, Region, Market_participant)
+        requests_tie_remainder(l0)(n)           of matrix(Product, Refinery, Region, Market_participant)
+        requests_rest_remainder(l0)(n)          of matrix(Product, Refinery, Region, Market_participant)
+        ">", not_contains from condition
+        l0 from Queue
+        SECOND_SHIP_TERMS from Ship_terms
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запас третьего прохода: шаг ничьей или остаток коллекции без Запросов второго условия
+requests_bonus_remainder(l0)(n)(1 from Z) = assign_matrix(requests_tie_remainder(l0)(n), requests_rest_remainder(l0)(n))
+    where
+        requests_tie_remainder(l0)(n)(i, j, k, l)             of number
+        requests_rest_remainder(l0)(n)(i, j, k, l)            of number
+        requests_bonus_remainder(l0)(n)(1 from Z)(i, j, k, l) of number
+        requests_tie_remainder(l0)(n)             of matrix(Product, Refinery, Region, Market_participant)
+        requests_rest_remainder(l0)(n)            of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_remainder(l0)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
             where
                 D of index = length(Request) # Количество Запросов
                 l0 for R  from index # Индексы очереди
@@ -462,17 +515,64 @@ requests_bonus_remainder(l0)(n)(1 from Z) = filter_by_value(for_each_pair(reques
 # Ничья: недобор (остаток после второго прохода) равен перебору (шаг первого условия
 # минус остаток после первого прохода), то есть сумма двух остатков равна шагу. Коллекции
 # с ничьей получают запас в один шаг (значение отобранной ячейки и есть шаг), остальные — нет
-requests_bonus_remainder(1 from R)(n)(1 from Z) = filter_by_value(for_each_pair(requests_remainder_first(1 from R)(n)(D + 1), "+", requests_remainder_second(1 from R)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
+requests_tie_remainder(1 from R)(n) = filter_by_value(for_each_pair(requests_remainder_first(1 from R)(n)(D + 1), "+", requests_remainder_second(1 from R)(n)(D + 1)), "=", FIRST_STEP_TONNAGE)
     where
-        requests_remainder_first(1 from R)(n)(D + 1)(i, j, k, l)    of number
-        requests_remainder_second(1 from R)(n)(D + 1)(i, j, k, l)   of number
-        requests_bonus_remainder(1 from R)(n)(1 from Z)(i, j, k, l) of number
-        FIRST_STEP_TONNAGE                                          of number
-        requests_remainder_first(1 from R)(n)(D + 1)    of matrix(Product, Refinery, Region, Market_participant)
-        requests_remainder_second(1 from R)(n)(D + 1)   of matrix(Product, Refinery, Region, Market_participant)
-        requests_bonus_remainder(1 from R)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_first(1 from R)(n)(D + 1)(i, j, k, l)  of number
+        requests_remainder_second(1 from R)(n)(D + 1)(i, j, k, l) of number
+        requests_tie_remainder(1 from R)(n)(i, j, k, l)           of number
+        FIRST_STEP_TONNAGE                                        of number
+        requests_remainder_first(1 from R)(n)(D + 1)  of matrix(Product, Refinery, Region, Market_participant)
+        requests_remainder_second(1 from R)(n)(D + 1) of matrix(Product, Refinery, Region, Market_participant)
+        requests_tie_remainder(1 from R)(n)           of matrix(Product, Refinery, Region, Market_participant)
         "+" from operation
         "=" from condition
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Region, Market_participant from axis
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+
+# Остаток коллекции без Запросов второго условия поставки, где ничья не применилась: весь
+# остаток после проходов (без округления — округляет Шаг 6) становится запасом. Ничья, не
+# применённая из-за превышения Запроса, сюда не попадает: тот же Запрос не принял бы и остаток
+requests_rest_remainder(1 from R)(n) = filter_by_pair(filter_by_pair(filter_by_value(requests_remainder_second(1 from R)(n)(D + 1), ">", 0), not_contains, requests_tie_remainder(1 from R)(n)), not_contains, sum_by_axes(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, First, SECOND_SHIP_TERMS), Terminal, Queue, Ship_terms, Request))
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q)        of number
+        requests_remainder_second(1 from R)(n)(D + 1)(i, j, k, l) of number
+        requests_tie_remainder(1 from R)(n)(i, j, k, l)           of number
+        requests_rest_remainder(1 from R)(n)(i, j, k, l)          of number
+        requests_i_j_x_k_l_s_l0_q                     of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_remainder_second(1 from R)(n)(D + 1) of matrix(Product, Refinery, Region, Market_participant)
+        requests_tie_remainder(1 from R)(n)           of matrix(Product, Refinery, Region, Market_participant)
+        requests_rest_remainder(1 from R)(n)          of matrix(Product, Refinery, Region, Market_participant)
+        ">", not_contains from condition
+        First from Queue
+        SECOND_SHIP_TERMS from Ship_terms
+            where
+                D of index = length(Request) # Количество Запросов
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запас третьего прохода: шаг ничьей или остаток коллекции без Запросов второго условия
+requests_bonus_remainder(1 from R)(n)(1 from Z) = assign_matrix(requests_tie_remainder(1 from R)(n), requests_rest_remainder(1 from R)(n))
+    where
+        requests_tie_remainder(1 from R)(n)(i, j, k, l)             of number
+        requests_rest_remainder(1 from R)(n)(i, j, k, l)            of number
+        requests_bonus_remainder(1 from R)(n)(1 from Z)(i, j, k, l) of number
+        requests_tie_remainder(1 from R)(n)             of matrix(Product, Refinery, Region, Market_participant)
+        requests_rest_remainder(1 from R)(n)            of matrix(Product, Refinery, Region, Market_participant)
+        requests_bonus_remainder(1 from R)(n)(1 from Z) of matrix(Product, Refinery, Region, Market_participant)
             where
                 D of index = length(Request) # Количество Запросов
                 n  of          index # Индекс матрицы
@@ -484,7 +584,7 @@ requests_bonus_remainder(1 from R)(n)(1 from Z) = filter_by_value(for_each_pair(
                 q  for Z  from index # Индексы запросов
 
 # Третий проход: q-й Запрос первого условия, получивший меньше запрошенного, если запас
-# его коллекции ещё не израсходован. Значение — недостающий до Запроса объём
+# его коллекции (шаг ничьей или остаток) ещё не израсходован. Значение — недостающий до Запроса объём
 requests_bonus_reached(l0)(n)(q) = filter_by_pair(filter_by_value(for_each_pair(requests_front_first(l0)(q), "-", requests_allocated_first(l0)(n)(q)), ">", 0), contains, requests_bonus_remainder(l0)(n)(q))
     where
         requests_front_first(l0)(q)(i, j, x, k, l, l0, s, q)        of number
@@ -510,7 +610,7 @@ requests_bonus_reached(l0)(n)(q) = filter_by_pair(filter_by_value(for_each_pair(
                 q  for Z  from index # Индексы запросов
 
 # Третий проход: q-й Запрос первого условия, получивший меньше запрошенного, если запас
-# его коллекции ещё не израсходован. Значение — недостающий до Запроса объём
+# его коллекции (шаг ничьей или остаток) ещё не израсходован. Значение — недостающий до Запроса объём
 requests_bonus_reached(1 from R)(n)(q) = filter_by_pair(filter_by_value(for_each_pair(requests_front_first(1 from R)(q), "-", requests_allocated_first(1 from R)(n)(q)), ">", 0), contains, requests_bonus_remainder(1 from R)(n)(q))
     where
         requests_front_first(1 from R)(q)(i, j, x, k, l, l0, s, q)        of number
@@ -535,8 +635,9 @@ requests_bonus_reached(1 from R)(n)(q) = filter_by_pair(filter_by_value(for_each
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Дополнительный шаг q-му Запросу: только если шаг помещается в недостающий объём,
-# иначе ничья не применяется (запас всё равно израсходован этим Запросом)
+# Дополнительный объём q-му Запросу (шаг ничьей или остаток): только если ещё один шаг
+# помещается в недостающий объём, иначе запас не достаётся никому (он всё равно
+# израсходован этим Запросом)
 requests_bonus_allocated(l0)(n)(q) = for_each_pair(filter_by_value(requests_bonus_reached(l0)(n)(q), ">=", FIRST_STEP_TONNAGE), min, requests_bonus_remainder(l0)(n)(q))
     where
         requests_bonus_reached(l0)(n)(q)(i, j, x, k, l, l0, s, q)   of number
@@ -560,8 +661,9 @@ requests_bonus_allocated(l0)(n)(q) = for_each_pair(filter_by_value(requests_bonu
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Дополнительный шаг q-му Запросу: только если шаг помещается в недостающий объём,
-# иначе ничья не применяется (запас всё равно израсходован этим Запросом)
+# Дополнительный объём q-му Запросу (шаг ничьей или остаток): только если ещё один шаг
+# помещается в недостающий объём, иначе запас не достаётся никому (он всё равно
+# израсходован этим Запросом)
 requests_bonus_allocated(1 from R)(n)(q) = for_each_pair(filter_by_value(requests_bonus_reached(1 from R)(n)(q), ">=", FIRST_STEP_TONNAGE), min, requests_bonus_remainder(1 from R)(n)(q))
     where
         requests_bonus_reached(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)   of number
@@ -629,7 +731,7 @@ requests_bonus_remainder(1 from R)(n)(q + 1) = filter_by_pair(requests_bonus_rem
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Дополнительные шаги ничьей по Запросам l0-й очереди
+# Дополнительные объёмы третьего прохода (шаг ничьей или остаток) по Запросам l0-й очереди
 estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n) = assign_matrix(requests_bonus_allocated(l0)(n)(1), ..., requests_bonus_allocated(l0)(n)(D))
     where
         requests_bonus_allocated(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
@@ -649,7 +751,7 @@ estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n) = assign_matrix(requests_bonus_allocated
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Дополнительные шаги ничьей по Запросам первой очереди
+# Дополнительные объёмы третьего прохода (шаг ничьей или остаток) по Запросам первой очереди
 estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n) = assign_matrix(requests_bonus_allocated(1 from R)(n)(1), ..., requests_bonus_allocated(1 from R)(n)(D))
     where
         requests_bonus_allocated(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
@@ -669,7 +771,7 @@ estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n) = assign_matrix(requests_bonus_all
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Объёмы Запросов первого условия поставки l0-й очереди: оба прохода и шаг ничьей
+# Объёмы Запросов первого условия поставки l0-й очереди: оба прохода и третий проход
 estimated_i_j_x_k_l_s_l0_q_first(l0)(n) = for_each_pair(assign_matrix(requests_allocated_first(l0)(n)(1), ..., requests_allocated_first(l0)(n)(D)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n))
     where
         requests_allocated_first(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
@@ -692,7 +794,7 @@ estimated_i_j_x_k_l_s_l0_q_first(l0)(n) = for_each_pair(assign_matrix(requests_a
                 s  for C  from index # Индексы условий поставки
                 q  for Z  from index # Индексы запросов
 
-# Объёмы Запросов первого условия поставки первой очереди: оба прохода и шаг ничьей
+# Объёмы Запросов первого условия поставки первой очереди: оба прохода и третий проход
 estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n) = for_each_pair(assign_matrix(requests_allocated_first(1 from R)(n)(1), ..., requests_allocated_first(1 from R)(n)(D)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n))
     where
         requests_allocated_first(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
@@ -716,7 +818,8 @@ estimated_i_j_x_k_l_s_l0_q_first(1 from R)(n) = for_each_pair(assign_matrix(requ
                 q  for Z  from index # Индексы запросов
 
 # Объёмы Запросов второго условия поставки l0-й очереди: в коллекциях, где применена ничья,
-# Запросы второго условия ничего не получают
+# Запросы второго условия ничего не получают (остаток третьего прохода выдаётся только там,
+# где их нет)
 estimated_i_j_x_k_l_s_l0_q_second(l0)(n) = filter_by_pair(assign_matrix(requests_allocated_second(l0)(n)(1), ..., requests_allocated_second(l0)(n)(D)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(l0)(n), Terminal, Queue, Ship_terms, Request))
     where
         requests_allocated_second(l0)(n)(q)(i, j, x, k, l, l0, s, q)      of number
@@ -740,7 +843,8 @@ estimated_i_j_x_k_l_s_l0_q_second(l0)(n) = filter_by_pair(assign_matrix(requests
                 q  for Z  from index # Индексы запросов
 
 # Объёмы Запросов второго условия поставки первой очереди: в коллекциях, где применена ничья,
-# Запросы второго условия ничего не получают
+# Запросы второго условия ничего не получают (остаток третьего прохода выдаётся только там,
+# где их нет)
 estimated_i_j_x_k_l_s_l0_q_second(1 from R)(n) = filter_by_pair(assign_matrix(requests_allocated_second(1 from R)(n)(1), ..., requests_allocated_second(1 from R)(n)(D)), not_contains, sum_by_axes(estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(n), Terminal, Queue, Ship_terms, Request))
     where
         requests_allocated_second(1 from R)(n)(q)(i, j, x, k, l, l0, s, q)      of number
