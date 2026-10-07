@@ -6,9 +6,9 @@ normalized_i_j_k_l           from ("step-6.example_1.lang")
 ### Шаг 10. Распределение НП по Запросам Владельцев нефтебаз/резервуаров — II очередь (пример 1)
 # Вход II очереди = только исходные Запросы 2-й очереди (R=2).
 # Дальше generic-формы Шагов 4-6 строят (2 from R)-свёртки, estimated и normalized.
-# Доступные объёмы II очереди есть у всех трёх НПЗ: ПКОП (J=1: 35), АНПЗ (J=2: 420) и ПНХЗ
-# (J=3: 2500) (Шаг 9). Запросы ПКОП #203 и #204 (245) превышают остаток 35 и урезаются долей
-# в Шаге 5.
+# Доступные объёмы II очереди есть только у АНПЗ (J=2: 420) и ПНХЗ (J=3: 2500) (Шаг 9):
+# ПКОП (J=1) с остатком I очереди -30 гейт не прошёл, поэтому его Запросы #203 и #204 (245)
+# в Шаге 5 объёма не получают и остаются с нулём.
 
 ### Обвязка входа II очереди (аналог входа Шага 4)
 # Вход II очереди — исходные Запросы R=2 из Шага 1 как есть: свёртка по нефтебазам и условиям
@@ -63,7 +63,7 @@ estimated_i_j_k_l_total(2 from R) = assign_matrix(normalized_i_j_k_l(2 from R)(1
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
                 (1 from I, 1 from J, 1 from K, 7  from P) = 55,   # 110
-                (1 from I, 1 from J, 1 from K, 15 from P) = 5     # 204
+                (1 from I, 1 from J, 1 from K, 15 from P) = 0     # 204
             },
             (1 from I, 1 from J, 3 from K) = {
                 (1 from I, 1 from J, 3 from K, 2  from P) = 585,  # 106
@@ -115,7 +115,7 @@ estimated_i_j_k_l_total(3 from R) = assign_matrix(normalized_i_j_k_l(3 from R)(1
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
                 (1 from I, 1 from J, 1 from K, 7  from P) = 55,   # 110
-                (1 from I, 1 from J, 1 from K, 15 from P) = 5     # 204
+                (1 from I, 1 from J, 1 from K, 15 from P) = 0     # 204
             },
             (1 from I, 1 from J, 3 from K) = {
                 (1 from I, 1 from J, 3 from K, 2  from P) = 585,  # 106
@@ -171,7 +171,7 @@ estimated_i_j_k_l_total(4 from R) = assign_matrix(normalized_i_j_k_l(4 from R)(1
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 1 from K) = {
                 (1 from I, 1 from J, 1 from K, 7  from P) = 55,   # 110
-                (1 from I, 1 from J, 1 from K, 15 from P) = 5     # 204
+                (1 from I, 1 from J, 1 from K, 15 from P) = 0     # 204
             },
             (1 from I, 1 from J, 3 from K) = {
                 (1 from I, 1 from J, 3 from K, 2  from P) = 585,  # 106
@@ -189,7 +189,7 @@ estimated_i_j_k_l_total(4 from R) = assign_matrix(normalized_i_j_k_l(4 from R)(1
         },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 6  from P) = 130,  # 404
+                (1 from I, 2 from J, 4 from K, 6  from P) = 195,  # 404
                 (1 from I, 2 from J, 4 from K, 7  from P) = 30,   # 111
                 (1 from I, 2 from J, 4 from K, 16 from P) = 130,  # 205
                 (1 from I, 2 from J, 4 from K, 17 from P) = 70,   # 206
@@ -1163,7 +1163,7 @@ estimated_i_j_k_l_total(4 from R) = assign_matrix(normalized_i_j_k_l(4 from R)(1
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП AI_92 на
 # НПЗ PKOP, МТ: 245
 # Шаг 5. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP в регион Shimkent, МТ: 27.857142857142857115
+# PKOP в регион Shimkent, МТ: —
 # Шаг 5а. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP по Запросу, МТ: 0
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП AI_92 на
@@ -1201,12 +1201,12 @@ estimated_i_j_k_l_total(4 from R) = assign_matrix(normalized_i_j_k_l(4 from R)(1
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП AI_92 на
 # НПЗ PKOP, МТ: 245
 # Шаг 5. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP в регион Almaty, МТ: 7.14285714285714285
+# PKOP в регион Almaty, МТ: —
 # Шаг 5а. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: 7.14285714285714285
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP по Запросу, МТ: 5
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: 5
+# НПЗ PKOP по Запросу, МТ: 0
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: 0
 
 ## Трассировочная строка для запроса № 027:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ

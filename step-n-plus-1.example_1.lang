@@ -9,9 +9,9 @@ assign_matrix               from ("matrix_operation.lang")
 # условию поставки. Шаг (N + 1) только собирает нормированные матрицы Запросов всех очередей
 # в одну; номер Запроса уникален во всех очередях, поэтому матрицы очередей не пересекаются.
 #
-# В примере 36 Запросов. Нулевой объём получают 9 Запросов: #003, #004, #006, #013, #014,
-# #015, #019, #020 (I очередь: объёма коллекции не хватило в Шаге 5а) и #025 (II очередь:
-# урезанный долей объём ПКОП меньше вагонной нормы).
+# В примере 36 Запросов. Нулевой объём получают 9 Запросов: #003, #004, #006, #014, #015,
+# #019, #020 (I очередь: объёма коллекции не хватило в Шаге 5а) и #025, #026 (II очередь:
+# ПКОП с остатком I очереди -30 не прошёл гейт Шага 9).
 
 # Нормированные объёмы по Запросам I очереди — последняя итерация цикла Шагов 6-7.2. Шаг 7.2
 # ничего не урезал (estimated_i_j_k_l(1 from R)(2 from n) = {}), поэтому last_n = 1.
@@ -36,7 +36,7 @@ requests_i_j_x_k_l_s_l0_q_allocated(1 from R) = normalized_i_j_x_k_l_s_l0_q(1 fr
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
                         }
@@ -172,7 +172,7 @@ requests_i_j_x_k_l_s_l0_q_allocated(2 from R) = normalized_i_j_x_k_l_s_l0_q(2 fr
                 (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
-                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 0    # 026
                         }
                     }
                 }
@@ -258,7 +258,7 @@ requests_i_j_x_k_l_s_l0_q_allocated(4 from R) = normalized_i_j_x_k_l_s_l0_q(4 fr
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 195  # 037
                         }
                     }
                 }
@@ -325,7 +325,7 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
                         }
@@ -338,7 +338,7 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 195  # 037
                         }
                     },
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
@@ -397,7 +397,7 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
                     },
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
-                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 0    # 026
                         }
                     }
                 },
@@ -1239,7 +1239,7 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # НПЗ PKOP по Запросу, МТ: —
 # Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# PKOP, МТ: 0
+# PKOP, МТ: 65
 
 ## Трассировочная строка для запроса № 014:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -2158,14 +2158,14 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП AI_92 на
 # НПЗ PKOP, МТ: 245
 # Шаг 5. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP в регион Shimkent, МТ: 27.857142857142857115
+# PKOP в регион Shimkent, МТ: —
 # Шаг 5а. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
 # PKOP по Запросу, МТ: 0
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP по Запросу, МТ: 0
 # Шаг 10а. Суммарное распределение по очередям I, II, МТ: 0
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
-# резервуаров объем НП AI_92 на НПЗ PKOP, МТ: 30
+# резервуаров объем НП AI_92 на НПЗ PKOP, МТ: -30
 # Шаг 12. Доступный объем НП AI_92 на НПЗ PKOP для III очереди,
 # МТ: —
 # Шаг 4. Очередь III. Итоговый суммарный объем запросов НП AI_92 на
@@ -2226,14 +2226,14 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # Шаг 4. Очередь II. Итоговый суммарный объем запросов НП AI_92 на
 # НПЗ PKOP, МТ: 245
 # Шаг 5. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP в регион Almaty, МТ: 7.14285714285714285
+# PKOP в регион Almaty, МТ: —
 # Шаг 5а. Очередь II. Предварительный расчетный объем НП AI_92 на НПЗ
-# PKOP по Запросу, МТ: 7.14285714285714285
+# PKOP по Запросу, МТ: 0
 # Шаг 6. Очередь II. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ PKOP по Запросу, МТ: 5
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: 5
+# НПЗ PKOP по Запросу, МТ: 0
+# Шаг 10а. Суммарное распределение по очередям I, II, МТ: 0
 # Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
-# резервуаров объем НП AI_92 на НПЗ PKOP, МТ: 30
+# резервуаров объем НП AI_92 на НПЗ PKOP, МТ: -30
 # Шаг 12. Доступный объем НП AI_92 на НПЗ PKOP для III очереди,
 # МТ: —
 # Шаг 4. Очередь III. Итоговый суммарный объем запросов НП AI_92 на
@@ -2244,7 +2244,7 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # PKOP по Запросу, МТ: —
 # Шаг 6. Очередь III. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP по Запросу, МТ: —
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 5
+# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: 0
 # Шаг 14. Оставшийся после распределения Субъектам рынка из состава
 # ГМК объем НП AI_92 на НПЗ PKOP, МТ: —
 # Шаг 15. Доступный объем НП AI_92 на НПЗ PKOP для IV очереди,
@@ -2257,9 +2257,9 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # PKOP по Запросу, МТ: —
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
 # НПЗ PKOP по Запросу, МТ: —
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 5
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 0
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# PKOP, МТ: 5
+# PKOP, МТ: 0
 
 ## Трассировочная строка для запроса № 027:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
@@ -2934,9 +2934,9 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
 # Шаг 5. Очередь IV. Предварительный расчетный объем НП AI_92 на НПЗ
 # ANPZ в регион Ulytau, МТ: 169.99999999999999996
 # Шаг 5а. Очередь IV. Предварительный расчетный объем НП AI_92 на НПЗ
-# ANPZ по Запросу, МТ: 130
+# ANPZ по Запросу, МТ: 169.99999999999999996
 # Шаг 6. Очередь IV. Нормированный предоставляемый объем НП AI_92 на
-# НПЗ ANPZ по Запросу, МТ: 130
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 130
+# НПЗ ANPZ по Запросу, МТ: 195
+# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: 195
 # Шаг N + 1. Предоставленный по Запросу объем НП AI_92 на НПЗ
-# ANPZ, МТ: 130
+# ANPZ, МТ: 195

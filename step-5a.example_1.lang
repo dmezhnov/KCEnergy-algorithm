@@ -362,29 +362,22 @@ estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n) = for_each_pair(for_each_element(
 # кратного 65) или ко второму (EXW, без округления).
 
 # Распределяемый объём коллекции II очереди: меньшее из предварительного расчётного объёма и
-# суммы её Запросов. Урезаны долей только коллекции ПКОП (J=1), остальные равны Запросу.
+# суммы её Запросов. Все коллекции равны Запросу; коллекций ПКОП (J=1) в II очереди нет —
+# ПКОП не прошёл гейт Шага 9, и Шаг 5 не выделил ему объёма.
 estimated_i_j_k_l_bounded(2 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(2 from R)(1 from n), min, requests_i_j_k_l_queue(2 from R)) = {
     (1 from I) = {
-        (1 from I, 1 from J) = {
-            (1 from I, 1 from J, 1 from K) = {
-                (1 from I, 1 from J, 1 from K, 15 from P) = min(7.14285714285714285, 50)    = 7.14285714285714285    # 204
-            },
-            (1 from I, 1 from J, 3 from K) = {
-                (1 from I, 1 from J, 3 from K, 14 from P) = min(27.857142857142857115, 195) = 27.857142857142857115  # 203
-            }
-        },
         (1 from I, 2 from J) = {
             (1 from I, 2 from J, 4 from K) = {
-                (1 from I, 2 from J, 4 from K, 16 from P) = min(130, 130)                   = 130,                   # 205
-                (1 from I, 2 from J, 4 from K, 17 from P) = min(70, 70)                     = 70,                    # 206
-                (1 from I, 2 from J, 4 from K, 21 from P) = min(15, 15)                     = 15,                    # 208
-                (1 from I, 2 from J, 4 from K, 22 from P) = min(35, 35)                     = 35                     # 209
+                (1 from I, 2 from J, 4 from K, 16 from P) = min(130, 130) = 130,  # 205
+                (1 from I, 2 from J, 4 from K, 17 from P) = min(70, 70)   = 70,   # 206
+                (1 from I, 2 from J, 4 from K, 21 from P) = min(15, 15)   = 15,   # 208
+                (1 from I, 2 from J, 4 from K, 22 from P) = min(35, 35)   = 35    # 209
             }
         },
         (1 from I, 3 from J) = {
             (1 from I, 3 from J, 2 from K) = {
-                (1 from I, 3 from J, 2 from K, 8  from P) = min(65, 65)                     = 65,                    # 201
-                (1 from I, 3 from J, 2 from K, 9  from P) = min(130, 130)                   = 130                    # 202
+                (1 from I, 3 from J, 2 from K, 8  from P) = min(65, 65)   = 65,   # 201
+                (1 from I, 3 from J, 2 from K, 9  from P) = min(130, 130) = 130   # 202
             }
         }
     }
@@ -398,17 +391,15 @@ estimated_i_j_k_l_bounded(2 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(
 
 # Семейства по Запросам II очереди (q = 1 … 39, n = 1) не расписаны Запрос за Запросом: их итог
 # виден в матрицах ниже. По коллекциям (запрошено -> выделено):
-# — (1 from J, 1 from K, 15 from P): EXW #026 50 -> 7.14285714285714285;
-# — (1 from J, 3 from K, 14 from P): FCA #025 195 -> 0 (27.857142857142857115 < 65 — ни одного шага);
 # — (2 from J, 4 from K, 16 from P): FCA #027 130 -> 130;
 # — (2 from J, 4 from K, 17 from P): EXW #028 70 -> 70;
 # — (2 from J, 4 from K, 21 from P): EXW #038 15 -> 15;
 # — (2 from J, 4 from K, 22 from P): EXW #039 35 -> 35;
 # — (3 from J, 2 from K, 8  from P): FCA #023 65 -> 65;
 # — (3 from J, 2 from K, 9  from P): FCA #024 130 -> 130.
-# Остаток 27.857142857142857115 в коллекции (1 from J, 3 from K, 14 from P) не достаётся никому:
-# Запросов EXW в ней нет. Ничьей нет ни в одной коллекции: сумма остатков после первого и
-# второго проходов нигде не равна 65 МТ (55.714285714285714230 в коллекции #025, 0 в остальных).
+# Запросы ПКОП (J=1) — FCA #025 (195) и EXW #026 (50) — коллекции с объёмом не имеют (Шаг 5)
+# и получают 0. Остатков нет, ничьей нет ни в одной коллекции: сумма остатков после первого
+# и второго проходов равна 0, поэтому третий проход никому ничего не выдаёт.
 
 # Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу II очереди.
 estimated_i_j_x_k_l_s_l0_q_bonus(2 from R)(1 from n) = assign_matrix(requests_bonus_allocated(2 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(2 from R)(1 from n)(39 from Z)) = {}
@@ -487,7 +478,7 @@ estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n) = filter_by_pair(assign_ma
                 (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
-                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 7.14285714285714285  # 026
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 0   # 026
                         }
                     }
                 }
@@ -498,17 +489,17 @@ estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n) = filter_by_pair(assign_ma
                 (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70  # 028
                         }
                     },
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15  # 038
                         }
                     },
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35  # 039
                         }
                     }
                 }
@@ -528,8 +519,8 @@ estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n) = filter_by_pair(assign_ma
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
-# Предварительный расчётный объём каждого Запроса II очереди (n = 1). Запрос #025, которому не
-# досталось объёма, остаётся в матрице с нулём.
+# Предварительный расчётный объём каждого Запроса II очереди (n = 1). Запросы ПКОП #025 и #026,
+# которым не досталось объёма, остаются в матрице с нулём.
 estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(filter_by_coordinate(requests_i_j_x_k_l_s_l0_q, Second), "*", 0), "+", assign_matrix(estimated_i_j_x_k_l_s_l0_q_first(2 from R)(1 from n), estimated_i_j_x_k_l_s_l0_q_second(2 from R)(1 from n))) = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
@@ -537,7 +528,7 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
                     (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P) = {
                         (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R) = {
-                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0                    # 025
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 14 from P, 2 from R, 25 from Z) = 0    # 025
                         }
                     }
                 }
@@ -548,7 +539,7 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130                  # 027
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
                         }
                     }
                 }
@@ -559,12 +550,12 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65                   # 023
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
                         }
                     },
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130                  # 024
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
                         }
                     }
                 }
@@ -577,7 +568,7 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 2 from C, 1 from J, 2 from X, 1 from K) = {
                     (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P) = {
                         (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R) = {
-                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 7.14285714285714285  # 026
+                            (1 from I, 2 from C, 1 from J, 2 from X, 1 from K, 15 from P, 2 from R, 26 from Z) = 0    # 026
                         }
                     }
                 }
@@ -588,17 +579,17 @@ estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 2 from C, 2 from J, 1 from X, 4 from K) = {
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
                         }
                     },
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
                         }
                     },
                     (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P) = {
                         (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R) = {
-                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                            (1 from I, 2 from C, 2 from J, 1 from X, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
                         }
                     }
                 }
@@ -763,7 +754,7 @@ estimated_i_j_x_k_l_s_l0_q(3 from R)(1 from n) = for_each_pair(for_each_element(
 ### Шаг 5а. Разбиение объёма коллекции по Запросам — IV очередь (пример 1)
 # Те же правила для IV очереди (иные Субъекты рынка, n = 1). В каждой коллекции IV очереди
 # ровно один Запрос, и все они поданы на условии FCA, поэтому разбиение сводится к первому
-# проходу (вниз до кратного 65); второй проход пуст.
+# проходу (вниз до кратного 65) и третьему (остаток коллекции без Запросов EXW); второй проход пуст.
 
 # Распределяемый объём коллекции IV очереди: меньшее из предварительного расчётного объёма и
 # суммы её Запросов. Урезан долей только АНПЗ (J=2, #404), коллекции ПНХЗ (J=3) равны Запросу.
@@ -792,16 +783,35 @@ estimated_i_j_k_l_bounded(4 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(
 
 # Семейства по Запросам IV очереди (q = 1 … 39, n = 1) не расписаны Запрос за Запросом: их
 # итог виден в матрицах ниже. По коллекциям (запрошено -> выделено):
-# — (2 from J, 4 from K, 6  from P): FCA #037 520 -> 130 (169.99999999999999996 вниз до кратного 65);
+# — (2 from J, 4 from K, 6  from P): FCA #037 520 -> 130 (169.99999999999999996 вниз до кратного 65;
+#   + 39.99999999999999996 третьим проходом);
 # — (3 from J, 2 from K, 4  from P): FCA #034 260 -> 260;
 # — (3 from J, 2 from K, 5  from P): FCA #035 520 -> 520;
 # — (3 from J, 2 from K, 6  from P): FCA #036 715 -> 715.
-# Остаток 39.99999999999999996 в коллекции (2 from J, 4 from K, 6  from P) не достаётся никому:
-# Запросов EXW в ней нет. Ничьей нет ни в одной коллекции: сумма остатков после первого и
-# второго проходов нигде не равна 65 МТ (79.99999999999999992 в коллекции #037, 0 в остальных).
+# Ничьей нет ни в одной коллекции (requests_tie_remainder(4 from R)(1 from n) пуст): сумма
+# остатков после первого и второго проходов нигде не равна 65 МТ (79.99999999999999992 в
+# коллекции #037, 0 в остальных).
+# Остаток после второго прохода есть только в коллекции (2 from J, 4 from K, 6  from P), и
+# Запросов EXW в ней нет (requests_rest_remainder(4 from R)(1 from n), п. 6):
+# 39.99999999999999996. Его без округления получает первый незавершённый Запрос FCA коллекции
+# #037, и ещё один шаг 65 МТ помещается в его Запрос (130 + 65 <= 520).
 
-# Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу IV очереди.
-estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n) = assign_matrix(requests_bonus_allocated(4 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(4 from R)(1 from n)(39 from Z)) = {}
+# Ничьей нет; третий проход отдаёт остаток коллекции без Запросов EXW Запросу #037.
+estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n) = assign_matrix(requests_bonus_allocated(4 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(4 from R)(1 from n)(39 from Z)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from X) = {
+                (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
+                        (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 39.99999999999999996  # 037
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
     where
         requests_bonus_allocated(4 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         n  of   index # Индекс матрицы
@@ -814,7 +824,7 @@ estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n) = assign_matrix(requests_bo
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
-# Объёмы Запросов первого условия поставки (FCA) IV очереди после первого прохода.
+# Объёмы Запросов первого условия поставки (FCA) IV очереди после первого и третьего проходов.
 estimated_i_j_x_k_l_s_l0_q_first(4 from R)(1 from n) = for_each_pair(assign_matrix(requests_allocated_first(4 from R)(1 from n)(1 from Z), ..., requests_allocated_first(4 from R)(1 from n)(39 from Z)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(4 from R)(1 from n)) = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 2 from J) = {
@@ -822,7 +832,7 @@ estimated_i_j_x_k_l_s_l0_q_first(4 from R)(1 from n) = for_each_pair(assign_matr
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 169.99999999999999996  # 037
                         }
                     }
                 }
@@ -833,17 +843,17 @@ estimated_i_j_x_k_l_s_l0_q_first(4 from R)(1 from n) = for_each_pair(assign_matr
                 (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260                    # 034
                         }
                     },
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520                    # 035
                         }
                     },
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715                    # 036
                         }
                     }
                 }
@@ -885,7 +895,7 @@ estimated_i_j_x_k_l_s_l0_q(4 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 2 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P) = {
                         (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 130  # 037
+                            (1 from I, 1 from C, 2 from J, 4 from X, 4 from K, 6  from P, 4 from R, 37 from Z) = 169.99999999999999996  # 037
                         }
                     }
                 }
@@ -896,17 +906,17 @@ estimated_i_j_x_k_l_s_l0_q(4 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 3 from J, 4 from X, 2 from K) = {
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 4  from P, 4 from R, 34 from Z) = 260                    # 034
                         }
                     },
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 5  from P, 4 from R, 35 from Z) = 520                    # 035
                         }
                     },
                     (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P) = {
                         (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R) = {
-                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                            (1 from I, 1 from C, 3 from J, 4 from X, 2 from K, 6  from P, 4 from R, 36 from Z) = 715                    # 036
                         }
                     }
                 }
