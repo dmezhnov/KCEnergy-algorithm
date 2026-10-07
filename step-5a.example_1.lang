@@ -8,7 +8,9 @@ for_each_pair, assign_matrix, sum_by_axes              from ("matrix_operation.l
 # Предварительный расчётный объём каждой коллекции (Product, Refinery, Region,
 # Market_participant) I очереди на первой итерации (Шаг 5, n = 1) раскладывается по её
 # Запросам I очереди в хронологическом порядке: сначала Запросы первого условия поставки
-# с округлением вниз до кратного шагу, затем Запросы второго условия без округления.
+# с округлением вниз до кратного шагу, затем Запросы второго условия без округления; третий
+# проход отдаёт шаг ничьей или остаток коллекции без Запросов второго условия первому
+# незавершённому Запросу первого условия.
 
 # Вагонная норма НПЗ не меньше шага нормы нефтебазы (65 >= 5), поэтому первым
 # распределяется условие поставки FCA.
@@ -66,22 +68,49 @@ estimated_i_j_k_l_bounded(1 from R)(1 from n) = for_each_pair(estimated_i_j_k_l(
 # EXW — min(Запрос; остаток)):
 # — (1 from J, 4 from K, 1  from P): FCA #001 130 -> 65; EXW #002 25 -> 8.72013651877133098, #003 35 -> 0, #004 40 -> 0;
 # — (1 from J, 5 from K, 1  from P): EXW #005 75 -> 73.72013651877133098, #006 75 -> 0;
-# — (1 from J, 3 from K, 2  from P): FCA #009 715 -> 585;
+# — (1 from J, 3 from K, 2  from P): FCA #009 715 -> 585 (+ 0.66552901023890723 третьим проходом);
 # — (1 from J, 5 from K, 3  from P): EXW #010 200 -> 81.9112627986348122;
-# — (1 from J, 4 from K, 12 from P): FCA #011 65 -> 65, #012 65 -> 65, #013 65 -> 0, #014 65 -> 0, #015 65 -> 0;
+# — (1 from J, 4 from K, 12 from P): FCA #011 65 -> 65, #012 65 -> 65, #013 65 -> 0 (+ 33.8225255972696244
+#   третьим проходом), #014 65 -> 0, #015 65 -> 0;
 # — (1 from J, 4 from K, 13 from P): EXW #016 65 -> 65, #017 65 -> 65, #018 65 -> 33.8225255972696244, #019 65 -> 0, #020 65 -> 0;
 # — (1 from J, 1 from K, 7  from P): EXW #021 70 -> 57.33788395904436854;
 # — (2 from J, 4 from K, 7  from P): EXW #022 100 -> 30;
 # — (2 from J, 4 from K, 18 from P): EXW #029 100 -> 30;
 # — (2 from J, 4 from K, 19 from P): EXW #030 50 -> 20.
-# Остаток после второго прохода не достаётся никому: 0.66552901023890723 в коллекции
-# (1 from J, 3 from K, 2  from P) и 33.8225255972696244 в (1 from J, 4 from K, 12 from P).
-# Ничьей нет ни в одной коллекции: сумма остатков после первого и второго проходов нигде не
-# равна 65 МТ (наибольшая — 163.8225255972696244 в (1 from J, 4 from K, 13 from P), где нет
-# Запросов FCA, наименьшая — 1.33105802047781446 в (1 from J, 3 from K, 2  from P)).
+# Ничьей нет ни в одной коллекции (requests_tie_remainder(1 from R)(1 from n) пуст): сумма
+# остатков после первого и второго проходов нигде не равна 65 МТ (наибольшая —
+# 163.8225255972696244 в (1 from J, 4 from K, 13 from P), где нет Запросов FCA, наименьшая —
+# 1.33105802047781446 в (1 from J, 3 from K, 2  from P)).
+# Остаток после второго прохода есть только в двух коллекциях, и в обеих нет Запросов EXW
+# (requests_rest_remainder(1 from R)(1 from n), п. 6): 0.66552901023890723 в
+# (1 from J, 3 from K, 2  from P) и 33.8225255972696244 в (1 from J, 4 from K, 12 from P). Его
+# без округления получает первый незавершённый Запрос FCA коллекции, и ещё один шаг 65 МТ
+# помещается в его Запрос: #009 (585 + 65 <= 715) и #013 (0 + 65 <= 65). В остальных
+# коллекциях остаток после второго прохода равен нулю.
 
-# Ничьей нет, поэтому дополнительный шаг не выдан ни одному Запросу.
-estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(1 from n) = assign_matrix(requests_bonus_allocated(1 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(1 from R)(1 from n)(39 from Z)) = {}
+# Ничьей нет; третий проход раздаёт остаток коллекций без Запросов EXW: #009 и #013.
+estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(1 from n) = assign_matrix(requests_bonus_allocated(1 from R)(1 from n)(1 from Z), ..., requests_bonus_allocated(1 from R)(1 from n)(39 from Z)) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 4 from X) = {
+                (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 0.66552901023890723  # 009
+                        }
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
+                    (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
+                        (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 33.8225255972696244  # 013
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
     where
         requests_bonus_allocated(1 from R)(1 from n)(q) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         n  of   index # Индекс матрицы
@@ -94,7 +123,7 @@ estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(1 from n) = assign_matrix(requests_bo
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
 
-# Объёмы Запросов первого условия поставки (FCA) I очереди после первого прохода.
+# Объёмы Запросов первого условия поставки (FCA) I очереди после первого и третьего проходов.
 estimated_i_j_x_k_l_s_l0_q_first(1 from R)(1 from n) = for_each_pair(assign_matrix(requests_allocated_first(1 from R)(1 from n)(1 from Z), ..., requests_allocated_first(1 from R)(1 from n)(39 from Z)), "+", estimated_i_j_x_k_l_s_l0_q_bonus(1 from R)(1 from n)) = {
     (1 from I, 1 from C) = {
         (1 from I, 1 from C, 1 from J) = {
@@ -102,23 +131,23 @@ estimated_i_j_x_k_l_s_l0_q_first(1 from R)(1 from n) = for_each_pair(assign_matr
                 (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
                     (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
                         (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
-                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585.66552901023890723  # 009
                         }
                     }
                 },
                 (1 from I, 1 from C, 1 from J, 4 from X, 4 from K) = {
                     (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P) = {
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R) = {
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R, 1  from Z) = 65   # 001
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 1  from P, 1 from R, 1  from Z) = 65                     # 001
                         }
                     },
                     (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P) = {
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,   # 013
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,                    # 011
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,                    # 012
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 33.8225255972696244,   # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,                     # 014
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0                      # 015
                         }
                     }
                 }
@@ -227,7 +256,7 @@ estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n) = for_each_pair(for_each_element(
                 (1 from I, 1 from C, 1 from J, 4 from X, 3 from K) = {
                     (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P) = {
                         (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R) = {
-                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585                    # 009
+                            (1 from I, 1 from C, 1 from J, 4 from X, 3 from K, 2  from P, 1 from R, 9  from Z) = 585.66552901023890723  # 009
                         }
                     }
                 },
@@ -241,7 +270,7 @@ estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n) = for_each_pair(for_each_element(
                         (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R) = {
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,                    # 011
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,                    # 012
-                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 0,                     # 013
+                            (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 13 from Z) = 33.8225255972696244,   # 013
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,                     # 014
                             (1 from I, 1 from C, 1 from J, 4 from X, 4 from K, 12 from P, 1 from R, 15 from Z) = 0                      # 015
                         }
