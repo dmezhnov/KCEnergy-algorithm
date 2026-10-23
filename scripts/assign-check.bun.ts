@@ -52,7 +52,7 @@ class AssignChecker {
                 const call = ASSIGN_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
 
@@ -90,7 +90,7 @@ class AssignChecker {
         const other = shapes.find((source) => source.axes.join() !== axes.join());
 
         if (other) {
-            this.findings.push(`${where}: ${other.name} is laid out on ${other.axes.join(', ')}, ${shapes[0].name} on ${axes.join(', ')}`);
+            this.findings.push(`${where}: ${other.name} is laid out on ${other.axes.join(', ')}, ${shapes[0]!.name} on ${axes.join(', ')}`);
             return undefined;
         }
 

@@ -203,7 +203,7 @@ class ExampleIndex {
         }
 
         const groups = [...normalized.slice(opening).matchAll(/\(([^()]*)\)/g)]
-            .map((group) => QUALIFIER_GROUP.exec(group[1])?.[1] ?? group[1]);
+            .map((group) => QUALIFIER_GROUP.exec(group[1]!)?.[1] ?? group[1]);
 
         return `${normalized.slice(0, opening)}(${groups.join(')(')})`;
     }
@@ -232,7 +232,7 @@ class ExampleIndex {
         const written = [...text.trim().matchAll(COORDINATE_ITEM)];
 
         if (written.length === 1) {
-            return {letter: written[0][2], index: Number(written[0][1])};
+            return {letter: written[0]![2]!, index: Number(written[0]![1])};
         }
 
         const matches = [...this.axesByName.values()]
@@ -257,7 +257,7 @@ class ExampleIndex {
         const coordinates: Coordinates = new Map();
 
         for (const item of text.matchAll(COORDINATE_ITEM)) {
-            coordinates.set(item[2], Number(item[1]));
+            coordinates.set(item[2]!, Number(item[1]));
         }
 
         return coordinates;
@@ -272,7 +272,7 @@ class ExampleIndex {
     coordinatesFromKey(key: string): Coordinates {
         return new Map(key.split(';').map((part) => {
             const [letter, index] = part.split('=');
-            return [letter, Number(index)] as const;
+            return [letter!, Number(index)] as const;
         }));
     }
 
@@ -287,19 +287,19 @@ class ExampleIndex {
         const lines = text.split('\n');
 
         for (let index = 0; index < lines.length; index += 1) {
-            const header = AXIS_HEADER.exec(lines[index]);
+            const header = AXIS_HEADER.exec(lines[index]!);
 
             if (!header) {
                 continue;
             }
 
-            const axis: Axis = {name: header[1], letter: header[2], labels: new Map()};
+            const axis: Axis = {name: header[1]!, letter: header[2]!, labels: new Map()};
 
-            for (index += 1; index < lines.length && !lines[index].startsWith(')'); index += 1) {
-                const item = AXIS_ITEM.exec(lines[index]);
+            for (index += 1; index < lines.length && !lines[index]!.startsWith(')'); index += 1) {
+                const item = AXIS_ITEM.exec(lines[index]!);
 
                 if (item && item[3] === axis.letter) {
-                    axis.labels.set(Number(item[2]), item[1]);
+                    axis.labels.set(Number(item[2]), item[1]!);
                 }
             }
 
@@ -314,13 +314,13 @@ class ExampleIndex {
     private parseDeclarations(text: string): void {
         for (const line of text.split('\n')) {
             const declaration = COORDINATE_DECLARATION.exec(line);
-            const axis = declaration && this.axesByName.get(declaration[2]);
+            const axis = declaration && this.axesByName.get(declaration[2]!);
 
             if (!axis) {
                 continue;
             }
 
-            for (const name of declaration[1].split(',').map((part) => part.trim())) {
+            for (const name of declaration[1]!.split(',').map((part) => part.trim())) {
                 const known = this.declaredAxis.get(name);
 
                 this.declaredAxis.set(name, known === undefined || known === axis.letter ? axis.letter : null);
@@ -362,8 +362,8 @@ class ExampleIndex {
             }
 
             for (index += 1; depth > 0 && index < lines.length; index += 1) {
-                this.collectLeaf(lines[index], index + 1, block);
-                depth += this.braceBalance(lines[index]);
+                this.collectLeaf(lines[index]!, index + 1, block);
+                depth += this.braceBalance(lines[index]!);
             }
 
             index -= 1;
@@ -383,8 +383,8 @@ class ExampleIndex {
     // ends in a number. A definition that ends in anything else (an axis
     // enumeration, a matrix alias) fixes no value and is passed over.
     private collectScalar(head: string, expression: string, file: string, line: number): void {
-        const stages = expression.split(/\s+#/)[0].split(/\s+=\s+/).map((stage) => stage.trim());
-        const value = stages[stages.length - 1];
+        const stages = expression.split(/\s+#/)[0]!.split(/\s+=\s+/).map((stage) => stage.trim());
+        const value = stages[stages.length - 1]!;
 
         if (!DECIMAL.test(value)) {
             return;
@@ -412,15 +412,15 @@ class ExampleIndex {
     private collectLeaf(line: string, number: number, block: Block): void {
         const match = LEAF_LINE.exec(line);
 
-        if (!match || match[2].trimEnd().endsWith('{')) {
+        if (!match || match[2]!.trimEnd().endsWith('{')) {
             return;
         }
 
-        const coordinates = this.parseCoordinates(match[1]);
+        const coordinates = this.parseCoordinates(match[1]!);
         const signature = [...coordinates.keys()].sort();
-        const body = match[2].split(/\s+#/)[0].trim().replace(/,$/, '').trim();
+        const body = match[2]!.split(/\s+#/)[0]!.trim().replace(/,$/, '').trim();
         const parts = body.split(/\s+=\s+/).map((part) => part.trim());
-        const total = parts[parts.length - 1];
+        const total = parts[parts.length - 1]!;
 
         if (!block.signatures.some((known) => known.join() === signature.join())) {
             block.signatures.push(signature);
@@ -469,7 +469,7 @@ class ExampleIndex {
 
     // The net number of braces a line opens.
     private braceBalance(line: string): number {
-        const code = line.split(/\s+#/)[0];
+        const code = line.split(/\s+#/)[0]!;
 
         return (code.match(/\{/g) ?? []).length - (code.match(/\}/g) ?? []).length;
     }

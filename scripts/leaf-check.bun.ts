@@ -54,8 +54,8 @@ class LeafChecker {
                 const call = SUM_CALL.exec(block.expression);
 
                 if (call) {
-                    const args = ExampleIndex.splitArguments(call[1]);
-                    this.checkBlock(block, args[0], args.slice(1));
+                    const args = ExampleIndex.splitArguments(call[1]!);
+                    this.checkBlock(block, args[0]!, args.slice(1));
                 }
             }
 

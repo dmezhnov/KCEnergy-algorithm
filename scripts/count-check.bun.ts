@@ -56,7 +56,7 @@ class CountChecker {
                 const call = COUNT_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
 
@@ -77,7 +77,7 @@ class CountChecker {
             return;
         }
 
-        const source = this.evaluator.evaluate(args[0], where);
+        const source = this.evaluator.evaluate(args[0]!, where);
 
         if (!source) {
             return;

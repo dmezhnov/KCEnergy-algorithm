@@ -56,11 +56,11 @@ class OperandEvaluator {
     evaluate(reference: string, where: string): Matrix | undefined {
         const call = CALL.exec(reference.trim());
 
-        if (!call || !PRIMITIVES.has(call[1])) {
+        if (!call || !PRIMITIVES.has(call[1]!)) {
             return this.fromVariable(reference.trim(), where);
         }
 
-        const args = ExampleIndex.splitArguments(call[2]);
+        const args = ExampleIndex.splitArguments(call[2]!);
 
         if (call[1] === 'filter_by_pair') {
             return this.filterByPair(args, where);
@@ -117,7 +117,7 @@ class OperandEvaluator {
     private isCall(expression: string): boolean {
         const call = CALL.exec(expression.trim());
 
-        return Boolean(call && PRIMITIVES.has(call[1]));
+        return Boolean(call && PRIMITIVES.has(call[1]!));
     }
 
     // The value of an unexpanded variable's own expression, refusing a variable
@@ -159,14 +159,14 @@ class OperandEvaluator {
             return undefined;
         }
 
-        const source = this.evaluate(args[0], where);
-        const against = this.evaluate(args[2], where);
+        const source = this.evaluate(args[0]!, where);
+        const against = this.evaluate(args[2]!, where);
 
         if (!source || !against || !this.readableAlong(source, against, where)) {
             return undefined;
         }
 
-        const condition = args[1];
+        const condition = args[1]!;
 
         if (condition !== MatrixOperation.CONTAINS && condition !== MatrixOperation.NOT_CONTAINS && !MatrixOperation.compares(condition)) {
             this.notes.push(`${where}: condition ${condition} is not implemented`);
@@ -220,14 +220,14 @@ class OperandEvaluator {
             return undefined;
         }
 
-        const source = this.evaluate(args[0], where);
-        const threshold = this.number(args[2], where);
+        const source = this.evaluate(args[0]!, where);
+        const threshold = this.number(args[2]!, where);
 
         if (!source || !threshold) {
             return undefined;
         }
 
-        if (!MatrixOperation.compares(args[1])) {
+        if (!MatrixOperation.compares(args[1]!)) {
             this.notes.push(`${where}: condition ${args[1]} is not implemented`);
             return undefined;
         }
@@ -242,7 +242,7 @@ class OperandEvaluator {
                 return undefined;
             }
 
-            if (MatrixOperation.compare(args[1], value, threshold)) {
+            if (MatrixOperation.compare(args[1]!, value, threshold)) {
                 cells.set(key, cell);
             }
         }
@@ -257,7 +257,7 @@ class OperandEvaluator {
     // with one coordinate is still an axis, and the `some(n from X)` of a
     // family member is a separate notation, not this result.
     private filterByCoordinate(args: string[], where: string): Matrix | undefined {
-        const source = this.evaluate(args[0], where);
+        const source = this.evaluate(args[0]!, where);
 
         if (!source) {
             return undefined;
@@ -313,14 +313,14 @@ class OperandEvaluator {
             return undefined;
         }
 
-        const left = this.evaluate(args[0], where);
-        const right = this.evaluate(args[2], where);
+        const left = this.evaluate(args[0]!, where);
+        const right = this.evaluate(args[2]!, where);
 
         if (!left || !right || !this.readableAlong(left, right, where)) {
             return undefined;
         }
 
-        if (!MatrixOperation.spelling(args[1])) {
+        if (!MatrixOperation.spelling(args[1]!)) {
             this.notes.push(`${where}: operation ${args[1]} is not implemented`);
             return undefined;
         }
@@ -337,7 +337,7 @@ class OperandEvaluator {
                 return undefined;
             }
 
-            const value = MatrixOperation.apply(pair[0], args[1], pair[1]);
+            const value = MatrixOperation.apply(pair[0], args[1]!, pair[1]);
 
             if (!value) {
                 this.notes.push(`${where}: ${cell.value} ${args[1]} ${other} divides by zero`);
@@ -359,8 +359,8 @@ class OperandEvaluator {
             return undefined;
         }
 
-        const source = this.evaluate(args[0], where);
-        const replaced = this.index.coordinate(args[2]);
+        const source = this.evaluate(args[0]!, where);
+        const replaced = this.index.coordinate(args[2]!);
 
         if (!source || !replaced) {
             this.notes.push(replaced ? `${where}: ${args[0]} is not readable` : `${where}: ${args[2]} does not name a coordinate`);
@@ -389,8 +389,8 @@ class OperandEvaluator {
             return undefined;
         }
 
-        const source = this.evaluate(args[0], where);
-        const counted = ExampleIndex.letterOf(args[1].trim());
+        const source = this.evaluate(args[0]!, where);
+        const counted = ExampleIndex.letterOf(args[1]!.trim());
 
         if (!source || !counted) {
             if (source) {
