@@ -89,7 +89,7 @@ class CoordinateChecker {
             return [{block, expression: block.expression, member: false}];
         }
 
-        const expansions = this.expansionsOf(family[1], family[3]);
+        const expansions = this.expansionsOf(family[1]!, family[3]!);
 
         if (!expansions.length) {
             this.notes.push(`${block.file}:${block.line}: ${block.name} is expanded for no ${family[3]} index`);
@@ -97,7 +97,7 @@ class CoordinateChecker {
 
         return expansions.map((expansion) => ({
             block: expansion.block,
-            expression: this.substitute(block.expression, family[2], `${expansion.index} from ${family[3]}`),
+            expression: this.substitute(block.expression, family[2]!, `${expansion.index} from ${family[3]}`),
             member: true,
         }));
     }
@@ -124,7 +124,7 @@ class CoordinateChecker {
     // source name `requests_i_j_k_l_l0`, which names a matrix and not an index.
     private substitute(expression: string, variable: string, index: string): string {
         const call = COORDINATE_CALL.exec(expression)!;
-        const args = ExampleIndex.splitArguments(call[1]).map((argument) => argument === variable ? index : argument);
+        const args = ExampleIndex.splitArguments(call[1]!).map((argument) => argument === variable ? index : argument);
 
         return `filter_by_coordinate(${args.join(', ')})`;
     }
@@ -134,7 +134,7 @@ class CoordinateChecker {
     // empty one is reported as such instead of as a shape disagreement.
     private checkTarget(target: Target): void {
         const where = `${target.block.file}:${target.block.line}: ${target.block.name}`;
-        const args = ExampleIndex.splitArguments(COORDINATE_CALL.exec(target.expression)![1]);
+        const args = ExampleIndex.splitArguments(COORDINATE_CALL.exec(target.expression)![1]!);
 
         if (args.length < 2) {
             this.findings.push(`${where}: expected a source and at least one coordinate, got ${args.length} argument(s)`);
@@ -156,7 +156,7 @@ class CoordinateChecker {
             return;
         }
 
-        const source = this.evaluator.evaluate(args[0], where);
+        const source = this.evaluator.evaluate(args[0]!, where);
 
         if (!source) {
             return;

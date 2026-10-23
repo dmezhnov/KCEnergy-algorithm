@@ -57,7 +57,7 @@ class ValueChecker {
                 const call = VALUE_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
 
@@ -77,7 +77,7 @@ class ValueChecker {
             return;
         }
 
-        const [sourceReference, condition, thresholdReference] = args;
+        const [sourceReference, condition, thresholdReference] = args as [string, string, string];
 
         if (!MatrixOperation.compares(condition)) {
             this.notes.push(`${where}: condition ${condition} is not implemented`);

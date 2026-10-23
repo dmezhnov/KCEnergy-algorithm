@@ -48,9 +48,9 @@ async function allocate(argv: string[]): Promise<void> {
   const widths = keys.map((k) =>
     Math.max(k.length, ...lines.map((l) => (l.axes[k] ?? "").length)),
   );
-  console.log([...keys.map((k, i) => k.padEnd(widths[i])), "value"].join("  "));
+  console.log([...keys.map((k, i) => k.padEnd(widths[i]!)), "value"].join("  "));
   for (const line of lines) {
-    const cells = keys.map((k, i) => (line.axes[k] ?? "").padEnd(widths[i]));
+    const cells = keys.map((k, i) => (line.axes[k] ?? "").padEnd(widths[i]!));
     console.log([...cells, String(line.value)].join("  "));
   }
   if (outPath) console.log(`\nraw response: ${outPath}`);

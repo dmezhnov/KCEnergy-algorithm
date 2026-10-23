@@ -59,7 +59,7 @@ class FilterChecker {
                 const call = FILTER_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
 
@@ -78,7 +78,7 @@ class FilterChecker {
             return;
         }
 
-        const [sourceReference, condition, conditionReference] = args;
+        const [sourceReference, condition, conditionReference] = args as [string, string, string];
 
         if (condition !== CONTAINS && !MatrixOperation.compares(condition)) {
             this.notes.push(`${where}: condition ${condition} is not implemented`);

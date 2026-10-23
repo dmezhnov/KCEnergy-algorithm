@@ -52,7 +52,7 @@ class PairChecker {
                 const call = PAIR_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
         }
@@ -67,7 +67,7 @@ class PairChecker {
             return;
         }
 
-        const [leftReference, operation, rightReference] = args;
+        const [leftReference, operation, rightReference] = args as [string, string, string];
         const spelling = MatrixOperation.spelling(operation);
 
         if (!spelling) {
@@ -243,9 +243,9 @@ class PairChecker {
             return undefined;
         }
 
-        const spelling = infix ? infix[2] : shown[1];
-        const left = Decimal.parse(infix ? infix[1] : shown[2]);
-        const right = Decimal.parse(shown[3]);
+        const spelling = infix ? infix[2]! : shown[1]!;
+        const left = Decimal.parse(infix ? infix[1]! : shown[2]!);
+        const right = Decimal.parse(shown[3]!);
 
         return left && right ? {left, right, spelling} : undefined;
     }

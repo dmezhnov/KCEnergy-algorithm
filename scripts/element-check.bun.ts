@@ -98,7 +98,7 @@ class ElementChecker {
                 const call = ELEMENT_CALL.exec(block.expression);
 
                 if (call) {
-                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]));
+                    this.checkBlock(block, ExampleIndex.splitArguments(call[1]!));
                 }
             }
         }
@@ -114,7 +114,7 @@ class ElementChecker {
             return;
         }
 
-        const [sourceReference, operationName, valueReference] = args;
+        const [sourceReference, operationName, valueReference] = args as [string, string, string];
         const operation = OPERATIONS.get(operationName);
 
         if (!operation) {
@@ -268,7 +268,7 @@ class ElementChecker {
             ? parameter.names.map((name) => this.collapse(operation.render(cell.total, name)))
             : [];
 
-        if (named.length ? shown.length === 2 && named.includes(shown[0]) && shown[1] === numeric : shown.length === 1 && shown[0] === numeric) {
+        if (named.length ? shown.length === 2 && named.includes(shown[0]!) && shown[1] === numeric : shown.length === 1 && shown[0] === numeric) {
             return;
         }
 

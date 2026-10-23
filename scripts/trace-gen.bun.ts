@@ -171,14 +171,14 @@ class TraceGenerator {
         const templates: string[][] = [];
 
         for (let index = 0; index < lines.length; index += 1) {
-            if (!lines[index].startsWith(TEMPLATE_HEADER)) {
+            if (!lines[index]!.startsWith(TEMPLATE_HEADER)) {
                 continue;
             }
 
             const body: string[] = [];
 
-            for (index += 1; index < lines.length && lines[index].startsWith('# '); index += 1) {
-                body.push(lines[index]);
+            for (index += 1; index < lines.length && lines[index]!.startsWith('# '); index += 1) {
+                body.push(lines[index]!);
             }
 
             index -= 1;
@@ -202,16 +202,20 @@ class TraceGenerator {
         const chosen = rendered.find((lines) => lines.every((line) => line.resolved)) ?? rendered[0];
         const body: string[] = [];
 
+        if (!chosen) {
+            throw new Error("the step file states no trace-string template");
+        }
+
         for (let index = 0; index < chosen.length; index += 1) {
             const run = this.alternationRun(chosen, index);
 
             if (run.length < 2) {
-                body.push(chosen[index].text);
+                body.push(chosen[index]!.text);
                 continue;
             }
 
             const resolved = run.filter((line) => line.resolved);
-            body.push(...(resolved.length ? resolved : [run[0]]).map((line) => line.text));
+            body.push(...(resolved.length ? resolved : [run[0]!]).map((line) => line.text));
             index += run.length - 1;
         }
 
@@ -226,8 +230,8 @@ class TraceGenerator {
         const isAlternative = (line: RenderedLine): boolean => ALTERNATIVE_LINE.test(line.template.slice(2));
         const run: RenderedLine[] = [];
 
-        for (let index = start; index < lines.length && isAlternative(lines[index]); index += 1) {
-            run.push(lines[index]);
+        for (let index = start; index < lines.length && isAlternative(lines[index]!); index += 1) {
+            run.push(lines[index]!);
         }
 
         return run;

@@ -87,7 +87,7 @@ class MatrixOperation {
     static comparisonShown(text: string): {left: string; operator: string; right: string} | undefined {
         const shown = COMMENT_COMPARISON.exec(text);
 
-        return shown ? {left: shown[1], operator: shown[2], right: shown[3]} : undefined;
+        return shown ? {left: shown[1]!, operator: shown[2]!, right: shown[3]!} : undefined;
     }
 
     // Whether the pair satisfies the condition.

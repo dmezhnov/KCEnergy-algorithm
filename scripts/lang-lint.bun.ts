@@ -462,7 +462,7 @@ class LangLinter {
             return;
         }
 
-        const last = lines[lines.length - 1];
+        const last = lines[lines.length - 1]!;
 
         this.add(
             file,
@@ -484,7 +484,7 @@ class LangLinter {
         let run = 0;
 
         for (let index = 0; index < count; index++) {
-            if (lines[index].trim().length > 0) {
+            if (lines[index]!.trim().length > 0) {
                 run = 0;
                 continue;
             }
@@ -518,7 +518,7 @@ class LangLinter {
         const seen: string[] = [];
 
         header.forEach((entry, position) => {
-            const previous = position > 0 ? header[position - 1].source : undefined;
+            const previous = position > 0 ? header[position - 1]!.source : undefined;
 
             if (entry.source === previous) {
                 return; // Still inside the run of one source.
@@ -566,7 +566,7 @@ class LangLinter {
                 return undefined;
             }
 
-            header.push({lineNumber: index + 1, source: match[1]});
+            header.push({lineNumber: index + 1, source: match[1]!});
         }
 
         return header.length ? header : undefined;
@@ -691,7 +691,7 @@ class LangLinter {
         lines: string[],
         indexLine: RequestCommentLine,
     ): void {
-        const next = index + 1 < lines.length ? lines[index + 1] : '';
+        const next = index + 1 < lines.length ? lines[index + 1]! : '';
         const descriptionLine = LangLinter.parseRequestDescriptionLine(next);
 
         if (!descriptionLine) {
@@ -728,7 +728,7 @@ class LangLinter {
         lines: string[],
         descriptionLine: RequestCommentLine,
     ): void {
-        const previous = index > 0 ? lines[index - 1] : '';
+        const previous = index > 0 ? lines[index - 1]! : '';
 
         if (LangLinter.parseRequestIndexLine(previous)) {
             return;
@@ -765,7 +765,7 @@ class LangLinter {
         }
 
         indexLine.items.forEach((value, position) => {
-            const name = descriptionLine.items[position];
+            const name = descriptionLine.items[position]!;
 
             if (name.column === value.column) {
                 return;
@@ -791,11 +791,11 @@ class LangLinter {
             return undefined;
         }
 
-        const body = match[3].replace(/\s+-\s+\d+\s*$/, '');
-        const offset = 2 + match[1].length + match[2].length;
+        const body = match[3]!.replace(/\s+-\s+\d+\s*$/, '');
+        const offset = 2 + match[1]!.length + match[2]!.length;
 
         return {
-            number: match[1],
+            number: match[1]!,
             items: LangLinter.splitAtColumns(body, offset),
         };
     }
@@ -810,11 +810,11 @@ class LangLinter {
             return undefined;
         }
 
-        const offset = 2 + match[1].length + match[2].length + 1;
+        const offset = 2 + match[1]!.length + match[2]!.length + 1;
 
         return {
-            number: match[1],
-            items: LangLinter.splitAtColumns(match[3], offset),
+            number: match[1]!,
+            items: LangLinter.splitAtColumns(match[3]!, offset),
         };
     }
 
@@ -859,7 +859,7 @@ class LangLinter {
 
             let match: RegExpExecArray | null;
             while ((match = callPattern.exec(code)) !== null) {
-                const name = match[1];
+                const name = match[1]!;
 
                 if (BUILTIN_NAMES.has(name) || known.has(name)) {
                     continue;
@@ -913,7 +913,7 @@ class LangLinter {
             return;
         }
 
-        for (const part of match[1].split(',')) {
+        for (const part of match[1]!.split(',')) {
             const id = this.leadingIdentifier(part);
             if (id) {
                 known.add(id);
@@ -1140,7 +1140,7 @@ class LangLinter {
         const longestColumns = new Set(longest.map((entry) => entry.column));
 
         if (longestColumns.size === 1) {
-            return longest[0].column;
+            return longest[0]!.column;
         }
 
         return this.modalColumn(run);
@@ -1154,7 +1154,7 @@ class LangLinter {
             counts.set(entry.column, (counts.get(entry.column) ?? 0) + 1);
         }
 
-        let best = run[0].column;
+        let best = run[0]!.column;
         let bestCount = 0;
 
         for (const [column, count] of counts) {
@@ -1227,11 +1227,11 @@ class LangLinter {
                 uses.push({
                     lineNumber: index + 1,
                     column: match.index + 1,
-                    axis: match[3],
-                    digits: match[1].length,
+                    axis: match[3]!,
+                    digits: match[1]!.length,
                     // The single space that separates the field from `from` is
                     // not padding, so it is not part of the field width.
-                    width: match[1].length + match[2].length - 1,
+                    width: match[1]!.length + match[2]!.length - 1,
                 });
             }
         });
@@ -1373,7 +1373,7 @@ class LangLinter {
                 .filter((leaf) => leaf.plusColumns.length > position)
                 .map((leaf) => ({
                     lineNumber: leaf.lineNumber,
-                    column: leaf.plusColumns[position],
+                    column: leaf.plusColumns[position]!,
                     contentEnd: leaf.contentEnd,
                 }));
 
@@ -1455,11 +1455,11 @@ class LangLinter {
                 return;
             }
 
-            const resultColumn = equals[equals.length - 1];
+            const resultColumn = equals[equals.length - 1]!;
             const plusColumns: number[] = [];
 
             if (equals.length >= 2) {
-                for (let index = equals[0] + 1; index < resultColumn; index += 1) {
+                for (let index = equals[0]! + 1; index < resultColumn; index += 1) {
                     if (code[index] === '+') {
                         plusColumns.push(index + 1);
                     }
@@ -1499,7 +1499,7 @@ class LangLinter {
 
             for (const group of comment.split('=')) {
                 const numbers = (group.match(/\d+/g) ?? []).map(Number);
-                const stray = numbers.findIndex((number, position) => position > 0 && number < numbers[position - 1]);
+                const stray = numbers.findIndex((number, position) => position > 0 && number < numbers[position - 1]!);
 
                 if (stray > 0) {
                     this.add(
@@ -1553,8 +1553,8 @@ class LangLinter {
 
         return {
             lineNumber,
-            column: match[1].length + match[2].length + 1,
-            contentEnd: match[1].length,
+            column: match[1]!.length + match[2]!.length + 1,
+            contentEnd: match[1]!.length,
         };
     }
 
@@ -1640,7 +1640,7 @@ class LangLinter {
                 return;
             }
 
-            while (whereIndents.length && indent <= whereIndents[whereIndents.length - 1]) {
+            while (whereIndents.length && indent <= whereIndents[whereIndents.length - 1]!) {
                 whereIndents.pop();
             }
 
@@ -1661,7 +1661,7 @@ class LangLinter {
 
             declaration.comment = this.commentEntry(line, index + 1);
 
-            if (run.length && (run[0].kind !== declaration.kind || run[0].indent !== declaration.indent)) {
+            if (run.length && (run[0]!.kind !== declaration.kind || run[0]!.indent !== declaration.indent)) {
                 flush();
             }
 
@@ -1703,7 +1703,7 @@ class LangLinter {
             return {
                 indent,
                 kind: `of ${ofMatch[3]}`,
-                keyword: this.keywordEntry(lineNumber, ofMatch[1], ofMatch[2]),
+                keyword: this.keywordEntry(lineNumber, ofMatch[1]!, ofMatch[2]!),
             };
         }
 
@@ -1716,8 +1716,8 @@ class LangLinter {
         return {
             indent,
             kind: `from ${fromMatch[3]}`,
-            keyword: this.keywordEntry(lineNumber, fromMatch[1], fromMatch[2]),
-            forKeyword: this.forKeywordEntry(lineNumber, fromMatch[1]),
+            keyword: this.keywordEntry(lineNumber, fromMatch[1]!, fromMatch[2]!),
+            forKeyword: this.forKeywordEntry(lineNumber, fromMatch[1]!),
         };
     }
 
@@ -1727,7 +1727,7 @@ class LangLinter {
     private forKeywordEntry(lineNumber: number, names: string): AlignmentEntry | undefined {
         const match = /^(\s*\S.*?)(\s+)for\s+\S+$/.exec(names);
 
-        return match ? this.keywordEntry(lineNumber, match[1], match[2]) : undefined;
+        return match ? this.keywordEntry(lineNumber, match[1]!, match[2]!) : undefined;
     }
 
     // An alignment entry for a keyword, given the text in front of it and the
@@ -1750,7 +1750,7 @@ class LangLinter {
             return;
         }
 
-        const keyword = run[0].kind.split(' ')[0];
+        const keyword = run[0]!.kind.split(' ')[0];
 
         this.reportKeywordRun(
             file,
@@ -1806,17 +1806,17 @@ class LangLinter {
         const blocks: StructureBlock[] = [];
 
         for (let start = 0; start < lines.length; start += 1) {
-            if (!/^[A-Za-z_].*=\s*\{\s*$/.test(lines[start])) {
+            if (!/^[A-Za-z_].*=\s*\{\s*$/.test(lines[start]!)) {
                 continue;
             }
 
             let end = start + 1;
-            while (end < lines.length && !/^\}/.test(lines[end])) {
+            while (end < lines.length && !/^\}/.test(lines[end]!)) {
                 end += 1;
             }
 
             blocks.push({
-                name: lines[start].slice(0, lines[start].indexOf('=')).trim(),
+                name: lines[start]!.slice(0, lines[start]!.indexOf('=')).trim(),
                 firstLine: start + 1,
                 lines: lines.slice(start, Math.min(end + 1, lines.length)),
             });
@@ -2108,7 +2108,7 @@ class LangLinter {
     private callShape(expression: string): CallShape | undefined {
         const match = /^\s*([A-Za-z_]\w*)\s*\(/.exec(expression);
 
-        if (!match || !this.primitiveNames.has(match[1])) {
+        if (!match || !this.primitiveNames.has(match[1]!)) {
             return undefined;
         }
 
@@ -2122,7 +2122,7 @@ class LangLinter {
         const args = this.splitTopLevel(expression.slice(open + 1, close));
 
         return {
-            primitive: match[1],
+            primitive: match[1]!,
             arity: args.length,
             ellipsis: args.some((argument) => argument.trim() === '...'),
         };
@@ -2239,7 +2239,7 @@ class LangLinter {
             const match = /^([A-Za-z_]\w*)\s*(\(|of\s|from\s|=)/.exec(this.stripCode(line));
 
             if (match) {
-                names.add(match[1]);
+                names.add(match[1]!);
             }
         }
 
@@ -2293,7 +2293,7 @@ class LangLinter {
             const names: Array<{text: string; column: number}> = [];
             let search = 0;
 
-            for (const part of match[1].split(',')) {
+            for (const part of match[1]!.split(',')) {
                 const text = part.trim();
                 const column = line.indexOf(text, search) + 1;
                 search = column + text.length - 1;
@@ -2304,7 +2304,7 @@ class LangLinter {
                 lineNumber: index + 1,
                 names,
                 source: match[3] ?? 'core',
-                sourceColumn: line.indexOf(match[2]) + 1,
+                sourceColumn: line.indexOf(match[2]!) + 1,
             });
         }
 
@@ -2350,23 +2350,23 @@ class LangLinter {
                 const declaration = /^\s{4}([A-Za-z]\w*)\s+of\s+number\s*=/.exec(code);
 
                 if (declaration) {
-                    coordinates.add(declaration[1]);
+                    coordinates.add(declaration[1]!);
                     continue;
                 }
 
                 const enumeration = /^([A-Za-z_]\w*)\s*(?:(?:of|from)\s+\w+\s*)?=\s*([^={]+)$/.exec(code);
 
-                if (!enumeration || !enumeration[2].includes(',') || /[()]/.test(enumeration[2])) {
+                if (!enumeration || !enumeration[2]!.includes(',') || /[()]/.test(enumeration[2]!)) {
                     continue;
                 }
 
-                const members = this.splitTopLevel(enumeration[2]).map((member) => member.trim());
+                const members = this.splitTopLevel(enumeration[2]!).map((member) => member.trim());
 
                 if (!members.every((member) => /^[A-Za-z_]\w*$/.test(member))) {
                     continue;
                 }
 
-                coordinates.add(enumeration[1]);
+                coordinates.add(enumeration[1]!);
 
                 for (const member of members) {
                     coordinates.add(member);
