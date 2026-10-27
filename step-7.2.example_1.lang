@@ -25,7 +25,7 @@ normalized_i_j_threshold(1 from R)(1 from n) = for_each_element(available_i_j(1 
 # Доля каждого Субъекта рынка в Доступном объёме своего НПЗ (s̈_ijl / v_0ij).
 # В самой проверке Шага 7.2 не участвует (сравнение идёт с порогом δ × v_0ij);
 # это значение печатает трассировочная строка «Доля Субъекта рынка».
-normalized_i_j_l_share(1 from R)(1 from n) = for_each_pair(normalized_i_j_l(1 from R)(1 from n), "/", available_i_j(1 from R)) = {
+normalized_i_j_l_share(1 from R)(1 from n) = for_each_pair(normalized_i_j_l(1 from R)(1 from n), safe_divide, available_i_j(1 from R)) = {
     (1 from I) = {
         (1 from I, 1 from J) = {
             (1 from I, 1 from J, 7  from P) =  55 / 1200 = 0.045833333333333333,  # 110
