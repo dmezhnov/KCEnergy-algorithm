@@ -160,3 +160,20 @@ requests_i_j_k_l_all_multiple = filter_by_pair(requests_i_j_k_l_queue(1 from R),
                 l  for P  from index # Индексы субъекта рынка
                 j  for J  from index # Индексы НПЗ
                 R         from index # Индексы очереди
+
+# Матрица количества всех НПЗ (включая профицитные) в запросах субъектов рынка, подавших запросы на несколько дефицитных НПЗ, первой очереди
+# Число НПЗ, между которыми в шаге 3.2.2 делится пролив (знаменатель доли — запросы на все эти НПЗ)
+refinery_count_by_requests_multiple = count_coordinates_by_axis(requests_i_j_k_l_all_multiple, Refinery)
+    where
+        requests_i_j_k_l_all_multiple(i, k, l, j)    of number
+        refinery_count_by_requests_multiple(i, k, l) of number
+        requests_i_j_k_l_all_multiple       of matrix(Product, Region, Market_participant, Refinery)
+        refinery_count_by_requests_multiple of matrix(Product, Region, Market_participant)
+        requests_i_j_k_l_all_multiple(i, k, l, 1), ..., requests_i_j_k_l_all_multiple(i, k, l, M) => requests_i_j_k_l_all_multiple(j)
+            where
+                Product, Region, Market_participant, Refinery from axis # Оси заявок
+                i  for I  from index # Индексы нефпродукта
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                j  for J  from index # Индексы НПЗ
+                M         from index # Количество НПЗ

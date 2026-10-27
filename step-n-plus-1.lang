@@ -2,7 +2,8 @@ length, number                 from core
 estimated_i_j_k_l              from ("step-7.2.lang")
 normalized_i_j_x_k_l_s_l0_q    from ("step-6.lang")
 axis, index, matrix            from ("matrix_types.lang")
-assign_matrix                  from ("matrix_operation.lang")
+assign_matrix, sum_by_axes     from ("matrix_operation.lang")
+requests_i_j_k_l_l0            from ("step-minus-1.lang")
 
 ### Дополнительный шаг алгоритма (Шаг N + 1)
 # Сборка итога: объём по каждому фактически поданному Запросу уже посчитан по очередям —
@@ -64,6 +65,41 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
             where
                 L of index = length(Queue) # Количество очередей
                 Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запрошенный субъектом рынка объём вида НП в регион на всех НПЗ, по очередям
+# (строка «из запрошенных» итога трассировки)
+requests_i_k_l_l0 = sum_by_axes(requests_i_j_k_l_l0, Refinery)
+    where
+        requests_i_j_k_l_l0(i, j, k, l, l0) of number # Запрашиваемый объем НП
+        requests_i_k_l_l0(i, k, l, l0)      of number # Запрашиваемый объем НП на всех НПЗ
+        requests_i_j_k_l_l0 of matrix(Product, Refinery, Region, Market_participant, Queue)
+        requests_i_k_l_l0   of matrix(Product, Region, Market_participant, Queue)
+        Product, Refinery, Region, Market_participant, Queue from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+
+# Предоставленный субъекту рынка объём вида НП в регион на всех НПЗ, по очередям
+# (строка «Всего» итога трассировки)
+requests_i_k_l_l0_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Refinery, Terminal, Ship_terms, Request)
+    where
+        requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q) of number # Предоставленный объем НП
+        requests_i_k_l_l0_final(i, k, l, l0)                     of number # Предоставленный объем НП на всех НПЗ
+        requests_i_j_x_k_l_s_l0_q_final of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_k_l_l0_final         of matrix(Product, Region, Market_participant, Queue)
+        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
                 x  for X  from index # Индексы нефтебаз

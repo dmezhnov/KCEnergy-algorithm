@@ -195,3 +195,16 @@ requests_i_j_k_l_all_multiple = filter_by_pair(requests_i_j_k_l_queue(1 from R),
         J from index # Индексы НПЗ
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
+
+# Матрица количества всех НПЗ в запросах субъектов рынка, подавших запросы на несколько дефицитных НПЗ, первой очереди
+refinery_count_by_requests_multiple = count_coordinates_by_axis(requests_i_j_k_l_all_multiple, Refinery) = {
+    (1 from I) = {
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = 3  # 101 + 102, 104, 105
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка

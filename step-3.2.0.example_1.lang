@@ -157,6 +157,15 @@ requests_i_j_k_l_deficit_multiple = filter_by_pair(requests_i_j_k_l_deficit, con
 # Нет субъектов рынка с запросами на несколько дефицитных НПЗ, поэтому матрица пуста.
 requests_i_j_k_l_all_multiple = filter_by_pair(requests_i_j_k_l_queue(1 from R), contains, refinery_count_by_deficit_requests_multiple) = {
 
+# Матрица количества всех НПЗ в запросах субъектов рынка, подавших запросы на несколько дефицитных НПЗ, первой очереди
+refinery_count_by_requests_multiple = count_coordinates_by_axis(requests_i_j_k_l_all_multiple, Refinery) = {
+
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+
 }
     where
         I from index # Индексы нефпродукта
