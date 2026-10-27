@@ -1,7 +1,8 @@
 length                      from core
 estimated_i_j_k_l           from ("step-7.2.example_1.lang")
 normalized_i_j_x_k_l_s_l0_q from ("step-6.example_1.lang")
-assign_matrix               from ("matrix_operation.lang")
+assign_matrix, sum_by_axes  from ("matrix_operation.lang")
+requests_i_j_k_l_l0         from ("step-minus-1.example_1.lang")
 
 ### Дополнительный шаг алгоритма (Шаг N + 1) — пример 1
 # Сборка итога: объём по каждому фактически поданному Запросу уже посчитан по очередям —
@@ -492,6 +493,196 @@ requests_i_j_x_k_l_s_l0_q_final = assign_matrix(requests_i_j_x_k_l_s_l0_q_alloca
         P  from index # Индексы субъекта рынка
         R  from index # Индексы очереди
         Z  from index # Индексы запросов
+
+# Матрица запрошенных объёмов субъекта рынка по виду НП и региону на всех НПЗ, по очередям
+requests_i_k_l_l0 = sum_by_axes(requests_i_j_k_l_l0, Refinery) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = {
+                (1 from I, 1 from K, 7  from P, 1 from R) = 70   # 110
+            },
+            (1 from I, 1 from K, 15 from P) = {
+                (1 from I, 1 from K, 15 from P, 2 from R) = 50   # 204
+            }
+        },
+        (1 from I, 2 from K) = {
+            (1 from I, 2 from K, 4  from P) = {
+                (1 from I, 2 from K, 4  from P, 4 from R) = 260  # 401
+            },
+            (1 from I, 2 from K, 5  from P) = {
+                (1 from I, 2 from K, 5  from P, 4 from R) = 520  # 402
+            },
+            (1 from I, 2 from K, 6  from P) = {
+                (1 from I, 2 from K, 6  from P, 4 from R) = 715  # 403
+            },
+            (1 from I, 2 from K, 8  from P) = {
+                (1 from I, 2 from K, 8  from P, 2 from R) = 65   # 201
+            },
+            (1 from I, 2 from K, 9  from P) = {
+                (1 from I, 2 from K, 9  from P, 2 from R) = 130  # 202
+            },
+            (1 from I, 2 from K, 10 from P) = {
+                (1 from I, 2 from K, 10 from P, 3 from R) = 195  # 301
+            }
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = {
+                (1 from I, 3 from K, 2  from P, 1 from R) = 715  # 106
+            },
+            (1 from I, 3 from K, 14 from P) = {
+                (1 from I, 3 from K, 14 from P, 2 from R) = 195  # 203
+            }
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = {
+                (1 from I, 4 from K, 1  from P, 1 from R) = 230  # 101 + 102
+            },
+            (1 from I, 4 from K, 6  from P) = {
+                (1 from I, 4 from K, 6  from P, 4 from R) = 520  # 404
+            },
+            (1 from I, 4 from K, 7  from P) = {
+                (1 from I, 4 from K, 7  from P, 1 from R) = 100  # 111
+            },
+            (1 from I, 4 from K, 12 from P) = {
+                (1 from I, 4 from K, 12 from P, 1 from R) = 325  # 108
+            },
+            (1 from I, 4 from K, 13 from P) = {
+                (1 from I, 4 from K, 13 from P, 1 from R) = 325  # 109
+            },
+            (1 from I, 4 from K, 16 from P) = {
+                (1 from I, 4 from K, 16 from P, 2 from R) = 130  # 205
+            },
+            (1 from I, 4 from K, 17 from P) = {
+                (1 from I, 4 from K, 17 from P, 2 from R) = 70   # 206
+            },
+            (1 from I, 4 from K, 18 from P) = {
+                (1 from I, 4 from K, 18 from P, 1 from R) = 100  # 112
+            },
+            (1 from I, 4 from K, 19 from P) = {
+                (1 from I, 4 from K, 19 from P, 1 from R) = 50   # 113
+            },
+            (1 from I, 4 from K, 21 from P) = {
+                (1 from I, 4 from K, 21 from P, 2 from R) = 15   # 208
+            },
+            (1 from I, 4 from K, 22 from P) = {
+                (1 from I, 4 from K, 22 from P, 2 from R) = 35   # 209
+            }
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = {
+                (1 from I, 5 from K, 1  from P, 1 from R) = 150  # 103
+            },
+            (1 from I, 5 from K, 3  from P) = {
+                (1 from I, 5 from K, 3  from P, 1 from R) = 200  # 107
+            }
+        },
+        (1 from I, 6 from K) = {
+            (1 from I, 6 from K, 11 from P) = {
+                (1 from I, 6 from K, 11 from P, 3 from R) = 250  # 302
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
+
+# Матрица предоставленных объёмов субъекту рынка по виду НП и региону на всех НПЗ, по очередям
+requests_i_k_l_l0_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Refinery, Terminal, Ship_terms, Request) = {
+    (1 from I) = {
+        (1 from I, 1 from K) = {
+            (1 from I, 1 from K, 7  from P) = {
+                (1 from I, 1 from K, 7  from P, 1 from R)                = 55   # 021
+            },
+            (1 from I, 1 from K, 15 from P) = {
+                (1 from I, 1 from K, 15 from P, 2 from R)                = 0    # 026
+            }
+        },
+        (1 from I, 2 from K) = {
+            (1 from I, 2 from K, 4  from P) = {
+                (1 from I, 2 from K, 4  from P, 4 from R)                = 260  # 034
+            },
+            (1 from I, 2 from K, 5  from P) = {
+                (1 from I, 2 from K, 5  from P, 4 from R)                = 520  # 035
+            },
+            (1 from I, 2 from K, 6  from P) = {
+                (1 from I, 2 from K, 6  from P, 4 from R)                = 715  # 036
+            },
+            (1 from I, 2 from K, 8  from P) = {
+                (1 from I, 2 from K, 8  from P, 2 from R)                = 65   # 023
+            },
+            (1 from I, 2 from K, 9  from P) = {
+                (1 from I, 2 from K, 9  from P, 2 from R)                = 130  # 024
+            },
+            (1 from I, 2 from K, 10 from P) = {
+                (1 from I, 2 from K, 10 from P, 3 from R)                = 195  # 032
+            }
+        },
+        (1 from I, 3 from K) = {
+            (1 from I, 3 from K, 2  from P) = {
+                (1 from I, 3 from K, 2  from P, 1 from R)                = 585  # 009
+            },
+            (1 from I, 3 from K, 14 from P) = {
+                (1 from I, 3 from K, 14 from P, 2 from R)                = 0    # 025
+            }
+        },
+        (1 from I, 4 from K) = {
+            (1 from I, 4 from K, 1  from P) = {
+                (1 from I, 4 from K, 1  from P, 1 from R) = 65 + 10      = 75   # 001 + 002 + 003 + 004
+            },
+            (1 from I, 4 from K, 6  from P) = {
+                (1 from I, 4 from K, 6  from P, 4 from R)                = 195  # 037
+            },
+            (1 from I, 4 from K, 7  from P) = {
+                (1 from I, 4 from K, 7  from P, 1 from R)                = 30   # 022
+            },
+            (1 from I, 4 from K, 12 from P) = {
+                (1 from I, 4 from K, 12 from P, 1 from R) = 65 + 65 + 65 = 195  # 011 + 012 + 013 + 014 + 015
+            },
+            (1 from I, 4 from K, 13 from P) = {
+                (1 from I, 4 from K, 13 from P, 1 from R) = 65 + 65 + 35 = 165  # 016 + 017 + 018 + 019 + 020
+            },
+            (1 from I, 4 from K, 16 from P) = {
+                (1 from I, 4 from K, 16 from P, 2 from R)                = 130  # 027
+            },
+            (1 from I, 4 from K, 17 from P) = {
+                (1 from I, 4 from K, 17 from P, 2 from R)                = 70   # 028
+            },
+            (1 from I, 4 from K, 18 from P) = {
+                (1 from I, 4 from K, 18 from P, 1 from R)                = 30   # 029
+            },
+            (1 from I, 4 from K, 19 from P) = {
+                (1 from I, 4 from K, 19 from P, 1 from R)                = 20   # 030
+            },
+            (1 from I, 4 from K, 21 from P) = {
+                (1 from I, 4 from K, 21 from P, 2 from R)                = 15   # 038
+            },
+            (1 from I, 4 from K, 22 from P) = {
+                (1 from I, 4 from K, 22 from P, 2 from R)                = 35   # 039
+            }
+        },
+        (1 from I, 5 from K) = {
+            (1 from I, 5 from K, 1  from P) = {
+                (1 from I, 5 from K, 1  from P, 1 from R)                = 75   # 005 + 006
+            },
+            (1 from I, 5 from K, 3  from P) = {
+                (1 from I, 5 from K, 3  from P, 1 from R)                = 80   # 010
+            }
+        },
+        (1 from I, 6 from K) = {
+            (1 from I, 6 from K, 11 from P) = {
+                (1 from I, 6 from K, 11 from P, 3 from R)                = 250  # 033
+            }
+        }
+    }
+}
+    where
+        I from index # Индексы нефпродукта
+        K from index # Индексы региона
+        P from index # Индексы субъекта рынка
+        R from index # Индексы очереди
 
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
