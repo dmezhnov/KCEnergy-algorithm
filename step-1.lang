@@ -90,7 +90,7 @@ requests_i_j = sum_by_axes(requests_i_j_k,   Region)
         requests_i_j_k   of matrix(Product, Refinery, Region)
         requests_i_j     of matrix(Product, Refinery)
         requests_i_j_k(i, j, 1), ..., requests_i_j_k(i, j, Q) => requests_i_j_k(k)
-        requests_i_j(1),         ..., requests_i_j(I)         => requests_i_j(i)
+        requests_i_j(1),         ..., requests_i_j(N)         => requests_i_j(i)
             where
                 Product, Region, Refinery, Market_participant from axis # Оси агрегатов
                 i  for I  from index # Индексы нефпродукта
