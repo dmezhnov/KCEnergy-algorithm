@@ -1,4 +1,6 @@
 length                      from core
+requests_i_j_x_k_l_s_l0_q   from ("initial_data.example_2.lang")
+estimated_i_j_x_k_l_s_l0_q  from ("step-5a.example_2.lang")
 estimated_i_j_k_l           from ("step-7.2.example_2.lang")
 normalized_i_j_x_k_l_s_l0_q from ("step-6.example_2.lang")
 assign_matrix, sum_by_axes  from ("matrix_operation.lang")
@@ -704,6 +706,909 @@ requests_i_k_l_l0_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Refinery,
         K from index # Индексы региона
         P from index # Индексы субъекта рынка
         R from index # Индексы очереди
+
+# Матрица запрошенных объёмов по Запросам без оси нефтебаз
+requests_i_j_k_l_s_l0_q = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 715  # 009
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 195  # 025
+                    }
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 4 from K) = {
+                (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 130  # 001
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 65,  # 014
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 65   # 015
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from K) = {
+                (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                    }
+                },
+                (1 from I, 1 from C, 2 from J, 4 from K, 20 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R, 31 from Z) = 130  # 031
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 70   # 021
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 50   # 026
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 4 from K) = {
+                (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 25,  # 002
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 35,  # 003
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 40   # 004
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 65,  # 018
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 65,  # 019
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 65   # 020
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 5 from K) = {
+                (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 75   # 006
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 200  # 010
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 4 from K) = {
+                (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R, 7  from Z) = 400  # 007
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 100  # 022
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 100  # 029
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 50   # 030
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 4 from K) = {
+                (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R, 8  from Z) = 600  # 008
+                    }
+                }
+            },
+            (1 from I, 2 from C, 3 from J, 6 from K) = {
+                (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица предварительных объёмов первой очереди по Запросам без оси нефтебаз
+estimated_i_j_k_l_s_l0_q(1 from R)(1 from n) = sum_by_axes(estimated_i_j_x_k_l_s_l0_q(1 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 616.454919828266012065  # 009
+                    }
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 4 from K) = {
+                (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 0                       # 001
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,                     # 011
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,                     # 012
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 42.4349426093051782,    # 013
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,                      # 014
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 0                       # 015
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 60.35222991325681237    # 021
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 4 from K) = {
+                (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 14.509769561026899064,  # 002
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,                      # 003
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 0                       # 004
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,                     # 016
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,                     # 017
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 42.4349426093051782,    # 018
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 0,                      # 019
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 0                       # 020
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 5 from K) = {
+                (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,                     # 005
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 2.59572417418733019     # 006
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 86.2174713046525891     # 010
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 4 from K) = {
+                (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R, 7  from Z) = 29.26829268292682925    # 007
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 30                      # 022
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 30                      # 029
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 20                      # 030
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 4 from K) = {
+                (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R, 8  from Z) = 600                     # 008
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица предварительных объёмов второй очереди по Запросам без оси нефтебаз
+estimated_i_j_k_l_s_l0_q(2 from R)(1 from n) = sum_by_axes(estimated_i_j_x_k_l_s_l0_q(2 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 7.95918367346938758  # 025
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from K) = {
+                (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130                  # 027
+                    }
+                },
+                (1 from I, 1 from C, 2 from J, 4 from K, 20 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R, 31 from Z) = 130                  # 031
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65                   # 023
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130                  # 024
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 2.0408163265306122   # 026
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 4 from K) = {
+                (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70                   # 028
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15                   # 038
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35                   # 039
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица предварительных объёмов третьей очереди по Запросам без оси нефтебаз
+estimated_i_j_k_l_s_l0_q(3 from R)(1 from n) = sum_by_axes(estimated_i_j_x_k_l_s_l0_q(3 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 6 from K) = {
+                (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица предварительных объёмов четвёртой очереди по Запросам без оси нефтебаз
+estimated_i_j_k_l_s_l0_q(4 from R)(1 from n) = sum_by_axes(estimated_i_j_x_k_l_s_l0_q(4 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица нормированных объёмов первой очереди по Запросам без оси нефтебаз
+normalized_i_j_k_l_s_l0_q(1 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(1 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                    }
+                }
+            },
+            (1 from I, 1 from C, 1 from J, 4 from K) = {
+                (1 from I, 1 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 0    # 001
+                    }
+                },
+                (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
+                        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 60   # 021
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 4 from K) = {
+                (1 from I, 2 from C, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 15,  # 002
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,   # 003
+                        (1 from I, 2 from C, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 0    # 004
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 40,  # 018
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 0,   # 019
+                        (1 from I, 2 from C, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 0    # 020
+                    }
+                }
+            },
+            (1 from I, 2 from C, 1 from J, 5 from K) = {
+                (1 from I, 2 from C, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                        (1 from I, 2 from C, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 5    # 006
+                    }
+                },
+                (1 from I, 2 from C, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 2 from C, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 85   # 010
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 4 from K) = {
+                (1 from I, 2 from C, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 1  from P, 1 from R, 7  from Z) = 30   # 007
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 4 from K) = {
+                (1 from I, 2 from C, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from C, 3 from J, 4 from K, 1  from P, 1 from R, 8  from Z) = 600  # 008
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица нормированных объёмов второй очереди по Запросам без оси нефтебаз
+normalized_i_j_k_l_s_l0_q(2 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(2 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 1 from J) = {
+            (1 from I, 1 from C, 1 from J, 3 from K) = {
+                (1 from I, 1 from C, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from C, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 65   # 025
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 2 from J) = {
+            (1 from I, 1 from C, 2 from J, 4 from K) = {
+                (1 from I, 1 from C, 2 from J, 4 from K, 16 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                    }
+                },
+                (1 from I, 1 from C, 2 from J, 4 from K, 20 from P) = {
+                    (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R) = {
+                        (1 from I, 1 from C, 2 from J, 4 from K, 20 from P, 2 from R, 31 from Z) = 130  # 031
+                    }
+                }
+            }
+        },
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 8  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 9  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 1 from J) = {
+            (1 from I, 2 from C, 1 from J, 1 from K) = {
+                (1 from I, 2 from C, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 2 from C, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from C, 2 from J) = {
+            (1 from I, 2 from C, 2 from J, 4 from K) = {
+                (1 from I, 2 from C, 2 from J, 4 from K, 17 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 21 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                    }
+                },
+                (1 from I, 2 from C, 2 from J, 4 from K, 22 from P) = {
+                    (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                        (1 from I, 2 from C, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица нормированных объёмов третьей очереди по Запросам без оси нефтебаз
+normalized_i_j_k_l_s_l0_q(3 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(3 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 10 from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                    }
+                }
+            }
+        }
+    },
+    (1 from I, 2 from C) = {
+        (1 from I, 2 from C, 3 from J) = {
+            (1 from I, 2 from C, 3 from J, 6 from K) = {
+                (1 from I, 2 from C, 3 from J, 6 from K, 11 from P) = {
+                    (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                        (1 from I, 2 from C, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Первая матрица нормированных объёмов четвёртой очереди по Запросам без оси нефтебаз
+normalized_i_j_k_l_s_l0_q(4 from R)(1 from n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(4 from R)(1 from n), Terminal) = {
+    (1 from I, 1 from C) = {
+        (1 from I, 1 from C, 3 from J) = {
+            (1 from I, 1 from C, 3 from J, 2 from K) = {
+                (1 from I, 1 from C, 3 from J, 2 from K, 4  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 5  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                    }
+                },
+                (1 from I, 1 from C, 3 from J, 2 from K, 6  from P) = {
+                    (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                        (1 from I, 1 from C, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        n  of   index # Индекс матрицы
+        I  from index # Индексы нефпродукта
+        C  from index # Индексы условия поставки
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
+
+# Матрица предоставленных объёмов по Запросам без осей нефтебаз и условий поставки
+requests_i_j_k_l_l0_q_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Terminal, Ship_terms) = {
+    (1 from I) = {
+        (1 from I, 1 from J) = {
+            (1 from I, 1 from J, 1 from K) = {
+                (1 from I, 1 from J, 1 from K, 7  from P) = {
+                    (1 from I, 1 from J, 1 from K, 7  from P, 1 from R) = {
+                        (1 from I, 1 from J, 1 from K, 7  from P, 1 from R, 21 from Z) = 60   # 021
+                    }
+                },
+                (1 from I, 1 from J, 1 from K, 15 from P) = {
+                    (1 from I, 1 from J, 1 from K, 15 from P, 2 from R) = {
+                        (1 from I, 1 from J, 1 from K, 15 from P, 2 from R, 26 from Z) = 5    # 026
+                    }
+                }
+            },
+            (1 from I, 1 from J, 3 from K) = {
+                (1 from I, 1 from J, 3 from K, 2  from P) = {
+                    (1 from I, 1 from J, 3 from K, 2  from P, 1 from R) = {
+                        (1 from I, 1 from J, 3 from K, 2  from P, 1 from R, 9  from Z) = 585  # 009
+                    }
+                },
+                (1 from I, 1 from J, 3 from K, 14 from P) = {
+                    (1 from I, 1 from J, 3 from K, 14 from P, 2 from R) = {
+                        (1 from I, 1 from J, 3 from K, 14 from P, 2 from R, 25 from Z) = 65   # 025
+                    }
+                }
+            },
+            (1 from I, 1 from J, 4 from K) = {
+                (1 from I, 1 from J, 4 from K, 1  from P) = {
+                    (1 from I, 1 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 1  from Z) = 0,   # 001
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 2  from Z) = 15,  # 002
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 3  from Z) = 0,   # 003
+                        (1 from I, 1 from J, 4 from K, 1  from P, 1 from R, 4  from Z) = 0    # 004
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 12 from P) = {
+                    (1 from I, 1 from J, 4 from K, 12 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65,  # 012
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 13 from Z) = 65,  # 013
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 14 from Z) = 0,   # 014
+                        (1 from I, 1 from J, 4 from K, 12 from P, 1 from R, 15 from Z) = 0    # 015
+                    }
+                },
+                (1 from I, 1 from J, 4 from K, 13 from P) = {
+                    (1 from I, 1 from J, 4 from K, 13 from P, 1 from R) = {
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 16 from Z) = 65,  # 016
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 17 from Z) = 65,  # 017
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 18 from Z) = 40,  # 018
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 19 from Z) = 0,   # 019
+                        (1 from I, 1 from J, 4 from K, 13 from P, 1 from R, 20 from Z) = 0    # 020
+                    }
+                }
+            },
+            (1 from I, 1 from J, 5 from K) = {
+                (1 from I, 1 from J, 5 from K, 1  from P) = {
+                    (1 from I, 1 from J, 5 from K, 1  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 1  from P, 1 from R, 5  from Z) = 75,  # 005
+                        (1 from I, 1 from J, 5 from K, 1  from P, 1 from R, 6  from Z) = 5    # 006
+                    }
+                },
+                (1 from I, 1 from J, 5 from K, 3  from P) = {
+                    (1 from I, 1 from J, 5 from K, 3  from P, 1 from R) = {
+                        (1 from I, 1 from J, 5 from K, 3  from P, 1 from R, 10 from Z) = 85   # 010
+                    }
+                }
+            }
+        },
+        (1 from I, 2 from J) = {
+            (1 from I, 2 from J, 4 from K) = {
+                (1 from I, 2 from J, 4 from K, 1  from P) = {
+                    (1 from I, 2 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 1  from P, 1 from R, 7  from Z) = 30   # 007
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 7  from P) = {
+                    (1 from I, 2 from J, 4 from K, 7  from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 7  from P, 1 from R, 22 from Z) = 30   # 022
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 16 from P) = {
+                    (1 from I, 2 from J, 4 from K, 16 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 16 from P, 2 from R, 27 from Z) = 130  # 027
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 17 from P) = {
+                    (1 from I, 2 from J, 4 from K, 17 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 17 from P, 2 from R, 28 from Z) = 70   # 028
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 18 from P) = {
+                    (1 from I, 2 from J, 4 from K, 18 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 18 from P, 1 from R, 29 from Z) = 30   # 029
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 19 from P) = {
+                    (1 from I, 2 from J, 4 from K, 19 from P, 1 from R) = {
+                        (1 from I, 2 from J, 4 from K, 19 from P, 1 from R, 30 from Z) = 20   # 030
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 20 from P) = {
+                    (1 from I, 2 from J, 4 from K, 20 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 20 from P, 2 from R, 31 from Z) = 130  # 031
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 21 from P) = {
+                    (1 from I, 2 from J, 4 from K, 21 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 21 from P, 2 from R, 38 from Z) = 15   # 038
+                    }
+                },
+                (1 from I, 2 from J, 4 from K, 22 from P) = {
+                    (1 from I, 2 from J, 4 from K, 22 from P, 2 from R) = {
+                        (1 from I, 2 from J, 4 from K, 22 from P, 2 from R, 39 from Z) = 35   # 039
+                    }
+                }
+            }
+        },
+        (1 from I, 3 from J) = {
+            (1 from I, 3 from J, 2 from K) = {
+                (1 from I, 3 from J, 2 from K, 4  from P) = {
+                    (1 from I, 3 from J, 2 from K, 4  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 4  from P, 4 from R, 34 from Z) = 260  # 034
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 5  from P) = {
+                    (1 from I, 3 from J, 2 from K, 5  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 5  from P, 4 from R, 35 from Z) = 520  # 035
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 6  from P) = {
+                    (1 from I, 3 from J, 2 from K, 6  from P, 4 from R) = {
+                        (1 from I, 3 from J, 2 from K, 6  from P, 4 from R, 36 from Z) = 715  # 036
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 8  from P) = {
+                    (1 from I, 3 from J, 2 from K, 8  from P, 2 from R) = {
+                        (1 from I, 3 from J, 2 from K, 8  from P, 2 from R, 23 from Z) = 65   # 023
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 9  from P) = {
+                    (1 from I, 3 from J, 2 from K, 9  from P, 2 from R) = {
+                        (1 from I, 3 from J, 2 from K, 9  from P, 2 from R, 24 from Z) = 130  # 024
+                    }
+                },
+                (1 from I, 3 from J, 2 from K, 10 from P) = {
+                    (1 from I, 3 from J, 2 from K, 10 from P, 3 from R) = {
+                        (1 from I, 3 from J, 2 from K, 10 from P, 3 from R, 32 from Z) = 195  # 032
+                    }
+                }
+            },
+            (1 from I, 3 from J, 4 from K) = {
+                (1 from I, 3 from J, 4 from K, 1  from P) = {
+                    (1 from I, 3 from J, 4 from K, 1  from P, 1 from R) = {
+                        (1 from I, 3 from J, 4 from K, 1  from P, 1 from R, 8  from Z) = 600  # 008
+                    }
+                }
+            },
+            (1 from I, 3 from J, 6 from K) = {
+                (1 from I, 3 from J, 6 from K, 11 from P) = {
+                    (1 from I, 3 from J, 6 from K, 11 from P, 3 from R) = {
+                        (1 from I, 3 from J, 6 from K, 11 from P, 3 from R, 33 from Z) = 250  # 033
+                    }
+                }
+            }
+        }
+    }
+}
+    where
+        I  from index # Индексы нефпродукта
+        J  from index # Индексы НПЗ
+        K  from index # Индексы региона
+        P  from index # Индексы субъекта рынка
+        R  from index # Индексы очереди
+        Z  from index # Индексы запросов
 
 ## Трассировочная строка для запроса № 001:
 # Шаг 1. Суммарный запрашиваемый объем НП AI_92 на НПЗ
