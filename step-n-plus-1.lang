@@ -1,4 +1,6 @@
 length, number                 from core
+requests_i_j_x_k_l_s_l0_q      from ("initial_data.lang")
+estimated_i_j_x_k_l_s_l0_q     from ("step-5a.lang")
 estimated_i_j_k_l              from ("step-7.2.lang")
 normalized_i_j_x_k_l_s_l0_q    from ("step-6.lang")
 axis, index, matrix            from ("matrix_types.lang")
@@ -98,6 +100,84 @@ requests_i_k_l_l0_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Refinery,
         requests_i_k_l_l0_final(i, k, l, l0)                     of number # Предоставленный объем НП на всех НПЗ
         requests_i_j_x_k_l_s_l0_q_final of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
         requests_i_k_l_l0_final         of matrix(Product, Region, Market_participant, Queue)
+        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Запрошенный объём по каждому Запросу без оси нефтебаз: у Запроса одна нефтебаза, поэтому
+# сумма ничего не сливает (списки Запросов Шага (-1) и Шага 5а трассировочной строки)
+requests_i_j_k_l_s_l0_q = sum_by_axes(requests_i_j_x_k_l_s_l0_q, Terminal)
+    where
+        requests_i_j_x_k_l_s_l0_q(i, j, x, k, l, l0, s, q) of number # Запрашиваемый объем НП
+        requests_i_j_k_l_s_l0_q(i, j, k, l, l0, s, q)      of number # Запрашиваемый объем НП по Запросу
+        requests_i_j_x_k_l_s_l0_q of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_s_l0_q   of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+        Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+            where
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# n-я матрица предварительных объёмов l0-й очереди по Запросам без оси нефтебаз
+# (списки Запросов Шагов 5а и 6 трассировочной строки)
+estimated_i_j_k_l_s_l0_q(l0)(n) = sum_by_axes(estimated_i_j_x_k_l_s_l0_q(l0)(n), Terminal)
+    where
+        estimated_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, s, q)      of number
+        estimated_i_j_x_k_l_s_l0_q(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        estimated_i_j_k_l_s_l0_q(l0)(n)   of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# n-я матрица нормированных объёмов l0-й очереди по Запросам без оси нефтебаз
+# (список Запросов Шага 6 трассировочной строки)
+normalized_i_j_k_l_s_l0_q(l0)(n) = sum_by_axes(normalized_i_j_x_k_l_s_l0_q(l0)(n), Terminal)
+    where
+        normalized_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q) of number
+        normalized_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, s, q)      of number
+        normalized_i_j_x_k_l_s_l0_q(l0)(n) of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        normalized_i_j_k_l_s_l0_q(l0)(n)   of matrix(Product, Refinery, Region, Market_participant, Queue, Ship_terms, Request)
+            where
+                n  of          index # Индекс матрицы
+                Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
+                i  for I  from index # Индексы нефпродукта
+                j  for J  from index # Индексы НПЗ
+                x  for X  from index # Индексы нефтебаз
+                k  for K  from index # Индексы региона
+                l  for P  from index # Индексы субъекта рынка
+                l0 for R  from index # Индексы очереди
+                s  for C  from index # Индексы условий поставки
+                q  for Z  from index # Индексы запросов
+
+# Предоставленный объём по каждому Запросу без осей нефтебаз и условий поставки: у Запроса
+# одна нефтебаза и одно условие поставки (список «Итого» трассировочной строки)
+requests_i_j_k_l_l0_q_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Terminal, Ship_terms)
+    where
+        requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q) of number # Предоставленный объем НП
+        requests_i_j_k_l_l0_q_final(i, j, k, l, l0, q)           of number # Предоставленный объем НП по Запросу
+        requests_i_j_x_k_l_s_l0_q_final of matrix(Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request)
+        requests_i_j_k_l_l0_q_final     of matrix(Product, Refinery, Region, Market_participant, Queue, Request)
         Product, Refinery, Terminal, Region, Market_participant, Queue, Ship_terms, Request from axis # Оси
             where
                 i  for I  from index # Индексы нефпродукта
