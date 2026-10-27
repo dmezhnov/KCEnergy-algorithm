@@ -31,7 +31,7 @@ normalized_i_j_threshold(1 from R)(n) = for_each_element(available_i_j(1 from R)
 # Доля Субъекта рынка в Доступном объёме НПЗ (s̈_ijl / v_0ij).
 # Сама проверка Шага 7.2 сравнивает s̈_ijl с порогом δ × v_0ij и в этой дроби не нуждается;
 # доля считается для трассировочной строки, которая печатает именно отношение.
-normalized_i_j_l_share(1 from R)(n) = for_each_pair(normalized_i_j_l(1 from R)(n), "/", available_i_j(1 from R))
+normalized_i_j_l_share(1 from R)(n) = for_each_pair(normalized_i_j_l(1 from R)(n), safe_divide, available_i_j(1 from R))
     where
         normalized_i_j_l_share(1 from R)(n)(i, j, l) of number
         normalized_i_j_l(1 from R)(n)(i, j, l)       of number
@@ -39,7 +39,7 @@ normalized_i_j_l_share(1 from R)(n) = for_each_pair(normalized_i_j_l(1 from R)(n
         normalized_i_j_l_share(1 from R)(n) of matrix(Product, Refinery, Market_participant)
         normalized_i_j_l(1 from R)(n)       of matrix(Product, Refinery, Market_participant)
         available_i_j(1 from R)             of matrix(Product, Refinery)
-        "/" from operation
+        safe_divide from operation
             where
                 n  of         index # Индекс матрицы
                 Product, Refinery, Market_participant from axis
