@@ -190,70 +190,198 @@ requests_i_j_k_l_l0_q_final = sum_by_axes(requests_i_j_x_k_l_s_l0_q_final, Termi
                 q  for Z  from index # Индексы запросов
 
 ## Трассировочная строка для запроса № Request(q):
-# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
-# $Refinery(j), МТ: $requests_i_j(i, j)
-# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
-# available_i_j_deficit(i, j). Установлен Период дефицита
-# available_i_j_surplus(i, j). Установлен Период профицита
-# Шаг 3.1. Средние объемы продаж НП $Product(i) в регионе
-# $Region(k), МТ: moving_average(l, i, k)
-# Шаг 3.2.1. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_deficit_single_corrected(i, k, l, j)
-# Шаг 3.2.2. Скорректированный на проливы объем НП $Product(i)
-# на НПЗ $Refinery(j) в регион $Region(k), МТ: requests_i_j_k_l_corrected(i, k, l, j)
-# Шаг 4. Итоговый суммарный объем запросов НП $Product(i) на
-# НПЗ $Refinery(j), МТ: requests_i_j_corrected(1 from R)(i, j)
-# Шаг 5. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(1 from n)
-# Шаг 5а. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(1 from R)(n)
-# Шаг 6. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(1 from R)(n)
-# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
-# $Refinery(j), МТ: normalized_i_j(1 from R)(n)
-# Шаг 7.1. Суммарный нормированный объем НП $Product(i) с НПЗ
-# $Refinery(j) по запросам Субъекта рынка, МТ: normalized_i_j_l(1 from R)(n)
-# Шаг 7.2. Доля Субъекта рынка, единиц: normalized_i_j_l_share(1 from R)(n)
-# Шаг 7.2. Уточненный нормированный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(1 from R)(n + 1)
-# Шаг 8. Оставшийся после распределения Владельцам АЗС объем НП
-# $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(1 from R)
-# Шаг 9. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для II очереди,
-# МТ: available_i_j(2 from R)
-# Шаг 4. Очередь II. Итоговый суммарный объем запросов НП $Product(i) на
-# НПЗ $Refinery(j), МТ: requests_i_j_corrected(2 from R)(i, j)
-# Шаг 5. Очередь II. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(2 from R)(1 from n)
-# Шаг 5а. Очередь II. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(2 from R)(n)
-# Шаг 6. Очередь II. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(2 from R)(n)
-# Шаг 10а. Суммарное распределение по очередям I, II, МТ: estimated_i_j_k_l_total(2 from R)(i, j, k, l)
-# Шаг 11. Оставшийся после распределения Владельцам нефтебаз /
-# резервуаров объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(2 from R)
-# Шаг 12. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для III очереди,
-# МТ: available_i_j(3 from R)
-# Шаг 4. Очередь III. Итоговый суммарный объем запросов НП $Product(i) на
-# НПЗ $Refinery(j), МТ: requests_i_j_corrected(3 from R)(i, j)
-# Шаг 5. Очередь III. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(3 from R)(1 from n)
-# Шаг 5а. Очередь III. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(3 from R)(n)
-# Шаг 6. Очередь III. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(3 from R)(n)
-# Шаг 13а. Суммарное распределение по очередям I, II, III, МТ: estimated_i_j_k_l_total(3 from R)(i, j, k, l)
-# Шаг 14. Оставшийся после распределения Субъектам рынка из состава
-# ГМК объем НП $Product(i) на НПЗ $Refinery(j), МТ: available_i_j_new(3 from R)
-# Шаг 15. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для IV очереди,
-# МТ: available_i_j(4 from R)
-# Шаг 4. Очередь IV. Итоговый суммарный объем запросов НП $Product(i) на
-# НПЗ $Refinery(j), МТ: requests_i_j_corrected(4 from R)(i, j)
-# Шаг 5. Очередь IV. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) в регион $Region(k), МТ: estimated_i_j_k_l(4 from R)(1 from n)
-# Шаг 5а. Очередь IV. Предварительный расчетный объем НП $Product(i) на НПЗ
-# $Refinery(j) по Запросу, МТ: estimated_i_j_x_k_l_s_l0_q(4 from R)(n)
-# Шаг 6. Очередь IV. Нормированный предоставляемый объем НП $Product(i) на
-# НПЗ $Refinery(j) по Запросу, МТ: normalized_i_j_x_k_l_s_l0_q(4 from R)(n)
-# Шаг 16а. Суммарное распределение по очередям I, II, III, IV, МТ: estimated_i_j_k_l_total(4 from R)(i, j, k, l)
-# Шаг N + 1. Предоставленный по Запросу объем НП $Product(i) на НПЗ
-# $Refinery(j), МТ: requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q)
+# Шаг (-1).
+# Запросы Субъекта с одинаковыми параметрами:
+#         Очередь - $Queue(l0)
+#         Вид НП  - $Product(i)
+#         НПЗ     - $Refinery(j)
+#         Регион  - $Region(k)
+# Запросы Субъекта до агрегирования:
+#         ($Refinery(j)  $Request(1) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, 1) МТ,
+#          ...,
+#          $Refinery(j)  $Request(D) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, D) МТ),
+#         ...,
+#         ($Refinery(j)  $Request(1) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, 1) МТ,
+#          ...,
+#          $Refinery(j)  $Request(D) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, D) МТ)
+# Запрос Субъекта после агрегирования:
+#         $Refinery(j)  (($Request(1) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, D)), ..., ($Request(1) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, D))) = requests_i_j_k_l_l0(i, j, k, l, l0) МТ
+#
+# Шаг 1. Объем запросов от всех субъектов по $Product(i) на $Refinery(j)
+#        в объеме: $requests_i_j(i, j) МТ.
+#
+# Шаг 2. На $Refinery(j) по $Product(i) доступно {if: requests_i_j(i, j) >= threshold_i_j(i, j)}{then: available_i_j_deficit(i, j)}{else: available_i_j_surplus(i, j)} МТ.
+#        Установлен Период {if: requests_i_j(i, j) >= threshold_i_j(i, j)}{then: дефицита}{else: профицита}.
+#
+# {if: l0 = 1}{
+# then:
+#     Шаг 3.1. Средний пролив $Product(i) Субъекта в $Region(k): moving_average(l, i, k) МТ.
+#
+#     {if: requests_i_j(i, j) >= threshold_i_j(i, j)}{
+#     then:
+#         {if: refinery_count_by_deficit_requests(i, k, l) > 1}{
+#         then:
+#             Шаг 3.2. Количество дефицитных НПЗ refinery_count_by_deficit_requests(i, k, l) > 1, переходим к Шагу 3.2.2.
+#
+#             Шаг 3.2.2. Пролив, приходящийся на $Refinery(j): requests_i_j_k_l_corrected(i, k, l, j) МТ.
+#                        Субъект подал Запросы с теми же параметрами
+#                        ($Product(i), $Region(k)) на refinery_count_by_requests_multiple(i, k, l) НПЗ:
+#                          $Refinery(1)  (($Request(1) -> requests_i_j_k_l_s_l0_q(i, 1, k, l, 1 from R, 1, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, 1, k, l, 1 from R, 1, D)), ..., ($Request(1) -> requests_i_j_k_l_s_l0_q(i, 1, k, l, 1 from R, S, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, 1, k, l, 1 from R, S, D))) = requests_i_j_k_l_queue(1 from R)(i, 1, k, l) МТ,
+#                          ...,
+#                          $Refinery(M)  (($Request(1) -> requests_i_j_k_l_s_l0_q(i, M, k, l, 1 from R, 1, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, M, k, l, 1 from R, 1, D)), ..., ($Request(1) -> requests_i_j_k_l_s_l0_q(i, M, k, l, 1 from R, S, 1), ..., $Request(D) -> requests_i_j_k_l_s_l0_q(i, M, k, l, 1 from R, S, D))) = requests_i_j_k_l_queue(1 from R)(i, M, k, l) МТ
+#                        Пролив делится между НПЗ пропорционально Запросам:
+#                          доля $Refinery(j) = requests_i_j_k_l_deficit_multiple(i, k, l, j) / requests_i_k_l_all_multiple(i, k, l) = requests_i_j_k_l_deficit_multiple_share(i, k, l, j)
+#                          moving_average(l, i, k) × requests_i_j_k_l_deficit_multiple_share(i, k, l, 1) = requests_i_j_k_l_deficit_multiple_pend_aux(i, k, l, 1) МТ — на $Refinery(1),
+#                          ...,
+#                          moving_average(l, i, k) × requests_i_j_k_l_deficit_multiple_share(i, k, l, M) = requests_i_j_k_l_deficit_multiple_pend_aux(i, k, l, M) МТ — на $Refinery(M)
+#         }{
+#         else:
+#             Шаг 3.2. Количество дефицитных НПЗ refinery_count_by_deficit_requests(i, k, l) = 1, переходим к Шагу 3.2.1.
+#
+#             Шаг 3.2.1. Ограничение Запроса проливом при подаче на один НПЗ:
+#                        requests_i_j_k_l_deficit_single_corrected(i, k, l, j) МТ.
+#         }
+#     }{
+#     else:
+#         Шаг 3.2. Не применяется: на $Refinery(j) Период профицита,
+#                  Запрос учитывается полностью.
+#     }
+#
+#     Шаг 4. Сумма Запросов всех Владельцев АЗС (I очередь) на $Refinery(j)
+#            после ограничения проливами: requests_i_j_corrected(l0)(i, j) МТ.
+# }{
+# else:
+#     Шаг 3.1. Средний пролив $Product(i) Субъекта в $Region(k): не применяется.
+#
+#     {if: l0 = 2}{
+#     then:
+#         {if: available_i_j_new(l0 - 1)(i, j) > MIN_NEXT_AVAIL_TONNAGE(l0 - 1)}{
+#         then:
+#             Шаг 9. Осталось доступных объемов для II очереди после I очереди:
+#                    available_i_j(l0)(i, j) МТ.
+#         }{
+#         else:
+#             Шаг 9. Осталось доступных объемов для II очереди после I очереди:
+#                    0 МТ — остаток available_i_j_new(l0 - 1)(i, j) МТ не больше минимальной нормы MIN_NEXT_AVAIL_TONNAGE(l0 - 1) МТ.
+#         }
+#     }{
+#     else if: l0 = 3}{
+#     then:
+#         Шаг 11. Осталось после II очереди: available_i_j_new(l0 - 1)(i, j) МТ.
+#         {if: available_i_j_new(l0 - 1)(i, j) > MIN_NEXT_AVAIL_TONNAGE(l0 - 1)}{
+#         then:
+#             Шаг 12. Сколько $Product(i) осталось для III очереди: available_i_j(l0)(i, j) МТ.
+#         }{
+#         else:
+#             Шаг 12. Сколько $Product(i) осталось для III очереди:
+#                     0 МТ — остаток available_i_j_new(l0 - 1)(i, j) МТ не больше минимальной нормы MIN_NEXT_AVAIL_TONNAGE(l0 - 1) МТ.
+#         }
+#     }{
+#     else:
+#         Шаг 14. Осталось после III очереди: available_i_j_new(l0 - 1)(i, j) МТ.
+#         {if: available_i_j_new(l0 - 1)(i, j) > MIN_NEXT_AVAIL_TONNAGE(l0 - 1)}{
+#         then:
+#             Шаг 15. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для IV очереди:
+#                     available_i_j(l0)(i, j) МТ.
+#         }{
+#         else:
+#             Шаг 15. Доступный объем НП $Product(i) на НПЗ $Refinery(j) для IV очереди:
+#                     0 МТ — остаток available_i_j_new(l0 - 1)(i, j) МТ не больше минимальной нормы MIN_NEXT_AVAIL_TONNAGE(l0 - 1) МТ.
+#         }
+#     }
+#
+#     Шаг 4. Сумма Запросов всех Субъектов очереди $Queue(l0) на $Refinery(j):
+#            requests_i_j_corrected(l0)(i, j) МТ.
+# }
+#
+# {if: requests_i_j(i, j) >= threshold_i_j(i, j) and l0 > 1 and available_i_j_new(l0 - 1)(i, j) <= MIN_NEXT_AVAIL_TONNAGE(l0 - 1)}{
+# then:
+#     Шаг 5. Объём Субъекта на $Refinery(j) ($Product(i), $Region(k)): 0 МТ.
+#                Скорректированный на проливы объем запроса: requests_i_j_k_l_corrected_queue(l0)(i, j, k, l) МТ.
+#                Для очереди $Queue(l0) на $Refinery(j) доступного объёма
+#                не осталось — запросы не удовлетворяются.
+# }{
+# else:
+#     Шаг 5. Объём Субъекта на $Refinery(j) ($Product(i), $Region(k)): estimated_i_j_k_l(l0)(1 from n)(i, j, k, l) МТ.
+#                Скорректированный на проливы объем запроса: requests_i_j_k_l_corrected_queue(l0)(i, j, k, l) МТ.
+#     {if: requests_i_j(i, j) >= threshold_i_j(i, j)}{
+#     then:
+#         {if: requests_i_j_corrected(l0)(i, j) > available_i_j(l0)(i, j)}{
+#         then:
+#                        requests_i_j_k_l_corrected_queue(l0)(i, j, k, l) × available_i_j(l0)(i, j) / requests_i_j_corrected(l0)(i, j) = estimated_i_j_k_l(l0)(1 from n)(i, j, k, l) МТ
+#         }{
+#         else:
+#                        requests_i_j_k_l_corrected_queue(l0)(i, j, k, l) МТ — запросы удовлетворяются полностью.
+#         }
+#     }{
+#     else:
+#                    requests_i_j_k_l_corrected_queue(l0)(i, j, k, l) МТ — Период профицита,
+#                    запросы удовлетворяются полностью.
+#     }
+# }
+#
+# Шаг 5а. Объём по этому Запросу: estimated_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q) МТ.
+# {if: requests_i_j(i, j) >= threshold_i_j(i, j) and l0 > 1 and available_i_j_new(l0 - 1)(i, j) <= MIN_NEXT_AVAIL_TONNAGE(l0 - 1)}{
+# then:
+#                Объём Субъекта 0 МТ — раздавать между его Запросами
+#                на $Refinery(j) нечего:
+# }{
+# else:
+#                Объём Субъекта estimated_i_j_k_l_bounded(l0)(n)(i, j, k, l) МТ раздаётся между его Запросами
+#                на $Refinery(j):
+# }
+#              ($Request(1)  $Ship_terms(1)  requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, 1) → estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, 1) МТ,
+#               ...,
+#               $Request(D)  $Ship_terms(1)  requests_i_j_k_l_s_l0_q(i, j, k, l, l0, 1, D) → estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, D) МТ),
+#              ...,
+#              ($Request(1)  $Ship_terms(S)  requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, 1) → estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, 1) МТ,
+#               ...,
+#               $Request(D)  $Ship_terms(S)  requests_i_j_k_l_s_l0_q(i, j, k, l, l0, S, D) → estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, D) МТ)
+#
+# Шаг 6. Объём по Запросу после нормирования: normalized_i_j_x_k_l_s_l0_q(l0)(n)(i, j, x, k, l, l0, s, q) МТ.
+#              ($Request(1)  $Ship_terms(1)  estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, 1) → normalized_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, 1) МТ,
+#               ...,
+#               $Request(D)  $Ship_terms(1)  estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, D) → normalized_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, 1, D) МТ),
+#              ...,
+#              ($Request(1)  $Ship_terms(S)  estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, 1) → normalized_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, 1) МТ,
+#               ...,
+#               $Request(D)  $Ship_terms(S)  estimated_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, D) → normalized_i_j_k_l_s_l0_q(l0)(n)(i, j, k, l, l0, S, D) МТ)
+# {if: l0 = 1}{
+# then:
+#
+#     Шаг 7.1. Всего распределено $Product(i) с $Refinery(j) в I очереди: normalized_i_j(1 from R)(n)(i, j) МТ.
+#                  Из них этому Субъекту (все его Запросы на $Refinery(j)):
+#                  normalized_i_j_l(1 from R)(n)(i, j, l) МТ.
+#
+#     Шаг 7.2. Доля Субъекта: normalized_i_j_l(1 from R)(n)(i, j, l) / available_i_j(1 from R)(i, j) = normalized_i_j_l_share(1 from R)(n)(i, j, l).
+#                  Лимит — MAX_SUBJECT_SHARE_PERCENTAGE % доступного объема.
+#     {if: normalized_i_j_l(1 from R)(n)(i, j, l) <= normalized_i_j_threshold(1 from R)(n)(i, j)}
+#                  {then: Лимит не превышен → объем не урезается.}
+#                  {else: объем урезан до estimated_i_j_k_l(1 from R)(n + 1)(i, j, k, l) МТ.}
+#
+#     Шаг 8. Оставшийся после распределения Владельцам АЗС (I очередь)
+#            объем НП $Product(i) на НПЗ $Refinery(j): available_i_j_new(l0)(i, j) МТ.
+# }{
+# else if: l0 = 2}{
+# then:
+#
+#     Шаг 11. Осталось после II очереди: available_i_j_new(l0)(i, j) МТ.
+# }
+#
+# Шаг N + 1. Распределено по Запросу $Request(q): requests_i_j_x_k_l_s_l0_q_final(i, j, x, k, l, l0, s, q) МТ.
+#
+# Итого Субъекту по $Product(i) в $Region(k) на всех НПЗ:
+#   ($Refinery(1)  $Request(1) -> requests_i_j_k_l_l0_q_final(i, 1, k, l, l0, 1) МТ,
+#    ...,
+#    $Refinery(1)  $Request(D) -> requests_i_j_k_l_l0_q_final(i, 1, k, l, l0, D) МТ),
+#   ...,
+#   ($Refinery(M)  $Request(1) -> requests_i_j_k_l_l0_q_final(i, M, k, l, l0, 1) МТ,
+#    ...,
+#    $Refinery(M)  $Request(D) -> requests_i_j_k_l_l0_q_final(i, M, k, l, l0, D) МТ)
+# {if: l0 = 1}{
+# then:
+#       Всего: requests_i_k_l_l0_final(i, k, l, l0) МТ при среднем проливе moving_average(l, i, k) МТ.
+# }{
+# else:
+#       Всего: requests_i_k_l_l0_final(i, k, l, l0) МТ из запрошенных requests_i_k_l_l0(i, k, l, l0) МТ.
+# }

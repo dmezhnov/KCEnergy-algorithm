@@ -79,15 +79,3 @@ available_i_j_surplus = filter_by_pair(available_i_j(1 from R), contains, reques
                 Product, Refinery from axis # Оси
                 i  for I  from index # Индексы нефпродукта
                 j  for J  from index # Индексы НПЗ
-
-## Трассировочная строка в случае установленного Системой Периода дефицита для запроса № Request(q):
-# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
-# $Refinery(j), МТ: $requests_i_j(i, j)
-# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
-# available_i_j_deficit(i, j). Установлен Период дефицита
-
-## Трассировочная строка в случае установленного Системой Периода профицита для запроса № Request(q):
-# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
-# $Refinery(j), МТ: $requests_i_j(i, j)
-# Шаг 2. Доступный объем НП $Product(i) на НПЗ $Refinery(j), МТ:
-# available_i_j_surplus(i, j). Установлен Период профицита

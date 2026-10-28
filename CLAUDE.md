@@ -10,16 +10,27 @@ description line. Values in the index line must line up column-for-column above
 the matching names in the description line.
 
 ```
-# 001   1 from I,   1 from C,   1 from J,   4 from K,   1 from P,      1 from R - 130
-# 001  (AI_92,      FCA,        PKOP,       Ulytau,     Participant_A,  First)
+# 000-001   1 from I,   1 from C,   1 from J,   4 from K,   1 from P,      1 from R - 130
+# 000-001  (AI_92,      FCA,        PKOP,       Ulytau,     Participant_A,  First)
 ```
 
 - Index values are left-aligned; each column has a fixed width shared by both
   lines so the value sits directly above its name.
 - The opening parenthesis `(` of the description line lives in the prefix
-  (`# 001  (`), so the first name aligns with the first value above it.
-- The request number in the comment is the original table number; it equals the
-  `Z` index (e.g. `001` -> `1 from Z`).
+  (`# 000-001  (`), so the first name aligns with the first value above it.
+
+## Request Numbers
+
+A request number has the format `xxx-xxx`. It is the label of the request in
+the `Request` enumeration of `initial_data.example_*.lang`
+(`000-001, # 1  from Z`), and every comment that names a request writes that
+label: the request comment entries above, the leaf comments (`# 000-011`), the
+sums (`# 000-001 + 000-002`) and the prose (`#000-009`). The trace string
+prints it as is. In the examples the label is `000-` followed by the `Z` index,
+zero-padded to 3 digits.
+
+The aggregated request numbers of the summed structures (`101`, `204`, …) are a
+different numbering and keep their 3-digit form.
 
 ## `requests_i_j_x_k_l_s_l0_q` Structure
 
@@ -57,19 +68,19 @@ different alignment.
 
 ### Leaf line request number comments
 
-Every leaf line (a `Z`-level assignment) must end with a `# NNN` comment that
-gives the request number (the Z index, zero-padded to 3 digits). All `#`
+Every leaf line (a `Z`-level assignment) must end with a `# xxx-xxx` comment
+that gives the request number (see Request Numbers). All `#`
 characters across every leaf line in the structure must appear in the same
 column. Because tuple widths are uniform (due to P/Z padding) but value widths
 vary (2- or 3-digit numbers, with or without a trailing comma), use extra spaces
 before `#` to reach the common column:
 
 ```
-(... 11 from Z) = 65,  # 011
-(... 12 from Z) = 65,  # 012
-(... 15 from Z) = 65   # 015
-(... 1  from Z) = 130  # 001
-(... 9  from Z) = 715  # 009
+(... 11 from Z) = 65,  # 000-011
+(... 12 from Z) = 65,  # 000-012
+(... 15 from Z) = 65   # 000-015
+(... 1  from Z) = 130  # 000-001
+(... 9  from Z) = 715  # 000-009
 ```
 
 - `65,` and `715` occupy the same width (3 chars), so both take 2 spaces before `#`.
@@ -85,8 +96,8 @@ Example:
 ```
 (1 from I, 1 from C, 1 from J, 4 from K, 12 from P) = {
     (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R) = {
-        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 011
-        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65   # 012
+        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 11 from Z) = 65,  # 000-011
+        (1 from I, 1 from C, 1 from J, 4 from K, 12 from P, 1 from R, 12 from Z) = 65   # 000-012
     }
 }
 ```
@@ -141,6 +152,7 @@ contributes:
 
 - The request numbers listed in the `# NNN ...` comment are always sorted in
   ascending order (smallest to largest), never in structural or discovery order.
+  A label `000-001` orders as the number its digits spell.
 - Where each summand maps one-to-one to a single request (e.g. `requests_i_j_k`,
   where every value is a per-participant subtotal), the value summands are
   reordered together with their request numbers, so the n-th value still sits in
@@ -151,15 +163,17 @@ contributes:
   comment's request numbers are sorted ascending.
 - A comment may carry two groups of numbers separated by `=` — the requests of
   the source matrix on the left, the aggregated request numbers on the right
-  (`# 001 + 002 + 003 + 004 = 101 + 102` in `step-minus-1.example_1.lang`). Each
+  (`# 000-001 + 000-002 + 000-003 + 000-004 = 101 + 102` in
+  `step-minus-1.example_1.lang`). Each
   group is sorted on its own; the right-hand group starting lower than the
   left-hand one is normal.
 
 ### `#` alignment
 
 - As elsewhere, all `#` comments line up in one column per block — 2 spaces
-  after the longest leaf line. Contributing request numbers are 3 digits, so the
-  `+` inside the comments also align automatically.
+  after the longest leaf line. The request numbers of one comment group share a
+  width (7 chars for `000-001`, 3 for an aggregated `101`), so the `+` inside the
+  comments also align automatically.
 
 ## Import Headers
 
@@ -304,3 +318,19 @@ lines them up; where they are not, the shorter lines pad up to the longest one:
 - A declaration whose type carries an initializer (`m of index = 1, ..., D`) is
   not one of these runs — neither rule of this section sees it, the same way the
   keyword rule does not.
+
+## Trace String
+
+The trace string of a request is stated once, at the end of
+`step-n-plus-1.lang`: a `## Трассировочная строка для запроса № Request(q):`
+header and the template as `# ` comment lines (a blank template line is a bare
+`#`). The template walks a request through the whole algorithm; queue- and
+period-specific steps sit in `{if: …}{then: …}{else if: …}{else: …}` branches,
+and lists are written `E(1), ..., E(B)` over one index (the notation is
+documented in `scripts/trace-engine.bun.ts`). No other step file carries a
+trace section.
+
+`step-n-plus-1.example_*.lang` end with the template rendered once per request,
+ordered by queue and then by request number. These sections are generated, not
+written by hand: `mise run trace` checks them and `mise run trace -- --write`
+regenerates them after a template or example value changes.
