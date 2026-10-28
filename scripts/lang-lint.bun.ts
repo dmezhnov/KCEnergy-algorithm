@@ -781,11 +781,12 @@ class LangLinter {
         });
     }
 
-    // Parse an index line `# NNN   <value>, <value>, ... - <total>`. The
+    // Parse an index line `# NNN   <value>, <value>, ... - <total>`. The number
+    // is a request label (`000-001`) or an aggregated request number (`101`). The
     // trailing ` - <total>` is the request volume rather than a column of the
     // table, so it is dropped before the items are split out.
     private static parseRequestIndexLine(line: string): RequestCommentLine | undefined {
-        const match = /^# (\d+)(\s+)(\d+ from [A-Za-z].*)$/.exec(line);
+        const match = /^# (\d+(?:-\d+)?)(\s+)(\d+ from [A-Za-z].*)$/.exec(line);
 
         if (!match) {
             return undefined;
@@ -804,7 +805,7 @@ class LangLinter {
     // belongs to the line's prefix, so the first name's column is the column
     // just past it.
     private static parseRequestDescriptionLine(line: string): RequestCommentLine | undefined {
-        const match = /^# (\d+)(\s+)\((.*)\)\s*$/.exec(line);
+        const match = /^# (\d+(?:-\d+)?)(\s+)\((.*)\)\s*$/.exec(line);
 
         if (!match) {
             return undefined;
@@ -1482,7 +1483,8 @@ class LangLinter {
     // (`algorithm/CLAUDE.md`, "Request-number order"). A comment may carry two
     // number groups separated by `=` — the contributing requests on the left of
     // the arithmetic and the aggregated ones on the right — and each group is
-    // ordered on its own.
+    // ordered on its own. A request label `000-001` is two fixed-width parts, so
+    // it orders as the number its digits spell.
     private checkRequestNumberOrder(file: string, lines: string[]): void {
         lines.forEach((line, index) => {
             const hashIndex = line.indexOf('#');
@@ -1493,13 +1495,14 @@ class LangLinter {
 
             const comment = line.slice(hashIndex + 1);
 
-            if (!/^[\s\d+=]+$/.test(comment)) {
+            if (!/^[\s\d+=-]+$/.test(comment)) {
                 return;
             }
 
             for (const group of comment.split('=')) {
-                const numbers = (group.match(/\d+/g) ?? []).map(Number);
-                const stray = numbers.findIndex((number, position) => position > 0 && number < numbers[position - 1]!);
+                const numbers = group.match(/\d+(?:-\d+)?/g) ?? [];
+                const rank = (number: string): number => Number(number.replaceAll('-', ''));
+                const stray = numbers.findIndex((number, position) => position > 0 && rank(number) < rank(numbers[position - 1]!));
 
                 if (stray > 0) {
                     this.add(

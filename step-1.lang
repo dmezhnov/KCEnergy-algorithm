@@ -99,7 +99,3 @@ requests_i_j = sum_by_axes(requests_i_j_k,   Region)
                 l  for P  from index # Индексы субъекта рынка
                 Q         from index # Количество регионов
                 I         from index # Количество нефпродуктов
-
-## Трассировочная строка для запроса № Request(q):
-# Шаг 1. Суммарный запрашиваемый объем НП $Product(i) на НПЗ
-# $Refinery(j), МТ: $requests_i_j(i, j)
